@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="htmlTag">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Concrete Volume Calculator</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        .calculator { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); width: 100%; max-width: 520px; }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        a.back-btn { text-decoration: none; color: #2563eb; font-weight: bold; font-size: 14px; }
+        select { padding: 5px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 14px; background: #fff; cursor: pointer; }
+        h2 { text-align: center; color: #1e293b; font-size: 18px; margin-bottom: 20px; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 6px; color: #475569; font-weight: bold; font-size: 13px;}
+        input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; box-sizing: border-box; }
+        input:focus { border-color: #2563eb; outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+        .result-box { background: #f8fafc; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid #e2e8f0; }
+        .result-text { font-size: 15px; color: #334155; font-weight: bold; margin: 6px 0; }
+        .highlight { color: #2563eb; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="top-bar">
+            <a href="index.html" class="back-btn" id="backText">← Back to Directory</a>
+            <select id="langSelect" onchange="changeLanguage()">
+                <option value="en">English 🇬🇧</option>
+                <option value="fr">Français 🇫🇷</option>
+                <option value="ar">العربية 🇸🇦</option>
+            </select>
+        </div>
+
+        <h2 id="calcTitle">🏗️ Concrete Volume & Weight Calculator</h2>
+        <div class="input-group">
+            <label id="labelLength">Length (meters):</label>
+            <input type="number" id="cLength" placeholder="e.g. 10" oninput="calculateConcrete()">
+        </div>
+        <div class="input-group">
+            <label id="labelWidth">Width (meters):</label>
+            <input type="number" id="cWidth" placeholder="e.g. 5" oninput="calculateConcrete()">
+        </div>
+        <div class="input-group">
+            <label id="labelDepth">Thickness / Depth (meters):</label>
+            <input type="number" id="cDepth" placeholder="e.g. 0.2" oninput="calculateConcrete()">
+        </div>
+        
+        <div class="result-box">
+            <p class="result-text"><span id="textVolume">Total Volume:</span> <span id="volResult" class="highlight">0.00</span> <span id="unitVol">m³</span></p>
+            <p class="result-text"><span id="textWeight">Estimated Weight:</span> <span id="weightResult" class="highlight">0.00</span> <span id="unitWeight">Tons</span></p>
+            <p style="font-size:11px; color:#64748b; margin-top:10px;" id="noteText">*Based on normal weight concrete (2400 kg/m³)</p>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                backText: "← Back to Directory", calcTitle: "🏗️ Concrete Volume & Weight Calculator",
+                labelLength: "Length (meters):", labelWidth: "Width (meters):", labelDepth: "Thickness / Depth (meters):",
+                textVolume: "Total Volume:", textWeight: "Estimated Weight:", unitVol: "m³", unitWeight: "Tons",
+                noteText: "*Based on normal weight concrete (2400 kg/m³)", dir: "ltr"
+            },
+            fr: {
+                backText: "← Retour au répertoire", calcTitle: "🏗️ Calculateur de Volume de Béton",
+                labelLength: "Longueur (mètres) :", labelWidth: "Largeur (mètres) :", labelDepth: "Épaisseur / Profondeur (mètres) :",
+                textVolume: "Volume Total :", textWeight: "Poids Estimé :", unitVol: "m³", unitWeight: "Tonnes",
+                noteText: "*Basé sur un béton de poids normal (2400 kg/m³)", dir: "ltr"
+            },
+            ar: {
+                backText: "← العودة إلى الدليل", calcTitle: "🏗️ حاسبة حجم ووزن الخرسانة",
+                labelLength: "الطول (متر):", labelWidth: "العرض (متر):", labelDepth: "السماكة / العمق (متر):",
+                textVolume: "الحجم الإجمالي:", textWeight: "الوزن التقديري:", unitVol: "م³", unitWeight: "طن",
+                noteText: "*بناءً على كثافة الخرسانة العادية (2400 كجم/م³)", dir: "rtl"
+            }
+        };
+
+        function changeLanguage() {
+            let lang = document.getElementById('langSelect').value;
+            let t = translations[lang];
+            document.getElementById('htmlTag').setAttribute('lang', lang);
+            document.getElementById('htmlTag').setAttribute('dir', t.dir);
+            document.getElementById('backText').innerText = t.backText;
+            document.getElementById('calcTitle').innerText = t.calcTitle;
+            document.getElementById('labelLength').innerText = t.labelLength;
+            document.getElementById('labelWidth').innerText = t.labelWidth;
+            document.getElementById('labelDepth').innerText = t.labelDepth;
+            document.getElementById('textVolume').innerText = t.textVolume;
+            document.getElementById('textWeight').innerText = t.textWeight;
+            document.getElementById('unitVol').innerText = t.unitVol;
+            document.getElementById('unitWeight').innerText = t.unitWeight;
+            document.getElementById('noteText').innerText = t.noteText;
+        }
+
+        function calculateConcrete() {
+            let L = parseFloat(document.getElementById('cLength').value) || 0;
+            let W = parseFloat(document.getElementById('cWidth').value) || 0;
+            let D = parseFloat(document.getElementById('cDepth').value) || 0;
+            
+            // الحجم = الطول * العرض * السماكة
+            let volume = L * W * D;
+            // الوزن التقريبي بالطن = الحجم * 2400 كجم مقسوم على 1000
+            let weightTons = (volume * 2400) / 1000;
+
+            document.getElementById('volResult').innerText = volume.toFixed(2);
+            document.getElementById('weightResult').innerText = weightTons.toFixed(2);
+        }
+    </script>
+</body>
+</html>
