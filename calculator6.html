@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="htmlTag">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hydraulic Flow Rate Calculator</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        .calculator { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); width: 100%; max-width: 520px; }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        a.back-btn { text-decoration: none; color: #2563eb; font-weight: bold; font-size: 14px; }
+        select { padding: 5px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 14px; background: #fff; cursor: pointer; }
+        h2 { text-align: center; color: #1e293b; font-size: 18px; margin-bottom: 20px; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 6px; color: #475569; font-weight: bold; font-size: 13px;}
+        input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; box-sizing: border-box; }
+        input:focus { border-color: #2563eb; outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+        .result-box { background: #f0fdf4; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid #bbf7d0; }
+        .result-text { font-size: 15px; color: #15803d; font-weight: bold; margin: 6px 0; }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="top-bar">
+            <a href="index.html" class="back-btn" id="backText">← Back to Directory</a>
+            <select id="langSelect" onchange="changeLanguage()">
+                <option value="en">English 🇬🇧</option>
+                <option value="fr">Français 🇫🇷</option>
+                <option value="ar">العربية 🇸🇦</option>
+            </select>
+        </div>
+
+        <h2 id="calcTitle">⚡ Hydraulic Flow Rate Calculator</h2>
+        <div class="input-group">
+            <label id="labelArea">Cross-Sectional Area (square meters):</label>
+            <input type="number" id="pipeArea" placeholder="e.g. 0.2" oninput="calculateFlow()">
+        </div>
+        <div class="input-group">
+            <label id="labelVel">Fluid Velocity (meters per second):</label>
+            <input type="number" id="fluidVel" placeholder="e.g. 2.5" oninput="calculateFlow()">
+        </div>
+        <div class="result-box">
+            <p class="result-text"><span id="textFlowM3">Flow Rate (m³/s):</span> <span id="flowM3Result">0.00</span></p>
+            <p class="result-text"><span id="textFlowLh">Flow Rate (Liters/hour):</span> <span id="flowLhResult">0.00</span></p>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                backText: "← Back to Directory",
+                calcTitle: "⚡ Hydraulic Flow Rate Calculator",
+                labelArea: "Cross-Sectional Area (square meters):",
+                labelVel: "Fluid Velocity (meters per second):",
+                textFlowM3: "Flow Rate (m³/s):",
+                textFlowLh: "Flow Rate (Liters/hour):",
+                dir: "ltr"
+            },
+            fr: {
+                backText: "← Retour au répertoire",
+                calcTitle: "⚡ Calculateur de Débit Hydraulique",
+                labelArea: "Section transversale (mètres carrés) :",
+                labelVel: "Vitesse du fluide (mètres par seconde) :",
+                textFlowM3: "Débit (m³/s) :",
+                textFlowLh: "Débit (Litres/heure) :",
+                dir: "ltr"
+            },
+            ar: {
+                backText: "← العودة إلى الدليل",
+                calcTitle: "⚡ حاسبة معدل التدفق الهيدروليكي",
+                labelArea: "مساحة المقطع العرضي (متر مربع):",
+                labelVel: "سرعة السائل (متر / ثانية):",
+                textFlowM3: "معدل التدفق (م³/ث):",
+                textFlowLh: "معدل التدفق (لتر / ساعة):",
+                dir: "rtl"
+            }
+        };
+
+        function changeLanguage() {
+            let lang = document.getElementById('langSelect').value;
+            let t = translations[lang];
+            document.getElementById('htmlTag').setAttribute('lang', lang);
+            document.getElementById('htmlTag').setAttribute('dir', t.dir);
+            document.getElementById('backText').innerText = t.backText;
+            document.getElementById('calcTitle').innerText = t.calcTitle;
+            document.getElementById('labelArea').innerText = t.labelArea;
+            document.getElementById('labelVel').innerText = t.labelVel;
+            document.getElementById('textFlowM3').innerText = t.textFlowM3;
+            document.getElementById('textFlowLh').innerText = t.textFlowLh;
+        }
+
+        function calculateFlow() {
+            let A = parseFloat(document.getElementById('pipeArea').value) || 0;
+            let V = parseFloat(document.getElementById('fluidVel').value) || 0;
+            
+            // معادلة التدفق Q = A * V (متر مكعب لكل ثانية)
+            let flowM3s = A * V;
+            let flowLitersPerHour = flowM3s * 1000 * 3600;
+
+            document.getElementById('flowM3Result').innerText = flowM3s.toFixed(3);
+            document.getElementById('flowLhResult').innerText = flowLitersPerHour.toFixed(2);
+        }
+    </script>
+</body>
+</html>
