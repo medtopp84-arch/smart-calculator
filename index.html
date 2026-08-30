@@ -93,6 +93,15 @@
                     <p id="c4Desc">Calculate total soil excavation volume and backfill quantities accurately.</p>
                 </div>
             </a>
+
+            <!-- حاسبة 5: حجم السوائل في الأنابيب -->
+            <a href="calculator5.html" class="calc-card" data-keywords="pipeline liquid volume water liters حجم سوائل ماء لترات">
+                <div>
+                    <span class="card-tag" id="tag5">Hydraulics & Pipelines</span>
+                    <h3 id="c5Title">Pipeline Liquid Volume Calculator</h3>
+                    <p id="c5Desc">Calculate internal pipeline fluid capacity in cubic meters and liters.</p>
+                </div>
+            </a>
         </div>
     </div>
 
@@ -129,6 +138,9 @@
                 tag4: "Earthworks & Civil",
                 c4Title: "Trench Excavation Volume Calculator",
                 c4Desc: "Calculate total soil excavation volume and backfill quantities accurately.",
+                tag5: "Hydraulics & Pipelines",
+                c5Title: "Pipeline Liquid Volume Calculator",
+                c5Desc: "Calculate internal pipeline fluid capacity in cubic meters and liters.",
                 dir: "ltr"
             },
             fr: {
@@ -147,6 +159,9 @@
                 tag4: "Terrassement & GC",
                 c4Title: "Calculateur de Volume de Tranchée",
                 c4Desc: "Calculer précisément le volume de déblai et de remblai pour vos chantiers.",
+                tag5: "Hydraulique & Conduites",
+                c5Title: "Calculateur de Volume de Liquide",
+                c5Desc: "Calculer la capacité interne de la conduite en mètres cubes et litres.",
                 dir: "ltr"
             },
             ar: {
@@ -165,6 +180,9 @@
                 tag4: "أعمال التراب والمدني",
                 c4Title: "حاسبة حجم حفريات الخنادق",
                 c4Desc: "حساب إجمالي حجم حفريات التربة وكميات الردم بدقة فائقة.",
+                tag5: "هيدروليكا وأنابيب",
+                c5Title: "حاسبة حجم السوائل داخل الأنابيب",
+                c5Desc: "حساب السعة التخزينية الداخلية للخط بالمتر المكعب واللتر.",
                 dir: "rtl"
             }
         };
@@ -177,18 +195,26 @@
             document.getElementById('heroTitle').innerText = t.heroTitle;
             document.getElementById('heroSubtitle').innerText = t.heroSubtitle;
             document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+            
             document.getElementById('tag1').innerText = t.tag1;
             document.getElementById('c1Title').innerText = t.c1Title;
             document.getElementById('c1Desc').innerText = t.c1Desc;
+            
             document.getElementById('tag2').innerText = t.tag2;
             document.getElementById('c2Title').innerText = t.c2Title;
             document.getElementById('c2Desc').innerText = t.c2Desc;
+            
             document.getElementById('tag3').innerText = t.tag3;
             document.getElementById('c3Title').innerText = t.c3Title;
             document.getElementById('c3Desc').innerText = t.c3Desc;
+            
             document.getElementById('tag4').innerText = t.tag4;
             document.getElementById('c4Title').innerText = t.c4Title;
             document.getElementById('c4Desc').innerText = t.c4Desc;
+
+            document.getElementById('tag5').innerText = t.tag5;
+            document.getElementById('c5Title').innerText = t.c5Title;
+            document.getElementById('c5Desc').innerText = t.c5Desc;
         }
     </script>
 </body>
