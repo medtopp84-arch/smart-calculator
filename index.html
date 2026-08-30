@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" id="htmlTag">
+<html lang="en" dir="ltr" id="htmlTag" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,32 +13,47 @@
             --text-main: #1e293b;
             --text-muted: #64748b;
             --border: #e2e8f0;
+            --tag-bg: #eff6ff;
         }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; }
-        header { background: white; border-bottom: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-dark: #60a5fa;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --tag-bg: #1e3a8a;
+        }
+
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
+        header { background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.05); transition: background 0.3s, border-color 0.3s; }
         .logo { font-size: 20px; font-weight: bold; color: var(--primary); display: flex; align-items: center; gap: 8px; }
+        .header-controls { display: flex; align-items: center; gap: 12px; }
         .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
         .hero { text-align: center; margin-bottom: 35px; }
         .hero h1 { font-size: 28px; margin-bottom: 10px; color: var(--text-main); }
         .hero p { color: var(--text-muted); font-size: 15px; }
         .search-container { margin: 25px auto; max-width: 600px; }
-        .search-input { width: 100%; padding: 14px 20px; font-size: 16px; border: 2px solid var(--border); border-radius: 12px; outline: none; transition: all 0.3s; box-sizing: border-box; background: white; }
+        .search-input { width: 100%; padding: 14px 20px; font-size: 16px; border: 2px solid var(--border); border-radius: 12px; outline: none; transition: all 0.3s; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
         .search-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37,99,235,0.1); }
         .calculators-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 30px; }
         .calc-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-decoration: none; color: inherit; transition: all 0.3s; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .calc-card:hover { transform: translateY(-4px); border-color: var(--primary); box-shadow: 0 10px 20px rgba(37,99,235,0.08); }
         .calc-card h3 { margin: 0 0 8px 0; font-size: 17px; color: var(--primary-dark); }
         .calc-card p { margin: 0; font-size: 13px; color: var(--text-muted); line-height: 1.4; }
-        .card-tag { display: inline-block; background: #eff6ff; color: var(--primary); font-size: 11px; padding: 3px 8px; border-radius: 6px; margin-bottom: 10px; width: fit-content; font-weight: bold; }
-        .lang-select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); background: white; cursor: pointer; font-size: 14px; }
+        .card-tag { display: inline-block; background: var(--tag-bg); color: var(--primary); font-size: 11px; padding: 3px 8px; border-radius: 6px; margin-bottom: 10px; width: fit-content; font-weight: bold; }
+        .lang-select, .theme-btn { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px; transition: background 0.3s, color 0.3s; }
+        .theme-btn { display: flex; align-items: center; justify-content: center; width: 36px; height: 36px; padding: 0; font-size: 16px; }
     </style>
 </head>
 <body>
 
     <header>
         <div class="logo">⚙️ OmniEngineer</div>
-        <div>
-            <!-- الترتيب: الإنجليزية أولاً، ثم الفرنسية، ثم العربية -->
+        <div class="header-controls">
+            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Dark/Light Mode">🌙</button>
             <select class="lang-select" id="langSelect" onchange="changeLanguage()">
                 <option value="en">English 🇬🇧</option>
                 <option value="fr">Français 🇫🇷</option>
@@ -58,7 +73,6 @@
         </div>
 
         <div class="calculators-grid" id="calcGrid">
-            <!-- الحاسبة 1 -->
             <a href="calculator1.html" class="calc-card" data-keywords="elevation slope deniveles فرق الارتفاع الانحدار">
                 <div>
                     <span class="card-tag" id="tag1">Pipelines & Surveying</span>
@@ -67,7 +81,6 @@
                 </div>
             </a>
 
-            <!-- الحاسبة 2 -->
             <a href="calculator2.html" class="calc-card" data-keywords="angle offset زاوية الميل المسافة المائلة">
                 <div>
                     <span class="card-tag" id="tag2">Field Engineering</span>
@@ -76,7 +89,6 @@
                 </div>
             </a>
 
-            <!-- الحاسبة 3 -->
             <a href="calculator3.html" class="calc-card" data-keywords="cintre pipeline bends arc انحناءات المنحنيات">
                 <div>
                     <span class="card-tag" id="tag3">Pipeline Engineering</span>
@@ -85,7 +97,6 @@
                 </div>
             </a>
 
-            <!-- الحاسبة 4 -->
             <a href="calculator4.html" class="calc-card" data-keywords="trench excavation volume حفريات خنادق حجم التراب">
                 <div>
                     <span class="card-tag" id="tag4">Earthworks & Civil</span>
@@ -94,7 +105,6 @@
                 </div>
             </a>
 
-            <!-- حاسبة 5: حجم السوائل في الأنابيب -->
             <a href="calculator5.html" class="calc-card" data-keywords="pipeline liquid volume water liters حجم سوائل ماء لترات">
                 <div>
                     <span class="card-tag" id="tag5">Hydraulics & Pipelines</span>
@@ -106,6 +116,28 @@
     </div>
 
     <script>
+        // نظام الوضع الداكن
+        function toggleTheme() {
+            let html = document.getElementById('htmlTag');
+            let btn = document.getElementById('themeToggleBtn');
+            if (html.getAttribute('data-theme') === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                btn.innerText = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                btn.innerText = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        // استرجاع السمة المحفوظة عند فتح الصفحة
+        window.onload = function() {
+            let savedTheme = localStorage.getItem('theme') || 'light';
+            document.getElementById('htmlTag').setAttribute('data-theme', savedTheme);
+            document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
+        }
+
         function filterCalculators() {
             let query = document.getElementById('searchInput').value.toLowerCase();
             let cards = document.querySelectorAll('.calc-card');
@@ -126,63 +158,33 @@
                 heroTitle: "Advanced Engineering Calculators Directory",
                 heroSubtitle: "Search for any tool or field calculator to perform calculations with maximum precision",
                 searchPlaceholder: "Search calculator (e.g., slope, bend, distance...)",
-                tag1: "Pipelines & Surveying",
-                c1Title: "Elevation Difference & Slope",
-                c1Desc: "Precise calculation of elevation differences and percentages between field points.",
-                tag2: "Field Engineering",
-                c2Title: "Angle & Offset Calculator",
-                c2Desc: "Find vertical offset and actual slope distance based on inclination angles.",
-                tag3: "Pipeline Engineering",
-                c3Title: "Pipeline Bends Calculator",
-                c3Desc: "Calculate arc length, deflection angles, and tangent lengths with high accuracy.",
-                tag4: "Earthworks & Civil",
-                c4Title: "Trench Excavation Volume Calculator",
-                c4Desc: "Calculate total soil excavation volume and backfill quantities accurately.",
-                tag5: "Hydraulics & Pipelines",
-                c5Title: "Pipeline Liquid Volume Calculator",
-                c5Desc: "Calculate internal pipeline fluid capacity in cubic meters and liters.",
+                tag1: "Pipelines & Surveying", c1Title: "Elevation Difference & Slope", c1Desc: "Precise calculation of elevation differences and percentages between field points.",
+                tag2: "Field Engineering", c2Title: "Angle & Offset Calculator", c2Desc: "Find vertical offset and actual slope distance based on inclination angles.",
+                tag3: "Pipeline Engineering", c3Title: "Pipeline Bends Calculator", c3Desc: "Calculate arc length, deflection angles, and tangent lengths with high accuracy.",
+                tag4: "Earthworks & Civil", c4Title: "Trench Excavation Volume Calculator", c4Desc: "Calculate total soil excavation volume and backfill quantities accurately.",
+                tag5: "Hydraulics & Pipelines", c5Title: "Pipeline Liquid Volume Calculator", c5Desc: "Calculate internal pipeline fluid capacity in cubic meters and liters.",
                 dir: "ltr"
             },
             fr: {
                 heroTitle: "Répertoire des Calculateurs Techniques",
                 heroSubtitle: "Recherchez n'importe quel outil ou calculateur pour vos projets de terrain",
                 searchPlaceholder: "Rechercher (ex: pente, cintre, distance...)",
-                tag1: "Réseaux & Topographie",
-                c1Title: "Dénivelée et Pente",
-                c1Desc: "Calcul précis des dénivelées et pourcentages entre les points de terrain.",
-                tag2: "Ingénierie de Terrain",
-                c2Title: "Calculateur Angle & Offset",
-                c2Desc: "Déterminer l'offset vertical et la distance inclinée réelle selon l'angle.",
-                tag3: "Génie des Pipelines",
-                c3Title: "Calculateur de Cintrages (Bends)",
-                c3Desc: "Calculer la longueur d'arc, l'angle de déviation et les tangentes.",
-                tag4: "Terrassement & GC",
-                c4Title: "Calculateur de Volume de Tranchée",
-                c4Desc: "Calculer précisément le volume de déblai et de remblai pour vos chantiers.",
-                tag5: "Hydraulique & Conduites",
-                c5Title: "Calculateur de Volume de Liquide",
-                c5Desc: "Calculer la capacité interne de la conduite en mètres cubes et litres.",
+                tag1: "Réseaux & Topographie", c1Title: "Dénivelée et Pente", c1Desc: "Calcul précis des dénivelées et pourcentages entre les points de terrain.",
+                tag2: "Ingénierie de Terrain", c2Title: "Calculateur Angle & Offset", c2Desc: "Déterminer l'offset vertical et la distance inclinée réelle selon l'angle.",
+                tag3: "Génie des Pipelines", c3Title: "Calculateur de Cintrages (Bends)", c3Desc: "Calculer la longueur d'arc, l'angle de déviation et les tangentes.",
+                tag4: "Terrassement & GC", c4Title: "Calculateur de Volume de Tranchée", c4Desc: "Calculer précisément le volume de déblai et de remblai pour vos chantiers.",
+                tag5: "Hydraulique & Conduites", c5Title: "Calculateur de Volume de Liquide", c5Desc: "Calculer la capacité interne de la conduite en mètres cubes et litres.",
                 dir: "ltr"
             },
             ar: {
                 heroTitle: "مكتبة الحاسبات الهندسية المتقدمة",
                 heroSubtitle: "ابحث عن أي أداة أو حاسبة ميدانية لتنفيذ حساباتك بدقة وسرعة فائقة",
                 searchPlaceholder: "ابحث عن حاسبة (مثال: انحدار، انحناء، مسافة...)",
-                tag1: "مساحة وخطوط أنابيب",
-                c1Title: "حاسبة فرق الارتفاع والانحدار",
-                c1Desc: "حساب دقيق لفرق الارتفاعات بالنسب المئوية بين النقاط الميدانية.",
-                tag2: "هندسة ميدانية",
-                c2Title: "حاسبة زاوية الميل والـ Offset",
-                c2Desc: "إيجاد الإزاحة العمودية والمسافة المائلة الفعلية بناءً على زاوية الميل.",
-                tag3: "هندسة خطوط الأنابيب",
-                c3Title: "حاسبة الانحناءات الهندسية (Bends)",
-                c3Desc: "حساب طول القوس، زاوية الانحراف، وأطوال المماسات بدقة متناهية.",
-                tag4: "أعمال التراب والمدني",
-                c4Title: "حاسبة حجم حفريات الخنادق",
-                c4Desc: "حساب إجمالي حجم حفريات التربة وكميات الردم بدقة فائقة.",
-                tag5: "هيدروليكا وأنابيب",
-                c5Title: "حاسبة حجم السوائل داخل الأنابيب",
-                c5Desc: "حساب السعة التخزينية الداخلية للخط بالمتر المكعب واللتر.",
+                tag1: "مساحة وخطوط أنابيب", c1Title: "حاسبة فرق الارتفاع والانحدار", c1Desc: "حساب دقيق لفرق الارتفاعات بالنسب المئوية بين النقاط الميدانية.",
+                tag2: "هندسة ميدانية", c2Title: "حاسبة زاوية الميل والـ Offset", c2Desc: "إيجاد الإزاحة العمودية والمسافة المائلة الفعلية بناءً على زاوية الميل.",
+                tag3: "هندسة خطوط الأنابيب", c3Title: "حاسبة الانحناءات الهندسية (Bends)", c3Desc: "حساب طول القوس، زاوية الانحراف، وأطوال المماسات بدقة متناهية.",
+                tag4: "أعمال التراب والمدني", c4Title: "حاسبة حجم حفريات الخنادق", c4Desc: "حساب إجمالي حجم حفريات التربة وكميات الردم بدقة فائقة.",
+                tag5: "هيدروليكا وأنابيب", c5Title: "حاسبة حجم السوائل داخل الأنابيب", c5Desc: "حساب السعة التخزينية الداخلية للخط بالمتر المكعب واللتر.",
                 dir: "rtl"
             }
         };
@@ -195,26 +197,11 @@
             document.getElementById('heroTitle').innerText = t.heroTitle;
             document.getElementById('heroSubtitle').innerText = t.heroSubtitle;
             document.getElementById('searchInput').placeholder = t.searchPlaceholder;
-            
-            document.getElementById('tag1').innerText = t.tag1;
-            document.getElementById('c1Title').innerText = t.c1Title;
-            document.getElementById('c1Desc').innerText = t.c1Desc;
-            
-            document.getElementById('tag2').innerText = t.tag2;
-            document.getElementById('c2Title').innerText = t.c2Title;
-            document.getElementById('c2Desc').innerText = t.c2Desc;
-            
-            document.getElementById('tag3').innerText = t.tag3;
-            document.getElementById('c3Title').innerText = t.c3Title;
-            document.getElementById('c3Desc').innerText = t.c3Desc;
-            
-            document.getElementById('tag4').innerText = t.tag4;
-            document.getElementById('c4Title').innerText = t.c4Title;
-            document.getElementById('c4Desc').innerText = t.c4Desc;
-
-            document.getElementById('tag5').innerText = t.tag5;
-            document.getElementById('c5Title').innerText = t.c5Title;
-            document.getElementById('c5Desc').innerText = t.c5Desc;
+            document.getElementById('tag1').innerText = t.tag1; document.getElementById('c1Title').innerText = t.c1Title; document.getElementById('c1Desc').innerText = t.c1Desc;
+            document.getElementById('tag2').innerText = t.tag2; document.getElementById('c2Title').innerText = t.c2Title; document.getElementById('c2Desc').innerText = t.c2Desc;
+            document.getElementById('tag3').innerText = t.tag3; document.getElementById('c3Title').innerText = t.c3Title; document.getElementById('c3Desc').innerText = t.c3Desc;
+            document.getElementById('tag4').innerText = t.tag4; document.getElementById('c4Title').innerText = t.c4Title; document.getElementById('c4Desc').innerText = t.c4Desc;
+            document.getElementById('tag5').innerText = t.tag5; document.getElementById('c5Title').innerText = t.c5Title; document.getElementById('c5Desc').innerText = t.c5Desc;
         }
     </script>
 </body>
