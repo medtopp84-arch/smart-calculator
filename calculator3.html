@@ -3,58 +3,168 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pipeline Bends Calculator</title>
+    <title>Pipeline Bends Calculator | OmniEngineer Pro</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-        .calculator { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); width: 100%; max-width: 520px; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; padding: 20px; }
+        .page-container { max-width: 1200px; margin: 30px auto; display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
+        @media (max-width: 900px) { .page-container { grid-template-columns: 1fr; } }
+        
+        .content-section { background: white; padding: 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; line-height: 1.7; }
+        .content-section h2 { color: #2563eb; margin-top: 0; font-size: 22px; }
+        .content-section p { color: #475569; font-size: 15px; }
+        
+        /* صندوق المخطط الهندسي لقوس الأنبوب والمماس */
+        .pro-blueprint-box { background: #f1f5f9; border: 2px solid #3b82f6; border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; }
+        .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+
+        .formula-box { background: #eff6ff; border-left: 4px solid #2563eb; padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: #1d4ed8; border-radius: 4px; text-align: left; }
+        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid #2563eb; text-align: right; }
+
+        .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .calculator { background: white; padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        a.back-btn { text-decoration: none; color: #2563eb; font-weight: bold; font-size: 14px; }
-        select { padding: 5px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 14px; background: #fff; cursor: pointer; }
-        h2 { text-align: center; color: #1e293b; font-size: 18px; margin-bottom: 20px; }
+        a.back-btn { text-decoration: none; color: #2563eb; font-weight: bold; font-size: 13px; }
+        select { padding: 5px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 13px; background: #fff; cursor: pointer; }
+        
         .input-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 6px; color: #475569; font-weight: bold; font-size: 13px;}
         input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; box-sizing: border-box; }
         input:focus { border-color: #2563eb; outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
         .result-box { background: #f0fdf4; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid #bbf7d0; }
-        .result-text { font-size: 15px; color: #15803d; font-weight: bold; margin: 6px 0; }
+        .result-text { font-size: 14px; color: #15803d; font-weight: bold; margin: 6px 0; }
+        .highlight { font-size: 18px; }
+
+        .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .ai-header { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; color: #60a5fa; }
+        .ai-chat-output { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 13px; color: #cbd5e1; min-height: 60px; margin-bottom: 12px; line-height: 1.5; }
+        .ai-input-group { display: flex; gap: 8px; }
+        .ai-input { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
+        .ai-btn { background: #2563eb; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
+        .ai-btn:hover { background: #1d4ed8; }
     </style>
 </head>
 <body>
-    <div class="calculator">
-        <div class="top-bar">
-            <a href="index.html" class="back-btn" id="backText">← Back to Directory</a>
-            <select id="langSelect" onchange="changeLanguage()">
-                <option value="en">English 🇬🇧</option>
-                <option value="fr">Français 🇫🇷</option>
-                <option value="ar">العربية 🇸🇦</option>
-            </select>
+
+    <div class="page-container">
+        <div class="content-section">
+            <h2 id="secTitle">About Pipeline Bends & Geometry</h2>
+            <p id="secP1">Pipeline bends (Cintre) calculations are critical in piping engineering and route design. They determine the physical arc length of the curved section and the tangent length required for fittings.</p>
+            
+            <div class="pro-blueprint-box">
+                <svg width="380" height="210" viewBox="0 0 380 210">
+                    <defs>
+                        <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                            <path d="M0,2 L8,4 L0,6 Z" fill="#1d4ed8"/>
+                        </marker>
+                    </defs>
+
+                    <circle cx="190" cy="180" r="4" fill="#64748b"/>
+                    
+                    <path d="M 70 140 A 110 110 0 0 1 310 140" fill="none" stroke="#2563eb" stroke-width="6"/>
+
+                    <line x1="20" y1="140" x2="70" y2="140" stroke="#475569" stroke-dasharray="4,4" stroke-width="2"/>
+                    <line x1="310" y1="140" x2="360" y2="140" stroke="#475569" stroke-dasharray="4,4" stroke-width="2"/>
+
+                    <line x1="190" y1="180" x2="130" y2="85" stroke="#d97706" stroke-width="1.5" stroke-dasharray="3,3"/>
+                    <text x="150" y="125" font-size="12" fill="#d97706" font-weight="bold">R (Radius)</text>
+
+                    <text x="190" y="55" font-size="12" fill="#2563eb" font-weight="bold" text-anchor="middle">Arc Length (L)</text>
+                    <text x="45" y="125" font-size="11" fill="#475569" font-weight="bold" text-anchor="middle">Tangent</text>
+                    <text x="335" y="125" font-size="11" fill="#475569" font-weight="bold" text-anchor="middle">Tangent</text>
+                </svg>
+            </div>
+
+            <div class="formula-box">
+                Arc Length = R · (Δ · π / 180) <br>
+                Tangent Length = R · tan(Δ / 2)
+            </div>
+            
+            <p id="secP2">Where:</p>
+            <ul>
+                <li id="li1"><strong>R</strong> = Bend Radius of the pipeline centerline</li>
+                <li id="li2"><strong>Δ (Delta)</strong> = Deflection angle in degrees</li>
+                <li id="li3"><strong>Arc Length</strong> = Actual curved path distance of the pipe</li>
+                <li id="li4"><strong>Tangent Length</strong> = Distance from the Point of Intersection (PI) to the beginning/end of the curve</li>
+            </ul>
+            <p id="secP3">Piping engineers and layout designers use these geometrical relations to fabricate prefabricated spool pieces and align trench networks accurately.</p>
         </div>
 
-        <h2 id="calcTitle">🔄 Pipeline Bends Calculator (Cintre)</h2>
-        <div class="input-group">
-            <label id="labelRadius">Bend Radius (R in meters):</label>
-            <input type="number" id="bendRadius" placeholder="e.g. 40" oninput="calculateBend()">
-        </div>
-        <div class="input-group">
-            <label id="labelDeflection">Deflection Angle (Degrees):</label>
-            <input type="number" id="deflectionAngle" placeholder="e.g. 30" oninput="calculateBend()">
-        </div>
-        <div class="result-box">
-            <p class="result-text"><span id="textArcLength">Arc Length:</span> <span id="arcResult">0.00</span> <span id="unitM">m</span></p>
-            <p class="result-text"><span id="textTangent">Tangent Length:</span> <span id="tangentResult">0.00</span> <span id="unitM2">m</span></p>
+        <div class="calculator-sidebar">
+            <div class="calculator">
+                <div class="top-bar">
+                    <a href="index.html" class="back-btn" id="backText">← Back to Directory</a>
+                    <select id="langSelect" onchange="changeLanguage()">
+                        <option value="en">English 🇬🇧</option>
+                        <option value="fr">Français 🇫🇷</option>
+                        <option value="ar">العربية 🇸🇦</option>
+                    </select>
+                </div>
+
+                <h2 id="calcTitle" style="text-align: left; font-size: 16px; margin-top: 0; color: #1e293b;">🔄 Pipeline Bends Calculator</h2>
+                
+                <div class="input-group">
+                    <label id="labelRadius">Bend Radius (R in meters):</label>
+                    <input type="number" id="bendRadius" placeholder="e.g. 40" oninput="calculateBend()">
+                </div>
+                <div class="input-group">
+                    <label id="labelDeflection">Deflection Angle (Degrees):</label>
+                    <input type="number" id="deflectionAngle" placeholder="e.g. 30" oninput="calculateBend()">
+                </div>
+                
+                <div class="result-box">
+                    <p class="result-text"><span id="textArcLength">Arc Length:</span> <span id="arcResult" class="highlight">0.00</span> <span id="unitM">m</span></p>
+                    <p class="result-text"><span id="textTangent">Tangent Length:</span> <span id="tangentResult" class="highlight">0.00</span> <span id="unitM2">m</span></p>
+                </div>
+            </div>
+
+            <div class="ai-assistant-box">
+                <div class="ai-header">
+                    🤖 OmniEngineer AI Expert
+                </div>
+                <div class="ai-chat-output" id="aiOutput">
+                    Hello! I'm your engineering AI assistant. Ask me about pipeline prefabrication, bend radiuses, or tangent calculations!
+                </div>
+                <div class="ai-input-group">
+                    <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI a question...">
+                    <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
+        function askAiAssistant() {
+            let q = document.getElementById('aiQuestionInput').value.toLowerCase();
+            let r = document.getElementById('bendRadius').value;
+            let output = document.getElementById('aiOutput');
+            
+            if (!q) {
+                output.innerText = "Please type a question for the AI assistant!";
+                return;
+            }
+
+            if (q.includes('radius') || q.includes('long') || q.includes('نصف قطر')) {
+                output.innerText = "💡 Engineering Tip: Long radius bends (e.g., 3D or 5D pipe bends) reduce fluid friction losses and pressure drop compared to short radius elbows.";
+            } else if (q.includes('tangent') || q.includes('fitting') || q.includes('مماس')) {
+                output.innerText = `📊 With a radius of ${r || '0'}m, the tangent length defines the straight segment required from the vertex to the point of curvature.`;
+            } else {
+                output.innerText = `🤖 AI Analysis: The arc length represents the exact length of pipe needed along the curve, while tangent length governs the layout intersection geometry.`;
+            }
+        }
+
         const translations = {
             en: {
                 backText: "← Back to Directory",
-                calcTitle: "🔄 Pipeline Bends Calculator (Cintre)",
+                calcTitle: "🔄 Pipeline Bends Calculator",
                 labelRadius: "Bend Radius (R in meters):",
                 labelDeflection: "Deflection Angle (Degrees):",
                 textArcLength: "Arc Length:",
                 textTangent: "Tangent Length:",
                 unitM: "m",
+                secTitle: "About Pipeline Bends & Geometry",
+                secP1: "Pipeline bends (Cintre) calculations are critical in piping engineering and route design. They determine the physical arc length of the curved section and the tangent length required for fittings.",
+                secP2: "Where:",
+                secP3: "Piping engineers and layout designers use these geometrical relations to fabricate prefabricated spool pieces and align trench networks accurately.",
                 dir: "ltr"
             },
             fr: {
@@ -65,6 +175,10 @@
                 textArcLength: "Longueur d'arc :",
                 textTangent: "Longueur de tangente :",
                 unitM: "m",
+                secTitle: "À propos des Cintrages de Pipelines",
+                secP1: "Les calculs de cintrages sont essentiels en tuyauterie industrielle pour déterminer la longueur d'arc et les tangentes.",
+                secP2: "Où :",
+                secP3: "Les ingénieurs utilisent ces relations géométriques pour fabriquer les spools de tuyauterie avec précision.",
                 dir: "ltr"
             },
             ar: {
@@ -75,6 +189,10 @@
                 textArcLength: "طول القوس (Arc Length):",
                 textTangent: "المماس (Tangent Length):",
                 unitM: "متر",
+                secTitle: "نبذة عن الانحناءات الهندسية لخطوط الأنابيب",
+                secP1: "تعتبر حسابات انحناءات الأنابيب (Cintre) بالغة الأهمية في هندسة الأنابيب وتصميم المسارات لتحديد طول القوس الفعلي وطول المماس للتجهيزات.",
+                secP2: "حيث أن:",
+                secP3: "يعتمد مهندسو الأنابيب ومصممو المسارات على هذه العلاقات الهندسية لتصنيع القطع بدقة وضبط شبكات التمديدات الهندسية.",
                 dir: "rtl"
             }
         };
@@ -92,6 +210,10 @@
             document.getElementById('textTangent').innerText = t.textTangent;
             document.getElementById('unitM').innerText = t.unitM;
             document.getElementById('unitM2').innerText = t.unitM;
+            document.getElementById('secTitle').innerText = t.secTitle;
+            document.getElementById('secP1').innerText = t.secP1;
+            document.getElementById('secP2').innerText = t.secP2;
+            document.getElementById('secP3').innerText = t.secP3;
         }
 
         function calculateBend() {
