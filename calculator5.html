@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="htmlTag">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipeline Liquid Volume Calculator</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        .calculator { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); width: 100%; max-width: 520px; }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        a.back-btn { text-decoration: none; color: #2563eb; font-weight: bold; font-size: 14px; }
+        select { padding: 5px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 14px; background: #fff; cursor: pointer; }
+        h2 { text-align: center; color: #1e293b; font-size: 18px; margin-bottom: 20px; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 6px; color: #475569; font-weight: bold; font-size: 13px;}
+        input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; box-sizing: border-box; }
+        input:focus { border-color: #2563eb; outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+        .result-box { background: #f0fdf4; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid #bbf7d0; }
+        .result-text { font-size: 15px; color: #15803d; font-weight: bold; margin: 6px 0; }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="top-bar">
+            <a href="index.html" class="back-btn" id="backText">← Back to Directory</a>
+            <select id="langSelect" onchange="changeLanguage()">
+                <option value="en">English 🇬🇧</option>
+                <option value="fr">Français 🇫🇷</option>
+                <option value="ar">العربية 🇸🇦</option>
+            </select>
+        </div>
+
+        <h2 id="calcTitle">💧 Pipeline Liquid Volume Calculator</h2>
+        <div class="input-group">
+            <label id="labelDiam">Inner Diameter (millimeters):</label>
+            <input type="number" id="innerDiam" placeholder="e.g. 500" oninput="calculateVolume()">
+        </div>
+        <div class="input-group">
+            <label id="labelLen">Pipeline Length (meters):</label>
+            <input type="number" id="pipeLength" placeholder="e.g. 1000" oninput="calculateVolume()">
+        </div>
+        <div class="result-box">
+            <p class="result-text"><span id="textVolM3">Volume:</span> <span id="volM3Result">0.00</span> <span id="unitM3">m³</span></p>
+            <p class="result-text"><span id="textVolLiters">Capacity:</span> <span id="volLitersResult">0.00</span> <span id="unitLiters">Liters</span></p>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                backText: "← Back to Directory",
+                calcTitle: "💧 Pipeline Liquid Volume Calculator",
+                labelDiam: "Inner Diameter (millimeters):",
+                labelLen: "Pipeline Length (meters):",
+                textVolM3: "Volume:",
+                textVolLiters: "Capacity:",
+                unitM3: "m³",
+                unitLiters: "Liters",
+                dir: "ltr"
+            },
+            fr: {
+                backText: "← Retour au répertoire",
+                calcTitle: "💧 Calculateur de Volume de Liquide",
+                labelDiam: "Diamètre Intérieur (millimètres) :",
+                labelLen: "Longueur de la Conduite (mètres) :",
+                textVolM3: "Volume :",
+                textVolLiters: "Capacité :",
+                unitM3: "m³",
+                unitLiters: "Litres",
+                dir: "ltr"
+            },
+            ar: {
+                backText: "← العودة إلى الدليل",
+                calcTitle: "💧 حاسبة حجم السوائل داخل الأنابيب",
+                labelDiam: "القطر الداخلي للأنبوب (ملمتر):",
+                labelLen: "طول خط الأنابيب (متر):",
+                textVolM3: "الحجم الإجمالي:",
+                textVolLiters: "السعة باللتر:",
+                unitM3: "متر مكعب (م³)",
+                unitLiters: "لتر",
+                dir: "rtl"
+            }
+        };
+
+        function changeLanguage() {
+            let lang = document.getElementById('langSelect').value;
+            let t = translations[lang];
+            document.getElementById('htmlTag').setAttribute('lang', lang);
+            document.getElementById('htmlTag').setAttribute('dir', t.dir);
+            document.getElementById('backText').innerText = t.backText;
+            document.getElementById('calcTitle').innerText = t.calcTitle;
+            document.getElementById('labelDiam').innerText = t.labelDiam;
+            document.getElementById('labelLen').innerText = t.labelLen;
+            document.getElementById('textVolM3').innerText = t.textVolM3;
+            document.getElementById('textVolLiters').innerText = t.textVolLiters;
+            document.getElementById('unitM3').innerText = t.unitM3;
+            document.getElementById('unitLiters').innerText = t.unitLiters;
+        }
+
+        function calculateVolume() {
+            let D_mm = parseFloat(document.getElementById('innerDiam').value) || 0;
+            let L = parseFloat(document.getElementById('pipeLength').value) || 0;
+            
+            // تحويل القطر من ملم إلى متر
+            let D_m = D_mm / 1000;
+            
+            // حساب حجم الاسطوانة V = pi * r^2 * L حيث r = D / 2
+            let volumeM3 = Math.PI * Math.pow((D_m / 2), 2) * L;
+            let volumeLiters = volumeM3 * 1000;
+
+            document.getElementById('volM3Result').innerText = volumeM3.toFixed(2);
+            document.getElementById('volLitersResult').innerText = volumeLiters.toFixed(2);
+        }
+    </script>
+</body>
+</html>
