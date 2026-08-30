@@ -38,6 +38,7 @@
     <header>
         <div class="logo">⚙️ OmniEngineer</div>
         <div>
+            <!-- الترتيب: الإنجليزية أولاً، ثم الفرنسية، ثم العربية -->
             <select class="lang-select" id="langSelect" onchange="changeLanguage()">
                 <option value="en">English 🇬🇧</option>
                 <option value="fr">Français 🇫🇷</option>
@@ -57,7 +58,7 @@
         </div>
 
         <div class="calculators-grid" id="calcGrid">
-            <!-- حاسبة 1 -->
+            <!-- الحاسبة 1 -->
             <a href="calculator1.html" class="calc-card" data-keywords="elevation slope deniveles فرق الارتفاع الانحدار">
                 <div>
                     <span class="card-tag" id="tag1">Pipelines & Surveying</span>
@@ -66,7 +67,7 @@
                 </div>
             </a>
 
-            <!-- حاسبة 2 -->
+            <!-- الحاسبة 2 -->
             <a href="calculator2.html" class="calc-card" data-keywords="angle offset زاوية الميل المسافة المائلة">
                 <div>
                     <span class="card-tag" id="tag2">Field Engineering</span>
@@ -75,7 +76,7 @@
                 </div>
             </a>
 
-            <!-- حاسبة 3 -->
+            <!-- الحاسبة 3 -->
             <a href="calculator3.html" class="calc-card" data-keywords="cintre pipeline bends arc انحناءات المنحنيات">
                 <div>
                     <span class="card-tag" id="tag3">Pipeline Engineering</span>
@@ -84,7 +85,7 @@
                 </div>
             </a>
 
-            <!-- حاسبة 4: حجم الحفريات -->
+            <!-- الحاسبة 4 -->
             <a href="calculator4.html" class="calc-card" data-keywords="trench excavation volume حفريات خنادق حجم التراب">
                 <div>
                     <span class="card-tag" id="tag4">Earthworks & Civil</span>
@@ -176,23 +177,15 @@
             document.getElementById('heroTitle').innerText = t.heroTitle;
             document.getElementById('heroSubtitle').innerText = t.heroSubtitle;
             document.getElementById('searchInput').placeholder = t.searchPlaceholder;
-            
-            // الحاسبة 1
             document.getElementById('tag1').innerText = t.tag1;
             document.getElementById('c1Title').innerText = t.c1Title;
             document.getElementById('c1Desc').innerText = t.c1Desc;
-            
-            // الحاسبة 2
             document.getElementById('tag2').innerText = t.tag2;
             document.getElementById('c2Title').innerText = t.c2Title;
             document.getElementById('c2Desc').innerText = t.c2Desc;
-            
-            // الحاسبة 3
             document.getElementById('tag3').innerText = t.tag3;
             document.getElementById('c3Title').innerText = t.c3Title;
             document.getElementById('c3Desc').innerText = t.c3Desc;
-
-            // الحاسبة 4
             document.getElementById('tag4').innerText = t.tag4;
             document.getElementById('c4Title').innerText = t.c4Title;
             document.getElementById('c4Desc').innerText = t.c4Desc;
