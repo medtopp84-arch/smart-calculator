@@ -228,10 +228,7 @@
             let R = parseFloat(document.getElementById('bendRadius').value) || 0;
             let deltaDeg = parseFloat(document.getElementById('deflectionAngle').value) || 0;
             let deltaRad = deltaDeg * (Math.PI / 180);
-
-            // طول القوس = R * Delta(rad)
             let arcLength = R * deltaRad;
-            // المماس = R * tan(Delta / 2)
             let tangent = R * Math.tan(deltaRad / 2);
 
             if (R === 0 || deltaDeg === 0) {
