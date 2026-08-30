@@ -81,6 +81,15 @@
                     <p id="c3Desc">Calculate arc length, deflection angles, and tangent lengths with high accuracy.</p>
                 </div>
             </a>
+
+            <!-- حاسبة 4: حجم الحفريات (تمت الإضافة هنا) -->
+            <a href="calculator4.html" class="calc-card" data-keywords="trench excavation volume حفريات خنادق حجم التراب">
+                <div>
+                    <span class="card-tag" id="tag4">Earthworks & Civil</span>
+                    <h3 id="c4Title">Trench Excavation Volume Calculator</h3>
+                    <p id="c4Desc">Calculate total soil excavation volume and backfill quantities accurately.</p>
+                </div>
+            </a>
         </div>
     </div>
 
@@ -111,9 +120,12 @@
                 tag2: "Field Engineering",
                 c2Title: "Angle & Offset Calculator",
                 c2Desc: "Find vertical offset and actual slope distance based on inclination angles.",
-                tag3: "Pipeline Engineering", // تم التعديل
+                tag3: "Pipeline Engineering",
                 c3Title: "Pipeline Bends Calculator",
                 c3Desc: "Calculate arc length, deflection angles, and tangent lengths with high accuracy.",
+                tag4: "Earthworks & Civil",
+                c4Title: "Trench Excavation Volume Calculator",
+                c4Desc: "Calculate total soil excavation volume and backfill quantities accurately.",
                 dir: "ltr"
             },
             fr: {
@@ -126,9 +138,12 @@
                 tag2: "Ingénierie de Terrain",
                 c2Title: "Calculateur Angle & Offset",
                 c2Desc: "Déterminer l'offset vertical et la distance inclinée réelle selon l'angle.",
-                tag3: "Génie des Pipelines", // تم التعديل
+                tag3: "Génie des Pipelines",
                 c3Title: "Calculateur de Cintrages (Bends)",
                 c3Desc: "Calculer la longueur d'arc, l'angle de déviation et les tangentes.",
+                tag4: "Terrassement & Génie Civil",
+                c4Title: "Calculateur de Volume d'Excavation",
+                c4Desc: "Calculer avec précision le volume total d'excavation et les quantités de remblai.",
                 dir: "ltr"
             },
             ar: {
@@ -141,9 +156,12 @@
                 tag2: "هندسة ميدانية",
                 c2Title: "حاسبة زاوية الميل والـ Offset",
                 c2Desc: "إيجاد الإزاحة العمودية والمسافة المائلة الفعلية بناءً على زاوية الميل.",
-                tag3: "هندسة خطوط الأنابيب", // تم التعديل
+                tag3: "هندسة خطوط الأنابيب",
                 c3Title: "حاسبة الانحناءات الهندسية (Bends)",
                 c3Desc: "حساب طول القوس، زاوية الانحراف، وأطوال المماسات بدقة متناهية.",
+                tag4: "أعمال ترابية وهندسة مدنية",
+                c4Title: "حاسبة حجم حفريات الخنادق",
+                c4Desc: "حساب إجمالي حجم التربة المحفورة وكميات الردم بدقة عالية.",
                 dir: "rtl"
             }
         };
@@ -156,15 +174,26 @@
             document.getElementById('heroTitle').innerText = t.heroTitle;
             document.getElementById('heroSubtitle').innerText = t.heroSubtitle;
             document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+            
+            // الحاسبة 1
             document.getElementById('tag1').innerText = t.tag1;
             document.getElementById('c1Title').innerText = t.c1Title;
             document.getElementById('c1Desc').innerText = t.c1Desc;
+            
+            // الحاسبة 2
             document.getElementById('tag2').innerText = t.tag2;
             document.getElementById('c2Title').innerText = t.c2Title;
             document.getElementById('c2Desc').innerText = t.c2Desc;
+            
+            // الحاسبة 3
             document.getElementById('tag3').innerText = t.tag3;
             document.getElementById('c3Title').innerText = t.c3Title;
             document.getElementById('c3Desc').innerText = t.c3Desc;
+
+            // الحاسبة 4
+            document.getElementById('tag4').innerText = t.tag4;
+            document.getElementById('c4Title').innerText = t.c4Title;
+            document.getElementById('c4Desc').innerText = t.c4Desc;
         }
     </script>
 </body>
