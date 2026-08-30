@@ -3,49 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pipeline Liquid Volume Calculator</title>
+    <title>Pipeline Liquid Volume Calculator | OmniEngineer Pro</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-        .calculator { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); width: 100%; max-width: 520px; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; padding: 20px; }
+        .page-container { max-width: 1200px; margin: 30px auto; display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
+        @media (max-width: 900px) { .page-container { grid-template-columns: 1fr; } }
+        
+        .content-section { background: white; padding: 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; line-height: 1.7; }
+        .content-section h2 { color: #2563eb; margin-top: 0; font-size: 22px; }
+        .content-section p { color: #475569; font-size: 15px; }
+        
+        /* صندوق المخطط الهندسي للأنبوب */
+        .pro-blueprint-box { background: #f1f5f9; border: 2px solid #3b82f6; border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; }
+        .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+
+        .formula-box { background: #eff6ff; border-left: 4px solid #2563eb; padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: #1d4ed8; border-radius: 4px; text-align: left; }
+        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid #2563eb; text-align: right; }
+
+        .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .calculator { background: white; padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        a.back-btn { text-decoration: none; color: #2563eb; font-weight: bold; font-size: 14px; }
-        select { padding: 5px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 14px; background: #fff; cursor: pointer; }
-        h2 { text-align: center; color: #1e293b; font-size: 18px; margin-bottom: 20px; }
+        a.back-btn { text-decoration: none; color: #2563eb; font-weight: bold; font-size: 13px; }
+        select { padding: 5px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 13px; background: #fff; cursor: pointer; }
+        
         .input-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 6px; color: #475569; font-weight: bold; font-size: 13px;}
         input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; box-sizing: border-box; }
         input:focus { border-color: #2563eb; outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
         .result-box { background: #f0fdf4; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid #bbf7d0; }
-        .result-text { font-size: 15px; color: #15803d; font-weight: bold; margin: 6px 0; }
+        .result-text { font-size: 14px; color: #15803d; font-weight: bold; margin: 6px 0; }
+        .highlight { font-size: 18px; }
+
+        .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .ai-header { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; color: #60a5fa; }
+        .ai-chat-output { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 13px; color: #cbd5e1; min-height: 60px; margin-bottom: 12px; line-height: 1.5; }
+        .ai-input-group { display: flex; gap: 8px; }
+        .ai-input { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
+        .ai-btn { background: #2563eb; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
+        .ai-btn:hover { background: #1d4ed8; }
     </style>
 </head>
 <body>
-    <div class="calculator">
-        <div class="top-bar">
-            <a href="index.html" class="back-btn" id="backText">← Back to Directory</a>
-            <select id="langSelect" onchange="changeLanguage()">
-                <option value="en">English 🇬🇧</option>
-                <option value="fr">Français 🇫🇷</option>
-                <option value="ar">العربية 🇸🇦</option>
-            </select>
+
+    <div class="page-container">
+        <div class="content-section">
+            <h2 id="secTitle">About Pipeline Liquid Volume & Capacity</h2>
+            <p id="secP1">Calculating internal liquid volume and holding capacity of a pipeline is essential for hydrotesting, chemical flushing, pipeline purging, and hydraulic inventory estimations.</p>
+            
+            <div class="pro-blueprint-box">
+                <svg width="380" height="210" viewBox="0 0 380 210">
+                    <defs>
+                        <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                            <path d="M0,2 L8,4 L0,6 Z" fill="#1d4ed8"/>
+                        </marker>
+                    </defs>
+
+                    <rect x="50" y="65" width="280" height="80" rx="6" ry="6" fill="rgba(37, 99, 235, 0.08)" stroke="#2563eb" stroke-width="3"/>
+                    <ellipse cx="50" cy="105" rx="10" ry="40" fill="#cbd5e1" stroke="#2563eb" stroke-width="3"/>
+                    <ellipse cx="330" cy="105" rx="10" ry="40" fill="#eff6ff" stroke="#2563eb" stroke-width="3"/>
+
+                    <line x1="50" y1="55" x2="50" y2="155" stroke="#dc2626" stroke-width="1.5" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)"/>
+                    <text x="75" y="110" font-size="11" fill="#dc2626" font-weight="bold" text-anchor="start">Diameter (D)</text>
+
+                    <line x1="50" y1="170" x2="330" y2="170" stroke="#2563eb" stroke-width="1.5" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)"/>
+                    <text x="190" y="192" font-size="12" fill="#2563eb" font-weight="bold" text-anchor="middle">Pipeline Length (L)</text>
+                </svg>
+            </div>
+
+            <div class="formula-box">
+                Volume (V) = π · (D / 2)² · L <br>
+                Capacity (Liters) = V · 1000
+            </div>
+            
+            <p id="secP2">Where:</p>
+            <ul>
+                <li id="li1"><strong>D</strong> = Inner diameter of the pipe in meters (converted from mm)</li>
+                <li id="li2"><strong>L</strong> = Total length of the pipeline in meters</li>
+                <li id="li3"><strong>V</strong> = Internal fluid volume in cubic meters ($m^3$)</li>
+                <li id="li4"><strong>Capacity</strong> = Total holding capacity expressed in Liters</li>
+            </ul>
+            <p id="secP3">Hydraulic engineers rely on these exact geometric calculations to determine chemical dosing volumes, fill times, and pressure testing water requirements.</p>
         </div>
 
-        <h2 id="calcTitle">💧 Pipeline Liquid Volume Calculator</h2>
-        <div class="input-group">
-            <label id="labelDiam">Inner Diameter (millimeters):</label>
-            <input type="number" id="innerDiam" placeholder="e.g. 500" oninput="calculateVolume()">
-        </div>
-        <div class="input-group">
-            <label id="labelLen">Pipeline Length (meters):</label>
-            <input type="number" id="pipeLength" placeholder="e.g. 1000" oninput="calculateVolume()">
-        </div>
-        <div class="result-box">
-            <p class="result-text"><span id="textVolM3">Volume:</span> <span id="volM3Result">0.00</span> <span id="unitM3">m³</span></p>
-            <p class="result-text"><span id="textVolLiters">Capacity:</span> <span id="volLitersResult">0.00</span> <span id="unitLiters">Liters</span></p>
+        <div class="calculator-sidebar">
+            <div class="calculator">
+                <div class="top-bar">
+                    <a href="index.html" class="back-btn" id="backText">← Back to Directory</a>
+                    <select id="langSelect" onchange="changeLanguage()">
+                        <option value="en">English 🇬🇧</option>
+                        <option value="fr">Français 🇫🇷</option>
+                        <option value="ar">العربية 🇸🇦</option>
+                    </select>
+                </div>
+
+                <h2 id="calcTitle" style="text-align: left; font-size: 16px; margin-top: 0; color: #1e293b;">💧 Pipeline Liquid Volume Calculator</h2>
+                
+                <div class="input-group">
+                    <label id="labelDiam">Inner Diameter (millimeters):</label>
+                    <input type="number" id="innerDiam" placeholder="e.g. 500" oninput="calculateVolume()">
+                </div>
+                <div class="input-group">
+                    <label id="labelLen">Pipeline Length (meters):</label>
+                    <input type="number" id="pipeLength" placeholder="e.g. 1000" oninput="calculateVolume()">
+                </div>
+                
+                <div class="result-box">
+                    <p class="result-text"><span id="textVolM3">Volume:</span> <span id="volM3Result" class="highlight">0.00</span> <span id="unitM3">m³</span></p>
+                    <p class="result-text"><span id="textVolLiters">Capacity:</span> <span id="volLitersResult" class="highlight">0.00</span> <span id="unitLiters">Liters</span></p>
+                </div>
+            </div>
+
+            <div class="ai-assistant-box">
+                <div class="ai-header">
+                    🤖 OmniEngineer AI Expert
+                </div>
+                <div class="ai-chat-output" id="aiOutput">
+                    Hello! I'm your engineering AI assistant. Ask me about pipeline hydrotesting, flow velocities, or internal volume management!
+                </div>
+                <div class="ai-input-group">
+                    <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI a question...">
+                    <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
+        function askAiAssistant() {
+            let q = document.getElementById('aiQuestionInput').value.toLowerCase();
+            let vol = document.getElementById('volM3Result').innerText;
+            let output = document.getElementById('aiOutput');
+            
+            if (!q) {
+                output.innerText = "Please type a question for the AI assistant!";
+                return;
+            }
+
+            if (q.includes('hydrotest') || q.includes('pressure') || q.includes('اختبار')) {
+                output.innerText = "💡 Engineering Tip: For hydrostatic testing, the calculated internal volume helps determine the filling water volume and sets the baseline for water compressibility monitoring.";
+            } else if (q.includes('velocity') || q.includes('flow') || q.includes('سرعة')) {
+                output.innerText = `📊 Current calculated line volume is ${vol} m³. Knowing this volume is crucial for calculating residence time and chemical injection rates during pipeline treatment.`;
+            } else {
+                output.innerText = `🤖 AI Analysis: The pipeline behaves as a cylindrical reservoir where holding capacity scales linearly with length and quadratically with internal diameter.`;
+            }
+        }
+
         const translations = {
             en: {
                 backText: "← Back to Directory",
@@ -56,6 +158,10 @@
                 textVolLiters: "Capacity:",
                 unitM3: "m³",
                 unitLiters: "Liters",
+                secTitle: "About Pipeline Liquid Volume & Capacity",
+                secP1: "Calculating internal liquid volume and holding capacity of a pipeline is essential for hydrotesting, chemical flushing, pipeline purging, and hydraulic inventory estimations.",
+                secP2: "Where:",
+                secP3: "Hydraulic engineers rely on these exact geometric calculations to determine chemical dosing volumes, fill times, and pressure testing water requirements.",
                 dir: "ltr"
             },
             fr: {
@@ -67,6 +173,10 @@
                 textVolLiters: "Capacité :",
                 unitM3: "m³",
                 unitLiters: "Litres",
+                secTitle: "À propos du Volume de Liquide dans les Canalisations",
+                secP1: "Le calcul du volume interne d'une conduite est essentiel pour les tests hydrostatiques et le rinçage chimique.",
+                secP2: "Où :",
+                secP3: "Les ingénieurs utilisent ces calculs géométriques pour déterminer les volumes de dosage chimique et les temps de remplissage.",
                 dir: "ltr"
             },
             ar: {
@@ -78,6 +188,10 @@
                 textVolLiters: "السعة باللتر:",
                 unitM3: "متر مكعب (م³)",
                 unitLiters: "لتر",
+                secTitle: "نبذة عن حساب حجم السوائل والسعة التخزينية للأنابيب",
+                secP1: "يعد حساب حجم السوائل الداخلي والسعة التخزينية لخطوط الأنابيب أمراً أساسياً لاختبارات الضغط الهيدروستاتيكي، الغسيل الكيميائي، وتفريغ الخطوط.",
+                secP2: "حيث أن:",
+                secP3: "يعتمد مهندسو الهيدروليكا على هذه الحسابات الهندسية الدقيقة لتحديد كميات المواد الكيميائية، أوقات التعبئة، ومتطلبات مياه اختبار الضغط.",
                 dir: "rtl"
             }
         };
@@ -95,16 +209,17 @@
             document.getElementById('textVolLiters').innerText = t.textVolLiters;
             document.getElementById('unitM3').innerText = t.unitM3;
             document.getElementById('unitLiters').innerText = t.unitLiters;
+            document.getElementById('secTitle').innerText = t.secTitle;
+            document.getElementById('secP1').innerText = t.secP1;
+            document.getElementById('secP2').innerText = t.secP2;
+            document.getElementById('secP3').innerText = t.secP3;
         }
 
         function calculateVolume() {
             let D_mm = parseFloat(document.getElementById('innerDiam').value) || 0;
             let L = parseFloat(document.getElementById('pipeLength').value) || 0;
             
-            // تحويل القطر من ملم إلى متر
             let D_m = D_mm / 1000;
-            
-            // حساب حجم الاسطوانة V = pi * r^2 * L حيث r = D / 2
             let volumeM3 = Math.PI * Math.pow((D_m / 2), 2) * L;
             let volumeLiters = volumeM3 * 1000;
 
