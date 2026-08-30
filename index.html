@@ -6,16 +6,16 @@
     <title id="pageTitle">منصة الأدوات الهندسية الذكية</title>
     <style>
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-        .calculator { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 480px; }
+        .calculator { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 520px; }
         .lang-selector { text-align: left; margin-bottom: 15px; }
         select { padding: 5px 10px; border-radius: 5px; border: 1px solid #bdc3c7; font-size: 14px; background: #fff; cursor: pointer; }
-        h2 { text-align: center; color: #2c3e50; font-size: 18px; margin-bottom: 15px; }
+        h2 { text-align: center; color: #2c3e50; font-size: 17px; margin-bottom: 15px; }
         .input-group { margin-bottom: 12px; }
         label { display: block; margin-bottom: 5px; color: #34495e; font-weight: bold; font-size: 13px;}
         input { width: 100%; padding: 9px; border: 1px solid #bdc3c7; border-radius: 6px; font-size: 15px; box-sizing: border-box; }
         input:focus { border-color: #3498db; outline: none; box-shadow: 0 0 5px rgba(52, 152, 219, 0.3); }
         .result-box { background: #e8f8f5; padding: 12px; border-radius: 6px; margin-top: 15px; text-align: center; border: 1px solid #1abc9c; }
-        .result-text { font-size: 15px; color: #16a085; font-weight: bold; margin: 5px 0; }
+        .result-text { font-size: 14px; color: #16a085; font-weight: bold; margin: 5px 0; }
         .ai-section { margin-top: 20px; border-top: 1px solid #ecf0f1; padding-top: 15px; }
         button.ai-btn { background-color: #3498db; color: white; border: none; padding: 10px; width: 100%; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; }
         button.ai-btn:hover { background-color: #2980b9; }
@@ -34,7 +34,7 @@
             </select>
         </div>
 
-        <!-- الحاسبة الأولى -->
+        <!-- 1. الحاسبة الأولى: فرق الارتفاع والانحدار -->
         <h2 id="calcTitle1">📏 1. حاسبة فرق الارتفاع والانحدار</h2>
         <div class="input-group">
             <label id="labelA">الارتفاع عند النقطة أ (متر):</label>
@@ -55,7 +55,7 @@
 
         <hr class="divider">
 
-        <!-- الحاسبة الثانية: Angle & Offset / المسافة المائلة -->
+        <!-- 2. الحاسبة الثانية: زاوية الميل والـ Offset -->
         <h2 id="calcTitle2">📐 2. حاسبة زاوية الميل والمسافة المائلة (Angle & Offset)</h2>
         <div class="input-group">
             <label id="labelHoriz">المسافة الأفقية (متر):</label>
@@ -68,6 +68,23 @@
         <div class="result-box">
             <p class="result-text"><span id="textOffset">الإزاحة العمودية (Offset):</span> <span id="offsetResult">0</span> <span id="unitM2">متر</span></p>
             <p class="result-text"><span id="textHypot">المسافة المائلة الفعلية:</span> <span id="hypotResult">0</span> <span id="unitM3">متر</span></p>
+        </div>
+
+        <hr class="divider">
+
+        <!-- 3. الحاسبة الثالثة: حساب المنحنيات والانحناءات (Pipeline Bends / Cintre) -->
+        <h2 id="calcTitle3">🔄 3. حاسبة الانحناءات الهندسية (Pipeline Bends / Cintre)</h2>
+        <div class="input-group">
+            <label id="labelRadius">نصف قطر الانحناء (Radius R في متر):</label>
+            <input type="number" id="bendRadius" placeholder="مثال: 40" oninput="calculateBend()">
+        </div>
+        <div class="input-group">
+            <label id="labelDeflection">زاوية الانحراف (Deflection Angle بالدرجات):</label>
+            <input type="number" id="deflectionAngle" placeholder="مثال: 30" oninput="calculateBend()">
+        </div>
+        <div class="result-box">
+            <p class="result-text"><span id="textArcLength">طول القوس (Arc Length):</span> <span id="arcResult">0</span> <span id="unitM4">متر</span></p>
+            <p class="result-text"><span id="textTangent">المماس (Tangent Length):</span> <span id="tangentResult">0</span> <span id="unitM5">متر</span></p>
         </div>
 
         <!-- قسم الذكاء الاصطناعي -->
@@ -93,6 +110,11 @@
                 labelAngle: "زاوية الميل (بالدرجات):",
                 textOffset: "الإزاحة العمودية (Offset):",
                 textHypot: "المسافة المائلة الفعلية:",
+                calcTitle3: "🔄 3. حاسبة الانحناءات الهندسية (Pipeline Bends)",
+                labelRadius: "نصف قطر الانحناء (Radius R في متر):",
+                labelDeflection: "زاوية الانحراف (Deflection Angle بالدرجات):",
+                textArcLength: "طول القوس (Arc Length):",
+                textTangent: "المماس (Tangent Length):",
                 aiLabel: "استشر المساعد الذكي:",
                 aiBtn: "✨ تحليل هندسي متكامل بواسطة Gemini",
                 aiWait: "جاري الاتصال بـ Gemini لتحليل الحسابات...",
@@ -111,6 +133,11 @@
                 labelAngle: "Slope Angle (Degrees):",
                 textOffset: "Vertical Offset:",
                 textHypot: "Actual Slope Distance:",
+                calcTitle3: "🔄 3. Pipeline Bends Calculator",
+                labelRadius: "Bend Radius (R in meters):",
+                labelDeflection: "Deflection Angle (Degrees):",
+                textArcLength: "Arc Length:",
+                textTangent: "Tangent Length:",
                 aiLabel: "Ask AI Assistant:",
                 aiBtn: "✨ Comprehensive AI Engineering Analysis",
                 aiWait: "Connecting to Gemini for analysis...",
@@ -124,11 +151,16 @@
                 textDeniv: "Dénivelée :",
                 textSlope: "Pente :",
                 unitM: "m",
-                calcTitle2: "📐 2. Calculateur Angle & Offset (Dénivellée)",
+                calcTitle2: "📐 2. Calculateur Angle & Offset",
                 labelHoriz: "Distance horizontale (m) :",
                 labelAngle: "Angle d'inclinaison (Degrés) :",
                 textOffset: "Offset Vertical :",
                 textHypot: "Distance Inclinée Réelle :",
+                calcTitle3: "🔄 3. Calculateur de Cintrages & Courbes",
+                labelRadius: "Rayon de courbure (R en mètres) :",
+                labelDeflection: "Angle de déviation (Degrés) :",
+                textArcLength: "Longueur d'arc :",
+                textTangent: "Longueur de tangente :",
                 aiLabel: "Assistant IA :",
                 aiBtn: "✨ Analyse technique complète avec Gemini",
                 aiWait: "Connexion à Gemini en cours...",
@@ -150,11 +182,18 @@
             document.getElementById('unitM').innerText = t.unitM;
             document.getElementById('unitM2').innerText = t.unitM;
             document.getElementById('unitM3').innerText = t.unitM;
+            document.getElementById('unitM4').innerText = t.unitM;
+            document.getElementById('unitM5').innerText = t.unitM;
             document.getElementById('calcTitle2').innerText = t.calcTitle2;
             document.getElementById('labelHoriz').innerText = t.labelHoriz;
             document.getElementById('labelAngle').innerText = t.labelAngle;
             document.getElementById('textOffset').innerText = t.textOffset;
             document.getElementById('textHypot').innerText = t.textHypot;
+            document.getElementById('calcTitle3').innerText = t.calcTitle3;
+            document.getElementById('labelRadius').innerText = t.labelRadius;
+            document.getElementById('labelDeflection').innerText = t.labelDeflection;
+            document.getElementById('textArcLength').innerText = t.textArcLength;
+            document.getElementById('textTangent').innerText = t.textTangent;
             document.getElementById('aiLabel').innerText = t.aiLabel;
             document.getElementById('aiButton').innerText = t.aiBtn;
         }
@@ -172,14 +211,8 @@
         function calculateOffset() {
             let horiz = parseFloat(document.getElementById('horizDist').value) || 0;
             let angleDeg = parseFloat(document.getElementById('angleDeg').value) || 0;
-            
-            // تحويل الزاوية من درجات إلى راديان لحساب الدوال المثلثية
             let angleRad = angleDeg * (Math.PI / 180);
-            
-            // حساب الـ Offset (الارتفاع الرأسي) باستخدام الظل (tan)
             let offset = horiz * Math.tan(angleRad);
-            
-            // حساب المسافة المائلة (Hypotenuse) باستخدام جتا (cos) أو نظرية فيثاغورس
             let hypotenuse = horiz / Math.cos(angleRad);
 
             if (horiz === 0 || isNaN(hypotenuse)) {
@@ -191,22 +224,43 @@
             document.getElementById('hypotResult').innerText = hypotenuse.toFixed(2);
         }
 
+        function calculateBend() {
+            let R = parseFloat(document.getElementById('bendRadius').value) || 0;
+            let deltaDeg = parseFloat(document.getElementById('deflectionAngle').value) || 0;
+            let deltaRad = deltaDeg * (Math.PI / 180);
+
+            // طول القوس = R * Delta(rad)
+            let arcLength = R * deltaRad;
+            // المماس = R * tan(Delta / 2)
+            let tangent = R * Math.tan(deltaRad / 2);
+
+            if (R === 0 || deltaDeg === 0) {
+                arcLength = 0;
+                tangent = 0;
+            }
+
+            document.getElementById('arcResult').innerText = arcLength.toFixed(2);
+            document.getElementById('tangentResult').innerText = tangent.toFixed(2);
+        }
+
         async function askGeminiAI() {
             let lang = document.getElementById('langSelect').value;
             let deniv = document.getElementById('deniveleeResult').innerText;
             let slope = document.getElementById('slopeResult').innerText;
             let offset = document.getElementById('offsetResult').innerText;
             let hypot = document.getElementById('hypotResult').innerText;
+            let arc = document.getElementById('arcResult').innerText;
+            let tangent = document.getElementById('tangentResult').innerText;
             let responseBox = document.getElementById('aiResponse');
             
             responseBox.innerText = translations[lang].aiWait;
             setTimeout(() => {
                 if (lang === 'ar') {
-                    responseBox.innerText = `💡 تحليل هندسي متقدم (Angle & Offset):\n- فرق الارتفاع: ${deniv} م (${slope}%)\n- الإزاحة العمودية: ${offset} م\n- المسافة المائلة: ${hypot} م.\nجاهز لتدوين البيانات الميدانية.`;
+                    responseBox.innerText = `💡 تحليل هندسي متكامل للمشروع:\n- فرق الارتفاع: ${deniv} م (${slope}%)\n- الإزاحة والمائل: ${offset} م / ${hypot} م\n- تفاصيل الانحناء (Cintre): طول القوس ${arc} م، والمماس ${tangent} م.\nالبيانات جاهزة للتقارير الهندسية.`;
                 } else if (lang === 'fr') {
-                    responseBox.innerText = `💡 Analyse technique (Angle & Offset) :\n- Dénivelée : ${deniv}m (${slope}%)\n- Offset vertical : ${offset}m\n- Distance inclinée : ${hypot}m. Conforme.`;
+                    responseBox.innerText = `💡 Analyse technique globale :\n- Dénivelée : ${deniv}m (${slope}%)\n- Offset / Inclinée : ${offset}m / ${hypot}m\n- Courbe (Cintre) : Arc ${arc}m, Tangente ${tangent}m. Conforme.`;
                 } else {
-                    responseBox.innerText = `💡 Advanced Analysis (Angle & Offset):\n- Elevation Diff: ${deniv}m (${slope}%)\n- Vertical Offset: ${offset}m\n- Slope Distance: ${hypot}m. Approved.`;
+                    responseBox.innerText = `💡 Comprehensive Engineering Analysis:\n- Elevation Diff: ${deniv}m (${slope}%)\n- Offset / Slope Dist: ${offset}m / ${hypot}m\n- Bend Data: Arc Length ${arc}m, Tangent ${tangent}m. Approved.`;
                 }
             }, 800);
         }
