@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
+<html lang="ar" dir="rtl" id="htmlTag">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>حاسبة الانحدار وفرق الارتفاع للأنابيب</title>
+    <title id="pageTitle">حاسبة الانحدار وفرق الارتفاع للأنابيب</title>
     <style>
         body { 
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
@@ -20,9 +20,21 @@
             border-radius: 12px; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
             width: 100%; 
-            max-width: 400px; 
+            max-width: 420px; 
         }
-        h2 { text-align: center; color: #2c3e50; font-size: 22px; margin-bottom: 20px; }
+        .lang-selector {
+            text-align: left;
+            margin-bottom: 15px;
+        }
+        select {
+            padding: 5px 10px;
+            border-radius: 5px;
+            border: 1px solid #bdc3c7;
+            font-size: 14px;
+            background: #fff;
+            cursor: pointer;
+        }
+        h2 { text-align: center; color: #2c3e50; font-size: 20px; margin-bottom: 20px; }
         .input-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 5px; color: #34495e; font-weight: bold; font-size: 14px;}
         input { 
@@ -43,47 +55,106 @@
             text-align: center; 
             border: 1px solid #1abc9c; 
         }
-        .result-text { font-size: 18px; color: #16a085; font-weight: bold; margin: 5px 0; }
+        .result-text { font-size: 16px; color: #16a085; font-weight: bold; margin: 5px 0; }
     </style>
 </head>
 <body>
 
     <div class="calculator">
-        <h2>📏 حاسبة فرق الارتفاع والانحدار</h2>
+        <!-- قائمة اختيار اللغة -->
+        <div class="lang-selector">
+            <select id="langSelect" onchange="changeLanguage()">
+                <option value="ar">العربية 🇸🇦</option>
+                <option value="en">English 🇬🇧</option>
+                <option value="fr">Français 🇫🇷</option>
+            </select>
+        </div>
+
+        <h2 id="calcTitle">📏 حاسبة فرق الارتفاع والانحدار</h2>
         
         <div class="input-group">
-            <label>الارتفاع عند النقطة أ (متر):</label>
+            <label id="labelA">الارتفاع عند النقطة أ (متر):</label>
             <input type="number" id="elevA" placeholder="مثال: 150" oninput="calculate()">
         </div>
         
         <div class="input-group">
-            <label>الارتفاع عند النقطة ب (متر):</label>
+            <label id="labelB">الارتفاع عند النقطة ب (متر):</label>
             <input type="number" id="elevB" placeholder="مثال: 111" oninput="calculate()">
         </div>
         
         <div class="input-group">
-            <label>المسافة الأفقية بين النقطتين (متر):</label>
+            <label id="labelDist">المسافة الأفقية بين النقطتين (متر):</label>
             <input type="number" id="distance" placeholder="مثال: 500" oninput="calculate()">
         </div>
 
         <div class="result-box">
-            <p class="result-text">فرق الارتفاع (Dénivelée): <span id="deniveleeResult">0</span> متر</p>
-            <p class="result-text">نسبة الانحدار (Pente): <span id="slopeResult">0</span> %</p>
+            <p class="result-text"><span id="textDeniv">فرق الارتفاع (Dénivelée):</span> <span id="deniveleeResult">0</span> <span id="unitM">متر</span></p>
+            <p class="result-text"><span id="textSlope">نسبة الانحدار (Pente):</span> <span id="slopeResult">0</span> %</p>
         </div>
     </div>
 
     <script>
+        // نصوص اللغات الثلاث
+        const translations = {
+            ar: {
+                title: "حاسبة الانحدار وفرق الارتفاع للأنابيب",
+                heading: "📏 حاسبة فرق الارتفاع والانحدار",
+                labelA: "الارتفاع عند النقطة أ (متر):",
+                labelB: "الارتفاع عند النقطة ب (متر):",
+                labelDist: "المسافة الأفقية بين النقطتين (متر):",
+                textDeniv: "فرق الارتفاع (Dénivelée):",
+                textSlope: "نسبة الانحدار (Pente):",
+                unitM: "متر",
+                dir: "rtl"
+            },
+            en: {
+                title: "Pipe Elevation Difference & Slope Calculator",
+                heading: "📏 Elevation & Slope Calculator",
+                labelA: "Elevation at Point A (meters):",
+                labelB: "Elevation at Point B (meters):",
+                labelDist: "Horizontal Distance (meters):",
+                textDeniv: "Elevation Difference:",
+                textSlope: "Slope Percentage:",
+                unitM: "m",
+                dir: "ltr"
+            },
+            fr: {
+                title: "Calculateur de Dénivelée et Pente de Tuyauterie",
+                heading: "📏 Calculateur de Dénivelée & Pente",
+                labelA: "Altitude au Point A (mètres) :",
+                labelB: "Altitude au Point B (mètres) :",
+                labelDist: "Distance horizontale (mètres) :",
+                textDeniv: "Dénivelée :",
+                textSlope: "Pente :",
+                unitM: "m",
+                dir: "ltr"
+            }
+        };
+
+        function changeLanguage() {
+            let lang = document.getElementById('langSelect').value;
+            let t = translations[lang];
+
+            document.getElementById('htmlTag').setAttribute('lang', lang);
+            document.getElementById('htmlTag').setAttribute('dir', t.dir);
+            document.getElementById('pageTitle').innerText = t.title;
+            document.getElementById('calcTitle').innerText = t.heading;
+            document.getElementById('labelA').innerText = t.labelA;
+            document.getElementById('labelB').innerText = t.labelB;
+            document.getElementById('labelDist').innerText = t.labelDist;
+            document.getElementById('textDeniv').innerText = t.textDeniv;
+            document.getElementById('textSlope').innerText = t.textSlope;
+            document.getElementById('unitM').innerText = t.unitM;
+        }
+
         function calculate() {
-            // جلب الأرقام التي يكتبها المستخدم
             let elevA = parseFloat(document.getElementById('elevA').value) || 0;
             let elevB = parseFloat(document.getElementById('elevB').value) || 0;
             let distance = parseFloat(document.getElementById('distance').value) || 0;
 
-            // حساب فرق الارتفاع
             let denivelee = Math.abs(elevA - elevB);
             document.getElementById('deniveleeResult').innerText = denivelee.toFixed(2);
 
-            // حساب نسبة الانحدار
             if (distance > 0) {
                 let slope = (denivelee / distance) * 100;
                 document.getElementById('slopeResult').innerText = slope.toFixed(2);
