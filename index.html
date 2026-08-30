@@ -35,9 +35,15 @@
         .hero { text-align: center; margin-bottom: 35px; }
         .hero h1 { font-size: 28px; margin-bottom: 10px; color: var(--text-main); }
         .hero p { color: var(--text-muted); font-size: 15px; }
-        .search-container { margin: 25px auto; max-width: 600px; }
+        .search-container { margin: 25px auto 15px auto; max-width: 600px; }
         .search-input { width: 100%; padding: 14px 20px; font-size: 16px; border: 2px solid var(--border); border-radius: 12px; outline: none; transition: all 0.3s; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
         .search-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37,99,235,0.1); }
+        
+        /* تصميم أزرار التصنيفات */
+        .category-container { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
+        .cat-btn { padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s; }
+        .cat-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+
         .calculators-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 30px; }
         .calc-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-decoration: none; color: inherit; transition: all 0.3s; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
         .calc-card:hover { transform: translateY(-4px); border-color: var(--primary); box-shadow: 0 10px 20px rgba(37,99,235,0.08); }
@@ -70,10 +76,18 @@
             <div class="search-container">
                 <input type="text" id="searchInput" class="search-input" placeholder="Search calculator (e.g., slope, bend, distance...)" oninput="filterCalculators()">
             </div>
+
+            <!-- أزرار التصنيفات -->
+            <div class="category-container">
+                <button onclick="filterCategory('all', this)" class="cat-btn active" id="catAll">All Tools</button>
+                <button onclick="filterCategory('survey', this)" class="cat-btn" id="catSurvey">Surveying & Field</button>
+                <button onclick="filterCategory('pipeline', this)" class="cat-btn" id="catPipeline">Pipelines & Hydraulics</button>
+                <button onclick="filterCategory('civil', this)" class="cat-btn" id="catCivil">Earthworks & Civil</button>
+            </div>
         </div>
 
         <div class="calculators-grid" id="calcGrid">
-            <a href="calculator1.html" class="calc-card" data-keywords="elevation slope deniveles فرق الارتفاع الانحدار">
+            <a href="calculator1.html" class="calc-card" data-category="survey" data-keywords="elevation slope deniveles فرق الارتفاع الانحدار">
                 <div>
                     <span class="card-tag" id="tag1">Pipelines & Surveying</span>
                     <h3 id="c1Title">Elevation Difference & Slope</h3>
@@ -81,7 +95,7 @@
                 </div>
             </a>
 
-            <a href="calculator2.html" class="calc-card" data-keywords="angle offset زاوية الميل المسافة المائلة">
+            <a href="calculator2.html" class="calc-card" data-category="survey" data-keywords="angle offset زاوية الميل المسافة المائلة">
                 <div>
                     <span class="card-tag" id="tag2">Field Engineering</span>
                     <h3 id="c2Title">Angle & Offset Calculator</h3>
@@ -89,7 +103,7 @@
                 </div>
             </a>
 
-            <a href="calculator3.html" class="calc-card" data-keywords="cintre pipeline bends arc انحناءات المنحنيات">
+            <a href="calculator3.html" class="calc-card" data-category="pipeline" data-keywords="cintre pipeline bends arc انحناءات المنحنيات">
                 <div>
                     <span class="card-tag" id="tag3">Pipeline Engineering</span>
                     <h3 id="c3Title">Pipeline Bends Calculator</h3>
@@ -97,7 +111,7 @@
                 </div>
             </a>
 
-            <a href="calculator4.html" class="calc-card" data-keywords="trench excavation volume حفريات خنادق حجم التراب">
+            <a href="calculator4.html" class="calc-card" data-category="civil" data-keywords="trench excavation volume حفريات خنادق حجم التراب">
                 <div>
                     <span class="card-tag" id="tag4">Earthworks & Civil</span>
                     <h3 id="c4Title">Trench Excavation Volume Calculator</h3>
@@ -105,7 +119,7 @@
                 </div>
             </a>
 
-            <a href="calculator5.html" class="calc-card" data-keywords="pipeline liquid volume water liters حجم سوائل ماء لترات">
+            <a href="calculator5.html" class="calc-card" data-category="pipeline" data-keywords="pipeline liquid volume water liters حجم سوائل ماء لترات">
                 <div>
                     <span class="card-tag" id="tag5">Hydraulics & Pipelines</span>
                     <h3 id="c5Title">Pipeline Liquid Volume Calculator</h3>
@@ -116,6 +130,8 @@
     </div>
 
     <script>
+        let currentCategory = 'all';
+
         // نظام الوضع الداكن
         function toggleTheme() {
             let html = document.getElementById('htmlTag');
@@ -138,14 +154,36 @@
             document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
         }
 
+        // دالة التصفية حسب التصنيف
+        function filterCategory(category, clickedBtn) {
+            currentCategory = category;
+            
+            // تحديث تصميم الأزرار النشطة
+            document.querySelectorAll('.cat-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            if(clickedBtn) {
+                clickedBtn.classList.add('active');
+            }
+
+            filterCalculators();
+        }
+
+        // دالة تصفية الحاسبات (تجمع بين البحث والتصنيف)
         function filterCalculators() {
             let query = document.getElementById('searchInput').value.toLowerCase();
             let cards = document.querySelectorAll('.calc-card');
+
             cards.forEach(card => {
+                let cardCat = card.getAttribute('data-category');
                 let keywords = card.getAttribute('data-keywords').toLowerCase();
                 let title = card.querySelector('h3').innerText.toLowerCase();
                 let desc = card.querySelector('p').innerText.toLowerCase();
-                if (keywords.includes(query) || title.includes(query) || desc.includes(query)) {
+
+                let matchesSearch = keywords.includes(query) || title.includes(query) || desc.includes(query);
+                let matchesCategory = (currentCategory === 'all' || cardCat === currentCategory);
+
+                if (matchesSearch && matchesCategory) {
                     card.style.display = "flex";
                 } else {
                     card.style.display = "none";
@@ -158,6 +196,10 @@
                 heroTitle: "Advanced Engineering Calculators Directory",
                 heroSubtitle: "Search for any tool or field calculator to perform calculations with maximum precision",
                 searchPlaceholder: "Search calculator (e.g., slope, bend, distance...)",
+                catAll: "All Tools",
+                catSurvey: "Surveying & Field",
+                catPipeline: "Pipelines & Hydraulics",
+                catCivil: "Earthworks & Civil",
                 tag1: "Pipelines & Surveying", c1Title: "Elevation Difference & Slope", c1Desc: "Precise calculation of elevation differences and percentages between field points.",
                 tag2: "Field Engineering", c2Title: "Angle & Offset Calculator", c2Desc: "Find vertical offset and actual slope distance based on inclination angles.",
                 tag3: "Pipeline Engineering", c3Title: "Pipeline Bends Calculator", c3Desc: "Calculate arc length, deflection angles, and tangent lengths with high accuracy.",
@@ -169,6 +211,10 @@
                 heroTitle: "Répertoire des Calculateurs Techniques",
                 heroSubtitle: "Recherchez n'importe quel outil ou calculateur pour vos projets de terrain",
                 searchPlaceholder: "Rechercher (ex: pente, cintre, distance...)",
+                catAll: "Tous les outils",
+                catSurvey: "Topographie & Terrain",
+                catPipeline: "Pipelines & Hydraulique",
+                catCivil: "Terrassement & GC",
                 tag1: "Réseaux & Topographie", c1Title: "Dénivelée et Pente", c1Desc: "Calcul précis des dénivelées et pourcentages entre les points de terrain.",
                 tag2: "Ingénierie de Terrain", c2Title: "Calculateur Angle & Offset", c2Desc: "Déterminer l'offset vertical et la distance inclinée réelle selon l'angle.",
                 tag3: "Génie des Pipelines", c3Title: "Calculateur de Cintrages (Bends)", c3Desc: "Calculer la longueur d'arc, l'angle de déviation et les tangentes.",
@@ -180,6 +226,10 @@
                 heroTitle: "مكتبة الحاسبات الهندسية المتقدمة",
                 heroSubtitle: "ابحث عن أي أداة أو حاسبة ميدانية لتنفيذ حساباتك بدقة وسرعة فائقة",
                 searchPlaceholder: "ابحث عن حاسبة (مثال: انحدار، انحناء، مسافة...)",
+                catAll: "جميع الأدوات",
+                catSurvey: "مساحة وميدان",
+                catPipeline: "أنابيب وهيدروليك",
+                catCivil: "أعمال التراب والمدني",
                 tag1: "مساحة وخطوط أنابيب", c1Title: "حاسبة فرق الارتفاع والانحدار", c1Desc: "حساب دقيق لفرق الارتفاعات بالنسب المئوية بين النقاط الميدانية.",
                 tag2: "هندسة ميدانية", c2Title: "حاسبة زاوية الميل والـ Offset", c2Desc: "إيجاد الإزاحة العمودية والمسافة المائلة الفعلية بناءً على زاوية الميل.",
                 tag3: "هندسة خطوط الأنابيب", c3Title: "حاسبة الانحناءات الهندسية (Bends)", c3Desc: "حساب طول القوس، زاوية الانحراف، وأطوال المماسات بدقة متناهية.",
@@ -197,6 +247,14 @@
             document.getElementById('heroTitle').innerText = t.heroTitle;
             document.getElementById('heroSubtitle').innerText = t.heroSubtitle;
             document.getElementById('searchInput').placeholder = t.searchPlaceholder;
+            
+            // تحديث أسماء التصنيفات
+            document.getElementById('catAll').innerText = t.catAll;
+            document.getElementById('catSurvey').innerText = t.catSurvey;
+            document.getElementById('catPipeline').innerText = t.catPipeline;
+            document.getElementById('catCivil').innerText = t.catCivil;
+
+            // تحديث البطاقات
             document.getElementById('tag1').innerText = t.tag1; document.getElementById('c1Title').innerText = t.c1Title; document.getElementById('c1Desc').innerText = t.c1Desc;
             document.getElementById('tag2').innerText = t.tag2; document.getElementById('c2Title').innerText = t.c2Title; document.getElementById('c2Desc').innerText = t.c2Desc;
             document.getElementById('tag3').innerText = t.tag3; document.getElementById('c3Title').innerText = t.c3Title; document.getElementById('c3Desc').innerText = t.c3Desc;
