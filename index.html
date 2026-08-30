@@ -5,87 +5,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title id="pageTitle">منصة الأدوات الهندسية الذكية</title>
     <style>
-        body { 
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; 
-            background-color: #f4f7f6; 
-            display: flex; 
-            justify-content: center; 
-            align-items: center; 
-            min-height: 100vh; 
-            margin: 0; 
-            padding: 20px;
-        }
-        .calculator { 
-            background: white; 
-            padding: 25px; 
-            border-radius: 12px; 
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
-            width: 100%; 
-            max-width: 480px; 
-        }
-        .lang-selector {
-            text-align: left;
-            margin-bottom: 15px;
-        }
-        select {
-            padding: 5px 10px;
-            border-radius: 5px;
-            border: 1px solid #bdc3c7;
-            font-size: 14px;
-            background: #fff;
-            cursor: pointer;
-        }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f4f7f6; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        .calculator { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 480px; }
+        .lang-selector { text-align: left; margin-bottom: 15px; }
+        select { padding: 5px 10px; border-radius: 5px; border: 1px solid #bdc3c7; font-size: 14px; background: #fff; cursor: pointer; }
         h2 { text-align: center; color: #2c3e50; font-size: 19px; margin-bottom: 15px; }
         .input-group { margin-bottom: 12px; }
         label { display: block; margin-bottom: 5px; color: #34495e; font-weight: bold; font-size: 13px;}
-        input { 
-            width: 100%; 
-            padding: 9px; 
-            border: 1px solid #bdc3c7; 
-            border-radius: 6px; 
-            font-size: 15px; 
-            box-sizing: border-box; 
-        }
+        input { width: 100%; padding: 9px; border: 1px solid #bdc3c7; border-radius: 6px; font-size: 15px; box-sizing: border-box; }
         input:focus { border-color: #3498db; outline: none; box-shadow: 0 0 5px rgba(52, 152, 219, 0.3); }
-        .result-box { 
-            background: #e8f8f5; 
-            padding: 12px; 
-            border-radius: 6px; 
-            margin-top: 15px; 
-            text-align: center; 
-            border: 1px solid #1abc9c; 
-        }
+        .result-box { background: #e8f8f5; padding: 12px; border-radius: 6px; margin-top: 15px; text-align: center; border: 1px solid #1abc9c; }
         .result-text { font-size: 15px; color: #16a085; font-weight: bold; margin: 5px 0; }
-        .ai-section {
-            margin-top: 20px;
-            border-top: 1px solid #ecf0f1;
-            padding-top: 15px;
-        }
-        button.ai-btn {
-            background-color: #3498db;
-            color: white;
-            border: none;
-            padding: 10px;
-            width: 100%;
-            border-radius: 6px;
-            font-size: 15px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: 0.3s;
-        }
+        .ai-section { margin-top: 20px; border-top: 1px solid #ecf0f1; padding-top: 15px; }
+        button.ai-btn { background-color: #3498db; color: white; border: none; padding: 10px; width: 100%; border-radius: 6px; font-size: 15px; font-weight: bold; cursor: pointer; }
         button.ai-btn:hover { background-color: #2980b9; }
-        .ai-response {
-            background: #f8f9f9;
-            border: 1px solid #bdc3c7;
-            padding: 10px;
-            border-radius: 6px;
-            margin-top: 10px;
-            font-size: 14px;
-            color: #2c3e50;
-            min-height: 40px;
-            white-space: pre-wrap;
-            text-align: right;
-        }
+        .ai-response { background: #f8f9f9; border: 1px solid #bdc3c7; padding: 10px; border-radius: 6px; margin-top: 10px; font-size: 14px; color: #2c3e50; min-height: 40px; white-space: pre-wrap; text-align: right; }
         .divider { margin: 25px 0; border: 0; border-top: 2px dashed #e0e0e0; }
     </style>
 </head>
@@ -100,7 +34,6 @@
             </select>
         </div>
 
-        <!-- الحاسبة الأولى: فرق الارتفاع والانحدار -->
         <h2 id="calcTitle1">📏 1. حاسبة فرق الارتفاع والانحدار</h2>
         
         <div class="input-group">
@@ -125,7 +58,6 @@
 
         <hr class="divider">
 
-        <!-- الحاسبة الثانية: حساب طول الوتر أو المسافة المائلة (Hypoténuse) -->
         <h2 id="calcTitle2">📐 2. حاسبة المسافة المائلة والوتر</h2>
         
         <div class="input-group">
@@ -142,7 +74,6 @@
             <p class="result-text"><span id="textHypot">المسافة المائلة الفعليّة:</span> <span id="hypotResult">0</span> <span id="unitM2">متر</span></p>
         </div>
 
-        <!-- قسم الذكاء الاصطناعي -->
         <div class="ai-section">
             <label id="aiLabel" style="margin-bottom: 8px;">استشر المساعد الذكي:</label>
             <button class="ai-btn" id="aiButton" onclick="askGeminiAI()">✨ تحليل هندسي متكامل بواسطة Gemini</button>
@@ -153,7 +84,6 @@
     <script>
         const translations = {
             ar: {
-                title: "منصة الأدوات الهندسية الذكية",
                 calcTitle1: "📏 1. حاسبة فرق الارتفاع والانحدار",
                 labelA: "الارتفاع عند النقطة أ (متر):",
                 labelB: "الارتفاع عند النقطة ب (متر):",
@@ -171,7 +101,6 @@
                 dir: "rtl"
             },
             en: {
-                title: "Smart Engineering Tools Platform",
                 calcTitle1: "📏 1. Elevation Difference & Slope",
                 labelA: "Elevation at Point A (meters):",
                 labelB: "Elevation at Point B (meters):",
@@ -189,7 +118,6 @@
                 dir: "ltr"
             },
             fr: {
-                title: "Plateforme d'Outils d'Ingénierie Intelligents",
                 calcTitle1: "📏 1. Dénivelée et Pente",
                 labelA: "Altitude au Point A (mètres) :",
                 labelB: "Altitude au Point B (mètres) :",
@@ -211,10 +139,8 @@
         function changeLanguage() {
             let lang = document.getElementById('langSelect').value;
             let t = translations[lang];
-
             document.getElementById('htmlTag').setAttribute('lang', lang);
             document.getElementById('htmlTag').setAttribute('dir', t.dir);
-            document.getElementById('pageTitle').innerText = t.title;
             document.getElementById('calcTitle1').innerText = t.calcTitle1;
             document.getElementById('labelA').innerText = t.labelA;
             document.getElementById('labelB').innerText = t.labelB;
@@ -235,26 +161,18 @@
             let elevA = parseFloat(document.getElementById('elevA').value) || 0;
             let elevB = parseFloat(document.getElementById('elevB').value) || 0;
             let distance = parseFloat(document.getElementById('distance').value) || 0;
-
             let denivelee = Math.abs(elevA - elevB);
             document.getElementById('deniveleeResult').innerText = denivelee.toFixed(2);
-            document.getElementById('vertDist').value = denivelee.toFixed(2); // ربط تلقائي للحاسبة الثانية
-
-            let slope = 0;
-            if (distance > 0) {
-                slope = (denivelee / distance) * 100;
-                document.getElementById('slopeResult').innerText = slope.toFixed(2);
-                document.getElementById('horizDist').value = distance; // ربط تلقائي
-            } else {
-                document.getElementById('slopeResult').innerText = "0";
-            }
+            document.getElementById('vertDist').value = denivelee.toFixed(2);
+            let slope = distance > 0 ? (denivelee / distance) * 100 : 0;
+            document.getElementById('slopeResult').innerText = slope.toFixed(2);
+            document.getElementById('horizDist').value = distance;
             calculateHypotenuse();
         }
 
         function calculateHypotenuse() {
             let horiz = parseFloat(document.getElementById('horizDist').value) || 0;
             let vert = parseFloat(document.getElementById('vertDist').value) || 0;
-
             let hypotenuse = Math.sqrt((horiz * horiz) + (vert * vert));
             document.getElementById('hypotResult').innerText = hypotenuse.toFixed(2);
         }
@@ -265,20 +183,17 @@
             let slope = document.getElementById('slopeResult').innerText;
             let hypot = document.getElementById('hypotResult').innerText;
             let responseBox = document.getElementById('aiResponse');
-
             responseBox.innerText = translations[lang].aiWait;
-
             setTimeout(() => {
                 if (lang === 'ar') {
-                    responseBox.innerText = `💡 تحليل هندسي متقدم:\n- فرق الارتفاع: ${deniv} متر\n- نسبة الانحدار: ${slope}%\n- طول المسار المائل الفعلي (الوتر): ${hypot} متر.\nالنتيجة مطابقة للمعايير الحقلية وجاهزة للتقرير الهندسي.`;
+                    responseBox.innerText = `💡 تحليل هندسي متقدم:\n- فرق الارتفاع: ${deniv} متر\n- نسبة الانحدار: ${slope}%\n- طول المسار الفعلي: ${hypot} متر. النتيجة مطابقة للمعايير.`;
                 } else if (lang === 'fr') {
-                    responseBox.innerText = `💡 Analyse technique avancée :\n- Dénivelée : ${deniv}m\n- Pente : ${slope}%\n- Longueur inclinée réelle : ${hypot}m.\nConforme aux exigences du projet.`;
+                    responseBox.innerText = `💡 Analyse technique :\n- Dénivelée : ${deniv}m\n- Pente : ${slope}%\n- Longueur inclinée : ${hypot}m. Conforme aux exigences.`;
                 } else {
-                    responseBox.innerText = `💡 Advanced Engineering Analysis:\n- Elevation Diff: ${deniv}m\n- Slope: ${slope}%\n- Actual Slope Length: ${hypot}m.\nApproved for field reporting.`;
+                    responseBox.innerText = `💡 Advanced Analysis:\n- Elevation Diff: ${deniv}m\n- Slope: ${slope}%\n- Slope Length: ${hypot}m. Approved.`;
                 }
             }, 800);
         }
     </script>
-
 </body>
 </html>
