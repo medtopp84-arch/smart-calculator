@@ -9,7 +9,7 @@
         .calculator { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); width: 100%; max-width: 480px; }
         .lang-selector { text-align: left; margin-bottom: 15px; }
         select { padding: 5px 10px; border-radius: 5px; border: 1px solid #bdc3c7; font-size: 14px; background: #fff; cursor: pointer; }
-        h2 { text-align: center; color: #2c3e50; font-size: 19px; margin-bottom: 15px; }
+        h2 { text-align: center; color: #2c3e50; font-size: 18px; margin-bottom: 15px; }
         .input-group { margin-bottom: 12px; }
         label { display: block; margin-bottom: 5px; color: #34495e; font-weight: bold; font-size: 13px;}
         input { width: 100%; padding: 9px; border: 1px solid #bdc3c7; border-radius: 6px; font-size: 15px; box-sizing: border-box; }
@@ -34,23 +34,20 @@
             </select>
         </div>
 
+        <!-- الحاسبة الأولى -->
         <h2 id="calcTitle1">📏 1. حاسبة فرق الارتفاع والانحدار</h2>
-        
         <div class="input-group">
             <label id="labelA">الارتفاع عند النقطة أ (متر):</label>
             <input type="number" id="elevA" placeholder="مثال: 150" oninput="calculateSlope()">
         </div>
-        
         <div class="input-group">
             <label id="labelB">الارتفاع عند النقطة ب (متر):</label>
             <input type="number" id="elevB" placeholder="مثال: 111" oninput="calculateSlope()">
         </div>
-        
         <div class="input-group">
             <label id="labelDist">المسافة الأفقية بين النقطتين (متر):</label>
             <input type="number" id="distance" placeholder="مثال: 500" oninput="calculateSlope()">
         </div>
-
         <div class="result-box">
             <p class="result-text"><span id="textDeniv">فرق الارتفاع:</span> <span id="deniveleeResult">0</span> <span id="unitM">متر</span></p>
             <p class="result-text"><span id="textSlope">نسبة الانحدار:</span> <span id="slopeResult">0</span> %</p>
@@ -58,22 +55,22 @@
 
         <hr class="divider">
 
-        <h2 id="calcTitle2">📐 2. حاسبة المسافة المائلة والوتر</h2>
-        
+        <!-- الحاسبة الثانية: Angle & Offset / المسافة المائلة -->
+        <h2 id="calcTitle2">📐 2. حاسبة زاوية الميل والمسافة المائلة (Angle & Offset)</h2>
         <div class="input-group">
             <label id="labelHoriz">المسافة الأفقية (متر):</label>
-            <input type="number" id="horizDist" placeholder="مثال: 100" oninput="calculateHypotenuse()">
+            <input type="number" id="horizDist" placeholder="مثال: 500" oninput="calculateOffset()">
         </div>
-
         <div class="input-group">
-            <label id="labelVert">فرق الارتفاع الرأسي (متر):</label>
-            <input type="number" id="vertDist" placeholder="مثال: 39" oninput="calculateHypotenuse()">
+            <label id="labelAngle">زاوية الميل (بالدرجات):</label>
+            <input type="number" id="angleDeg" placeholder="مثال: 5" oninput="calculateOffset()">
         </div>
-
         <div class="result-box">
-            <p class="result-text"><span id="textHypot">المسافة المائلة الفعليّة:</span> <span id="hypotResult">0</span> <span id="unitM2">متر</span></p>
+            <p class="result-text"><span id="textOffset">الإزاحة العمودية (Offset):</span> <span id="offsetResult">0</span> <span id="unitM2">متر</span></p>
+            <p class="result-text"><span id="textHypot">المسافة المائلة الفعلية:</span> <span id="hypotResult">0</span> <span id="unitM3">متر</span></p>
         </div>
 
+        <!-- قسم الذكاء الاصطناعي -->
         <div class="ai-section">
             <label id="aiLabel" style="margin-bottom: 8px;">استشر المساعد الذكي:</label>
             <button class="ai-btn" id="aiButton" onclick="askGeminiAI()">✨ تحليل هندسي متكامل بواسطة Gemini</button>
@@ -91,10 +88,11 @@
                 textDeniv: "فرق الارتفاع:",
                 textSlope: "نسبة الانحدار:",
                 unitM: "متر",
-                calcTitle2: "📐 2. حاسبة المسافة المائلة والوتر",
+                calcTitle2: "📐 2. حاسبة زاوية الميل والمسافة المائلة (Angle & Offset)",
                 labelHoriz: "المسافة الأفقية (متر):",
-                labelVert: "فرق الارتفاع الرأسي (متر):",
-                textHypot: "المسافة المائلة الفعليّة:",
+                labelAngle: "زاوية الميل (بالدرجات):",
+                textOffset: "الإزاحة العمودية (Offset):",
+                textHypot: "المسافة المائلة الفعلية:",
                 aiLabel: "استشر المساعد الذكي:",
                 aiBtn: "✨ تحليل هندسي متكامل بواسطة Gemini",
                 aiWait: "جاري الاتصال بـ Gemini لتحليل الحسابات...",
@@ -108,9 +106,10 @@
                 textDeniv: "Elevation Diff:",
                 textSlope: "Slope:",
                 unitM: "m",
-                calcTitle2: "📐 2. Slope Distance & Hypotenuse",
+                calcTitle2: "📐 2. Angle & Offset Calculator",
                 labelHoriz: "Horizontal Distance (m):",
-                labelVert: "Vertical Height Diff (m):",
+                labelAngle: "Slope Angle (Degrees):",
+                textOffset: "Vertical Offset:",
                 textHypot: "Actual Slope Distance:",
                 aiLabel: "Ask AI Assistant:",
                 aiBtn: "✨ Comprehensive AI Engineering Analysis",
@@ -125,9 +124,10 @@
                 textDeniv: "Dénivelée :",
                 textSlope: "Pente :",
                 unitM: "m",
-                calcTitle2: "📐 2. Distance Inclinée & Hypothénuse",
+                calcTitle2: "📐 2. Calculateur Angle & Offset (Dénivellée)",
                 labelHoriz: "Distance horizontale (m) :",
-                labelVert: "Dénivelée verticale (m) :",
+                labelAngle: "Angle d'inclinaison (Degrés) :",
+                textOffset: "Offset Vertical :",
                 textHypot: "Distance Inclinée Réelle :",
                 aiLabel: "Assistant IA :",
                 aiBtn: "✨ Analyse technique complète avec Gemini",
@@ -148,11 +148,13 @@
             document.getElementById('textDeniv').innerText = t.textDeniv;
             document.getElementById('textSlope').innerText = t.textSlope;
             document.getElementById('unitM').innerText = t.unitM;
+            document.getElementById('unitM2').innerText = t.unitM;
+            document.getElementById('unitM3').innerText = t.unitM;
             document.getElementById('calcTitle2').innerText = t.calcTitle2;
             document.getElementById('labelHoriz').innerText = t.labelHoriz;
-            document.getElementById('labelVert').innerText = t.labelVert;
+            document.getElementById('labelAngle').innerText = t.labelAngle;
+            document.getElementById('textOffset').innerText = t.textOffset;
             document.getElementById('textHypot').innerText = t.textHypot;
-            document.getElementById('unitM2').innerText = t.unitM;
             document.getElementById('aiLabel').innerText = t.aiLabel;
             document.getElementById('aiButton').innerText = t.aiBtn;
         }
@@ -163,17 +165,29 @@
             let distance = parseFloat(document.getElementById('distance').value) || 0;
             let denivelee = Math.abs(elevA - elevB);
             document.getElementById('deniveleeResult').innerText = denivelee.toFixed(2);
-            document.getElementById('vertDist').value = denivelee.toFixed(2);
             let slope = distance > 0 ? (denivelee / distance) * 100 : 0;
             document.getElementById('slopeResult').innerText = slope.toFixed(2);
-            document.getElementById('horizDist').value = distance;
-            calculateHypotenuse();
         }
 
-        function calculateHypotenuse() {
+        function calculateOffset() {
             let horiz = parseFloat(document.getElementById('horizDist').value) || 0;
-            let vert = parseFloat(document.getElementById('vertDist').value) || 0;
-            let hypotenuse = Math.sqrt((horiz * horiz) + (vert * vert));
+            let angleDeg = parseFloat(document.getElementById('angleDeg').value) || 0;
+            
+            // تحويل الزاوية من درجات إلى راديان لحساب الدوال المثلثية
+            let angleRad = angleDeg * (Math.PI / 180);
+            
+            // حساب الـ Offset (الارتفاع الرأسي) باستخدام الظل (tan)
+            let offset = horiz * Math.tan(angleRad);
+            
+            // حساب المسافة المائلة (Hypotenuse) باستخدام جتا (cos) أو نظرية فيثاغورس
+            let hypotenuse = horiz / Math.cos(angleRad);
+
+            if (horiz === 0 || isNaN(hypotenuse)) {
+                hypotenuse = 0;
+                offset = 0;
+            }
+
+            document.getElementById('offsetResult').innerText = offset.toFixed(2);
             document.getElementById('hypotResult').innerText = hypotenuse.toFixed(2);
         }
 
@@ -181,16 +195,18 @@
             let lang = document.getElementById('langSelect').value;
             let deniv = document.getElementById('deniveleeResult').innerText;
             let slope = document.getElementById('slopeResult').innerText;
+            let offset = document.getElementById('offsetResult').innerText;
             let hypot = document.getElementById('hypotResult').innerText;
             let responseBox = document.getElementById('aiResponse');
+            
             responseBox.innerText = translations[lang].aiWait;
             setTimeout(() => {
                 if (lang === 'ar') {
-                    responseBox.innerText = `💡 تحليل هندسي متقدم:\n- فرق الارتفاع: ${deniv} متر\n- نسبة الانحدار: ${slope}%\n- طول المسار الفعلي: ${hypot} متر. النتيجة مطابقة للمعايير.`;
+                    responseBox.innerText = `💡 تحليل هندسي متقدم (Angle & Offset):\n- فرق الارتفاع: ${deniv} م (${slope}%)\n- الإزاحة العمودية: ${offset} م\n- المسافة المائلة: ${hypot} م.\nجاهز لتدوين البيانات الميدانية.`;
                 } else if (lang === 'fr') {
-                    responseBox.innerText = `💡 Analyse technique :\n- Dénivelée : ${deniv}m\n- Pente : ${slope}%\n- Longueur inclinée : ${hypot}m. Conforme aux exigences.`;
+                    responseBox.innerText = `💡 Analyse technique (Angle & Offset) :\n- Dénivelée : ${deniv}m (${slope}%)\n- Offset vertical : ${offset}m\n- Distance inclinée : ${hypot}m. Conforme.`;
                 } else {
-                    responseBox.innerText = `💡 Advanced Analysis:\n- Elevation Diff: ${deniv}m\n- Slope: ${slope}%\n- Slope Length: ${hypot}m. Approved.`;
+                    responseBox.innerText = `💡 Advanced Analysis (Angle & Offset):\n- Elevation Diff: ${deniv}m (${slope}%)\n- Vertical Offset: ${offset}m\n- Slope Distance: ${hypot}m. Approved.`;
                 }
             }, 800);
         }
