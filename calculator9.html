@@ -13,9 +13,11 @@
         .content-section h2 { color: #2563eb; margin-top: 0; font-size: 22px; }
         .content-section p { color: #475569; font-size: 15px; }
         
-        /* تنسيق صندوق المخطط الهندسي */
-        .diagram-box { background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 10px; padding: 15px; text-align: center; margin: 20px 0; }
-        .diagram-box svg { max-width: 100%; height: auto; }
+        /* تصميم مرئي هندسي واضح ومضمون بالـ CSS */
+        .visual-diagram { background: #f0fdf4; border: 2px dashed #22c55e; border-radius: 10px; padding: 20px; text-align: center; margin: 20px 0; }
+        .tank-visual { width: 120px; height: 100px; background: #e0f2fe; border: 3px solid #0284c7; border-top: none; margin: 0 auto; position: relative; border-radius: 0 0 10px 10px; }
+        .water-level { position: absolute; bottom: 0; width: 100%; height: 75%; background: rgba(37, 99, 235, 0.2); border-top: 2px solid #2563eb; }
+        .diagram-label { font-size: 13px; font-weight: bold; color: #1e293b; margin-top: 8px; }
 
         .formula-box { background: #eff6ff; border-left: 4px solid #2563eb; padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: #1d4ed8; border-radius: 4px; text-align: left; }
         [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid #2563eb; text-align: right; }
@@ -46,25 +48,17 @@
 <body>
 
     <div class="page-container">
-        <!-- الجانب الأيسر: الشرح العلمي + المخطط الهندسي -->
+        <!-- الجانب الأيسر: الشرح العلمي مع المخطط المرئي المضمون -->
         <div class="content-section">
             <h2 id="secTitle">About Hydrostatic Pressure & Engineering Principles</h2>
             <p id="secP1">Hydrostatic pressure is the pressure exerted by a fluid at rest due to the force of gravity. It increases in direct proportion to the depth measured from the surface.</p>
             
-            <!-- المخطط الهندسي المرئي (تم إضافته هنا بوضوح) -->
-            <div class="diagram-box">
-                <svg width="260" height="160" viewBox="0 0 260 160">
-                    <rect x="60" y="15" width="140" height="130" fill="#e0f2fe" stroke="#0284c7" stroke-width="2" rx="4"/>
-                    <line x1="60" y1="45" x2="200" y2="45" stroke="#0284c7" stroke-dasharray="4" stroke-width="2"/>
-                    <text x="130" y="37" font-size="10" fill="#0369a1" text-anchor="middle">Liquid Surface (h = 0)</text>
-                    <defs>
-                        <marker id="arr" markerWidth="8" markerHeight="8" refX="0" refY="3" orient="auto" markerUnits="strokeWidth">
-                          <path d="M0,0 L0,6 L8,3 z" fill="#2563eb"/>
-                        </marker>
-                    </defs>
-                    <line x1="130" y1="45" x2="130" y2="130" stroke="#2563eb" stroke-width="2.5" marker-end="url(#arr)"/>
-                    <text x="145" y="90" font-size="11" fill="#2563eb" font-weight="bold">Depth (h)</text>
-                </svg>
+            <!-- مخطط مرئي هندسي واضح -->
+            <div class="visual-diagram">
+                <div class="tank-visual">
+                    <div class="water-level"></div>
+                </div>
+                <div class="diagram-label" id="diagramLabelText">💧 Fluid Column & Depth Pressure (h)</div>
             </div>
 
             <div class="formula-box">
@@ -151,12 +145,13 @@
                 calcTitle: "💧 Hydrostatic Pressure Calculator",
                 labelHeight: "Liquid Height / Depth (meters):",
                 labelDensity: "Fluid Density (kg/m³, Water = 1000):",
-                textPressureKpa: "Pressure (kPa):",
+                textPressureKpx: "Pressure (kPa):",
                 textPressureBar: "Pressure (Bar):",
                 secTitle: "About Hydrostatic Pressure & Engineering Principles",
                 secP1: "Hydrostatic pressure is the pressure exerted by a fluid at rest due to the force of gravity. It increases in direct proportion to the depth measured from the surface.",
                 secP2: "Where:",
                 secP3: "Engineers use this calculation extensively when designing pipelines, water storage tanks, and dams.",
+                diagramLabelText: "💧 Fluid Column & Depth Pressure (h)",
                 dir: "ltr"
             },
             fr: {
@@ -164,12 +159,13 @@
                 calcTitle: "💧 Calculateur de Pression Hydrostatique",
                 labelHeight: "Hauteur / Profondeur du Liquide (mètres) :",
                 labelDensity: "Densité du Fluide (kg/m³, Eau = 1000) :",
-                textPressureKpa: "Pression (kPa) :",
+                textPressureKpx: "Pression (kPa) :",
                 textPressureBar: "Pression (Bar) :",
                 secTitle: "À propos de la Pression Hydrostatique",
                 secP1: "La pression hydrostatique est la pression exercée par un fluide au repos en raison de la gravité. Elle augmente proportionnellement à la profondeur.",
                 secP2: "Où :",
                 secP3: "Les ingénieurs utilisent ce calcul pour concevoir des pipelines, des réservoirs d'eau et des barrages.",
+                diagramLabelText: "💧Colonne de Fluide & Pression de Profondeur (h)",
                 dir: "ltr"
             },
             ar: {
@@ -183,6 +179,7 @@
                 secP1: "الضغط الهيدروستاتيكي هو الضغط الذي يمارسه سائل في حالة سكون بسبب قوة الجاذبية. يزداد هذا الضغط طردياً مع زيادة العمق المقاس من السطح.",
                 secP2: "حيث أن:",
                 secP3: "يستخدم المهندسون هذه الحسابات بشكل مكثف عند تصميم خطوط الأنابيب، خزانات المياه، والسدود لضمان السلامة الإنشائية.",
+                diagramLabelText: "💧 عمود السائل وضغط العمق (h)",
                 dir: "rtl"
             }
         };
@@ -196,12 +193,13 @@
             document.getElementById('calcTitle').innerText = t.calcTitle;
             document.getElementById('labelHeight').innerText = t.labelHeight;
             document.getElementById('labelDensity').innerText = t.labelDensity;
-            document.getElementById('textPressureKpa').innerText = t.textPressureKpa;
+            document.getElementById('textPressureKpa').innerText = t.textPressureKpa || "الضغط (كيلوباسكال):";
             document.getElementById('textPressureBar').innerText = t.textPressureBar;
             document.getElementById('secTitle').innerText = t.secTitle;
             document.getElementById('secP1').innerText = t.secP1;
             document.getElementById('secP2').innerText = t.secP2;
             document.getElementById('secP3').innerText = t.secP3;
+            document.getElementById('diagramLabelText').innerText = t.diagramLabelText;
         }
 
         function calculatePressure() {
