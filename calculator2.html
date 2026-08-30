@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="htmlTag">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Angle & Offset Calculator</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        .calculator { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); width: 100%; max-width: 520px; }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        a.back-btn { text-decoration: none; color: #2563eb; font-weight: bold; font-size: 14px; }
+        select { padding: 5px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 14px; background: #fff; cursor: pointer; }
+        h2 { text-align: center; color: #1e293b; font-size: 18px; margin-bottom: 20px; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 6px; color: #475569; font-weight: bold; font-size: 13px;}
+        input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; box-sizing: border-box; }
+        input:focus { border-color: #2563eb; outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+        .result-box { background: #f0fdf4; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid #bbf7d0; }
+        .result-text { font-size: 15px; color: #15803d; font-weight: bold; margin: 6px 0; }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="top-bar">
+            <a href="index.html" class="back-btn" id="backText">← Back to Directory</a>
+            <select id="langSelect" onchange="changeLanguage()">
+                <option value="en">English 🇬🇧</option>
+                <option value="fr">Français 🇫🇷</option>
+                <option value="ar">العربية 🇸🇦</option>
+            </select>
+        </div>
+
+        <h2 id="calcTitle">📐 Angle & Offset Calculator</h2>
+        <div class="input-group">
+            <label id="labelHoriz">Horizontal Distance (meters):</label>
+            <input type="number" id="horizDist" placeholder="e.g. 500" oninput="calculateOffset()">
+        </div>
+        <div class="input-group">
+            <label id="labelAngle">Slope Angle (Degrees):</label>
+            <input type="number" id="angleDeg" placeholder="e.g. 5" oninput="calculateOffset()">
+        </div>
+        <div class="result-box">
+            <p class="result-text"><span id="textOffset">Vertical Offset:</span> <span id="offsetResult">0.00</span> <span id="unitM">m</span></p>
+            <p class="result-text"><span id="textHypot">Actual Slope Distance:</span> <span id="hypotResult">0.00</span> <span id="unitM2">m</span></p>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                backText: "← Back to Directory",
+                calcTitle: "📐 Angle & Offset Calculator",
+                labelHoriz: "Horizontal Distance (meters):",
+                labelAngle: "Slope Angle (Degrees):",
+                textOffset: "Vertical Offset:",
+                textHypot: "Actual Slope Distance:",
+                unitM: "m",
+                dir: "ltr"
+            },
+            fr: {
+                backText: "← Retour au répertoire",
+                calcTitle: "📐 Calculateur Angle & Offset",
+                labelHoriz: "Distance horizontale (mètres) :",
+                labelAngle: "Angle d'inclinaison (Degrés) :",
+                textOffset: "Offset Vertical :",
+                textHypot: "Distance Inclinée Réelle :",
+                unitM: "m",
+                dir: "ltr"
+            },
+            ar: {
+                backText: "← العودة إلى الدليل",
+                calcTitle: "📐 حاسبة زاوية الميل والـ Offset",
+                labelHoriz: "المسافة الأفقية (متر):",
+                labelAngle: "زاوية الميل (بالدرجات):",
+                textOffset: "الإزاحة العمودية (Offset):",
+                textHypot: "المسافة المائلة الفعلية:",
+                unitM: "متر",
+                dir: "rtl"
+            }
+        };
+
+        function changeLanguage() {
+            let lang = document.getElementById('langSelect').value;
+            let t = translations[lang];
+            document.getElementById('htmlTag').setAttribute('lang', lang);
+            document.getElementById('htmlTag').setAttribute('dir', t.dir);
+            document.getElementById('backText').innerText = t.backText;
+            document.getElementById('calcTitle').innerText = t.calcTitle;
+            document.getElementById('labelHoriz').innerText = t.labelHoriz;
+            document.getElementById('labelAngle').innerText = t.labelAngle;
+            document.getElementById('textOffset').innerText = t.textOffset;
+            document.getElementById('textHypot').innerText = t.textHypot;
+            document.getElementById('unitM').innerText = t.unitM;
+            document.getElementById('unitM2').innerText = t.unitM;
+        }
+
+        function calculateOffset() {
+            let horiz = parseFloat(document.getElementById('horizDist').value) || 0;
+            let angleDeg = parseFloat(document.getElementById('angleDeg').value) || 0;
+            let angleRad = angleDeg * (Math.PI / 180);
+            let offset = horiz * Math.tan(angleRad);
+            let hypotenuse = horiz / Math.cos(angleRad);
+
+            if (horiz === 0 || isNaN(hypotenuse)) {
+                hypotenuse = 0;
+                offset = 0;
+            }
+
+            document.getElementById('offsetResult').innerText = offset.toFixed(2);
+            document.getElementById('hypotResult').innerText = hypotenuse.toFixed(2);
+        }
+    </script>
+</body>
+</html>
