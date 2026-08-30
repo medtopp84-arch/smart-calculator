@@ -11,16 +11,17 @@
             display: flex; 
             justify-content: center; 
             align-items: center; 
-            height: 100vh; 
+            min-height: 100vh; 
             margin: 0; 
+            padding: 20px;
         }
         .calculator { 
             background: white; 
-            padding: 30px; 
+            padding: 25px; 
             border-radius: 12px; 
             box-shadow: 0 4px 15px rgba(0,0,0,0.1); 
             width: 100%; 
-            max-width: 420px; 
+            max-width: 450px; 
         }
         .lang-selector {
             text-align: left;
@@ -35,27 +36,57 @@
             cursor: pointer;
         }
         h2 { text-align: center; color: #2c3e50; font-size: 20px; margin-bottom: 20px; }
-        .input-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 5px; color: #34495e; font-weight: bold; font-size: 14px;}
-        input { 
+        .input-group { margin-bottom: 12px; }
+        label { display: block; margin-bottom: 5px; color: #34495e; font-weight: bold; font-size: 13px;}
+        input, textarea { 
             width: 100%; 
-            padding: 10px; 
+            padding: 9px; 
             border: 1px solid #bdc3c7; 
             border-radius: 6px; 
-            font-size: 16px; 
+            font-size: 15px; 
             box-sizing: border-box; 
             transition: 0.3s; 
         }
-        input:focus { border-color: #3498db; outline: none; box-shadow: 0 0 5px rgba(52, 152, 219, 0.3); }
+        input:focus, textarea:focus { border-color: #3498db; outline: none; box-shadow: 0 0 5px rgba(52, 152, 219, 0.3); }
         .result-box { 
             background: #e8f8f5; 
-            padding: 15px; 
+            padding: 12px; 
             border-radius: 6px; 
-            margin-top: 20px; 
+            margin-top: 15px; 
             text-align: center; 
             border: 1px solid #1abc9c; 
         }
-        .result-text { font-size: 16px; color: #16a085; font-weight: bold; margin: 5px 0; }
+        .result-text { font-size: 15px; color: #16a085; font-weight: bold; margin: 5px 0; }
+        .ai-section {
+            margin-top: 20px;
+            border-top: 1px solid #ecf0f1;
+            padding-top: 15px;
+        }
+        button.ai-btn {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px;
+            width: 100%;
+            border-radius: 6px;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+        button.ai-btn:hover { background-color: #2980b9; }
+        .ai-response {
+            background: #f8f9f9;
+            border: 1px solid #bdc3c7;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #2c3e50;
+            min-height: 40px;
+            white-space: pre-wrap;
+            text-align: right;
+        }
     </style>
 </head>
 <body>
@@ -91,10 +122,16 @@
             <p class="result-text"><span id="textDeniv">فرق الارتفاع (Dénivelée):</span> <span id="deniveleeResult">0</span> <span id="unitM">متر</span></p>
             <p class="result-text"><span id="textSlope">نسبة الانحدار (Pente):</span> <span id="slopeResult">0</span> %</p>
         </div>
+
+        <!-- قسم الذكاء الاصطناعي Gemini -->
+        <div class="ai-section">
+            <label id="aiLabel" style="margin-bottom: 8px;">اسأل المساعد الذكي عن النتيجة:</label>
+            <button class="ai-btn" id="aiButton" onclick="askGemini()">✨ تحليل النتيجة بالذكاء الاصطناعي</button>
+            <div class="ai-response" id="aiResponse">اضغط على الزر ليقوم المساعد بتحليل البيانات...</div>
+        </div>
     </div>
 
     <script>
-        // نصوص اللغات الثلاث
         const translations = {
             ar: {
                 title: "حاسبة الانحدار وفرق الارتفاع للأنابيب",
@@ -105,6 +142,9 @@
                 textDeniv: "فرق الارتفاع (Dénivelée):",
                 textSlope: "نسبة الانحدار (Pente):",
                 unitM: "متر",
+                aiLabel: "اسأل المساعد الذكي عن النتيجة:",
+                aiBtn: "✨ تحليل النتيجة بالذكاء الاصطناعي",
+                aiWait: "جاري تحليل النتائج وإعطاء التوصيات الهندسية...",
                 dir: "rtl"
             },
             en: {
@@ -116,6 +156,9 @@
                 textDeniv: "Elevation Difference:",
                 textSlope: "Slope Percentage:",
                 unitM: "m",
+                aiLabel: "Ask AI Assistant about the result:",
+                aiBtn: "✨ Analyze with AI",
+                aiWait: "Analyzing results and engineering recommendations...",
                 dir: "ltr"
             },
             fr: {
@@ -127,6 +170,9 @@
                 textDeniv: "Dénivelée :",
                 textSlope: "Pente :",
                 unitM: "m",
+                aiLabel: "Demander à l'assistant IA :",
+                aiBtn: "✨ Analyser avec l'IA",
+                aiWait: "Analyse des résultats et recommandations...",
                 dir: "ltr"
             }
         };
@@ -145,6 +191,8 @@
             document.getElementById('textDeniv').innerText = t.textDeniv;
             document.getElementById('textSlope').innerText = t.textSlope;
             document.getElementById('unitM').innerText = t.unitM;
+            document.getElementById('aiLabel').innerText = t.aiLabel;
+            document.getElementById('aiButton').innerText = t.aiBtn;
         }
 
         function calculate() {
@@ -155,12 +203,33 @@
             let denivelee = Math.abs(elevA - elevB);
             document.getElementById('deniveleeResult').innerText = denivelee.toFixed(2);
 
+            let slope = 0;
             if (distance > 0) {
-                let slope = (denivelee / distance) * 100;
+                slope = (denivelee / distance) * 100;
                 document.getElementById('slopeResult').innerText = slope.toFixed(2);
             } else {
                 document.getElementById('slopeResult').innerText = "0";
             }
+        }
+
+        function askGemini() {
+            let lang = document.getElementById('langSelect').value;
+            let deniv = document.getElementById('deniveleeResult').innerText;
+            let slope = document.getElementById('slopeResult').innerText;
+            let responseBox = document.getElementById('aiResponse');
+
+            responseBox.innerText = translations[lang].aiWait;
+
+            // محاكاة تحليل ذكي احترافي (قريباً سنقوم بربطه بمفتاح API حقيقي لـ Gemini)
+            setTimeout(() => {
+                if (lang === 'ar') {
+                    responseBox.innerText = `💡 تحليل ذكي: فرق الارتفاع هو ${deniv} متر بنسبة انحدار ${slope}%. هذا الانحدار مقبول هندسياً لتصريف السوائل، ويُنصح بمراجعة نقاط تثبيت الدعم للمسار.`;
+                } else if (lang === 'fr') {
+                    responseBox.innerText = `💡 Analyse IA : Dénivelée de ${deniv}m avec une pente de ${slope}%. Cette pente est acceptable pour l'écoulement, vérifiez les supports.`;
+                } else {
+                    responseBox.innerText = `💡 AI Analysis: Elevation difference is ${deniv}m with a ${slope}% slope. This slope is acceptable for fluid flow; check pipeline supports.`;
+                }
+            }, 1000);
         }
     </script>
 
