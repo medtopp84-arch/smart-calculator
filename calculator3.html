@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="htmlTag">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pipeline Bends Calculator</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        .calculator { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); width: 100%; max-width: 520px; }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        a.back-btn { text-decoration: none; color: #2563eb; font-weight: bold; font-size: 14px; }
+        select { padding: 5px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 14px; background: #fff; cursor: pointer; }
+        h2 { text-align: center; color: #1e293b; font-size: 18px; margin-bottom: 20px; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 6px; color: #475569; font-weight: bold; font-size: 13px;}
+        input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; box-sizing: border-box; }
+        input:focus { border-color: #2563eb; outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+        .result-box { background: #f0fdf4; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid #bbf7d0; }
+        .result-text { font-size: 15px; color: #15803d; font-weight: bold; margin: 6px 0; }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="top-bar">
+            <a href="index.html" class="back-btn" id="backText">← Back to Directory</a>
+            <select id="langSelect" onchange="changeLanguage()">
+                <option value="en">English 🇬🇧</option>
+                <option value="fr">Français 🇫🇷</option>
+                <option value="ar">العربية 🇸🇦</option>
+            </select>
+        </div>
+
+        <h2 id="calcTitle">🔄 Pipeline Bends Calculator (Cintre)</h2>
+        <div class="input-group">
+            <label id="labelRadius">Bend Radius (R in meters):</label>
+            <input type="number" id="bendRadius" placeholder="e.g. 40" oninput="calculateBend()">
+        </div>
+        <div class="input-group">
+            <label id="labelDeflection">Deflection Angle (Degrees):</label>
+            <input type="number" id="deflectionAngle" placeholder="e.g. 30" oninput="calculateBend()">
+        </div>
+        <div class="result-box">
+            <p class="result-text"><span id="textArcLength">Arc Length:</span> <span id="arcResult">0.00</span> <span id="unitM">m</span></p>
+            <p class="result-text"><span id="textTangent">Tangent Length:</span> <span id="tangentResult">0.00</span> <span id="unitM2">m</span></p>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                backText: "← Back to Directory",
+                calcTitle: "🔄 Pipeline Bends Calculator (Cintre)",
+                labelRadius: "Bend Radius (R in meters):",
+                labelDeflection: "Deflection Angle (Degrees):",
+                textArcLength: "Arc Length:",
+                textTangent: "Tangent Length:",
+                unitM: "m",
+                dir: "ltr"
+            },
+            fr: {
+                backText: "← Retour au répertoire",
+                calcTitle: "🔄 Calculateur de Cintrages & Courbes",
+                labelRadius: "Rayon de courbure (R en mètres) :",
+                labelDeflection: "Angle de déviation (Degrés) :",
+                textArcLength: "Longueur d'arc :",
+                textTangent: "Longueur de tangente :",
+                unitM: "m",
+                dir: "ltr"
+            },
+            ar: {
+                backText: "← العودة إلى الدليل",
+                calcTitle: "🔄 حاسبة الانحناءات الهندسية (Cintre)",
+                labelRadius: "نصف قطر الانحناء (Radius R في متر):",
+                labelDeflection: "زاوية الانحراف (Deflection Angle بالدرجات):",
+                textArcLength: "طول القوس (Arc Length):",
+                textTangent: "المماس (Tangent Length):",
+                unitM: "متر",
+                dir: "rtl"
+            }
+        };
+
+        function changeLanguage() {
+            let lang = document.getElementById('langSelect').value;
+            let t = translations[lang];
+            document.getElementById('htmlTag').setAttribute('lang', lang);
+            document.getElementById('htmlTag').setAttribute('dir', t.dir);
+            document.getElementById('backText').innerText = t.backText;
+            document.getElementById('calcTitle').innerText = t.calcTitle;
+            document.getElementById('labelRadius').innerText = t.labelRadius;
+            document.getElementById('labelDeflection').innerText = t.labelDeflection;
+            document.getElementById('textArcLength').innerText = t.textArcLength;
+            document.getElementById('textTangent').innerText = t.textTangent;
+            document.getElementById('unitM').innerText = t.unitM;
+            document.getElementById('unitM2').innerText = t.unitM;
+        }
+
+        function calculateBend() {
+            let R = parseFloat(document.getElementById('bendRadius').value) || 0;
+            let deltaDeg = parseFloat(document.getElementById('deflectionAngle').value) || 0;
+            let deltaRad = deltaDeg * (Math.PI / 180);
+            let arcLength = R * deltaRad;
+            let tangent = R * Math.tan(deltaRad / 2);
+
+            if (R === 0 || deltaDeg === 0) {
+                arcLength = 0;
+                tangent = 0;
+            }
+
+            document.getElementById('arcResult').innerText = arcLength.toFixed(2);
+            document.getElementById('tangentResult').innerText = tangent.toFixed(2);
+        }
+    </script>
+</body>
+</html>
