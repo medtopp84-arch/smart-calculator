@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="htmlTag">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elevation Difference & Slope</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
+        .calculator { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); width: 100%; max-width: 520px; }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
+        a.back-btn { text-decoration: none; color: #2563eb; font-weight: bold; font-size: 14px; }
+        select { padding: 5px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 14px; background: #fff; cursor: pointer; }
+        h2 { text-align: center; color: #1e293b; font-size: 18px; margin-bottom: 20px; }
+        .input-group { margin-bottom: 15px; }
+        label { display: block; margin-bottom: 6px; color: #475569; font-weight: bold; font-size: 13px;}
+        input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; box-sizing: border-box; }
+        input:focus { border-color: #2563eb; outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+        .result-box { background: #f0fdf4; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid #bbf7d0; }
+        .result-text { font-size: 15px; color: #15803d; font-weight: bold; margin: 6px 0; }
+    </style>
+</head>
+<body>
+    <div class="calculator">
+        <div class="top-bar">
+            <a href="index.html" class="back-btn" id="backText">← Back to Directory</a>
+            <select id="langSelect" onchange="changeLanguage()">
+                <option value="en">English 🇬🇧</option>
+                <option value="fr">Français 🇫🇷</option>
+                <option value="ar">العربية 🇸🇦</option>
+            </select>
+        </div>
+
+        <h2 id="calcTitle">📏 Elevation Difference & Slope Calculator</h2>
+        <div class="input-group">
+            <label id="labelA">Elevation at Point A (meters):</label>
+            <input type="number" id="elevA" placeholder="e.g. 150" oninput="calculateSlope()">
+        </div>
+        <div class="input-group">
+            <label id="labelB">Elevation at Point B (meters):</label>
+            <input type="number" id="elevB" placeholder="e.g. 111" oninput="calculateSlope()">
+        </div>
+        <div class="input-group">
+            <label id="labelDist">Horizontal Distance (meters):</label>
+            <input type="number" id="distance" placeholder="e.g. 500" oninput="calculateSlope()">
+        </div>
+        <div class="result-box">
+            <p class="result-text"><span id="textDeniv">Elevation Diff:</span> <span id="deniveleeResult">0</span> <span id="unitM">m</span></p>
+            <p class="result-text"><span id="textSlope">Slope Percentage:</span> <span id="slopeResult">0</span> %</p>
+        </div>
+    </div>
+
+    <script>
+        const translations = {
+            en: {
+                backText: "← Back to Directory",
+                calcTitle: "📏 Elevation Difference & Slope Calculator",
+                labelA: "Elevation at Point A (meters):",
+                labelB: "Elevation at Point B (meters):",
+                labelDist: "Horizontal Distance (meters):",
+                textDeniv: "Elevation Diff:",
+                textSlope: "Slope Percentage:",
+                unitM: "m",
+                dir: "ltr"
+            },
+            fr: {
+                backText: "← Retour au répertoire",
+                calcTitle: "📏 Dénivelée et Calcul de Pente",
+                labelA: "Altitude au Point A (mètres) :",
+                labelB: "Altitude au Point B (mètres) :",
+                labelDist: "Distance horizontale (mètres) :",
+                textDeniv: "Dénivelée :",
+                textSlope: "Pourcentage de Pente :",
+                unitM: "m",
+                dir: "ltr"
+            },
+            ar: {
+                backText: "← العودة إلى الدليل",
+                calcTitle: "📏 حاسبة فرق الارتفاع والانحدار",
+                labelA: "الارتفاع عند النقطة أ (متر):",
+                labelB: "الارتفاع عند النقطة ب (متر):",
+                labelDist: "المسافة الأفقية بين النقطتين (متر):",
+                textDeniv: "فرق الارتفاع:",
+                textSlope: "نسبة الانحدار:",
+                unitM: "متر",
+                dir: "rtl"
+            }
+        };
+
+        function changeLanguage() {
+            let lang = document.getElementById('langSelect').value;
+            let t = translations[lang];
+            document.getElementById('htmlTag').setAttribute('lang', lang);
+            document.getElementById('htmlTag').setAttribute('dir', t.dir);
+            document.getElementById('backText').innerText = t.backText;
+            document.getElementById('calcTitle').innerText = t.calcTitle;
+            document.getElementById('labelA').innerText = t.labelA;
+            document.getElementById('labelB').innerText = t.labelB;
+            document.getElementById('labelDist').innerText = t.labelDist;
+            document.getElementById('textDeniv').innerText = t.textDeniv;
+            document.getElementById('textSlope').innerText = t.textSlope;
+            document.getElementById('unitM').innerText = t.unitM;
+        }
+
+        function calculateSlope() {
+            let elevA = parseFloat(document.getElementById('elevA').value) || 0;
+            let elevB = parseFloat(document.getElementById('elevB').value) || 0;
+            let distance = parseFloat(document.getElementById('distance').value) || 0;
+            let denivelee = Math.abs(elevA - elevB);
+            document.getElementById('deniveleeResult').innerText = denivelee.toFixed(2);
+            let slope = distance > 0 ? (denivelee / distance) * 100 : 0;
+            document.getElementById('slopeResult').innerText = slope.toFixed(2);
+        }
+    </script>
+</body>
+</html>
