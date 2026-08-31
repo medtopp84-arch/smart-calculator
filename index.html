@@ -9,14 +9,19 @@
     <meta name="description" content="Free online scientific calculators for chemistry, gas laws, engineering, and more. Calculate molarity, pH, EMF, ideal gas, and 22+ tools instantly.">
     <meta name="keywords" content="scientific calculator, chemistry calculator, engineering calculator, molarity calculator, pH calculator, gas law calculator, free online tools, ChemiCalc, OmniEngineer">
     <meta name="robots" content="index, follow">
-    <link rel="canonical" href="https://your-github-username.github.io/smart-calculator/">
+    
+    <!-- ===== الرابط الأساسي الصحيح لمشروعك ===== -->
+    <link rel="canonical" href="https://medtopp84-arch.github.io/smart-calculator/">
     
     <!-- Open Graph / Social Media -->
     <meta property="og:title" content="ChemiCalc Pro - Scientific & Engineering Calculators">
     <meta property="og:description" content="Free online calculators for chemistry, physics, and engineering. 22+ tools available instantly.">
     <meta property="og:type" content="website">
-    <meta property="og:url" content="https://your-github-username.github.io/smart-calculator/">
+    <meta property="og:url" content="https://medtopp84-arch.github.io/smart-calculator/">
+    <meta property="og:image" content="https://medtopp84-arch.github.io/smart-calculator/og-image.png">
     <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="ChemiCalc Pro - Scientific & Engineering Calculators">
+    <meta name="twitter:description" content="Free online calculators for chemistry, physics, and engineering. 22+ tools available instantly.">
     
     <!-- Favicon -->
     <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧪</text></svg>">
@@ -121,6 +126,17 @@
         /* تحسينات RTL */
         [dir="rtl"] .badge-pro { margin-left: 0; margin-right: 6px; }
         [dir="rtl"] .logo { flex-direction: row-reverse; }
+        
+        /* ===== إعلان توافق ===== */
+        @media (max-width: 768px) {
+            .ads-container { min-height: 60px; }
+            .footer-ads { min-height: 60px; }
+            .hero h1 { font-size: 24px; }
+            .calculators-grid { grid-template-columns: 1fr 1fr; }
+        }
+        @media (max-width: 480px) {
+            .calculators-grid { grid-template-columns: 1fr; }
+        }
     </style>
 </head>
 <body>
@@ -144,6 +160,7 @@
         <!-- ===== إعلان أعلى الصفحة ===== -->
         <div class="ads-container" id="topAd">
             <!-- Google AdSense Code - ضع كود AdSense هنا -->
+            <!--
             <ins class="adsbygoogle"
                 style="display:block"
                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
@@ -153,8 +170,8 @@
             <script>
                 (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
-            <!-- في حالة عدم وجود AdSense بعد، يظهر هذا النص -->
-            <span style="display: none;" id="adPlaceholder">📢 إعلان - Ad Space</span>
+            -->
+            <span id="adPlaceholder">📢 إعلان - Ad Space (ضع كود AdSense هنا)</span>
         </div>
 
         <div class="hero">
@@ -175,6 +192,7 @@
 
         <!-- ===== إعلان متوسط الصفحة ===== -->
         <div class="ads-container" id="middleAd" style="max-width: 728px; margin: 20px auto;">
+            <!--
             <ins class="adsbygoogle"
                 style="display:block"
                 data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
@@ -184,11 +202,11 @@
             <script>
                 (adsbygoogle = window.adsbygoogle || []).push({});
             </script>
-            <span style="display: none;" id="adPlaceholder2">📢 إعلان - Ad Space</span>
+            -->
+            <span id="adPlaceholder2">📢 إعلان - Ad Space (ضع كود AdSense هنا)</span>
         </div>
 
         <div class="calculators-grid" id="calcGrid">
-            <!-- جميع الحاسبات 1-22 كما هي موجودة في الكود السابق -->
             <!-- 1. Molarity Calculator -->
             <a href="calculator_molarity.html" class="calc-card" data-category="solutions" data-keywords="molarity concentration moles chemistry تركيز مولاري مولات محاليل كيمياء">
                 <div>
@@ -392,6 +410,7 @@
 
     <!-- ===== إعلان أسفل الصفحة ===== -->
     <div class="footer-ads" id="footerAd">
+        <!--
         <ins class="adsbygoogle"
             style="display:block"
             data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
@@ -401,7 +420,8 @@
         <script>
             (adsbygoogle = window.adsbygoogle || []).push({});
         </script>
-        <span style="display: none;" id="adPlaceholder3">📢 إعلان - Ad Space</span>
+        -->
+        <span id="adPlaceholder3">📢 إعلان - Ad Space (ضع كود AdSense هنا)</span>
     </div>
 
     <script>
