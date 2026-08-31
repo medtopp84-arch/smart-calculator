@@ -106,4 +106,183 @@
                         </marker>
                     </defs>
 
-                    <
+                    <rect x="110" y="30" width="180" height="150" fill="rgba(37, 99, 235, 0.08)" stroke="#2563eb" stroke-width="3" rx="3"/>
+                    <line x1="110" y1="55" x2="290" y2="55" stroke="#2563eb" stroke-dasharray="6,4" stroke-width="2"/>
+                    <text x="200" y="47" font-size="11" fill="#1d4ed8" font-weight="bold" text-anchor="middle">Surface (h = 0 m)</text>
+                    <line x1="80" y1="55" x2="80" y2="180" stroke="#1d4ed8" stroke-width="2.5" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)"/>
+                    <line x1="75" y1="55" x2="85" y2="55" stroke="#1d4ed8" stroke-width="2"/>
+                    <line x1="75" y1="180" x2="85" y2="180" stroke="#1d4ed8" stroke-width="2"/>
+                    <text x="60" y="122" font-size="14" fill="#1d4ed8" font-weight="bold" text-anchor="middle">h</text>
+                    <polygon points="290,55 340,180 290,180" fill="rgba(220, 38, 38, 0.15)" stroke="#dc2626" stroke-width="2"/>
+                    <line x1="315" y1="117" x2="340" y2="117" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow-red)"/>
+                    <text x="330" y="200" font-size="11" fill="#dc2626" font-weight="bold" text-anchor="middle">Pressure</text>
+                </svg>
+            </div>
+
+            <div class="formula-box">
+                P = ρ · g · h
+            </div>
+            
+            <p id="secP2">Where:</p>
+            <ul>
+                <li id="li1"><strong>P</strong> = Hydrostatic pressure</li>
+                <li id="li2"><strong>ρ (rho)</strong> = Fluid density (e.g., 1000 kg/m³ for fresh water)</li>
+                <li id="li3"><strong>g</strong> = Acceleration due to gravity (~9.81 m/s²)</li>
+                <li id="li4"><strong>h</strong> = Height or depth of the liquid column</li>
+            </ul>
+            <p id="secP3">Engineers use this calculation extensively when designing pipelines, water storage tanks, dams, and deep excavation shoring systems to ensure structural integrity under maximum fluid loads.</p>
+        </div>
+
+        <div class="calculator-sidebar">
+            <div class="calculator">
+                <div class="top-bar">
+                    <a href="index.html" class="back-btn" id="backText2">← Back to Directory</a>
+                    <select class="lang-select" id="langSelect2" onchange="changeLanguage()" style="display:none;"></select>
+                </div>
+
+                <h3 id="calcTitle" style="margin-top:0; color:var(--text-main); font-size:17px;">💧 Hydrostatic Pressure Calculator</h3>
+                
+                <div class="input-group">
+                    <label id="labelHeight">Liquid Height / Depth (meters):</label>
+                    <input type="number" id="pHeight" placeholder="e.g. 10" oninput="calculatePressure()">
+                </div>
+                <div class="input-group">
+                    <label id="labelDensity">Fluid Density (kg/m³, Water = 1000):</label>
+                    <input type="number" id="pDensity" value="1000" placeholder="1000" oninput="calculatePressure()">
+                </div>
+                
+                <div class="result-box">
+                    <p class="result-text"><span id="textPressureKpa">Pressure (kPa):</span> <span id="resKpa" class="highlight">0.00</span></p>
+                    <p class="result-text"><span id="textPressureBar">Pressure (Bar):</span> <span id="resBar" class="highlight">0.00</span></p>
+                </div>
+            </div>
+
+            <div class="ai-assistant-box">
+                <div class="ai-header">🤖 OmniEngineer AI Expert</div>
+                <div class="ai-chat-output" id="aiOutput">Hello! I'm your engineering AI assistant. Ask me anything about this calculation, safety factors, or fluid mechanics principles!</div>
+                <div class="ai-input-group">
+                    <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI a question...">
+                    <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            let html = document.getElementById('htmlTag');
+            let btn = document.getElementById('themeToggleBtn');
+            if (html.getAttribute('data-theme') === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                btn.innerText = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                btn.innerText = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        window.onload = function() {
+            let savedTheme = localStorage.getItem('theme') || 'light';
+            document.getElementById('htmlTag').setAttribute('data-theme', savedTheme);
+            document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        function askAiAssistant() {
+            let q = document.getElementById('aiQuestionInput').value.toLowerCase();
+            let h = document.getElementById('pHeight').value;
+            let output = document.getElementById('aiOutput');
+            
+            if (!q) {
+                output.innerText = "Please type a question for the AI assistant!";
+                return;
+            }
+
+            if (q.includes('safety') || q.includes('factor') || q.includes('أمان')) {
+                output.innerText = "💡 Engineering Tip: When designing tanks or pipelines subjected to hydrostatic pressure, always apply a safety factor of at least 1.5 to 2.0 depending on the fluid hazard level.";
+            } else if (q.includes('max') || q.includes('high') || q.includes('ارتفاع')) {
+                output.innerText = `📊 Based on your current height input (${h || '0'}m), every 10 meters of water depth adds approximately 1 Bar (100 kPa) of pressure!`;
+            } else {
+                output.innerText = `🤖 AI Analysis: The hydrostatic calculation is linear. Doubling the height 'h' doubles the pressure on container walls.`;
+            }
+        }
+
+        function calculatePressure() {
+            let h = parseFloat(document.getElementById('pHeight').value) || 0;
+            let rho = parseFloat(document.getElementById('pDensity').value) || 1000;
+            let g = 9.81;
+            let pressurePa = rho * g * h;
+            let pressureKpa = pressurePa / 1000;
+            let pressureBar = pressurePa / 100000;
+
+            document.getElementById('resKpa').innerText = pressureKpa.toFixed(2);
+            document.getElementById('resBar').innerText = pressureBar.toFixed(3);
+        }
+
+        const translations = {
+            en: {
+                backText: "Back to Hub",
+                backText2: "← Back to Directory",
+                calcTitle: "💧 Hydrostatic Pressure Calculator",
+                labelHeight: "Liquid Height / Depth (meters):",
+                labelDensity: "Fluid Density (kg/m³, Water = 1000):",
+                textPressureKpa: "Pressure (kPa):",
+                textPressureBar: "Pressure (Bar):",
+                secTitle: "About Hydrostatic Pressure & Engineering Principles",
+                secP1: "Hydrostatic pressure is the pressure exerted by a fluid at rest due to the force of gravity. It increases in direct proportion to the depth measured from the surface.",
+                secP2: "Where:",
+                secP3: "Engineers use this calculation extensively when designing pipelines, water storage tanks, and dams.",
+                dir: "ltr"
+            },
+            fr: {
+                backText: "Retour au Hub",
+                backText2: "← Retour au répertoire",
+                calcTitle: "💧 Calculateur de Pression Hydrostatique",
+                labelHeight: "Hauteur / Profondeur du Liquide (mètres) :",
+                labelDensity: "Densité du Fluide (kg/m³, Eau = 1000) :",
+                textPressureKpa: "Pression (kPa) :",
+                textPressureBar: "Pression (Bar) :",
+                secTitle: "À propos de la Pression Hydrostatique",
+                secP1: "La pression hydrostatique est la pression exercée par un fluide au repos en raison de la gravité. Elle augmente proportionnellement à la profondeur.",
+                secP2: "Où :",
+                secP3: "Les ingénieurs utilisent ce calcul pour concevoir des pipelines, des réservoirs d'eau et des barrages.",
+                dir: "ltr"
+            },
+            ar: {
+                backText: "العودة للرئيسية",
+                backText2: "← العودة إلى الدليل",
+                calcTitle: "💧 حاسبة الضغط الهيدروستاتيكي",
+                labelHeight: "ارتفاع أو عمق السائل (متر):",
+                labelDensity: "كثافة السائل (كجم/م³، الماء = 1000):",
+                textPressureKpa: "الضغط (كيلوباسكال):",
+                textPressureBar: "الضغط (بار):",
+                secTitle: "نبذة عن الضغط الهيدروستاتيكي والمبادئ الهندسية",
+                secP1: "الضغط الهيدروستاتيكي هو الضغط الذي يمارسه سائل في حالة سكون بسبب قوة الجاذبية. يزداد هذا الضغط طردياً مع زيادة العمق المقاس من السطح.",
+                secP2: "حيث أن:",
+                secP3: "يستخدم المهندسون هذه الحسابات بشكل مكثف عند تصميم خطوط الأنابيب، خزانات المياه، السدود، وأنظمة الحفر العميقة لضمان السلامة الإنشائية.",
+                dir: "rtl"
+            }
+        };
+
+        function changeLanguage() {
+            let lang = document.getElementById('langSelect').value;
+            let t = translations[lang];
+            document.getElementById('htmlTag').setAttribute('lang', lang);
+            document.getElementById('htmlTag').setAttribute('dir', t.dir);
+            
+            document.getElementById('backText').innerText = t.backText;
+            document.getElementById('backText2').innerText = t.backText2;
+            document.getElementById('calcTitle').innerText = t.calcTitle;
+            document.getElementById('labelHeight').innerText = t.labelHeight;
+            document.getElementById('labelDensity').innerText = t.labelDensity;
+            document.getElementById('textPressureKpa').innerText = t.textPressureKpa;
+            document.getElementById('textPressureBar').innerText = t.textPressureBar;
+            document.getElementById('secTitle').innerText = t.secTitle;
+            document.getElementById('secP1').innerText = t.secP1;
+            document.getElementById('secP2').innerText = t.secP2;
+            document.getElementById('secP3').innerText = t.secP3;
+        }
+    </script>
+</body>
+</html>
