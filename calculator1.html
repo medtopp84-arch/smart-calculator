@@ -13,11 +13,10 @@
         .content-section h2 { color: #2563eb; margin-top: 0; font-size: 22px; }
         .content-section p { color: #475569; font-size: 15px; }
         
-        /* صندوق المخطط الهندسي الخاص بالانحدار */
         .pro-blueprint-box { background: #f1f5f9; border: 2px solid #3b82f6; border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; }
         .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
 
-        .formula-box { background: #eff6ff; border-left: 4px solid #2563eb; padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: #1d4ed8; border-radius: 4px; text-align: left; }
+        .formula-box { background: #eff6ff; border-left: 4px solid #2563eb; padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 15px; color: #1d4ed8; border-radius: 4px; text-align: left; }
         [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid #2563eb; text-align: right; }
 
         .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
@@ -28,8 +27,9 @@
         
         .input-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 6px; color: #475569; font-weight: bold; font-size: 13px;}
-        input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; box-sizing: border-box; }
-        input:focus { border-color: #2563eb; outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+        input, select.calc-select { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; box-sizing: border-box; background: #fff; }
+        input:focus, select.calc-select:focus { border-color: #2563eb; outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+        
         .result-box { background: #f0fdf4; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid #bbf7d0; }
         .result-text { font-size: 14px; color: #15803d; font-weight: bold; margin: 6px 0; }
         .highlight { font-size: 18px; }
@@ -48,7 +48,7 @@
     <div class="page-container">
         <div class="content-section">
             <h2 id="secTitle">About Elevation Difference & Slope Principles</h2>
-            <p id="secP1">Elevation difference and slope calculations are fundamental in surveying, civil engineering, and road design. Slope represents the steepness or gradient between two points.</p>
+            <p id="secP1">Elevation difference and slope calculations are fundamental in surveying, civil engineering, and road design. Slope represents the steepness or gradient between two points, dictating water drainage and vehicle safety limits.</p>
             
             <div class="pro-blueprint-box">
                 <svg width="380" height="210" viewBox="0 0 380 210">
@@ -57,35 +57,31 @@
                             <path d="M0,2 L8,4 L0,6 Z" fill="#1d4ed8"/>
                         </marker>
                     </defs>
-
                     <line x1="50" y1="50" x2="330" y2="150" stroke="#2563eb" stroke-width="4"/>
-                    
                     <circle cx="50" cy="50" r="6" fill="#1d4ed8"/>
                     <text x="50" y="35" font-size="12" fill="#1d4ed8" font-weight="bold" text-anchor="middle">Point A (Elev A)</text>
-
                     <circle cx="330" cy="150" r="6" fill="#1d4ed8"/>
                     <text x="330" y="175" font-size="12" fill="#1d4ed8" font-weight="bold" text-anchor="middle">Point B (Elev B)</text>
-
                     <line x1="330" y1="50" x2="330" y2="150" stroke="#dc2626" stroke-dasharray="5,3" stroke-width="2"/>
                     <text x="345" y="105" font-size="11" fill="#dc2626" font-weight="bold">Δh</text>
-
                     <line x1="50" y1="165" x2="330" y2="165" stroke="#475569" stroke-width="1.5" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)"/>
                     <text x="190" y="185" font-size="12" fill="#475569" font-weight="bold" text-anchor="middle">Horizontal Distance (L)</text>
                 </svg>
             </div>
 
             <div class="formula-box">
-                Slope (%) = (|Elev A - Elev B| / Distance) × 100
+                Slope (%) = (|Elev A - Elev B| / Distance) × 100<br>
+                Angle (°) = arctan(Δh / Distance) × (180 / π)
             </div>
             
             <p id="secP2">Where:</p>
             <ul>
-                <li id="li1"><strong>Elev A & B</strong> = Elevations of point A and point B in meters</li>
+                <li id="li1"><strong>Elev A & B</strong> = Elevations of point A and point B</li>
                 <li id="li2"><strong>Distance</strong> = Horizontal ground distance between points</li>
-                <li id="li3"><strong>Elevation Diff (Δh)</strong> = Absolute vertical difference</li>
-                <li id="li4"><strong>Slope (%)</strong> = Gradient percentage used in grading and drainage</li>
+                <li id="li3"><strong>Elevation Diff ($\Delta h$)</strong> = Absolute vertical difference</li>
+                <li id="li4"><strong>Slope & Angle</strong> = Gradient indicators crucial for grading, pipelines, and highways</li>
             </ul>
-            <p id="secP3">Civil engineers rely heavily on these metrics to design effective drainage systems, roadways, and railways with safe grade limits.</p>
+            <p id="secP3">Civil engineers rely heavily on these metrics to design effective drainage systems, roadways, and railways ensuring stable structural integration.</p>
         </div>
 
         <div class="calculator-sidebar">
@@ -102,21 +98,30 @@
                 <h2 id="calcTitle" style="text-align: left; font-size: 16px; margin-top: 0; color: #1e293b;">📏 Elevation Difference & Slope</h2>
                 
                 <div class="input-group">
-                    <label id="labelA">Elevation at Point A (meters):</label>
+                    <label id="labelUnit">Measurement Unit:</label>
+                    <select id="unitSelect" class="calc-select" onchange="calculateSlope()">
+                        <option value="m">Meters (m)</option>
+                        <option value="ft">Feet (ft)</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label id="labelA">Elevation at Point A:</label>
                     <input type="number" id="elevA" placeholder="e.g. 150" oninput="calculateSlope()">
                 </div>
                 <div class="input-group">
-                    <label id="labelB">Elevation at Point B (meters):</label>
+                    <label id="labelB">Elevation at Point B:</label>
                     <input type="number" id="elevB" placeholder="e.g. 111" oninput="calculateSlope()">
                 </div>
                 <div class="input-group">
-                    <label id="labelDist">Horizontal Distance (meters):</label>
+                    <label id="labelDist">Horizontal Distance:</label>
                     <input type="number" id="distance" placeholder="e.g. 500" oninput="calculateSlope()">
                 </div>
                 
                 <div class="result-box">
-                    <p class="result-text"><span id="textDeniv">Elevation Diff:</span> <span id="deniveleeResult" class="highlight">0.00</span> <span id="unitM">m</span></p>
+                    <p class="result-text"><span id="textDeniv">Elevation Diff:</span> <span id="deniveleeResult" class="highlight">0.00</span> <span id="unitOutput">m</span></p>
                     <p class="result-text"><span id="textSlope">Slope Percentage:</span> <span id="slopeResult" class="highlight">0.00</span> %</p>
+                    <p class="result-text"><span id="textAngle">Slope Angle:</span> <span id="angleResult" class="highlight">0.00</span> °</p>
                 </div>
             </div>
 
@@ -159,27 +164,29 @@
             en: {
                 backText: "← Back to Directory",
                 calcTitle: "📏 Elevation Difference & Slope",
-                labelA: "Elevation at Point A (meters):",
-                labelB: "Elevation at Point B (meters):",
-                labelDist: "Horizontal Distance (meters):",
+                labelUnit: "Measurement Unit:",
+                labelA: "Elevation at Point A:",
+                labelB: "Elevation at Point B:",
+                labelDist: "Horizontal Distance:",
                 textDeniv: "Elevation Diff:",
                 textSlope: "Slope Percentage:",
-                unitM: "m",
+                textAngle: "Slope Angle:",
                 secTitle: "About Elevation Difference & Slope Principles",
-                secP1: "Elevation difference and slope calculations are fundamental in surveying, civil engineering, and road design. Slope represents the steepness or gradient between two points.",
+                secP1: "Elevation difference and slope calculations are fundamental in surveying, civil engineering, and road design. Slope represents the steepness or gradient between two points, dictating water drainage and vehicle safety limits.",
                 secP2: "Where:",
-                secP3: "Civil engineers rely heavily on these metrics to design effective drainage systems, roadways, and railways with safe grade limits.",
+                secP3: "Civil engineers rely heavily on these metrics to design effective drainage systems, roadways, and railways ensuring stable structural integration.",
                 dir: "ltr"
             },
             fr: {
                 backText: "← Retour au répertoire",
                 calcTitle: "📏 Dénivelée et Pente",
-                labelA: "Altitude au Point A (mètres) :",
-                labelB: "Altitude au Point B (mètres) :",
-                labelDist: "Distance horizontale (mètres) :",
+                labelUnit: "Unité de mesure :",
+                labelA: "Altitude au Point A :",
+                labelB: "Altitude au Point B :",
+                labelDist: "Distance horizontale :",
                 textDeniv: "Dénivelée :",
                 textSlope: "Pourcentage de Pente :",
-                unitM: "m",
+                textAngle: "Angle de Pente :",
                 secTitle: "À propos de la Dénivelée et de la Pente",
                 secP1: "Les calculs de dénivelée et de pente sont fondamentaux en topographie, génie civil et conception routière.",
                 secP2: "Où :",
@@ -189,12 +196,13 @@
             ar: {
                 backText: "← العودة إلى الدليل",
                 calcTitle: "📏 حاسبة فرق الارتفاع والانحدار",
-                labelA: "الارتفاع عند النقطة أ (متر):",
-                labelB: "الارتفاع عند النقطة ب (متر):",
-                labelDist: "المسافة الأفقية بين النقطتين (متر):",
+                labelUnit: "وحدة القياس:",
+                labelA: "الارتفاع عند النقطة أ:",
+                labelB: "الارتفاع عند النقطة ب:",
+                labelDist: "المسافة الأفقية:",
                 textDeniv: "فرق الارتفاع:",
                 textSlope: "نسبة الانحدار:",
-                unitM: "متر",
+                textAngle: "زاوية الانحدار:",
                 secTitle: "نبذة عن فرق الارتفاع ومبادئ الانحدار الهندسي",
                 secP1: "تعتبر حسابات فرق الارتفاع والانحدار أساسية في أعمال المساحة، الهندسة المدنية، وتصميم الطرق لتحديد الميول والتدفقات.",
                 secP2: "حيث أن:",
@@ -210,12 +218,13 @@
             document.getElementById('htmlTag').setAttribute('dir', t.dir);
             document.getElementById('backText').innerText = t.backText;
             document.getElementById('calcTitle').innerText = t.calcTitle;
+            document.getElementById('labelUnit').innerText = t.labelUnit;
             document.getElementById('labelA').innerText = t.labelA;
             document.getElementById('labelB').innerText = t.labelB;
             document.getElementById('labelDist').innerText = t.labelDist;
             document.getElementById('textDeniv').innerText = t.textDeniv;
             document.getElementById('textSlope').innerText = t.textSlope;
-            document.getElementById('unitM').innerText = t.unitM;
+            document.getElementById('textAngle').innerText = t.textAngle;
             document.getElementById('secTitle').innerText = t.secTitle;
             document.getElementById('secP1').innerText = t.secP1;
             document.getElementById('secP2').innerText = t.secP2;
@@ -226,10 +235,18 @@
             let elevA = parseFloat(document.getElementById('elevA').value) || 0;
             let elevB = parseFloat(document.getElementById('elevB').value) || 0;
             let distance = parseFloat(document.getElementById('distance').value) || 0;
+            let unit = document.getElementById('unitSelect').value;
+            
             let denivelee = Math.abs(elevA - elevB);
             document.getElementById('deniveleeResult').innerText = denivelee.toFixed(2);
+            document.getElementById('unitOutput').innerText = unit;
+
             let slope = distance > 0 ? (denivelee / distance) * 100 : 0;
             document.getElementById('slopeResult').innerText = slope.toFixed(2);
+
+            let angleRad = distance > 0 ? Math.atan(denivelee / distance) : 0;
+            let angleDeg = angleRad * (180 / Math.PI);
+            document.getElementById('angleResult').innerText = angleDeg.toFixed(2);
         }
     </script>
 </body>
