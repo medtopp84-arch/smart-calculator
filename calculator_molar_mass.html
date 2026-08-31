@@ -1,0 +1,467 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="htmlTag" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Molar Mass Calculator | OmniEngineer Pro</title>
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --result-bg: #f0fdf4;
+            --tag-bg: #ede9fe;
+        }
+
+        [data-theme="dark"] {
+            --primary: #a78bfa;
+            --primary-dark: #8b5cf6;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --result-bg: #065f46;
+            --tag-bg: #2e1065;
+        }
+
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
+        
+        header { background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; }
+        .logo { font-size: 18px; font-weight: bold; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .header-controls { display: flex; align-items: center; gap: 12px; }
+        
+        .page-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
+        @media (max-width: 900px) { .page-container { grid-template-columns: 1fr; } }
+        
+        .content-section { background: var(--card-bg); padding: 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border); line-height: 1.7; }
+        .content-section h2 { color: var(--primary); margin-top: 0; font-size: 22px; }
+        .content-section p { color: var(--text-muted); font-size: 15px; }
+        
+        [dir="rtl"] .content-section { text-align: right; }
+        [dir="rtl"] .content-section ul { padding-right: 20px; padding-left: 0; }
+        
+        .pro-blueprint-box { background: #f1f5f9; border: 2px solid var(--primary); border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; overflow: hidden; }
+        [data-theme="dark"] .pro-blueprint-box { background: #1e293b; border-color: var(--primary); }
+        .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+        [dir="rtl"] .pro-blueprint-box svg { transform: scaleX(-1); }
+
+        .formula-box { background: #ede9fe; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: var(--primary-dark); border-radius: 4px; text-align: center; }
+        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid var(--primary); }
+        [data-theme="dark"] .formula-box { background: #2e1065; color: #a78bfa; }
+
+        .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .calculator { background: var(--card-bg); padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--border); }
+        
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        a.back-btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 13px; transition: color 0.2s; display: inline-flex; align-items: center; gap: 4px; }
+        a.back-btn:hover { color: var(--primary-dark); }
+        [dir="rtl"] a.back-btn { flex-direction: row-reverse; }
+        
+        select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
+        
+        .input-group { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 6px; color: var(--text-muted); font-weight: bold; font-size: 13px; }
+        input, select.form-control { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
+        input:focus, select.form-control:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(139,92,246,0.1); }
+        
+        .result-box { background: var(--result-bg); padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid var(--primary); }
+        .result-text { font-size: 14px; color: var(--text-main); font-weight: bold; margin: 6px 0; }
+        .highlight { font-size: 22px; color: var(--primary); }
+
+        .btn-calculate { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; font-size: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
+        .btn-calculate:hover { background: var(--primary-dark); }
+
+        .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .ai-header { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; color: #a78bfa; }
+        .ai-chat-output { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 13px; color: #cbd5e1; min-height: 60px; margin-bottom: 12px; line-height: 1.5; }
+        .ai-input-group { display: flex; gap: 8px; }
+        .ai-input { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
+        .ai-btn { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
+        .ai-btn:hover { background: var(--primary-dark); }
+
+        .theme-btn { width: 36px; height: 36px; padding: 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; }
+        .lang-select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
+
+        .badge { display: inline-block; background: var(--tag-bg); color: var(--primary); font-size: 11px; padding: 3px 10px; border-radius: 6px; font-weight: bold; margin-bottom: 12px; }
+        .constants-info { font-size: 12px; color: var(--text-muted); margin-top: 10px; padding: 10px; background: var(--bg-color); border-radius: 6px; }
+        [dir="rtl"] .constants-info { text-align: right; }
+        
+        .element-list { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; font-size: 12px; max-height: 150px; overflow-y: auto; padding: 5px; }
+        .element-item { display: flex; justify-content: space-between; padding: 2px 4px; border-bottom: 1px solid var(--border); }
+        .element-symbol { font-weight: bold; color: var(--primary); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo" id="homeLink"><span id="headerArrow">←</span> <span id="backText">Back to Hub</span></a>
+        <div class="header-controls">
+            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙</button>
+            <select class="lang-select" id="langSelect" onchange="changeLanguage()">
+                <option value="en">English 🇬🇧</option>
+                <option value="fr">Français 🇫🇷</option>
+                <option value="ar">العربية 🇸🇦</option>
+            </select>
+        </div>
+    </header>
+
+    <div class="page-container">
+        <div class="content-section">
+            <span class="badge" id="badgeText">⚛️ General Chemistry</span>
+            <h2 id="secTitle">Molar Mass Calculator</h2>
+            <p id="secP1">Molar mass is the mass of one mole of a substance (in g/mol). It is calculated by summing the atomic masses of all atoms in a chemical formula. This is essential for converting between mass and moles in chemical reactions.</p>
+            
+            <div class="pro-blueprint-box">
+                <svg width="380" height="140" viewBox="0 0 380 140">
+                    <defs>
+                        <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                            <path d="M0,2 L8,4 L0,6 Z" fill="#8b5cf6"/>
+                        </marker>
+                    </defs>
+                    
+                    <!-- أيونات وذرات -->
+                    <circle cx="80" cy="70" r="25" fill="rgba(139,92,246,0.08)" stroke="#8b5cf6" stroke-width="2"/>
+                    <text x="80" y="75" font-size="12" fill="#8b5cf6" font-weight="bold" text-anchor="middle">C</text>
+                    <text x="80" y="95" font-size="9" fill="#64748b" text-anchor="middle">12.01</text>
+                    
+                    <text x="120" y="75" font-size="18" fill="#8b5cf6" font-weight="bold">+</text>
+                    
+                    <circle cx="160" cy="70" r="25" fill="rgba(139,92,246,0.08)" stroke="#8b5cf6" stroke-width="2"/>
+                    <text x="160" y="75" font-size="12" fill="#8b5cf6" font-weight="bold" text-anchor="middle">H</text>
+                    <text x="160" y="95" font-size="9" fill="#64748b" text-anchor="middle">1.008</text>
+                    
+                    <text x="200" y="75" font-size="18" fill="#8b5cf6" font-weight="bold">+</text>
+                    
+                    <circle cx="240" cy="70" r="25" fill="rgba(139,92,246,0.08)" stroke="#8b5cf6" stroke-width="2"/>
+                    <text x="240" y="75" font-size="12" fill="#8b5cf6" font-weight="bold" text-anchor="middle">O</text>
+                    <text x="240" y="95" font-size="9" fill="#64748b" text-anchor="middle">16.00</text>
+                    
+                    <text x="290" y="75" font-size="18" fill="#8b5cf6" font-weight="bold">=</text>
+                    
+                    <rect x="310" y="55" width="50" height="35" rx="6" fill="rgba(139,92,246,0.15)" stroke="#8b5cf6" stroke-width="2"/>
+                    <text x="335" y="78" font-size="11" fill="#8b5cf6" font-weight="bold" text-anchor="middle">44.01</text>
+                </svg>
+            </div>
+
+            <div class="formula-box">
+                Molar Mass = Σ (Atomic Mass × Number of Atoms)
+            </div>
+            
+            <p id="secP2">Common atomic masses (g/mol):</p>
+            <div class="element-list">
+                <div class="element-item"><span class="element-symbol">H</span> 1.008</div>
+                <div class="element-item"><span class="element-symbol">C</span> 12.011</div>
+                <div class="element-item"><span class="element-symbol">N</span> 14.007</div>
+                <div class="element-item"><span class="element-symbol">O</span> 15.999</div>
+                <div class="element-item"><span class="element-symbol">F</span> 18.998</div>
+                <div class="element-item"><span class="element-symbol">Na</span> 22.990</div>
+                <div class="element-item"><span class="element-symbol">Mg</span> 24.305</div>
+                <div class="element-item"><span class="element-symbol">Al</span> 26.982</div>
+                <div class="element-item"><span class="element-symbol">Si</span> 28.085</div>
+                <div class="element-item"><span class="element-symbol">P</span> 30.974</div>
+                <div class="element-item"><span class="element-symbol">S</span> 32.065</div>
+                <div class="element-item"><span class="element-symbol">Cl</span> 35.453</div>
+                <div class="element-item"><span class="element-symbol">K</span> 39.098</div>
+                <div class="element-item"><span class="element-symbol">Ca</span> 40.078</div>
+                <div class="element-item"><span class="element-symbol">Fe</span> 55.845</div>
+                <div class="element-item"><span class="element-symbol">Cu</span> 63.546</div>
+                <div class="element-item"><span class="element-symbol">Zn</span> 65.380</div>
+                <div class="element-item"><span class="element-symbol">Ag</span> 107.868</div>
+                <div class="element-item"><span class="element-symbol">Au</span> 196.967</div>
+                <div class="element-item"><span class="element-symbol">Hg</span> 200.592</div>
+            </div>
+            <p id="secP3">Molar mass is used in stoichiometry to convert between grams and moles, and to determine the empirical and molecular formulas of compounds.</p>
+        </div>
+
+        <div class="calculator-sidebar">
+            <div class="calculator">
+                <div class="top-bar">
+                    <a href="index.html" class="back-btn" id="backText2"><span id="backArrow">←</span> <span id="backLabel">Back to Directory</span></a>
+                    <select class="lang-select" id="langSelect2" onchange="changeLanguage()" style="display:none;"></select>
+                </div>
+
+                <h3 id="calcTitle" style="margin-top:0; color:var(--text-main); font-size:17px;">⚛️ Molar Mass Calculator</h3>
+                
+                <div class="input-group">
+                    <label id="labelFormula">Enter Chemical Formula:</label>
+                    <input type="text" id="formula" placeholder="e.g., H2O, NaCl, C6H12O6" value="H2O" oninput="calculateMolarMass()">
+                </div>
+
+                <div class="input-group">
+                    <label id="labelMass">Mass (g) (optional):</label>
+                    <input type="number" id="mass" placeholder="e.g., 18.015" step="any" oninput="calculateMolarMass()">
+                </div>
+
+                <button class="btn-calculate" id="calcBtn" onclick="calculateMolarMass()">⚛️ Calculate</button>
+                
+                <div class="result-box" id="resultBox">
+                    <p class="result-text"><span id="textResult">Molar Mass:</span></p>
+                    <p class="result-text"><span id="resultValue" class="highlight">—</span> <span id="unitGmol">g/mol</span></p>
+                    <div class="constants-info" id="constantsInfo">
+                        <span id="textFormula">Formula: <span id="displayFormula">H₂O</span></span>
+                    </div>
+                    <div id="molesResult" style="margin-top: 8px; font-size: 13px; color: var(--text-muted);"></div>
+                </div>
+            </div>
+
+            <div class="ai-assistant-box">
+                <div class="ai-header">🤖 OmniEngineer AI Expert</div>
+                <div class="ai-chat-output" id="aiOutput">Hello! I'm your chemistry assistant. Ask me about molar mass, molecular formulas, or moles!</div>
+                <div class="ai-input-group">
+                    <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI a question...">
+                    <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // جدول الكتل الذرية للعناصر الشائعة
+        const atomicMasses = {
+            'H': 1.008, 'He': 4.003, 'Li': 6.941, 'Be': 9.012, 'B': 10.811,
+            'C': 12.011, 'N': 14.007, 'O': 15.999, 'F': 18.998, 'Ne': 20.180,
+            'Na': 22.990, 'Mg': 24.305, 'Al': 26.982, 'Si': 28.085, 'P': 30.974,
+            'S': 32.065, 'Cl': 35.453, 'K': 39.098, 'Ar': 39.948, 'Ca': 40.078,
+            'Sc': 44.956, 'Ti': 47.867, 'V': 50.942, 'Cr': 51.996, 'Mn': 54.938,
+            'Fe': 55.845, 'Co': 58.933, 'Ni': 58.693, 'Cu': 63.546, 'Zn': 65.380,
+            'Ga': 69.723, 'Ge': 72.630, 'As': 74.922, 'Se': 78.960, 'Br': 79.904,
+            'Kr': 83.798, 'Rb': 85.468, 'Sr': 87.620, 'Y': 88.906, 'Zr': 91.224,
+            'Nb': 92.906, 'Mo': 95.950, 'Tc': 98.000, 'Ru': 101.070, 'Rh': 102.906,
+            'Pd': 106.420, 'Ag': 107.868, 'Cd': 112.414, 'In': 114.818, 'Sn': 118.710,
+            'Sb': 121.760, 'Te': 127.600, 'I': 126.904, 'Xe': 131.293, 'Cs': 132.905,
+            'Ba': 137.327, 'La': 138.905, 'Ce': 140.116, 'Pr': 140.908, 'Nd': 144.243,
+            'Pm': 145.000, 'Sm': 150.362, 'Eu': 151.964, 'Gd': 157.250, 'Tb': 158.925,
+            'Dy': 162.500, 'Ho': 164.930, 'Er': 167.259, 'Tm': 168.934, 'Yb': 173.045,
+            'Lu': 174.967, 'Hf': 178.490, 'Ta': 180.948, 'W': 183.840, 'Re': 186.207,
+            'Os': 190.230, 'Ir': 192.217, 'Pt': 195.084, 'Au': 196.967, 'Hg': 200.592,
+            'Tl': 204.380, 'Pb': 207.200, 'Bi': 208.980, 'Po': 209.000, 'At': 210.000,
+            'Rn': 222.000, 'Fr': 223.000, 'Ra': 226.000, 'Ac': 227.000, 'Th': 232.038,
+            'Pa': 231.036, 'U': 238.029, 'Np': 237.000, 'Pu': 244.000, 'Am': 243.000,
+            'Cm': 247.000, 'Bk': 247.000, 'Cf': 251.000, 'Es': 252.000, 'Fm': 257.000,
+            'Md': 258.000, 'No': 259.000, 'Lr': 262.000
+        };
+
+        function toggleTheme() {
+            let html = document.getElementById('htmlTag');
+            let btn = document.getElementById('themeToggleBtn');
+            if (html.getAttribute('data-theme') === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                btn.innerText = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                btn.innerText = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        window.onload = function() {
+            let savedTheme = localStorage.getItem('theme') || 'light';
+            document.getElementById('htmlTag').setAttribute('data-theme', savedTheme);
+            document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
+            calculateMolarMass();
+        }
+
+        function parseFormula(formula) {
+            // دالة بسيطة لتحليل الصيغة الكيميائية
+            let elements = {};
+            let i = 0;
+            
+            while (i < formula.length) {
+                // قراءة رمز العنصر (حرف كبير + حرف صغير اختياري)
+                let element = formula[i];
+                if (element >= 'a' && element <= 'z') {
+                    // إذا بدأ بحرف صغير، يعتبر خطأ
+                    return null;
+                }
+                
+                let j = i + 1;
+                while (j < formula.length && formula[j] >= 'a' && formula[j] <= 'z') {
+                    j++;
+                }
+                let symbol = formula.substring(i, j);
+                
+                // قراءة العدد (رقم اختياري)
+                let count = 1;
+                let k = j;
+                while (k < formula.length && formula[k] >= '0' && formula[k] <= '9') {
+                    k++;
+                }
+                if (k > j) {
+                    count = parseInt(formula.substring(j, k));
+                }
+                
+                // إضافة إلى القائمة
+                if (atomicMasses[symbol] !== undefined) {
+                    elements[symbol] = (elements[symbol] || 0) + count;
+                } else {
+                    return null; // عنصر غير معروف
+                }
+                
+                i = k;
+            }
+            
+            return elements;
+        }
+
+        function calculateMolarMass() {
+            let formula = document.getElementById('formula').value.trim();
+            let mass = parseFloat(document.getElementById('mass').value);
+            
+            // تنظيف الصيغة (إزالة الأقواس الزائدة)
+            formula = formula.replace(/\(/g, '').replace(/\)/g, '');
+            
+            let elements = parseFormula(formula);
+            
+            if (!elements || Object.keys(elements).length === 0) {
+                document.getElementById('resultValue').innerText = '⚠️ Invalid formula';
+                document.getElementById('displayFormula').innerText = formula || '?';
+                document.getElementById('molesResult').innerHTML = '';
+                return;
+            }
+            
+            // حساب الكتلة المولية
+            let molarMass = 0;
+            let details = '';
+            for (let [symbol, count] of Object.entries(elements)) {
+                let massElem = atomicMasses[symbol];
+                molarMass += massElem * count;
+                details += `${symbol}(${count}×${massElem.toFixed(3)}) + `;
+            }
+            details = details.slice(0, -3); // إزالة آخر " + "
+            
+            // عرض النتيجة
+            document.getElementById('resultValue').innerText = molarMass.toFixed(4);
+            document.getElementById('displayFormula').innerHTML = formula;
+            
+            // عرض التفاصيل
+            let infoText = `Molar mass = ${details} = ${molarMass.toFixed(4)} g/mol`;
+            document.getElementById('constantsInfo').innerHTML = `
+                <span id="textFormula">Formula: <span id="displayFormula">${formula}</span></span><br>
+                <span style="font-size: 11px;">${infoText}</span>
+            `;
+            
+            // حساب المولات إذا تم إدخال الكتلة
+            let molesResult = document.getElementById('molesResult');
+            if (!isNaN(mass) && mass > 0) {
+                let moles = mass / molarMass;
+                molesResult.innerHTML = `📊 ${mass} g = ${moles.toFixed(4)} mol`;
+            } else {
+                molesResult.innerHTML = '';
+            }
+        }
+
+        function askAiAssistant() {
+            let q = document.getElementById('aiQuestionInput').value.toLowerCase();
+            let output = document.getElementById('aiOutput');
+            
+            if (!q) {
+                output.innerText = "Please type a question for the AI assistant!";
+                return;
+            }
+
+            if (q.includes('mole') || q.includes('mol')) {
+                output.innerText = "⚛️ A mole is 6.022 × 10²³ particles (Avogadro's number). Molar mass = grams per mole. To convert: moles = mass (g) / molar mass (g/mol).";
+            } else if (q.includes('formula') || q.includes('molecular')) {
+                output.innerText = "📝 Molecular formula shows the actual number of atoms of each element. Empirical formula shows the simplest ratio. Molar mass helps determine both!";
+            } else {
+                output.innerText = "💡 Molar mass is the mass of 1 mole of a substance. It's calculated by summing atomic masses from the periodic table.";
+            }
+        }
+
+        const translations = {
+            en: {
+                backText: "Back to Hub",
+                backLabel: "Back to Directory",
+                backArrow: "←",
+                headerArrow: "←",
+                badgeText: "⚛️ General Chemistry",
+                calcTitle: "⚛️ Molar Mass Calculator",
+                labelFormula: "Enter Chemical Formula:",
+                labelMass: "Mass (g) (optional):",
+                calcBtn: "⚛️ Calculate",
+                textResult: "Molar Mass:",
+                unitGmol: "g/mol",
+                textFormula: "Formula:",
+                secTitle: "Molar Mass Calculator",
+                secP1: "Molar mass is the mass of one mole of a substance (in g/mol). It is calculated by summing the atomic masses of all atoms in a chemical formula.",
+                secP2: "Common atomic masses (g/mol):",
+                secP3: "Molar mass is used in stoichiometry to convert between grams and moles.",
+                dir: "ltr"
+            },
+            fr: {
+                backText: "Retour au Hub",
+                backLabel: "Retour au répertoire",
+                backArrow: "←",
+                headerArrow: "←",
+                badgeText: "⚛️ Chimie Générale",
+                calcTitle: "⚛️ Calculateur de Masse Molaire",
+                labelFormula: "Entrez la Formule Chimique :",
+                labelMass: "Masse (g) (optionnel) :",
+                calcBtn: "⚛️ Calculer",
+                textResult: "Masse Molaire :",
+                unitGmol: "g/mol",
+                textFormula: "Formule :",
+                secTitle: "Calculateur de Masse Molaire",
+                secP1: "La masse molaire est la masse d'une mole d'une substance (en g/mol).",
+                secP2: "Masses atomiques courantes (g/mol) :",
+                secP3: "La masse molaire est utilisée en stœchiométrie pour convertir entre grammes et moles.",
+                dir: "ltr"
+            },
+            ar: {
+                backText: "العودة للرئيسية",
+                backLabel: "العودة إلى الدليل",
+                backArrow: "→",
+                headerArrow: "→",
+                badgeText: "⚛️ كيمياء عامة",
+                calcTitle: "⚛️ حاسبة الكتلة المولية",
+                labelFormula: "أدخل الصيغة الكيميائية:",
+                labelMass: "الكتلة (جرام) (اختياري):",
+                calcBtn: "⚛️ احسب",
+                textResult: "الكتلة المولية:",
+                unitGmol: "جم/مول",
+                textFormula: "الصيغة:",
+                secTitle: "حاسبة الكتلة المولية",
+                secP1: "الكتلة المولية هي كتلة مول واحد من المادة (بوحدة جم/مول). تحسب بجمع الكتل الذرية لجميع الذرات في الصيغة الكيميائية.",
+                secP2: "الكتل الذرية الشائعة (جم/مول):",
+                secP3: "تستخدم الكتلة المولية في قياس اتحادية العناصر للتحويل بين الجرامات والمولات.",
+                dir: "rtl"
+            }
+        };
+
+        function changeLanguage() {
+            let lang = document.getElementById('langSelect').value;
+            let t = translations[lang];
+            let html = document.getElementById('htmlTag');
+            
+            html.setAttribute('lang', lang);
+            html.setAttribute('dir', t.dir);
+            
+            document.getElementById('backText').innerText = t.backText;
+            document.getElementById('backLabel').innerText = t.backLabel;
+            document.getElementById('backArrow').innerText = t.backArrow;
+            document.getElementById('headerArrow').innerText = t.headerArrow;
+            document.getElementById('badgeText').innerText = t.badgeText;
+            document.getElementById('calcTitle').innerText = t.calcTitle;
+            document.getElementById('labelFormula').innerHTML = t.labelFormula;
+            document.getElementById('labelMass').innerHTML = t.labelMass;
+            document.getElementById('calcBtn').innerHTML = t.calcBtn;
+            document.getElementById('textResult').innerHTML = t.textResult;
+            document.getElementById('unitGmol').innerHTML = t.unitGmol;
+            document.getElementById('textFormula').innerHTML = t.textFormula;
+            document.getElementById('secTitle').innerHTML = t.secTitle;
+            document.getElementById('secP1').innerHTML = t.secP1;
+            document.getElementById('secP2').innerHTML = t.secP2;
+            document.getElementById('secP3').innerHTML = t.secP3;
+            
+            calculateMolarMass();
+        }
+    </script>
+</body>
+</html>
