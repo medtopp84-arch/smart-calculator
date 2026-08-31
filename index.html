@@ -268,6 +268,24 @@
                 </div>
             </a>
 
+            <!-- 21. Gay-Lussac's Law (calculator_gay_lussac.html) -->
+            <a href="calculator_gay_lussac.html" class="calc-card" data-category="gases" data-keywords="gay lussac law pressure temperature P1/T1=P2/T2 جاي لوساك ضغط حرارة">
+                <div>
+                    <span class="card-tag" id="tag21">🌡️ Gas Laws</span>
+                    <h3 id="c21Title">🌡️ Gay-Lussac's Law</h3>
+                    <p id="c21Desc">Calculate pressure-temperature relationships using P₁/T₁ = P₂/T₂.</p>
+                </div>
+            </a>
+
+            <!-- 22. Molar Mass (calculator_molar_mass.html) -->
+            <a href="calculator_molar_mass.html" class="calc-card" data-category="solutions" data-keywords="molar mass molecular weight elements grams mole كتلة مولية وزن جزيئي">
+                <div>
+                    <span class="card-tag" id="tag22">⚛️ General Chemistry</span>
+                    <h3 id="c22Title">⚛️ Molar Mass Calculator</h3>
+                    <p id="c22Desc">Calculate molar mass from chemical formulas.</p>
+                </div>
+            </a>
+
         </div>
     </div>
 
@@ -348,6 +366,8 @@
                 tag18: "💧 Solutions", c18Title: "💧 Dilution Calculator", c18Desc: "Calculate volume or concentration using C₁V₁ = C₂V₂.",
                 tag19: "⚖️ Concentration", c19Title: "⚖️ Mass Percent", c19Desc: "Calculate mass percent concentration of solutions.",
                 tag20: "🔬 Gas Laws", c20Title: "🔬 Avogadro's Law", c20Desc: "Calculate volume-moles relationships using V₁/n₁ = V₂/n₂.",
+                tag21: "🌡️ Gas Laws", c21Title: "🌡️ Gay-Lussac's Law", c21Desc: "Calculate pressure-temperature relationships using P₁/T₁ = P₂/T₂.",
+                tag22: "⚛️ General Chemistry", c22Title: "⚛️ Molar Mass Calculator", c22Desc: "Calculate molar mass from chemical formulas.",
                 dir: "ltr"
             },
             fr: {
@@ -375,6 +395,8 @@
                 tag18: "💧 Solutions", c18Title: "💧 Calculateur de Dilution", c18Desc: "Calculez le volume ou la concentration avec C₁V₁ = C₂V₂.",
                 tag19: "⚖️ Concentration", c19Title: "⚖️ Pourcentage Massique", c19Desc: "Calculez le pourcentage massique des solutions.",
                 tag20: "🔬 Lois des Gaz", c20Title: "🔬 Loi d'Avogadro", c20Desc: "Calculez les relations volume-moles avec V₁/n₁ = V₂/n₂.",
+                tag21: "🌡️ Lois des Gaz", c21Title: "🌡️ Loi de Gay-Lussac", c21Desc: "Calculez les relations pression-température avec P₁/T₁ = P₂/T₂.",
+                tag22: "⚛️ Chimie Générale", c22Title: "⚛️ Masse Molaire", c22Desc: "Calculez la masse molaire à partir des formules chimiques.",
                 dir: "ltr"
             },
             ar: {
@@ -402,6 +424,8 @@
                 tag18: "💧 المحاليل", c18Title: "💧 حاسبة تخفيف المحاليل", c18Desc: "حساب الحجم أو التركيز باستخدام C₁V₁ = C₂V₂.",
                 tag19: "⚖️ التركيز", c19Title: "⚖️ النسبة المئوية الكتلية", c19Desc: "حساب النسبة المئوية الكتلية للمحاليل.",
                 tag20: "🔬 قوانين الغازات", c20Title: "🔬 قانون أفوجادرو", c20Desc: "حساب العلاقات بين الحجم والمولات باستخدام V₁/n₁ = V₂/n₂.",
+                tag21: "🌡️ قوانين الغازات", c21Title: "🌡️ قانون جاي-لوساك", c21Desc: "حساب العلاقات بين الضغط ودرجة الحرارة باستخدام P₁/T₁ = P₂/T₂.",
+                tag22: "⚛️ كيمياء عامة", c22Title: "⚛️ حاسبة الكتلة المولية", c22Desc: "حساب الكتلة المولية من الصيغ الكيميائية.",
                 dir: "rtl"
             }
         };
@@ -420,7 +444,7 @@
             document.getElementById('catGases').innerText = t.catGases;
             document.getElementById('catSurvey').innerText = t.catSurvey;
 
-            for(let i = 1; i <= 20; i++) {
+            for(let i = 1; i <= 22; i++) {
                 if(document.getElementById(`tag${i}`)) document.getElementById(`tag${i}`).innerText = t[`tag${i}`];
                 if(document.getElementById(`c${i}Title`)) document.getElementById(`c${i}Title`).innerText = t[`c${i}Title`];
                 if(document.getElementById(`c${i}Desc`)) document.getElementById(`c${i}Desc`).innerText = t[`c${i}Desc`];
