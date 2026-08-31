@@ -31,26 +31,29 @@
         header { background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
         .logo { font-size: 20px; font-weight: bold; color: var(--primary); display: flex; align-items: center; gap: 8px; text-decoration: none; }
         .header-controls { display: flex; align-items: center; gap: 12px; }
-        .container { max-width: 1000px; margin: 40px auto; padding: 0 20px; }
+        .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
         .hero { text-align: center; margin-bottom: 35px; }
-        .hero h1 { font-size: 28px; margin-bottom: 10px; color: var(--text-main); }
-        .hero p { color: var(--text-muted); font-size: 15px; }
-        .search-container { margin: 25px auto 15px auto; max-width: 600px; }
-        .search-input { width: 100%; padding: 14px 20px; font-size: 16px; border: 2px solid var(--border); border-radius: 12px; outline: none; transition: all 0.3s; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
+        .hero h1 { font-size: 32px; margin-bottom: 10px; color: var(--text-main); }
+        .hero p { color: var(--text-muted); font-size: 16px; }
+        .search-container { margin: 25px auto 15px auto; max-width: 650px; }
+        .search-input { width: 100%; padding: 16px 22px; font-size: 16px; border: 2px solid var(--border); border-radius: 12px; outline: none; transition: all 0.3s; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
         .search-input:focus { border-color: var(--primary); box-shadow: 0 0 0 4px rgba(37,99,235,0.1); }
         
-        .category-container { display: flex; justify-content: center; gap: 10px; flex-wrap: wrap; margin-top: 20px; }
-        .cat-btn { padding: 8px 16px; border-radius: 20px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 13px; font-weight: 500; transition: all 0.2s; }
-        .cat-btn.active { background: var(--primary); color: white; border-color: var(--primary); }
+        /* تصفية الأقسام المتقدمة - Omni Style */
+        .category-container { display: flex; justify-content: center; gap: 8px; flex-wrap: wrap; margin-top: 20px; }
+        .cat-btn { padding: 9px 18px; border-radius: 20px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 13px; font-weight: 600; transition: all 0.2s; }
+        .cat-btn.active, .cat-btn:hover { background: var(--primary); color: white; border-color: var(--primary); }
 
-        .calculators-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 30px; }
-        .calc-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-decoration: none; color: inherit; transition: all 0.3s; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.02); }
+        .section-title { font-size: 20px; font-weight: bold; margin: 35px 0 15px 0; border-bottom: 2px solid var(--border); padding-bottom: 8px; color: var(--primary-dark); }
+
+        .calculators-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 20px; margin-top: 20px; }
+        .calc-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 12px; padding: 20px; text-decoration: none; color: inherit; transition: all 0.3s; display: flex; flex-direction: column; justify-content: space-between; box-shadow: 0 2px 4px rgba(0,0,0,0.02); position: relative; }
         .calc-card:hover { transform: translateY(-4px); border-color: var(--primary); box-shadow: 0 10px 20px rgba(37,99,235,0.08); }
-        .calc-card h3 { margin: 0 0 8px 0; font-size: 17px; color: var(--primary-dark); }
-        .calc-card p { margin: 0; font-size: 13px; color: var(--text-muted); line-height: 1.4; }
+        .calc-card h3 { margin: 0 0 8px 0; font-size: 16px; color: var(--text-main); display: flex; align-items: center; gap: 8px; }
+        .calc-card p { margin: 0; font-size: 13px; color: var(--text-muted); line-height: 1.5; }
         .card-tag { display: inline-block; background: var(--tag-bg); color: var(--primary); font-size: 11px; padding: 3px 8px; border-radius: 6px; margin-bottom: 10px; width: fit-content; font-weight: bold; }
         .lang-select, .theme-btn { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px; }
-        .theme-btn { width: 36px; height: 36px; padding: 0; display: flex; align-items: center; justify-content: center; }
+        .theme-btn { width: 36px; height: 36px; padding: 0; display: flex; align-items: center; justify-content: justify; justify-content: center; }
     </style>
 </head>
 <body>
@@ -69,48 +72,114 @@
 
     <div class="container">
         <div class="hero">
-            <h1 id="heroTitle">Advanced Engineering & Science Directory</h1>
-            <p id="heroSubtitle">Search for any tool or calculator to perform calculations with maximum precision</p>
+            <h1 id="heroTitle">Chemistry & Science Calculators</h1>
+            <p id="heroSubtitle">Explore solutions, gas laws, stoichiometry, and engineering tools built with professional accuracy</p>
             
             <div class="search-container">
-                <input type="text" id="searchInput" class="search-input" placeholder="Search calculator (e.g., slope, molarity, angle...)" oninput="filterCalculators()">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search calculators (e.g., Molarity, Ideal Gas, pH, Slope...)" oninput="filterCalculators()">
             </div>
 
-            <!-- أزرار التصنيفات -->
+            <!-- أزرار التصنيفات على طريقة Omni Calculator -->
             <div class="category-container">
                 <button onclick="filterCategory('all', this)" class="cat-btn active" id="catAll">All Tools</button>
-                <button onclick="filterCategory('survey', this)" class="cat-btn" id="catSurvey">Surveying & Field</button>
-                <button onclick="filterCategory('chemistry', this)" class="cat-btn" id="catChemistry">Chemistry & Science</button>
+                <button onclick="filterCategory('solutions', this)" class="cat-btn" id="catSolutions">Solutions & Concentration</button>
+                <button onclick="filterCategory('gases', this)" class="cat-btn" id="catGases">Gas Laws</button>
+                <button onclick="filterCategory('survey', this)" class="cat-btn" id="catSurvey">Surveying & Engineering</button>
             </div>
         </div>
 
         <div class="calculators-grid" id="calcGrid">
-            <!-- حاسبة 1: فرق الارتفاع والانحدار -->
+
+            <!-- 1. Molarity Calculator -->
+            <a href="calculator_molarity.html" class="calc-card" data-category="solutions" data-keywords="molarity concentration moles chemistry تركيز مولاري مولات محاليل كيمياء">
+                <div>
+                    <span class="card-tag" id="tag1">Solutions</span>
+                    <h3 id="c1Title">🧪 Molarity Calculator</h3>
+                    <p id="c1Desc">Calculate molar concentration, mass, and volume for chemical solutions.</p>
+                </div>
+            </a>
+
+            <!-- 2. Dilution Calculator -->
+            <a href="calculator_dilution.html" class="calc-card" data-category="solutions" data-keywords="dilution concentration stock volume تخفيف المحاليل تركيز حجم">
+                <div>
+                    <span class="card-tag" id="tag2">Solutions</span>
+                    <h3 id="c2Title">💧 Solution Dilution (C1V1=C2V2)</h3>
+                    <p id="c2Desc">Determine volume or concentration needed when diluting stock solutions.</p>
+                </div>
+            </a>
+
+            <!-- 3. Ideal Gas Law Calculator -->
+            <a href="calculator_ideal_gas.html" class="calc-card" data-category="gases" data-keywords="ideal gas law pressure volume temperature PV=nRT غازات ضغط حرارة">
+                <div>
+                    <span class="card-tag" id="tag3">Gas Laws</span>
+                    <h3 id="c3Title">🎈 Ideal Gas Law (PV=nRT)</h3>
+                    <p id="c3Desc">Compute pressure, volume, temperature, or moles of an ideal gas.</p>
+                </div>
+            </a>
+
+            <!-- 4. Mass Percent Calculator -->
+            <a href="calculator_mass_percent.html" class="calc-card" data-category="solutions" data-keywords="mass percent concentration solute solvent نسبة مئوية كتلية مذاب مذيب">
+                <div>
+                    <span class="card-tag" id="tag4">Solutions</span>
+                    <h3 id="c4Title">⚖️ Mass Percent Concentration</h3>
+                    <p id="c4Desc">Calculate mass percentage of solute relative to total solution mass.</p>
+                </div>
+            </a>
+
+            <!-- 5. pH & pOH Calculator -->
+            <a href="calculator_ph.html" class="calc-card" data-category="solutions" data-keywords="pH pOH acidity hydrogen ion concentration حمض قاعدة أس هيدروجيني">
+                <div>
+                    <span class="card-tag" id="tag5">Solutions</span>
+                    <h3 id="c5Title">🧪 pH & pOH Calculator</h3>
+                    <p id="c5Desc">Calculate pH, pOH, and hydrogen ion concentration [H+] in aqueous solutions.</p>
+                </div>
+            </a>
+
+            <!-- 6. Molecular Weight / Molar Mass -->
+            <a href="calculator_molar_mass.html" class="calc-card" data-category="solutions" data-keywords="molar mass molecular weight elements grams mole كتلة مولية وزن جزيئي">
+                <div>
+                    <span class="card-tag" id="tag6">General Chemistry</span>
+                    <h3 id="c6Title">⚛️ Molar Mass & Mol Calculator</h3>
+                    <p id="c6Desc">Convert between grams, moles, and molecular mass effortlessly.</p>
+                </div>
+            </a>
+
+            <!-- 7. Boyle's Law Calculator -->
+            <a href="calculator_boyle.html" class="calc-card" data-category="gases" data-keywords="boyle law pressure volume P1V1=P2V2 غازات بويل ضغط">
+                <div>
+                    <span class="card-tag" id="tag7">Gas Laws</span>
+                    <h3 id="c7Title">📊 Boyle's Law Calculator</h3>
+                    <p id="c7Desc">Calculate pressure-volume relationships at constant temperature.</p>
+                </div>
+            </a>
+
+            <!-- 8. Charles's Law Calculator -->
+            <a href="calculator_charles.html" class="calc-card" data-category="gases" data-keywords="charles law temperature volume V1/T1=V2/T2 شارل حرارة حجم">
+                <div>
+                    <span class="card-tag" id="tag8">Gas Laws</span>
+                    <h3 id="c8Title">🌡️ Charles's Law Calculator</h3>
+                    <p id="c8Desc">Determine volume and temperature changes at constant pressure.</p>
+                </div>
+            </a>
+
+            <!-- 9. Elevation Difference & Slope -->
             <a href="calculator_slope_elevation.html" class="calc-card" data-category="survey" data-keywords="elevation slope deniveles فرق الارتفاع الانحدار">
                 <div>
-                    <span class="card-tag" id="tag1">Civil Engineering</span>
-                    <h3 id="c1Title">Elevation Difference & Slope</h3>
-                    <p id="c1Desc">Precise calculation of elevation differences and percentages between field points.</p>
+                    <span class="card-tag" id="tag9">Civil Engineering</span>
+                    <h3 id="c9Title">📐 Elevation Difference & Slope</h3>
+                    <p id="c9Desc">Precise calculation of elevation differences and percentages between field points.</p>
                 </div>
             </a>
 
-            <!-- حاسبة 2: زاوية الميل والـ Offset -->
+            <!-- 10. Angle & Offset Calculator -->
             <a href="calculator_angle_offset.html" class="calc-card" data-category="survey" data-keywords="angle offset زاوية الميل المسافة المائلة">
                 <div>
-                    <span class="card-tag" id="tag2">Field Engineering</span>
-                    <h3 id="c2Title">Angle & Offset Calculator</h3>
-                    <p id="c2Desc">Find vertical offset and actual slope distance based on inclination angles.</p>
+                    <span class="card-tag" id="tag10">Field Engineering</span>
+                    <h3 id="c10Title">📐 Angle & Offset Calculator</h3>
+                    <p id="c10Desc">Find vertical offset and actual slope distance based on inclination angles.</p>
                 </div>
             </a>
 
-            <!-- حاسبة 3: التركيز المولاري (الكيمياء - المرحلة الثانية) -->
-            <a href="calculator_molarity.html" class="calc-card" data-category="chemistry" data-keywords="molarity concentration moles chemistry مولار تركيز مولات كيمياء">
-                <div>
-                    <span class="card-tag" id="tag3">Chemistry & Science</span>
-                    <h3 id="c3Title">Molarity Calculator</h3>
-                    <p id="c3Desc">Calculate the molar concentration and number of moles for solutions with precision.</p>
-                </div>
-            </a>
         </div>
     </div>
 
@@ -167,39 +236,54 @@
 
         const translations = {
             en: {
-                heroTitle: "Advanced Engineering & Science Directory",
-                heroSubtitle: "Search for any tool or calculator to perform calculations with maximum precision",
-                searchPlaceholder: "Search calculator (e.g., slope, molarity, angle...)",
-                catAll: "All Tools",
-                catSurvey: "Surveying & Field",
-                catChemistry: "Chemistry & Science",
-                tag1: "Civil Engineering", c1Title: "Elevation Difference & Slope", c1Desc: "Precise calculation of elevation differences and percentages between field points.",
-                tag2: "Field Engineering", c2Title: "Angle & Offset Calculator", c2Desc: "Find vertical offset and actual slope distance based on inclination angles.",
-                tag3: "Chemistry & Science", c3Title: "Molarity Calculator", c3Desc: "Calculate the molar concentration and number of moles for solutions with precision.",
+                heroTitle: "Chemistry & Science Calculators",
+                heroSubtitle: "Explore solutions, gas laws, stoichiometry, and engineering tools built with professional accuracy",
+                searchPlaceholder: "Search calculators (e.g., Molarity, Ideal Gas, pH, Slope...)",
+                catAll: "All Tools", catSolutions: "Solutions & Concentration", catGases: "Gas Laws", catSurvey: "Surveying & Engineering",
+                tag1: "Solutions", c1Title: "🧪 Molarity Calculator", c1Desc: "Calculate molar concentration, mass, and volume for chemical solutions.",
+                tag2: "Solutions", c2Title: "💧 Solution Dilution (C1V1=C2V2)", c2Desc: "Determine volume or concentration needed when diluting stock solutions.",
+                tag3: "Gas Laws", c3Title: "🎈 Ideal Gas Law (PV=nRT)", c3Desc: "Compute pressure, volume, temperature, or moles of an ideal gas.",
+                tag4: "Solutions", c4Title: "⚖️ Mass Percent Concentration", c4Desc: "Calculate mass percentage of solute relative to total solution mass.",
+                tag5: "Solutions", c5Title: "🧪 pH & pOH Calculator", c5Desc: "Calculate pH, pOH, and hydrogen ion concentration [H+] in aqueous solutions.",
+                tag6: "General Chemistry", c6Title: "⚛️ Molar Mass & Mol Calculator", c6Desc: "Convert between grams, moles, and molecular mass effortlessly.",
+                tag7: "Gas Laws", c7Title: "📊 Boyle's Law Calculator", c7Desc: "Calculate pressure-volume relationships at constant temperature.",
+                tag8: "Gas Laws", c8Title: "🌡️ Charles's Law Calculator", c8Desc: "Determine volume and temperature changes at constant pressure.",
+                tag9: "Civil Engineering", c9Title: "📐 Elevation Difference & Slope", c9Desc: "Precise calculation of elevation differences and percentages between field points.",
+                tag10: "Field Engineering", c10Title: "📐 Angle & Offset Calculator", c10Desc: "Find vertical offset and actual slope distance based on inclination angles.",
                 dir: "ltr"
             },
             fr: {
-                heroTitle: "Répertoire d'Ingénierie & Science",
-                heroSubtitle: "Recherchez n'importe quel outil ou calculateur pour vos projets",
-                searchPlaceholder: "Rechercher (ex: pente, molarité, angle...)",
-                catAll: "Tous les outils",
-                catSurvey: "Topographie & Terrain",
-                catChemistry: "Chimie & Science",
-                tag1: "Génie Civil", c1Title: "Dénivelée et Pente", c1Desc: "Calcul précis des dénivelées et pourcentages entre les points de terrain.",
-                tag2: "Ingénierie de Terrain", c2Title: "Calculateur Angle & Offset", c2Desc: "Déterminer l'offset vertical et la distance inclinée réelle.",
-                tag3: "Chimie & Science", c3Title: "Calculateur de Molarité", c3Desc: "Calculez la concentration molaire et le nombre de moles pour vos solutions.",
+                heroTitle: "Calculateurs de Chimie & Sciences",
+                heroSubtitle: "Explorez les solutions, lois des gaz, stœchiométrie et outils d'ingénierie",
+                searchPlaceholder: "Rechercher (ex: Molarité, Gaz parfait, pH, Pente...)",
+                catAll: "Tous les outils", catSolutions: "Solutions & Concentration", catGases: "Lois des Gaz", catSurvey: "Topographie & Ingénierie",
+                tag1: "Solutions", c1Title: "🧪 Calculateur de Molarité", c1Desc: "Calculez la concentration molaire, la masse et le volume des solutions.",
+                tag2: "Solutions", c2Title: "💧 Dilution de Solution (C1V1=C2V2)", c2Desc: "Déterminez le volume ou la concentration lors de la dilution des solutions mères.",
+                tag3: "Lois des Gaz", c3Title: "🎈 Loi des Gaz Parfaits (PV=nRT)", c3Desc: "Calculez la pression, le volume, la température ou les moles d'un gaz parfait.",
+                tag4: "Solutions", c4Title: "⚖️ Concentration en Pourcentage Massique", c4Desc: "Calculez le pourcentage en masse du soluté par rapport à la masse totale.",
+                tag5: "Solutions", c5Title: "🧪 Calculateur de pH & pOH", c5Desc: "Calculez le pH, pOH et la concentration en ions H+ dans les solutions aqueuses.",
+                tag6: "Chimie Générale", c6Title: "⚛️ Masse Molaire & Moles", c6Desc: "Convertissez facilement entre grammes, moles et masse moléculaire.",
+                tag7: "Lois des Gaz", c7Title: "📊 Loi de Boyle-Mariotte", c7Desc: "Calculez la relation pression-volume à température constante.",
+                tag8: "Lois des Gaz", c8Title: "🌡️ Loi de Charles", c8Desc: "Déterminez les variations de volume et de température à pression constante.",
+                tag9: "Génie Civil", c9Title: "📐 Dénivelée et Pente", c9Desc: "Calcul précis des dénivelées et pourcentages entre les points de terrain.",
+                tag10: "Ingénierie", c10Title: "📐 Calculateur Angle & Offset", c10Desc: "Déterminer l'offset vertical et la distance inclinée réelle.",
                 dir: "ltr"
             },
             ar: {
-                heroTitle: "مكتبة الحاسبات الهندسية والعلمية",
-                heroSubtitle: "ابحث عن أي أداة أو حاسبة لتنفيذ حساباتك بدقة وسرعة فائقة",
-                searchPlaceholder: "ابحث عن حاسبة (مثل: انحدار، مولار، زاوية...)",
-                catAll: "جميع الأدوات",
-                catSurvey: "مساحة وميدان",
-                catChemistry: "الكيمياء والعلوم",
-                tag1: "هندسة مدنية", c1Title: "حاسبة فرق الارتفاع والانحدار", c1Desc: "حساب دقيق لفرق الارتفاعات بالنسب المئوية بين النقاط الميدانية.",
-                tag2: "هندسة ميدانية", c2Title: "حاسبة زاوية الميل والـ Offset", c2Desc: "إيجاد الإزاحة العمودية والمسافة المائلة الفعلية بناءً على زاوية الميل.",
-                tag3: "الكيمياء والعلوم", c3Title: "حاسبة التركيز المولاري", c3Desc: "حساب التركيز المولاري وعدد المولات للمحاليل بدقة وسهولة.",
+                heroTitle: "حاسبات الكيمياء والعلوم الهندسية",
+                heroSubtitle: "استكشف حاسبات المحاليل، قوانين الغازات، الحسابات الكيميائية، والمساحة بدقة فائقة",
+                searchPlaceholder: "ابحث عن حاسبة (مثل: التركيز المولاري، الغاز المثالي، pH، انحدار...)",
+                catAll: "جميع الأدوات", catSolutions: "المحاليل والتركيز", catGases: "قوانين الغازات", catSurvey: "المساحة والهندسة",
+                tag1: "المحاليل", c1Title: "🧪 حاسبة التركيز المولاري", c1Desc: "حساب التركيز المولاري، الكتلة، والحجم للمحاليل الكيميائية.",
+                tag2: "المحاليل", c2Title: "💧 حاسبة تخفيف المحاليل (C1V1=C2V2)", c2Desc: "حساب الحجم أو التركيز المطلوب عند تخفيف المحاليل المركزية.",
+                tag3: "قوانين الغازات", c3Title: "🎈 قانون الغاز المثالي (PV=nRT)", c3Desc: "حساب الضغط، الحجم، درجة الحرارة، أو عدد المولات للغاز المثالي.",
+                tag4: "المحاليل", c4Title: "⚖️ نسبة التركيز الكتلية المئوية", c4Desc: "حساب النسبة المئوية لكتلة المذاب بالنسبة للكتلة الكلية للمحلول.",
+                tag5: "المحاليل", c5Title: "🧪 حاسبة الـ pH والـ pOH", c5Desc: "حساب الرقم الهيدروجيني pH، pOH وتراكيز أسيونات الهيدروجين.",
+                tag6: "كيمياء عامة", c6Title: "⚛️ حاسبة الكتلة المولية والمولات", c6Desc: "التحويل بين الجرامات، المولات، والكتلة الجزيئية بسهولة.",
+                tag7: "قوانين الغازات", c7Title: "📊 قانون بويل للغازات", c7Desc: "حساب العلاقة بين الضغط والحجم عند ثبات درجة الحرارة.",
+                tag8: "قوانين الغازات", c8Title: "🌡️ قانون شارل للغازات", c8Desc: "حساب التغير في الحجم ودرجة الحرارة عند ثبات الضغط.",
+                tag9: "هندسة مدنية", c9Title: "📐 حاسبة فرق الارتفاع والانحدار", c9Desc: "حساب دقيق لفرق الارتفاعات بالنسب المئوية بين النقاط الميدانية.",
+                tag10: "هندسة ميدانية", c10Title: "📐 حاسبة زاوية الميل والـ Offset", c10Desc: "إيجاد الإزاحة العمودية والمسافة المائلة الفعلية بناءً على زاوية الميل.",
                 dir: "rtl"
             }
         };
@@ -214,12 +298,15 @@
             document.getElementById('searchInput').placeholder = t.searchPlaceholder;
             
             document.getElementById('catAll').innerText = t.catAll;
+            document.getElementById('catSolutions').innerText = t.catSolutions;
+            document.getElementById('catGases').innerText = t.catGases;
             document.getElementById('catSurvey').innerText = t.catSurvey;
-            document.getElementById('catChemistry').innerText = t.catChemistry;
 
-            document.getElementById('tag1').innerText = t.tag1; document.getElementById('c1Title').innerText = t.c1Title; document.getElementById('c1Desc').innerText = t.c1Desc;
-            document.getElementById('tag2').innerText = t.tag2; document.getElementById('c2Title').innerText = t.c2Title; document.getElementById('c2Desc').innerText = t.c2Desc;
-            document.getElementById('tag3').innerText = t.tag3; document.getElementById('c3Title').innerText = t.c3Title; document.getElementById('c3Desc').innerText = t.c3Desc;
+            for(let i = 1; i <= 10; i++) {
+                if(document.getElementById(`tag${i}`)) document.getElementById(`tag${i}`).innerText = t[`tag${i}`];
+                if(document.getElementById(`c${i}Title`)) document.getElementById(`c${i}Title`).innerText = t[`c${i}Title`];
+                if(document.getElementById(`c${i}Desc`)) document.getElementById(`c${i}Desc`).innerText = t[`c${i}Desc`];
+            }
         }
     </script>
 </body>
