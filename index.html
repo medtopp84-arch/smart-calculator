@@ -9,9 +9,14 @@
         .main-container { max-width: 1200px; margin: 30px auto; }
         
         /* شريط العنوان واللغات */
-        .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 30px; background: white; padding: 20px 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; }
+        .header-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; background: white; padding: 20px 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; }
         .header-title { font-size: 24px; font-weight: bold; color: #2563eb; margin: 0; }
         select { padding: 8px 14px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 14px; background: #fff; cursor: pointer; }
+
+        /* أزرار التصنيفات */
+        .categories-bar { display: flex; gap: 10px; margin-bottom: 20px; flex-wrap: wrap; }
+        .cat-btn { padding: 8px 16px; border: 1px solid #cbd5e1; background: white; border-radius: 20px; cursor: pointer; font-size: 14px; font-weight: 600; color: #475569; transition: all 0.2s; }
+        .cat-btn:hover, .cat-btn.active { background: #2563eb; color: white; border-color: #2563eb; }
 
         /* شريط البحث الفوري */
         .search-box { margin-bottom: 30px; }
@@ -23,9 +28,9 @@
         .calc-card { background: white; border-radius: 14px; padding: 25px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; display: flex; flex-direction: column; justify-content: space-between; transition: transform 0.2s, box-shadow 0.2s; text-decoration: none; color: inherit; }
         .calc-card:hover { transform: translateY(-4px); box-shadow: 0 8px 25px rgba(37,99,235,0.08); border-color: #3b82f6; }
         
-        .card-category { font-size: 12px; font-weight: bold; text-transform: uppercase; color: #2563eb; background: #eff6ff; padding: 4px 10px; border-radius: 6px; width: fit-content; margin-bottom: 12px; }
-        .card-title { font-size: 18px; font-weight: bold; color: #1e293b; margin: 0 0 10px 0; }
-        .card-desc { font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px; }
+        .card-tag { font-size: 12px; font-weight: bold; text-transform: uppercase; color: #2563eb; background: #eff6ff; padding: 4px 10px; border-radius: 6px; width: fit-content; margin-bottom: 12px; display: inline-block; }
+        .calc-card h3 { font-size: 18px; font-weight: bold; color: #1e293b; margin: 0 0 10px 0; }
+        .calc-card p { font-size: 14px; color: #475569; line-height: 1.5; margin-bottom: 20px; }
         .card-link { font-size: 14px; font-weight: bold; color: #2563eb; display: flex; align-items: center; gap: 6px; }
         
         @media (max-width: 768px) {
@@ -45,45 +50,79 @@
             </select>
         </div>
 
+        <!-- أزرار التصنيفات -->
+        <div class="categories-bar">
+            <button onclick="filterCategory('all', this)" class="cat-btn active" id="catAll">All</button>
+            <button onclick="filterCategory('civil', this)" class="cat-btn" id="catCivil">Civil & Surveying</button>
+            <button onclick="filterCategory('chemistry', this)" class="cat-btn" id="catChemistry">Chemistry & Science</button>
+        </div>
+
         <div class="search-box">
             <input type="text" id="searchInput" class="search-input" placeholder="Search calculators (e.g. slope, angle, chemistry)..." oninput="filterCalculators()">
         </div>
 
         <div class="calculators-grid" id="calcGrid">
             
-            <a href="calculator_slope_elevation.html" class="calc-card" data-keywords="slope elevation grade gradient انحدار فرق ارتفاع">
+            <a href="calculator_slope_elevation.html" class="calc-card" data-category="civil" data-keywords="slope elevation grade gradient انحدار فرق ارتفاع">
                 <div>
-                    <span class="card-category" id="catCivil1">Civil Engineering</span>
-                    <h3 class="card-title" id="card1Title">Elevation Difference & Slope Calculator</h3>
-                    <p class="card-desc" id="card1Desc">Calculate vertical drop, slope percentage, and inclination angles between two spatial points accurately.</p>
+                    <span class="card-tag" id="catCivil1">Civil Engineering</span>
+                    <h3 id="card1Title">Elevation Difference & Slope Calculator</h3>
+                    <p id="card1Desc">Calculate vertical drop, slope percentage, and inclination angles between two spatial points accurately.</p>
                 </div>
                 <div class="card-link" id="link1">Open Calculator →</div>
             </a>
 
-            <a href="calculator_angle_offset.html" class="calc-card" data-keywords="angle offset trigonometry زاوية ميل إزاحة">
+            <a href="calculator_angle_offset.html" class="calc-card" data-category="civil" data-keywords="angle offset trigonometry زاوية ميل إزاحة">
                 <div>
-                    <span class="card-category" id="catCivil2">Surveying & Geometry</span>
-                    <h3 class="card-title" id="card2Title">Angle & Offset Calculator</h3>
-                    <p class="card-desc" id="card2Desc">Compute vertical offsets and actual slope distances using right-angle triangle trigonometry.</p>
+                    <span class="card-tag" id="catCivil2">Surveying & Geometry</span>
+                    <h3 id="card2Title">Angle & Offset Calculator</h3>
+                    <p id="card2Desc">Compute vertical offsets and actual slope distances using right-angle triangle trigonometry.</p>
                 </div>
                 <div class="card-link" id="link2">Open Calculator →</div>
+            </a>
+
+            <!-- بطاقة حاسبة الكيمياء الجديدة -->
+            <a href="calculator_molarity.html" class="calc-card" data-category="chemistry" data-keywords="molarity concentration moles chemistry مولار تركيز مولات كيمياء">
+                <div>
+                    <span class="card-tag" id="tagMolarity">Chemistry & Applied Science</span>
+                    <h3 id="cMolarityTitle">Molarity Calculator</h3>
+                    <p id="cMolarityDesc">Calculate the molar concentration and number of moles for solutions with precision.</p>
+                </div>
+                <div class="card-link" id="link3">Open Calculator →</div>
             </a>
 
         </div>
     </div>
 
     <script>
-        // محرك البحث الفوري
+        let currentCategory = 'all';
+
+        // تصفية حسب التصنيف (Category Filter)
+        function filterCategory(category, btn) {
+            currentCategory = category;
+            let btns = document.getElementsByClassName('cat-btn');
+            for (let b of btns) {
+                b.classList.remove('active');
+            }
+            btn.classList.add('active');
+            filterCalculators();
+        }
+
+        // محرك البحث الفوري مع دعم الفلترة بالتصنيف
         function filterCalculators() {
             let query = document.getElementById('searchInput').value.toLowerCase();
             let cards = document.getElementsByClassName('calc-card');
 
             for (let card of cards) {
                 let keywords = card.getAttribute('data-keywords').toLowerCase();
-                let title = card.querySelector('.card-title').innerText.toLowerCase();
-                let desc = card.querySelector('.card-desc').innerText.toLowerCase();
+                let cardCategory = card.getAttribute('data-category');
+                let title = card.querySelector('h3').innerText.toLowerCase();
+                let desc = card.querySelector('p').innerText.toLowerCase();
 
-                if (keywords.includes(query) || title.includes(query) || desc.includes(query)) {
+                let matchesSearch = keywords.includes(query) || title.includes(query) || desc.includes(query);
+                let matchesCategory = (currentCategory === 'all' || cardCategory === currentCategory);
+
+                if (matchesSearch && matchesCategory) {
                     card.style.display = "flex";
                 } else {
                     card.style.display = "none";
@@ -91,11 +130,14 @@
             }
         }
 
-        // إعدادات اللغات
+        // إعدادات اللغات والترجمات
         const translations = {
             en: {
                 mainTitle: "⚙️ OmniEngineer Pro Hub",
                 searchPlaceholder: "Search calculators (e.g. slope, angle, chemistry)...",
+                catAll: "All",
+                catCivil: "Civil & Surveying",
+                catChemistry: "Chemistry & Science",
                 catCivil1: "Civil Engineering",
                 card1Title: "Elevation Difference & Slope Calculator",
                 card1Desc: "Calculate vertical drop, slope percentage, and inclination angles between two spatial points accurately.",
@@ -104,11 +146,18 @@
                 card2Title: "Angle & Offset Calculator",
                 card2Desc: "Compute vertical offsets and actual slope distances using right-angle triangle trigonometry.",
                 link2: "Open Calculator →",
+                tagMolarity: "Chemistry & Applied Science",
+                cMolarityTitle: "Molarity Calculator",
+                cMolarityDesc: "Calculate the molar concentration and number of moles for solutions with precision.",
+                link3: "Open Calculator →",
                 dir: "ltr"
             },
             fr: {
                 mainTitle: "⚙️ OmniEngineer Pro Hub",
                 searchPlaceholder: "Rechercher des calculateurs...",
+                catAll: "Tous",
+                catCivil: "Génie Civil & Topographie",
+                catChemistry: "Chimie & Science",
                 catCivil1: "Génie Civil",
                 card1Title: "Calculateur de Dénivelée et Pente",
                 card1Desc: "Calculez la chute verticale, le pourcentage de pente et les angles d'inclinaison avec précision.",
@@ -117,11 +166,18 @@
                 card2Title: "Calculateur Angle & Offset",
                 card2Desc: "Calculez les décalages verticaux et les distances inclinées réelles.",
                 link2: "Ouvrir le calculateur →",
+                tagMolarity: "Chimie & Science Appliquée",
+                cMolarityTitle: "Calculateur de Molarité",
+                cMolarityDesc: "Calculez la concentration molaire et le nombre de moles pour vos solutions.",
+                link3: "Ouvrir le calculateur →",
                 dir: "ltr"
             },
             ar: {
                 mainTitle: "⚙️ منصة الحاسبات الهندسية الرئيسية",
                 searchPlaceholder: "ابحث عن أي حاسبة (مثل: انحدار، زاوية، كيمياء)...",
+                catAll: "الكل",
+                catCivil: "الهندسة المدنية والمساحة",
+                catChemistry: "الكيمياء والعلوم",
                 catCivil1: "الهندسة المدنية",
                 card1Title: "حاسبة فرق الارتفاع والانحدار",
                 card1Desc: "احسب فرق الارتفاع الرأسي، نسبة الانحدار المئوية، وزوايا الميل بدقة بين نقطتين.",
@@ -130,6 +186,10 @@
                 card2Title: "حاسبة زاوية الميل والـ Offset",
                 card2Desc: "حساب الإزاحات العمودية والمسافات المائلة الفعلية باستخدام حساب المثلثات.",
                 link2: "افتح الحاسبة ←",
+                tagMolarity: "الكيمياء والعلوم التطبيقية",
+                cMolarityTitle: "حاسبة التركيز المولاري",
+                cMolarityDesc: "حساب التركيز المولاري وعدد المولات للمحاليل بدقة وسهولة.",
+                link3: "افتح الحاسبة ←",
                 dir: "rtl"
             }
         };
@@ -143,15 +203,28 @@
             document.getElementById('mainTitle').innerText = t.mainTitle;
             document.getElementById('searchInput').placeholder = t.searchPlaceholder;
             
+            // ترجمة الأزرار والتصنيفات
+            if(document.getElementById('catAll')) document.getElementById('catAll').innerText = t.catAll;
+            if(document.getElementById('catCivil')) document.getElementById('catCivil').innerText = t.catCivil;
+            if(document.getElementById('catChemistry')) document.getElementById('catChemistry').innerText = t.catChemistry;
+
+            // ترجمة البطاقة الأولى
             document.getElementById('catCivil1').innerText = t.catCivil1;
             document.getElementById('card1Title').innerText = t.card1Title;
             document.getElementById('card1Desc').innerText = t.card1Desc;
             document.getElementById('link1').innerText = t.link1;
 
+            // ترجمة البطاقة الثانية
             document.getElementById('catCivil2').innerText = t.catCivil2;
             document.getElementById('card2Title').innerText = t.card2Title;
             document.getElementById('card2Desc').innerText = t.card2Desc;
             document.getElementById('link2').innerText = t.link2;
+
+            // ترجمة بطاقة الكيمياء الجديدة
+            document.getElementById('tagMolarity').innerText = t.tagMolarity;
+            document.getElementById('cMolarityTitle').innerText = t.cMolarityTitle;
+            document.getElementById('cMolarityDesc').innerText = t.cMolarityDesc;
+            if(document.getElementById('link3')) document.getElementById('link3').innerText = t.link3;
         }
     </script>
 </body>
