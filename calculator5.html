@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" id="htmlTag">
+<html lang="en" dir="ltr" id="htmlTag" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -8,58 +8,104 @@
         :root {
             --primary: #2563eb;
             --primary-dark: #1d4ed8;
-            --bg-main: #f8fafc;
+            --bg-color: #f8fafc;
             --card-bg: #ffffff;
             --text-main: #1e293b;
-            --text-muted: #475569;
-            --border-color: #e2e8f0;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --result-bg: #f0fdf4;
+            --btn-success: #10b981;
+            --btn-success-hover: #059669;
         }
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-main); color: var(--text-main); margin: 0; padding: 20px; }
-        .page-container { max-width: 1280px; margin: 30px auto; display: grid; grid-template-columns: 1fr 440px; gap: 30px; }
+
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-dark: #60a5fa;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --result-bg: #065f46;
+            --btn-success: #059669;
+            --btn-success-hover: #047857;
+        }
+
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
+        
+        header { background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; }
+        .logo { font-size: 18px; font-weight: bold; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .header-controls { display: flex; align-items: center; gap: 12px; }
+        
+        .page-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
         @media (max-width: 992px) { .page-container { grid-template-columns: 1fr; } }
         
-        .content-section { background: var(--card-bg); padding: 35px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid var(--border-color); line-height: 1.8; }
-        .content-section h2 { color: var(--primary); margin-top: 0; font-size: 24px; }
+        .content-section { background: var(--card-bg); padding: 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border); line-height: 1.7; }
+        .content-section h2 { color: var(--primary); margin-top: 0; font-size: 22px; }
         .content-section p { color: var(--text-muted); font-size: 15px; }
         
-        .pro-blueprint-box { background: #f1f5f9; border: 2px solid #3b82f6; border-radius: 14px; padding: 20px; text-align: center; margin: 25px 0; position: relative; overflow: hidden; }
+        [dir="rtl"] .content-section { text-align: right; }
+        [dir="rtl"] .content-section ul { padding-right: 20px; padding-left: 0; }
+        
+        .pro-blueprint-box { background: #f1f5f9; border: 2px solid var(--primary); border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; overflow: hidden; }
+        [data-theme="dark"] .pro-blueprint-box { background: #1e293b; border-color: var(--primary); }
         .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+        [dir="rtl"] .pro-blueprint-box svg { transform: scaleX(-1); }
 
-        .formula-box { background: #eff6ff; border-left: 4px solid var(--primary); padding: 15px 20px; margin: 25px 0; font-family: 'Courier New', monospace; font-size: 14px; color: var(--primary-dark); border-radius: 6px; text-align: left; }
-        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid var(--primary); text-align: right; }
+        .formula-box { background: #eff6ff; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 14px; color: var(--primary-dark); border-radius: 4px; text-align: center; }
+        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid var(--primary); }
+        [data-theme="dark"] .formula-box { background: #1e3a8a; color: #60a5fa; }
 
         .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
-        .calculator { background: var(--card-bg); padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid var(--border-color); }
-        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        a.back-btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 13px; transition: color 0.2s; }
+        .calculator { background: var(--card-bg); padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--border); }
+        
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        a.back-btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 13px; transition: color 0.2s; display: inline-flex; align-items: center; gap: 4px; }
         a.back-btn:hover { color: var(--primary-dark); }
-        select { padding: 6px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 13px; background: #fff; cursor: pointer; outline: none; }
+        [dir="rtl"] a.back-btn { flex-direction: row-reverse; }
+        
+        select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
         
         .input-group { margin-bottom: 16px; }
-        label { display: block; margin-bottom: 6px; color: var(--text-muted); font-weight: bold; font-size: 13px;}
-        input, select.form-control { width: 100%; padding: 11px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; box-sizing: border-box; transition: all 0.2s; background: #fff; }
-        input:focus, select.form-control:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.12); }
+        label { display: block; margin-bottom: 6px; color: var(--text-muted); font-weight: bold; font-size: 13px; }
+        input, select.form-control { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
+        input:focus, select.form-control:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
         
-        .result-box { background: #f0fdf4; padding: 18px; border-radius: 10px; margin-top: 20px; text-align: center; border: 1px solid #bbf7d0; }
-        .result-text { font-size: 13px; color: #15803d; font-weight: bold; margin: 8px 0; }
-        .highlight { font-size: 17px; font-weight: 800; }
+        .result-box { background: var(--result-bg); padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid var(--primary); }
+        .result-text { font-size: 13px; color: var(--text-main); font-weight: bold; margin: 6px 0; }
+        .highlight { font-size: 17px; color: var(--primary); }
 
-        .btn-action { width: 100%; background: #10b981; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; margin-top: 15px; transition: background 0.2s; }
-        .btn-action:hover { background: #059669; }
+        .btn-action { width: 100%; background: var(--btn-success); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; margin-top: 15px; transition: background 0.2s; }
+        .btn-action:hover { background: var(--btn-success-hover); }
 
-        .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 22px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
+        .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .ai-header { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; color: #60a5fa; }
-        .ai-chat-output { background: #1e293b; padding: 14px; border-radius: 10px; font-size: 13px; color: #cbd5e1; min-height: 70px; margin-bottom: 14px; line-height: 1.6; border: 1px solid #334155; }
+        .ai-chat-output { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 13px; color: #cbd5e1; min-height: 60px; margin-bottom: 12px; line-height: 1.5; }
         .ai-input-group { display: flex; gap: 8px; }
-        .ai-input { flex: 1; padding: 9px 12px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
-        .ai-btn { background: var(--primary); color: white; border: none; padding: 9px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
+        .ai-input { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
+        .ai-btn { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
         .ai-btn:hover { background: var(--primary-dark); }
+
+        .theme-btn { width: 36px; height: 36px; padding: 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; }
+        .lang-select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
     </style>
 </head>
 <body>
 
+    <header>
+        <a href="index.html" class="logo" id="homeLink"><span id="headerArrow">←</span> <span id="backText">Back to Hub</span></a>
+        <div class="header-controls">
+            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙</button>
+            <select class="lang-select" id="langSelect" onchange="changeLanguage()">
+                <option value="en">English 🇬🇧</option>
+                <option value="fr">Français 🇫🇷</option>
+                <option value="ar">العربية 🇸🇦</option>
+            </select>
+        </div>
+    </header>
+
     <div class="page-container">
-        <!-- القسم الإنشائي والتشريحي -->
         <div class="content-section">
             <h2 id="secTitle">Advanced Pipeline Liquid Volume, Mass & Hydrotest Engineering</h2>
             <p id="secP1">Calculating internal liquid volume, fluid mass, and filling logistics of a pipeline is critical for hydrotesting, chemical flushing, pipeline purging, and hydraulic inventory estimations in oil, gas, and water networks.</p>
@@ -89,7 +135,7 @@
             
             <p id="secP2">Key Engineering Parameters Addressed:</p>
             <ul>
-                <li id="li1"><strong>Internal Geometry & Volume:</strong> Exact volumetric capacity in $m^3$ and Liters.</li>
+                <li id="li1"><strong>Internal Geometry & Volume:</strong> Exact volumetric capacity in m³ and Liters.</li>
                 <li id="li2"><strong>Fluid Density & Mass:</strong> Weight verification for structural support and buoyancy calculations.</li>
                 <li id="li3"><strong>Pumping Logistics:</strong> Estimating precise filling/flushing duration based on injection rate.</li>
                 <li id="li4"><strong>Hydrostatic Testing:</strong> Establishing safety water volume baselines for pressure holding tests.</li>
@@ -97,19 +143,14 @@
             <p id="secP3">Accurate forecasting prevents operational downtime and ensures safe pressure thresholds during pre-commissioning.</p>
         </div>
 
-        <!-- الشريط الجانبي للحسابات والذكاء الاصطناعي -->
         <div class="calculator-sidebar">
             <div class="calculator">
                 <div class="top-bar">
-                    <a href="index.html" class="back-btn" id="backText">← Back to Directory</a>
-                    <select id="langSelect" onchange="changeLanguage()">
-                        <option value="en">English 🇬🇧</option>
-                        <option value="fr">Français 🇫🇷</option>
-                        <option value="ar">العربية 🇸🇦</option>
-                    </select>
+                    <a href="index.html" class="back-btn" id="backText2"><span id="backArrow">←</span> <span id="backLabel">Back to Directory</span></a>
+                    <select class="lang-select" id="langSelect2" onchange="changeLanguage()" style="display:none;"></select>
                 </div>
 
-                <h2 id="calcTitle" style="text-align: left; font-size: 16px; margin-top: 0; color: #1e293b;">💧 Pro Pipeline Calculator</h2>
+                <h2 id="calcTitle" style="text-align: left; font-size: 16px; margin-top: 0; color: var(--text-main);">💧 Pro Pipeline Calculator</h2>
                 
                 <div class="input-group">
                     <label id="labelDiam">Inner Diameter (millimeters):</label>
@@ -144,14 +185,9 @@
                 <button class="btn-action" id="btnPrint" onclick="generateReport()">📄 Export Hydrotest Report</button>
             </div>
 
-            <!-- مساعد الذكاء الاصطناعي المطور -->
             <div class="ai-assistant-box">
-                <div class="ai-header">
-                    🤖 OmniEngineer Pro Max AI
-                </div>
-                <div class="ai-chat-output" id="aiOutput">
-                    Hello Engineer! Ask me about hydrotesting standards, flow velocities, or mass inventory.
-                </div>
+                <div class="ai-header">🤖 OmniEngineer Pro Max AI</div>
+                <div class="ai-chat-output" id="aiOutput">Hello Engineer! Ask me about hydrotesting standards, flow velocities, or mass inventory.</div>
                 <div class="ai-input-group">
                     <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI technical question...">
                     <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
@@ -161,6 +197,26 @@
     </div>
 
     <script>
+        function toggleTheme() {
+            let html = document.getElementById('htmlTag');
+            let btn = document.getElementById('themeToggleBtn');
+            if (html.getAttribute('data-theme') === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                btn.innerText = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                btn.innerText = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        window.onload = function() {
+            let savedTheme = localStorage.getItem('theme') || 'light';
+            document.getElementById('htmlTag').setAttribute('data-theme', savedTheme);
+            document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
+        }
+
         function calculateVolume() {
             let D_mm = parseFloat(document.getElementById('innerDiam').value) || 0;
             let L = parseFloat(document.getElementById('pipeLength').value) || 0;
@@ -212,7 +268,10 @@
 
         const translations = {
             en: {
-                backText: "← Back to Directory",
+                backText: "Back to Hub",
+                backLabel: "Back to Directory",
+                backArrow: "←",
+                headerArrow: "←",
                 calcTitle: "💧 Pro Pipeline Calculator",
                 labelDiam: "Inner Diameter (millimeters):",
                 labelLen: "Pipeline Length (meters):",
@@ -231,10 +290,17 @@
                 secP1: "Calculating internal liquid volume, fluid mass, and filling logistics of a pipeline is critical for hydrotesting, chemical flushing, pipeline purging, and hydraulic inventory estimations.",
                 secP2: "Key Engineering Parameters Addressed:",
                 secP3: "Accurate forecasting prevents operational downtime and ensures safe pressure thresholds during pre-commissioning.",
-                dir: "ltr"
+                dir: "ltr",
+                li1: "Internal Geometry & Volume = Exact volumetric capacity in m³ and Liters.",
+                li2: "Fluid Density & Mass = Weight verification for structural support and buoyancy calculations.",
+                li3: "Pumping Logistics = Estimating precise filling/flushing duration based on injection rate.",
+                li4: "Hydrostatic Testing = Establishing safety water volume baselines for pressure holding tests."
             },
             fr: {
-                backText: "← Retour au répertoire",
+                backText: "Retour au Hub",
+                backLabel: "Retour au répertoire",
+                backArrow: "←",
+                headerArrow: "←",
                 calcTitle: "💧 Calculateur Pro de Conduite",
                 labelDiam: "Diamètre Intérieur (millimètres) :",
                 labelLen: "Longueur de la Conduite (mètres) :",
@@ -253,10 +319,17 @@
                 secP1: "Le calcul du volume interne, de la masse du fluide et de la logistique de remplissage est essentiel pour les tests hydrostatiques.",
                 secP2: "Paramètres Techniques Clés :",
                 secP3: "Une prévision précise garantit la sécurité des seuils de pression.",
-                dir: "ltr"
+                dir: "ltr",
+                li1: "Géométrie et Volume = Capacité volumétrique exacte en m³ et Litres.",
+                li2: "Densité et Masse = Vérification du poids pour les calculs structurels.",
+                li3: "Logistique de pompage = Estimation de la durée de remplissage.",
+                li4: "Test Hydrostatique = Établissement des volumes de base pour les tests de pression."
             },
             ar: {
-                backText: "← العودة إلى الدليل",
+                backText: "العودة للرئيسية",
+                backLabel: "العودة إلى الدليل",
+                backArrow: "→",
+                headerArrow: "→",
                 calcTitle: "💧 الحاسبة الاحترافية لخطوط الأنابيب",
                 labelDiam: "القطر الداخلي للأنبوب (ملمتر):",
                 labelLen: "طول خط الأنابيب (متر):",
@@ -275,16 +348,26 @@
                 secP1: "يعد حساب حجم السوائل الداخلي، والكتلة الكلية للسوائل، ولوجستيات التعبئة أمراً بالغ الأهمية لاختبارات الضغط الهيدروستاتيكي، الغسيل الكيميائي، وتحديد الأحمال الهيدروليكية لخطوط الأنابيب.",
                 secP2: "المعاملات الهندسية المعالجة:",
                 secP3: "يمنع التقدير الدقيق أي توقف تشغيلي ويضمن الالتزام بمعايير الضغط الآمنة أثناء مرحلة ما قبل التشغيل.",
-                dir: "rtl"
+                dir: "rtl",
+                li1: "الهندسة الداخلية والحجم = السعة الحجمية الدقيقة بالمتر المكعب واللتر.",
+                li2: "كثافة السائل والكتلة = التحقق من الوزن للدعم الهيكلي وحسابات الطفو.",
+                li3: "خدمات الضخ = تقدير مدة التعبئة/التنظيف بناءً على معدل الحقن.",
+                li4: "اختبار الضغط الهيدروستاتيكي = إنشاء خطوط أساس لحجم المياه الآمن لاختبارات الضغط."
             }
         };
 
         function changeLanguage() {
             let lang = document.getElementById('langSelect').value;
             let t = translations[lang];
-            document.getElementById('htmlTag').setAttribute('lang', lang);
-            document.getElementById('htmlTag').setAttribute('dir', t.dir);
+            let html = document.getElementById('htmlTag');
+            
+            html.setAttribute('lang', lang);
+            html.setAttribute('dir', t.dir);
+            
             document.getElementById('backText').innerText = t.backText;
+            document.getElementById('backLabel').innerText = t.backLabel;
+            document.getElementById('backArrow').innerText = t.backArrow;
+            document.getElementById('headerArrow').innerText = t.headerArrow;
             document.getElementById('calcTitle').innerText = t.calcTitle;
             document.getElementById('labelDiam').innerText = t.labelDiam;
             document.getElementById('labelLen').innerText = t.labelLen;
@@ -303,6 +386,12 @@
             document.getElementById('secP1').innerText = t.secP1;
             document.getElementById('secP2').innerText = t.secP2;
             document.getElementById('secP3').innerText = t.secP3;
+            
+            for(let i = 1; i <= 4; i++) {
+                if(document.getElementById(`li${i}`)) {
+                    document.getElementById(`li${i}`).innerHTML = t[`li${i}`];
+                }
+            }
         }
     </script>
 </body>
