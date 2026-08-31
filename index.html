@@ -3,7 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>OmniEngineer Pro | Directory Hub</title>
+    
+    <!-- SEO Meta Tags -->
+    <title>ChemiCalc Pro | Free Scientific & Engineering Calculators Online</title>
+    <meta name="description" content="Free online scientific calculators for chemistry, gas laws, engineering, and more. Calculate molarity, pH, EMF, ideal gas, and 22+ tools instantly.">
+    <meta name="keywords" content="scientific calculator, chemistry calculator, engineering calculator, molarity calculator, pH calculator, gas law calculator, free online tools, ChemiCalc, OmniEngineer">
+    <meta name="robots" content="index, follow">
+    <link rel="canonical" href="https://your-github-username.github.io/smart-calculator/">
+    
+    <!-- Open Graph / Social Media -->
+    <meta property="og:title" content="ChemiCalc Pro - Scientific & Engineering Calculators">
+    <meta property="og:description" content="Free online calculators for chemistry, physics, and engineering. 22+ tools available instantly.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://your-github-username.github.io/smart-calculator/">
+    <meta name="twitter:card" content="summary_large_image">
+    
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧪</text></svg>">
+    
     <style>
         :root {
             --primary: #2563eb;
@@ -28,12 +45,14 @@
         }
 
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
-        header { background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        header { background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.05); flex-wrap: wrap; gap: 10px; }
         .logo { font-size: 20px; font-weight: bold; color: var(--primary); display: flex; align-items: center; gap: 8px; text-decoration: none; }
-        .header-controls { display: flex; align-items: center; gap: 12px; }
+        .logo span { color: var(--primary-dark); }
+        .header-controls { display: flex; align-items: center; gap: 12px; flex-wrap: wrap; }
         .container { max-width: 1200px; margin: 40px auto; padding: 0 20px; }
         .hero { text-align: center; margin-bottom: 35px; }
         .hero h1 { font-size: 32px; margin-bottom: 10px; color: var(--text-main); }
+        .hero h1 span { color: var(--primary); }
         .hero p { color: var(--text-muted); font-size: 16px; }
         .search-container { margin: 25px auto 15px auto; max-width: 650px; }
         .search-input { width: 100%; padding: 16px 22px; font-size: 16px; border: 2px solid var(--border); border-radius: 12px; outline: none; transition: all 0.3s; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
@@ -53,12 +72,63 @@
         .card-tag { display: inline-block; background: var(--tag-bg); color: var(--primary); font-size: 11px; padding: 3px 8px; border-radius: 6px; margin-bottom: 10px; width: fit-content; font-weight: bold; }
         .lang-select, .theme-btn { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px; }
         .theme-btn { width: 36px; height: 36px; padding: 0; display: flex; align-items: center; justify-content: center; }
+        
+        /* ===== AdSense Container ===== */
+        .ads-container {
+            max-width: 728px;
+            margin: 30px auto;
+            padding: 15px;
+            background: var(--card-bg);
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+            text-align: center;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+        .ads-container ins {
+            display: block;
+        }
+        .footer-ads {
+            max-width: 970px;
+            margin: 40px auto;
+            padding: 15px;
+            background: var(--card-bg);
+            border: 1px dashed var(--border);
+            border-radius: 12px;
+            text-align: center;
+            min-height: 90px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--text-muted);
+            font-size: 13px;
+        }
+        .badge-pro {
+            background: linear-gradient(135deg, #f59e0b, #d97706);
+            color: white;
+            font-size: 10px;
+            padding: 2px 10px;
+            border-radius: 12px;
+            margin-left: 6px;
+            font-weight: bold;
+            display: inline-block;
+        }
+        
+        /* تحسينات RTL */
+        [dir="rtl"] .badge-pro { margin-left: 0; margin-right: 6px; }
+        [dir="rtl"] .logo { flex-direction: row-reverse; }
     </style>
 </head>
 <body>
 
     <header>
-        <a href="index.html" class="logo">⚙️ OmniEngineer Pro</a>
+        <a href="index.html" class="logo">
+            🧪 <span>ChemiCalc</span> Pro <span class="badge-pro">v2.0</span>
+        </a>
         <div class="header-controls">
             <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle Theme">🌙</button>
             <select class="lang-select" id="langSelect" onchange="changeLanguage()">
@@ -70,24 +140,55 @@
     </header>
 
     <div class="container">
+        
+        <!-- ===== إعلان أعلى الصفحة ===== -->
+        <div class="ads-container" id="topAd">
+            <!-- Google AdSense Code - ضع كود AdSense هنا -->
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                data-ad-slot="XXXXXXXXXX"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+            <!-- في حالة عدم وجود AdSense بعد، يظهر هذا النص -->
+            <span style="display: none;" id="adPlaceholder">📢 إعلان - Ad Space</span>
+        </div>
+
         <div class="hero">
-            <h1 id="heroTitle">Chemistry & Science Calculators</h1>
-            <p id="heroSubtitle">Explore solutions, gas laws, stoichiometry, and engineering tools built with professional accuracy</p>
+            <h1 id="heroTitle">⚡ <span>ChemiCalc Pro</span> - Scientific Calculators</h1>
+            <p id="heroSubtitle">Free online calculators for chemistry, gas laws, engineering & more. <strong>22+ tools</strong> built with professional accuracy.</p>
             
             <div class="search-container">
-                <input type="text" id="searchInput" class="search-input" placeholder="Search calculators (e.g., Molarity, pH, Slope...)" oninput="filterCalculators()">
+                <input type="text" id="searchInput" class="search-input" placeholder="Search calculators (e.g., Molarity, pH, Slope, Gas Law...)" oninput="filterCalculators()">
             </div>
 
             <div class="category-container">
                 <button onclick="filterCategory('all', this)" class="cat-btn active" id="catAll">All Tools</button>
                 <button onclick="filterCategory('solutions', this)" class="cat-btn" id="catSolutions">Solutions & Concentration</button>
                 <button onclick="filterCategory('gases', this)" class="cat-btn" id="catGases">Gas Laws</button>
-                <button onclick="filterCategory('survey', this)" class="cat-btn" id="catSurvey">Surveying & Engineering</button>
+                <button onclick="filterCategory('survey', this)" class="cat-btn" id="catSurvey">Engineering & Surveying</button>
             </div>
         </div>
 
-        <div class="calculators-grid" id="calcGrid">
+        <!-- ===== إعلان متوسط الصفحة ===== -->
+        <div class="ads-container" id="middleAd" style="max-width: 728px; margin: 20px auto;">
+            <ins class="adsbygoogle"
+                style="display:block"
+                data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+                data-ad-slot="XXXXXXXXXX"
+                data-ad-format="auto"
+                data-full-width-responsive="true"></ins>
+            <script>
+                (adsbygoogle = window.adsbygoogle || []).push({});
+            </script>
+            <span style="display: none;" id="adPlaceholder2">📢 إعلان - Ad Space</span>
+        </div>
 
+        <div class="calculators-grid" id="calcGrid">
+            <!-- جميع الحاسبات 1-22 كما هي موجودة في الكود السابق -->
             <!-- 1. Molarity Calculator -->
             <a href="calculator_molarity.html" class="calc-card" data-category="solutions" data-keywords="molarity concentration moles chemistry تركيز مولاري مولات محاليل كيمياء">
                 <div>
@@ -268,7 +369,7 @@
                 </div>
             </a>
 
-            <!-- 21. Gay-Lussac's Law (calculator_gay_lussac.html) -->
+            <!-- 21. Gay-Lussac's Law -->
             <a href="calculator_gay_lussac.html" class="calc-card" data-category="gases" data-keywords="gay lussac law pressure temperature P1/T1=P2/T2 جاي لوساك ضغط حرارة">
                 <div>
                     <span class="card-tag" id="tag21">🌡️ Gas Laws</span>
@@ -277,7 +378,7 @@
                 </div>
             </a>
 
-            <!-- 22. Molar Mass (calculator_molar_mass.html) -->
+            <!-- 22. Molar Mass -->
             <a href="calculator_molar_mass.html" class="calc-card" data-category="solutions" data-keywords="molar mass molecular weight elements grams mole كتلة مولية وزن جزيئي">
                 <div>
                     <span class="card-tag" id="tag22">⚛️ General Chemistry</span>
@@ -287,6 +388,20 @@
             </a>
 
         </div>
+    </div>
+
+    <!-- ===== إعلان أسفل الصفحة ===== -->
+    <div class="footer-ads" id="footerAd">
+        <ins class="adsbygoogle"
+            style="display:block"
+            data-ad-client="ca-pub-XXXXXXXXXXXXXXXX"
+            data-ad-slot="XXXXXXXXXX"
+            data-ad-format="auto"
+            data-full-width-responsive="true"></ins>
+        <script>
+            (adsbygoogle = window.adsbygoogle || []).push({});
+        </script>
+        <span style="display: none;" id="adPlaceholder3">📢 إعلان - Ad Space</span>
     </div>
 
     <script>
@@ -342,10 +457,10 @@
 
         const translations = {
             en: {
-                heroTitle: "Chemistry & Science Calculators",
-                heroSubtitle: "Explore solutions, gas laws, stoichiometry, and engineering tools built with professional accuracy",
-                searchPlaceholder: "Search calculators (e.g., Molarity, pH, Slope...)",
-                catAll: "All Tools", catSolutions: "Solutions & Concentration", catGases: "Gas Laws", catSurvey: "Surveying & Engineering",
+                heroTitle: "⚡ ChemiCalc Pro - Scientific Calculators",
+                heroSubtitle: "Free online calculators for chemistry, gas laws, engineering & more. 22+ tools built with professional accuracy.",
+                searchPlaceholder: "Search calculators (e.g., Molarity, pH, Slope, Gas Law...)",
+                catAll: "All Tools", catSolutions: "Solutions & Concentration", catGases: "Gas Laws", catSurvey: "Engineering & Surveying",
                 tag1: "Solutions", c1Title: "🧪 Molarity Calculator", c1Desc: "Calculate molar concentration, mass, and volume for chemical solutions.",
                 tag2: "🧪 Acid-Base", c2Title: "🧪 pH Calculator", c2Desc: "Calculate pH, pOH, [H⁺], and [OH⁻] for aqueous solutions.",
                 tag3: "⚡ Electrochemistry", c3Title: "⚡ EMF Calculator", c3Desc: "Calculate electromotive force of galvanic cells using electrode potentials.",
@@ -371,10 +486,10 @@
                 dir: "ltr"
             },
             fr: {
-                heroTitle: "Calculateurs de Chimie & Sciences",
-                heroSubtitle: "Explorez les solutions, lois des gaz, stœchiométrie et outils d'ingénierie",
-                searchPlaceholder: "Rechercher (ex: Molarité, pH, Pente...)",
-                catAll: "Tous les outils", catSolutions: "Solutions & Concentration", catGases: "Lois des Gaz", catSurvey: "Topographie & Ingénierie",
+                heroTitle: "⚡ ChemiCalc Pro - Calculateurs Scientifiques",
+                heroSubtitle: "Calculatrices en ligne gratuites pour la chimie, les lois des gaz, l'ingénierie et plus. 22+ outils.",
+                searchPlaceholder: "Rechercher (ex: Molarité, pH, Pente, Loi des Gaz...)",
+                catAll: "Tous les outils", catSolutions: "Solutions & Concentration", catGases: "Lois des Gaz", catSurvey: "Ingénierie & Topographie",
                 tag1: "Solutions", c1Title: "🧪 Calculateur de Molarité", c1Desc: "Calculez la concentration molaire, la masse et le volume des solutions.",
                 tag2: "🧪 Acide-Base", c2Title: "🧪 Calculateur de pH", c2Desc: "Calculez le pH, pOH, [H⁺] et [OH⁻] pour les solutions aqueuses.",
                 tag3: "⚡ Électrochimie", c3Title: "⚡ Calculateur EMF", c3Desc: "Calculez la force électromotrice des piles galvaniques.",
@@ -400,10 +515,10 @@
                 dir: "ltr"
             },
             ar: {
-                heroTitle: "حاسبات الكيمياء والعلوم الهندسية",
-                heroSubtitle: "استكشف حاسبات المحاليل، قوانين الغازات، الحسابات الكيميائية، والمساحة بدقة فائقة",
-                searchPlaceholder: "ابحث عن حاسبة (مثل: التركيز المولاري، pH، انحدار...)",
-                catAll: "جميع الأدوات", catSolutions: "المحاليل والتركيز", catGases: "قوانين الغازات", catSurvey: "المساحة والهندسة",
+                heroTitle: "⚡ ChemiCalc Pro - حاسبات علمية",
+                heroSubtitle: "حاسبات مجانية عبر الإنترنت للكيمياء، قوانين الغازات، الهندسة والمزيد. 22+ أداة بدقة احترافية.",
+                searchPlaceholder: "ابحث عن حاسبة (مثل: التركيز المولاري، pH، انحدار، قانون الغاز...)",
+                catAll: "جميع الأدوات", catSolutions: "المحاليل والتركيز", catGases: "قوانين الغازات", catSurvey: "الهندسة والمساحة",
                 tag1: "المحاليل", c1Title: "🧪 حاسبة التركيز المولاري", c1Desc: "حساب التركيز المولاري، الكتلة، والحجم للمحاليل الكيميائية.",
                 tag2: "🧪 الأحماض والقواعد", c2Title: "🧪 حاسبة الأس الهيدروجيني (pH)", c2Desc: "حساب pH، pOH، [H⁺]، و [OH⁻] للمحاليل المائية.",
                 tag3: "⚡ كيمياء كهربائية", c3Title: "⚡ حاسبة القوة الدافعة الكهربائية", c3Desc: "حساب القوة الدافعة الكهربائية للخلايا الجلفانية.",
