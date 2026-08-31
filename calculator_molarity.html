@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="htmlTag" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Molarity Calculator | OmniEngineer Pro</title>
+    <style>
+        :root {
+            --primary: #059669; /* لون أخضر زمردي خاص بقسم الكيمياء والعلوم */
+            --primary-dark: #047857;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --tag-bg: #ecfdf5;
+            --result-bg: #f0fdf4;
+        }
+
+        [data-theme="dark"] {
+            --primary: #10b981;
+            --primary-dark: #34d399;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --tag-bg: #064e3b;
+            --result-bg: #065f46;
+        }
+
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
+        header { background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        .logo { font-size: 18px; font-weight: bold; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .header-controls { display: flex; align-items: center; gap: 12px; }
+        
+        .container { max-width: 800px; margin: 30px auto; padding: 0 20px; }
+        .calc-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); }
+        
+        .badge { display: inline-block; background: var(--tag-bg); color: var(--primary); font-size: 12px; padding: 4px 10px; border-radius: 6px; font-weight: bold; margin-bottom: 15px; }
+        h1 { font-size: 24px; margin-top: 0; color: var(--text-main); }
+        p.desc { color: var(--text-muted); font-size: 14px; line-height: 1.5; margin-bottom: 25px; }
+
+        .form-group { margin-bottom: 20px; }
+        label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text-main); }
+        .input-wrapper { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--card-bg); transition: border-color 0.2s; }
+        .input-wrapper:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(5,150,105,0.1); }
+        input { flex: 1; padding: 12px 16px; border: none; outline: none; font-size: 16px; background: transparent; color: var(--text-main); }
+        .unit-label { padding: 0 16px; background: var(--border); color: var(--text-muted); font-size: 13px; font-weight: bold; height: 100%; display: flex; align-items: center; }
+
+        .btn-calculate { width: 100%; background: var(--primary); color: white; border: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 10px; cursor: pointer; transition: background 0.2s; margin-top: 10px; }
+        .btn-calculate:hover { background: var(--primary-dark); }
+
+        .result-box { margin-top: 30px; background: var(--result-bg); border: 1px solid var(--primary); border-radius: 12px; padding: 20px; display: none; }
+        .result-title { font-size: 15px; font-weight: bold; color: var(--primary); margin-bottom: 10px; }
+        .result-item { font-size: 16px; margin-bottom: 8px; display: flex; justify-content: space-between; }
+        .result-value { font-weight: bold; color: var(--text-main); }
+
+        .lang-select, .theme-btn { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px; }
+        .theme-btn { width: 36px; height: 36px; padding: 0; display: flex; align-items: center; justify-content: center; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo" id="homeLink">← <span id="backText">Back to Hub</span></a>
+        <div class="header-controls">
+            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙</button>
+            <select class="lang-select" id="langSelect" onchange="changeLanguage()">
+                <option value="en">English 🇬🇧</option>
+                <option value="fr">Français 🇫🇷</option>
+                <option value="ar">العربية 🇸🇦</option>
+            </select>
+        </div>
+    </header>
+
+    <div class="container">
+        <div class="calc-card">
+            <span class="badge" id="badgeText">Chemistry & Applied Science</span>
+            <h1 id="mainTitle">Molarity Calculator</h1>
+            <p class="desc" id="mainDesc">Calculate the molar concentration ($M$) of a solution based on the mass of the solute, its molar mass, and the total volume of the solution.</p>
+
+            <div class="form-group">
+                <label id="labelMass">Mass of Solute ($m$)</label>
+                <div class="input-wrapper">
+                    <input type="number" id="massInput" placeholder="e.g., 58.44" step="any">
+                    <span class="unit-label">g</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label id="labelMolarMass">Molar Mass ($MM$)</label>
+                <div class="input-wrapper">
+                    <input type="number" id="molarMassInput" placeholder="e.g., 58.44 (NaCl)" step="any">
+                    <span class="unit-label">g/mol</span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label id="labelVolume">Volume of Solution ($V$)</label>
+                <div class="input-wrapper">
+                    <input type="number" id="volumeInput" placeholder="e.g., 1.0" step="any">
+                    <span class="unit-label">L</span>
+                </div>
+            </div>
+
+            <button class="btn-calculate" id="calcBtn" onclick="calculateMolarity()">Calculate Molarity</button>
+
+            <div class="result-box" id="resultBox">
+                <div class="result-title" id="resTitle">Calculation Results:</div>
+                <div class="result-item">
+                    <span id="resMolesLabel">Number of Moles ($n$):</span>
+                    <span class="result-value" id="resMoles">-</span>
+                </div>
+                <div class="result-item">
+                    <span id="resMolarityLabel">Molar Concentration ($M$):</span>
+                    <span class="result-value" id="resMolarity">-</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            let html = document.getElementById('htmlTag');
+            let btn = document.getElementById('themeToggleBtn');
+            if (html.getAttribute('data-theme') === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                btn.innerText = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                btn.innerText = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        window.onload = function() {
+            let savedTheme = localStorage.getItem('theme') || 'light';
+            document.getElementById('htmlTag').setAttribute('data-theme', savedTheme);
+            document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
+        }
+
+        function calculateMolarity() {
+            let mass = parseFloat(document.getElementById('massInput').value);
+            let molarMass = parseFloat(document.getElementById('molarMassInput').value);
+            let volume = parseFloat(document.getElementById('volumeInput').value);
+
+            if (isNaN(mass) || isNaN(molarMass) || isNaN(volume) || molarMass <= 0 || volume <= 0) {
+                alert("Please enter valid positive numbers for all fields.");
+                return;
+            }
+
+            // Calculations
+            let moles = mass / molarMass;
+            let molarity = moles / volume;
+
+            document.getElementById('resMoles').innerText = moles.toFixed(4) + " mol";
+            document.getElementById('resMolarity').innerText = molarity.toFixed(4) + " mol/L (M)";
+            document.getElementById('resultBox').style.display = "block";
+        }
+
+        const translations = {
+            en: {
+                backText: "Back to Hub",
+                badgeText: "Chemistry & Applied Science",
+                mainTitle: "Molarity Calculator",
+                mainDesc: "Calculate the molar concentration (M) of a solution based on the mass of the solute, its molar mass, and the total volume of the solution.",
+                labelMass: "Mass of Solute (m)",
+                labelMolarMass: "Molar Mass (MM)",
+                labelVolume: "Volume of Solution (V)",
+                calcBtn: "Calculate Molarity",
+                resTitle: "Calculation Results:",
+                resMolesLabel: "Number of Moles (n):",
+                resMolarityLabel: "Molar Concentration (M):",
+                dir: "ltr"
+            },
+            fr: {
+                backText: "Retour au Hub",
+                badgeText: "Chimie & Science Appliquée",
+                mainTitle: "Calculateur de Molarité",
+                mainDesc: "Calculez la concentration molaire (M) d'une solution en fonction de la masse du soluté, sa masse molaire et le volume total.",
+                labelMass: "Masse du Soluté (m)",
+                labelMolarMass: "Masse Molaire (MM)",
+                labelVolume: "Volume de la Solution (V)",
+                calcBtn: "Calculer la Molarité",
+                resTitle: "Résultats du Calcul :",
+                resMolesLabel: "Nombre de moles (n) :",
+                resMolarityLabel: "Concentration molaire (M) :",
+                dir: "ltr"
+            },
+            ar: {
+                backText: "العودة للرئيسية",
+                badgeText: "الكيمياء والعلوم التطبيقية",
+                mainTitle: "حاسبة التركيز المولاري (Molarity)",
+                mainDesc: "حساب التركيز المولاري للمحلول بناءً على كتلة المادة المذابة، الكتلة المولية، والحجم الإجمالي للمحلول.",
+                labelMass: "كتلة المادة المذابة (m)",
+                labelMolarMass: "الكتلة المولية (MM)",
+                labelVolume: "حجم المحلول (V)",
+                calcBtn: "احسب التركيز المولاري",
+                resTitle: "نتائج الحساب:",
+                resMolesLabel: "عدد المولات ($n$):",
+                resMolarityLabel: "التركيز المولاري ($M$):",
+                dir: "rtl"
+            }
+        };
+
+        function changeLanguage() {
+            let lang = document.getElementById('langSelect').value;
+            let t = translations[lang];
+            document.getElementById('htmlTag').setAttribute('lang', lang);
+            document.getElementById('htmlTag').setAttribute('dir', t.dir);
+            document.getElementById('backText').innerText = t.backText;
+            document.getElementById('badgeText').innerText = t.badgeText;
+            document.getElementById('mainTitle').innerText = t.mainTitle;
+            document.getElementById('mainDesc').innerText = t.mainDesc;
+            document.getElementById('labelMass').innerText = t.labelMass;
+            document.getElementById('labelMolarMass').innerText = t.labelMolarMass;
+            document.getElementById('labelVolume').innerText = t.labelVolume;
+            document.getElementById('calcBtn').innerText = t.calcBtn;
+            document.getElementById('resTitle').innerText = t.resTitle;
+            document.getElementById('resMolesLabel').innerHTML = t.resMolesLabel;
+            document.getElementById('resMolarityLabel').innerHTML = t.resMolarityLabel;
+        }
+    </script>
+</body>
+</html>
