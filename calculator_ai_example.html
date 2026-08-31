@@ -3,11 +3,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hydrostatic Pressure | OmniEngineer Pro</title>
+    <title>Solution Dilution Calculator | OmniEngineer Pro</title>
     <style>
         :root {
-            --primary: #2563eb;
-            --primary-dark: #1d4ed8;
+            --primary: #059669;
+            --primary-dark: #047857;
             --bg-color: #f8fafc;
             --card-bg: #ffffff;
             --text-main: #1e293b;
@@ -17,8 +17,8 @@
         }
 
         [data-theme="dark"] {
-            --primary: #3b82f6;
-            --primary-dark: #60a5fa;
+            --primary: #10b981;
+            --primary-dark: #34d399;
             --bg-color: #0f172a;
             --card-bg: #1e293b;
             --text-main: #f8fafc;
@@ -51,7 +51,7 @@
 
         .formula-box { background: #eff6ff; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: var(--primary-dark); border-radius: 4px; text-align: center; }
         [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid var(--primary); }
-        [data-theme="dark"] .formula-box { background: #1e3a8a; color: #60a5fa; }
+        [data-theme="dark"] .formula-box { background: #064e3b; color: #34d399; }
 
         .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
         .calculator { background: var(--card-bg); padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--border); }
@@ -66,11 +66,14 @@
         .input-group { margin-bottom: 16px; }
         label { display: block; margin-bottom: 6px; color: var(--text-muted); font-weight: bold; font-size: 13px; }
         input { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
-        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(5,150,105,0.1); }
         
         .result-box { background: var(--result-bg); padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid var(--primary); }
         .result-text { font-size: 14px; color: var(--text-main); font-weight: bold; margin: 6px 0; }
         .highlight { font-size: 18px; color: var(--primary); }
+
+        .btn-calculate { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; font-size: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
+        .btn-calculate:hover { background: var(--primary-dark); }
 
         .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .ai-header { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; color: #60a5fa; }
@@ -100,8 +103,8 @@
 
     <div class="page-container">
         <div class="content-section">
-            <h2 id="secTitle">About Hydrostatic Pressure & Engineering Principles</h2>
-            <p id="secP1">Hydrostatic pressure is the pressure exerted by a fluid at rest due to the force of gravity. It increases in direct proportion to the depth measured from the surface, because of the increasing weight of fluid exerting downward force.</p>
+            <h2 id="secTitle">About Solution Dilution & The C₁V₁ = C₂V₂ Principle</h2>
+            <p id="secP1">Solution dilution is the process of decreasing the concentration of a solute in a solution by adding more solvent. The dilution equation (C₁V₁ = C₂V₂) is one of the most fundamental formulas in chemistry and biochemistry for preparing working solutions from stock solutions.</p>
             
             <div class="pro-blueprint-box">
                 <svg width="380" height="220" viewBox="0 0 380 220">
@@ -109,36 +112,36 @@
                         <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
                             <path d="M0,2 L8,4 L0,6 Z" fill="#2563eb"/>
                         </marker>
-                        <marker id="arrow-red" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
-                            <path d="M0,2 L8,4 L0,6 Z" fill="#dc2626"/>
-                        </marker>
                     </defs>
-
-                    <rect x="110" y="30" width="180" height="150" fill="rgba(37, 99, 235, 0.08)" stroke="#2563eb" stroke-width="3" rx="3"/>
-                    <line x1="110" y1="55" x2="290" y2="55" stroke="#2563eb" stroke-dasharray="6,4" stroke-width="2"/>
-                    <text x="200" y="47" font-size="11" fill="#1d4ed8" font-weight="bold" text-anchor="middle">Surface (h = 0 m)</text>
-                    <line x1="80" y1="55" x2="80" y2="180" stroke="#1d4ed8" stroke-width="2.5" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)"/>
-                    <line x1="75" y1="55" x2="85" y2="55" stroke="#1d4ed8" stroke-width="2"/>
-                    <line x1="75" y1="180" x2="85" y2="180" stroke="#1d4ed8" stroke-width="2"/>
-                    <text x="60" y="122" font-size="14" fill="#1d4ed8" font-weight="bold" text-anchor="middle">h</text>
-                    <polygon points="290,55 340,180 290,180" fill="rgba(220, 38, 38, 0.15)" stroke="#dc2626" stroke-width="2"/>
-                    <line x1="315" y1="117" x2="340" y2="117" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow-red)"/>
-                    <text x="330" y="200" font-size="11" fill="#dc2626" font-weight="bold" text-anchor="middle">Pressure</text>
+                    <!-- دورق مركزي -->
+                    <path d="M 160 40 L 220 40 L 235 170 L 145 170 Z" fill="rgba(5, 150, 105, 0.1)" stroke="#059669" stroke-width="2.5"/>
+                    <ellipse cx="190" cy="40" rx="30" ry="10" fill="rgba(5, 150, 105, 0.2)" stroke="#059669" stroke-width="2"/>
+                    <!-- سائل مركز -->
+                    <path d="M 165 80 L 215 80 L 230 155 L 150 155 Z" fill="rgba(37, 99, 235, 0.25)" stroke="none"/>
+                    <text x="190" y="95" font-size="10" fill="#1d4ed8" font-weight="bold" text-anchor="middle">C₁ · V₁</text>
+                    <!-- سهم تخفيف -->
+                    <line x1="120" y1="110" x2="80" y2="110" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow-blue)"/>
+                    <text x="100" y="100" font-size="11" fill="#dc2626" font-weight="bold" text-anchor="middle">Dilute</text>
+                    <!-- دورق مخفف -->
+                    <path d="M 40 70 L 90 70 L 100 170 L 30 170 Z" fill="rgba(5, 150, 105, 0.05)" stroke="#059669" stroke-width="2" stroke-dasharray="4,3"/>
+                    <ellipse cx="65" cy="70" rx="25" ry="8" fill="rgba(5, 150, 105, 0.1)" stroke="#059669" stroke-width="1.5" stroke-dasharray="4,3"/>
+                    <path d="M 44 90 L 86 90 L 96 155 L 34 155 Z" fill="rgba(37, 99, 235, 0.1)" stroke="none"/>
+                    <text x="65" y="105" font-size="10" fill="#059669" font-weight="bold" text-anchor="middle">C₂ · V₂</text>
                 </svg>
             </div>
 
             <div class="formula-box">
-                P = ρ · g · h
+                C₁ × V₁ = C₂ × V₂
             </div>
             
             <p id="secP2">Where:</p>
             <ul>
-                <li id="li1"><strong>P</strong> = Hydrostatic pressure</li>
-                <li id="li2"><strong>ρ (rho)</strong> = Fluid density (e.g., 1000 kg/m³ for fresh water)</li>
-                <li id="li3"><strong>g</strong> = Acceleration due to gravity (~9.81 m/s²)</li>
-                <li id="li4"><strong>h</strong> = Height or depth of the liquid column</li>
+                <li id="li1"><strong>C₁</strong> = Initial concentration of stock solution</li>
+                <li id="li2"><strong>V₁</strong> = Volume of stock solution needed</li>
+                <li id="li3"><strong>C₂</strong> = Final desired concentration</li>
+                <li id="li4"><strong>V₂</strong> = Final volume of diluted solution</li>
             </ul>
-            <p id="secP3">Engineers use this calculation extensively when designing pipelines, water storage tanks, dams, and deep excavation shoring systems to ensure structural integrity under maximum fluid loads.</p>
+            <p id="secP3">This equation is essential for preparing standard solutions, performing titrations, and creating serial dilutions in analytical chemistry and molecular biology.</p>
         </div>
 
         <div class="calculator-sidebar">
@@ -148,26 +151,36 @@
                     <select class="lang-select" id="langSelect2" onchange="changeLanguage()" style="display:none;"></select>
                 </div>
 
-                <h3 id="calcTitle" style="margin-top:0; color:var(--text-main); font-size:17px;">💧 Hydrostatic Pressure Calculator</h3>
+                <h3 id="calcTitle" style="margin-top:0; color:var(--text-main); font-size:17px;">💧 Solution Dilution Calculator</h3>
                 
                 <div class="input-group">
-                    <label id="labelHeight">Liquid Height / Depth (meters):</label>
-                    <input type="number" id="pHeight" placeholder="e.g. 10" oninput="calculatePressure()">
+                    <label id="labelC1">Stock Concentration (C₁):</label>
+                    <input type="number" id="c1" placeholder="e.g. 10" step="any" oninput="calculateDilution()">
                 </div>
                 <div class="input-group">
-                    <label id="labelDensity">Fluid Density (kg/m³, Water = 1000):</label>
-                    <input type="number" id="pDensity" value="1000" placeholder="1000" oninput="calculatePressure()">
+                    <label id="labelV1">Volume of Stock Needed (V₁):</label>
+                    <input type="number" id="v1" placeholder="e.g. 5" step="any" oninput="calculateDilution()">
                 </div>
+                <div class="input-group">
+                    <label id="labelC2">Desired Final Concentration (C₂):</label>
+                    <input type="number" id="c2" placeholder="e.g. 2" step="any" oninput="calculateDilution()">
+                </div>
+                <div class="input-group">
+                    <label id="labelV2">Final Volume (V₂):</label>
+                    <input type="number" id="v2" placeholder="e.g. 25" step="any" oninput="calculateDilution()">
+                </div>
+
+                <button class="btn-calculate" id="calcBtn" onclick="calculateDilution()">🧪 Calculate Dilution</button>
                 
-                <div class="result-box">
-                    <p class="result-text"><span id="textPressureKpa">Pressure (kPa):</span> <span id="resKpa" class="highlight">0.00</span></p>
-                    <p class="result-text"><span id="textPressureBar">Pressure (Bar):</span> <span id="resBar" class="highlight">0.00</span></p>
+                <div class="result-box" id="resultBox">
+                    <p class="result-text"><span id="textResult">Result:</span> <span id="resultValue" class="highlight">—</span></p>
+                    <p class="result-text" id="resultExplanation" style="font-size:13px; font-weight:normal; color:var(--text-muted);">Enter 3 values to calculate the missing one</p>
                 </div>
             </div>
 
             <div class="ai-assistant-box">
                 <div class="ai-header">🤖 OmniEngineer AI Expert</div>
-                <div class="ai-chat-output" id="aiOutput">Hello! I'm your engineering AI assistant. Ask me anything about this calculation, safety factors, or fluid mechanics principles!</div>
+                <div class="ai-chat-output" id="aiOutput">Hello! I'm your chemistry assistant. Ask me about dilution calculations, serial dilutions, or concentration conversions!</div>
                 <div class="ai-input-group">
                     <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI a question...">
                     <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
@@ -197,9 +210,71 @@
             document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
         }
 
+        function calculateDilution() {
+            let c1 = parseFloat(document.getElementById('c1').value);
+            let v1 = parseFloat(document.getElementById('v1').value);
+            let c2 = parseFloat(document.getElementById('c2').value);
+            let v2 = parseFloat(document.getElementById('v2').value);
+
+            let resultBox = document.getElementById('resultBox');
+            let resultValue = document.getElementById('resultValue');
+            let resultExplanation = document.getElementById('resultExplanation');
+
+            // Count how many values are entered
+            let count = 0;
+            if (!isNaN(c1)) count++;
+            if (!isNaN(v1)) count++;
+            if (!isNaN(c2)) count++;
+            if (!isNaN(v2)) count++;
+
+            if (count < 3) {
+                resultBox.style.display = 'block';
+                resultValue.innerText = '—';
+                resultExplanation.innerText = 'Please enter 3 values to calculate the missing one';
+                return;
+            }
+
+            if (count > 3) {
+                resultBox.style.display = 'block';
+                resultValue.innerText = '⚠️';
+                resultExplanation.innerText = 'Please leave one field empty to calculate it';
+                return;
+            }
+
+            // Find the missing value and calculate it
+            let result = 0;
+            let unit = '';
+            let explanation = '';
+
+            if (isNaN(c1)) {
+                // Calculate C₁ = (C₂ × V₂) / V₁
+                result = (c2 * v2) / v1;
+                unit = ' (concentration)';
+                explanation = `C₁ = (${c2} × ${v2}) / ${v1} = ${result.toFixed(4)}`;
+            } else if (isNaN(v1)) {
+                // Calculate V₁ = (C₂ × V₂) / C₁
+                result = (c2 * v2) / c1;
+                unit = ' (volume)';
+                explanation = `V₁ = (${c2} × ${v2}) / ${c1} = ${result.toFixed(4)}`;
+            } else if (isNaN(c2)) {
+                // Calculate C₂ = (C₁ × V₁) / V₂
+                result = (c1 * v1) / v2;
+                unit = ' (concentration)';
+                explanation = `C₂ = (${c1} × ${v1}) / ${v2} = ${result.toFixed(4)}`;
+            } else if (isNaN(v2)) {
+                // Calculate V₂ = (C₁ × V₁) / C₂
+                result = (c1 * v1) / c2;
+                unit = ' (volume)';
+                explanation = `V₂ = (${c1} × ${v1}) / ${c2} = ${result.toFixed(4)}`;
+            }
+
+            resultBox.style.display = 'block';
+            resultValue.innerText = result.toFixed(4);
+            resultExplanation.innerText = explanation;
+        }
+
         function askAiAssistant() {
             let q = document.getElementById('aiQuestionInput').value.toLowerCase();
-            let h = document.getElementById('pHeight').value;
             let output = document.getElementById('aiOutput');
             
             if (!q) {
@@ -207,25 +282,13 @@
                 return;
             }
 
-            if (q.includes('safety') || q.includes('factor') || q.includes('أمان')) {
-                output.innerText = "💡 Engineering Tip: When designing tanks or pipelines subjected to hydrostatic pressure, always apply a safety factor of at least 1.5 to 2.0 depending on the fluid hazard level.";
-            } else if (q.includes('max') || q.includes('high') || q.includes('ارتفاع')) {
-                output.innerText = `📊 Based on your current height input (${h || '0'}m), every 10 meters of water depth adds approximately 1 Bar (100 kPa) of pressure!`;
+            if (q.includes('serial') || q.includes('serial dilution') || q.includes('تخفيف متسلسل')) {
+                output.innerText = "🧪 Serial Dilution Tip: For serial dilutions, you dilute a sample stepwise. The dilution factor at each step is the ratio of the volume of sample to the total volume.";
+            } else if (q.includes('unit') || q.includes('concentration') || q.includes('وحدة')) {
+                output.innerText = "📊 Concentration Units: Molarity (M), % (w/v), ppm, ppb. Always ensure C₁ and C₂ use the same units, and V₁ and V₂ use the same units!";
             } else {
-                output.innerText = `🤖 AI Analysis: The hydrostatic calculation is linear. Doubling the height 'h' doubles the pressure on container walls.`;
+                output.innerText = "💧 The dilution equation (C₁V₁ = C₂V₂) assumes that the amount of solute remains constant during dilution. This is the basis for preparing working solutions from stock solutions.";
             }
-        }
-
-        function calculatePressure() {
-            let h = parseFloat(document.getElementById('pHeight').value) || 0;
-            let rho = parseFloat(document.getElementById('pDensity').value) || 1000;
-            let g = 9.81;
-            let pressurePa = rho * g * h;
-            let pressureKpa = pressurePa / 1000;
-            let pressureBar = pressurePa / 100000;
-
-            document.getElementById('resKpa').innerText = pressureKpa.toFixed(2);
-            document.getElementById('resBar').innerText = pressureBar.toFixed(3);
         }
 
         const translations = {
@@ -234,60 +297,66 @@
                 backLabel: "Back to Directory",
                 backArrow: "←",
                 headerArrow: "←",
-                calcTitle: "💧 Hydrostatic Pressure Calculator",
-                labelHeight: "Liquid Height / Depth (meters):",
-                labelDensity: "Fluid Density (kg/m³, Water = 1000):",
-                textPressureKpa: "Pressure (kPa):",
-                textPressureBar: "Pressure (Bar):",
-                secTitle: "About Hydrostatic Pressure & Engineering Principles",
-                secP1: "Hydrostatic pressure is the pressure exerted by a fluid at rest due to the force of gravity. It increases in direct proportion to the depth measured from the surface.",
+                calcTitle: "💧 Solution Dilution Calculator",
+                labelC1: "Stock Concentration (C₁):",
+                labelV1: "Volume of Stock Needed (V₁):",
+                labelC2: "Desired Final Concentration (C₂):",
+                labelV2: "Final Volume (V₂):",
+                calcBtn: "🧪 Calculate Dilution",
+                textResult: "Result:",
+                secTitle: "About Solution Dilution & The C₁V₁ = C₂V₂ Principle",
+                secP1: "Solution dilution is the process of decreasing the concentration of a solute in a solution by adding more solvent. The dilution equation (C₁V₁ = C₂V₂) is one of the most fundamental formulas in chemistry and biochemistry for preparing working solutions from stock solutions.",
                 secP2: "Where:",
-                secP3: "Engineers use this calculation extensively when designing pipelines, water storage tanks, and dams.",
+                secP3: "This equation is essential for preparing standard solutions, performing titrations, and creating serial dilutions in analytical chemistry and molecular biology.",
                 dir: "ltr",
-                li1: "P = Hydrostatic pressure",
-                li2: "ρ (rho) = Fluid density (e.g., 1000 kg/m³ for fresh water)",
-                li3: "g = Acceleration due to gravity (~9.81 m/s²)",
-                li4: "h = Height or depth of the liquid column"
+                li1: "C₁ = Initial concentration of stock solution",
+                li2: "V₁ = Volume of stock solution needed",
+                li3: "C₂ = Final desired concentration",
+                li4: "V₂ = Final volume of diluted solution"
             },
             fr: {
                 backText: "Retour au Hub",
                 backLabel: "Retour au répertoire",
                 backArrow: "←",
                 headerArrow: "←",
-                calcTitle: "💧 Calculateur de Pression Hydrostatique",
-                labelHeight: "Hauteur / Profondeur du Liquide (mètres) :",
-                labelDensity: "Densité du Fluide (kg/m³, Eau = 1000) :",
-                textPressureKpa: "Pression (kPa) :",
-                textPressureBar: "Pression (Bar) :",
-                secTitle: "À propos de la Pression Hydrostatique",
-                secP1: "La pression hydrostatique est la pression exercée par un fluide au repos en raison de la gravité. Elle augmente proportionnellement à la profondeur.",
+                calcTitle: "💧 Calculateur de Dilution de Solution",
+                labelC1: "Concentration Stock (C₁) :",
+                labelV1: "Volume de Stock Nécessaire (V₁) :",
+                labelC2: "Concentration Finale Désirée (C₂) :",
+                labelV2: "Volume Final (V₂) :",
+                calcBtn: "🧪 Calculer la Dilution",
+                textResult: "Résultat :",
+                secTitle: "À propos de la Dilution des Solutions & la Principe C₁V₁ = C₂V₂",
+                secP1: "La dilution d'une solution est le processus de diminution de la concentration d'un soluté en ajoutant plus de solvant. L'équation de dilution (C₁V₁ = C₂V₂) est l'une des formules les plus fondamentales en chimie et biochimie.",
                 secP2: "Où :",
-                secP3: "Les ingénieurs utilisent ce calcul pour concevoir des pipelines, des réservoirs d'eau et des barrages.",
+                secP3: "Cette équation est essentielle pour préparer des solutions étalons, réaliser des titrages et créer des dilutions en série.",
                 dir: "ltr",
-                li1: "P = Pression hydrostatique",
-                li2: "ρ (rho) = Densité du fluide (ex: 1000 kg/m³ pour l'eau)",
-                li3: "g = Accélération due à la gravité (~9.81 m/s²)",
-                li4: "h = Hauteur ou profondeur de la colonne de liquide"
+                li1: "C₁ = Concentration initiale de la solution mère",
+                li2: "V₁ = Volume de la solution mère nécessaire",
+                li3: "C₂ = Concentration finale souhaitée",
+                li4: "V₂ = Volume final de la solution diluée"
             },
             ar: {
                 backText: "العودة للرئيسية",
                 backLabel: "العودة إلى الدليل",
                 backArrow: "→",
                 headerArrow: "→",
-                calcTitle: "💧 حاسبة الضغط الهيدروستاتيكي",
-                labelHeight: "ارتفاع أو عمق السائل (متر):",
-                labelDensity: "كثافة السائل (كجم/م³، الماء = 1000):",
-                textPressureKpa: "الضغط (كيلوباسكال):",
-                textPressureBar: "الضغط (بار):",
-                secTitle: "نبذة عن الضغط الهيدروستاتيكي والمبادئ الهندسية",
-                secP1: "الضغط الهيدروستاتيكي هو الضغط الذي يمارسه سائل في حالة سكون بسبب قوة الجاذبية. يزداد هذا الضغط طردياً مع زيادة العمق المقاس من السطح.",
+                calcTitle: "💧 حاسبة تخفيف المحاليل",
+                labelC1: "التركيز الأولي (C₁):",
+                labelV1: "حجم المحلول المركز المطلوب (V₁):",
+                labelC2: "التركيز النهائي المطلوب (C₂):",
+                labelV2: "الحجم النهائي (V₂):",
+                calcBtn: "🧪 احسب التخفيف",
+                textResult: "النتيجة:",
+                secTitle: "نبذة عن تخفيف المحاليل ومبدأ C₁V₁ = C₂V₂",
+                secP1: "تخفيف المحلول هو عملية تقليل تركيز المذاب في المحلول بإضافة المزيد من المذيب. معادلة التخفيف (C₁V₁ = C₂V₂) هي من أهم المعادلات في الكيمياء والكيمياء الحيوية لتحضير محاليل العمل من المحاليل المركزة.",
                 secP2: "حيث أن:",
-                secP3: "يستخدم المهندسون هذه الحسابات بشكل مكثف عند تصميم خطوط الأنابيب، خزانات المياه، السدود، وأنظمة الحفر العميقة لضمان السلامة الإنشائية.",
+                secP3: "هذه المعادلة ضرورية لتحضير المحاليل القياسية، إجراء المعايرة، وإنشاء التخفيفات المتسلسلة في الكيمياء التحليلية والبيولوجيا الجزيئية.",
                 dir: "rtl",
-                li1: "P = الضغط الهيدروستاتيكي",
-                li2: "ρ (rho) = كثافة السائل (مثال: 1000 كجم/م³ للماء العذب)",
-                li3: "g = تسارع الجاذبية الأرضية (~9.81 م/ث²)",
-                li4: "h = ارتفاع أو عمق عمود السائل"
+                li1: "C₁ = التركيز الأولي للمحلول المركز",
+                li2: "V₁ = حجم المحلول المركز المطلوب",
+                li3: "C₂ = التركيز النهائي المطلوب",
+                li4: "V₂ = الحجم النهائي للمحلول المخفف"
             }
         };
 
@@ -304,10 +373,12 @@
             document.getElementById('backArrow').innerText = t.backArrow;
             document.getElementById('headerArrow').innerText = t.headerArrow;
             document.getElementById('calcTitle').innerText = t.calcTitle;
-            document.getElementById('labelHeight').innerText = t.labelHeight;
-            document.getElementById('labelDensity').innerText = t.labelDensity;
-            document.getElementById('textPressureKpa').innerText = t.textPressureKpa;
-            document.getElementById('textPressureBar').innerText = t.textPressureBar;
+            document.getElementById('labelC1').innerText = t.labelC1;
+            document.getElementById('labelV1').innerText = t.labelV1;
+            document.getElementById('labelC2').innerText = t.labelC2;
+            document.getElementById('labelV2').innerText = t.labelV2;
+            document.getElementById('calcBtn').innerText = t.calcBtn;
+            document.getElementById('textResult').innerText = t.textResult;
             document.getElementById('secTitle').innerText = t.secTitle;
             document.getElementById('secP1').innerText = t.secP1;
             document.getElementById('secP2').innerText = t.secP2;
