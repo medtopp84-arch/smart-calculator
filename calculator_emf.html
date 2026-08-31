@@ -417,4 +417,62 @@
                 labelCathodeValue: "جهد المهبط (Ecathode بالفولت):",
                 labelAnode: "المصعد (جهد الأكسدة):",
                 labelAnodeValue: "جهد المصعد (Eanode بالفولت):",
-                calcBtn: "⚡ احسب القوة الداف
+                calcBtn: "⚡ احسب القوة الدافعة",
+                textResult: "القوة الدافعة الكهربائية (EMF):",
+                unitVolt: "فولت",
+                textSpontaneous: "تفاعل تلقائي (خلية جلفانية)",
+                textNonSpontaneous: "تفاعل غير تلقائي (خلية إلكتروليتية)",
+                textEquilibrium: "حالة توازن (لا يوجد تفاعل صافي)",
+                secTitle: "القوة الدافعة الكهربائية (EMF) والخلايا الجلفانية",
+                secP1: "القوة الدافعة الكهربائية (EMF) هي أقصى فرق جهد بين قطبي خلية جلفانية أو فولتية. تمثل قدرة الخلية الكهروكيميائية على دفع تدفق الإلكترونات عبر دائرة خارجية، لتوليد طاقة كهربائية من التفاعلات الكيميائية.",
+                secP2: "حيث أن:",
+                secP3: "تُقاس جهود الأقطاب القياسية (E⁰) في ظروف قياسية (25°م، تركيز 1 مولار، ضغط 1 ضغط جوي). القيم نسبية إلى قطب الهيدروجين القياسي (SHE) ذو الجهد E⁰ = 0.00 فولت.",
+                dir: "rtl",
+                li1: "Ecathode = جهد اختزال المهبط (القيمة الأعلى، بالفولت)",
+                li2: "Eanode = جهد اختزال المصعد (القيمة الأقل، بالفولت)",
+                li3: "EMF > 0 = تفاعل تلقائي (خلية جلفانية)",
+                li4: "EMF < 0 = تفاعل غير تلقائي (خلية إلكتروليتية)"
+            }
+        };
+
+        function changeLanguage() {
+            let lang = document.getElementById('langSelect').value;
+            let t = translations[lang];
+            let html = document.getElementById('htmlTag');
+            
+            html.setAttribute('lang', lang);
+            html.setAttribute('dir', t.dir);
+            
+            document.getElementById('backText').innerText = t.backText;
+            document.getElementById('backLabel').innerText = t.backLabel;
+            document.getElementById('backArrow').innerText = t.backArrow;
+            document.getElementById('headerArrow').innerText = t.headerArrow;
+            document.getElementById('badgeText').innerText = t.badgeText;
+            document.getElementById('calcTitle').innerText = t.calcTitle;
+            document.getElementById('labelCathode').innerHTML = t.labelCathode;
+            document.getElementById('labelCathodeValue').innerHTML = t.labelCathodeValue;
+            document.getElementById('labelAnode').innerHTML = t.labelAnode;
+            document.getElementById('labelAnodeValue').innerHTML = t.labelAnodeValue;
+            document.getElementById('calcBtn').innerHTML = t.calcBtn;
+            document.getElementById('textResult').innerHTML = t.textResult;
+            document.getElementById('unitVolt').innerHTML = t.unitVolt;
+            document.getElementById('textSpontaneous').innerHTML = t.textSpontaneous;
+            document.getElementById('textNonSpontaneous').innerHTML = t.textNonSpontaneous;
+            document.getElementById('textEquilibrium').innerHTML = t.textEquilibrium;
+            document.getElementById('secTitle').innerHTML = t.secTitle;
+            document.getElementById('secP1').innerHTML = t.secP1;
+            document.getElementById('secP2').innerHTML = t.secP2;
+            document.getElementById('secP3').innerHTML = t.secP3;
+            
+            for(let i = 1; i <= 4; i++) {
+                if(document.getElementById(`li${i}`)) {
+                    document.getElementById(`li${i}`).innerHTML = t[`li${i}`];
+                }
+            }
+            
+            // تحديث نوع الخلية بعد تغيير اللغة
+            calculateEMF();
+        }
+    </script>
+</body>
+</html>
