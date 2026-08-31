@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="htmlTag" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Combined Gas Law Calculator | OmniEngineer Pro</title>
+    <style>
+        :root {
+            --primary: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --result-bg: #f0fdf4;
+            --tag-bg: #ede9fe;
+        }
+
+        [data-theme="dark"] {
+            --primary: #a78bfa;
+            --primary-dark: #8b5cf6;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --result-bg: #065f46;
+            --tag-bg: #2e1065;
+        }
+
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
+        
+        header { background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; }
+        .logo { font-size: 18px; font-weight: bold; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .header-controls { display: flex; align-items: center; gap: 12px; }
+        
+        .page-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
+        @media (max-width: 900px) { .page-container { grid-template-columns: 1fr; } }
+        
+        .content-section { background: var(--card-bg); padding: 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border); line-height: 1.7; }
+        .content-section h2 { color: var(--primary); margin-top: 0; font-size: 22px; }
+        .content-section p { color: var(--text-muted); font-size: 15px; }
+        
+        [dir="rtl"] .content-section { text-align: right; }
+        [dir="rtl"] .content-section ul { padding-right: 20px; padding-left: 0; }
+        
+        .pro-blueprint-box { background: #f1f5f9; border: 2px solid var(--primary); border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; overflow: hidden; }
+        [data-theme="dark"] .pro-blueprint-box { background: #1e293b; border-color: var(--primary); }
+        .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+        [dir="rtl"] .pro-blueprint-box svg { transform: scaleX(-1); }
+
+        .formula-box { background: #ede9fe; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: var(--primary-dark); border-radius: 4px; text-align: center; }
+        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid var(--primary); }
+        [data-theme="dark"] .formula-box { background: #2e1065; color: #a78bfa; }
+
+        .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .calculator { background: var(--card-bg); padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--border); }
+        
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        a.back-btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 13px; transition: color 0.2s; display: inline-flex; align-items: center; gap: 4px; }
+        a.back-btn:hover { color: var(--primary-dark); }
+        [dir="rtl"] a.back-btn { flex-direction: row-reverse; }
+        
+        select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
+        
+        .input-group { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 6px; color: var(--text-muted); font-weight: bold; font-size: 13px; }
+        input, select.form-control { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
+        input:focus, select.form-control:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(139,92,246,0.1); }
+        
+        .result-box { background: var(--result-bg); padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid var(--primary); }
+        .result-text { font-size: 14px; color: var(--text-main); font-weight: bold; margin: 6px 0; }
+        .highlight { font-size: 22px; color: var(--primary); }
+
+        .btn-calculate { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; font-size: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
+        .btn-calculate:hover { background: var(--primary-dark); }
+
+        .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .ai-header { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; color: #a78bfa; }
+        .ai-chat-output { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 13px; color: #cbd5e1; min-height: 60px; margin-bottom: 12px; line-height: 1.5; }
+        .ai-input-group { display: flex; gap: 8px; }
+        .ai-input { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
+        .ai-btn { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
+        .ai-btn:hover { background: var(--primary-dark); }
+
+        .theme-btn { width: 36px; height: 36px; padding: 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; }
+        .lang-select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
+
+        .badge { display: inline-block; background: var(--tag-bg); color: var(--primary); font-size: 11px; padding: 3px 10px; border-radius: 6px; font-weight: bold; margin-bottom: 12px; }
+        .constants-info { font-size: 12px; color: var(--text-muted); margin-top: 10px; padding: 10px; background: var(--bg-color); border-radius: 6px; }
+        [dir="rtl"] .constants-info { text-align: right; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo" id="homeLink"><span id="headerArrow">←</span> <span id="backText">Back to Hub</span></a>
+        <div class="header-controls">
+            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙</button>
+            <select class="lang-select" id="langSelect" onchange="changeLanguage()">
+                <option value="en">English 🇬🇧</option>
+                <option value="fr">Français 🇫🇷</option>
+                <option value="ar">العربية 🇸🇦</option>
+            </select>
+        </div>
+    </header>
+
+    <div class="page-container">
+        <div class="content-section">
+            <span class="badge" id="badgeText">🔬 Gas Laws</span>
+            <h2 id="secTitle">Combined Gas Law</h2>
+            <p id="secP1">The Combined Gas Law combines Boyle's Law, Charles's Law, and Gay-Lussac's Law into a single equation. It describes the relationship between pressure, volume, and temperature when the number of moles is constant.</p>
+            
+            <div class="pro-blueprint-box">
+                <svg width="380" height="180" viewBox="0 0 380 180">
+                    <defs>
+                        <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                            <path d="M0,2 L8,4 L0,6 Z" fill="#8b5cf6"/>
+                        </marker>
+                    </defs>
+                    
+                    <!-- الحالة 1 -->
+                    <rect x="40" y="30" width="100" height="120" rx="6" fill="rgba(139,92,246,0.08)" stroke="#8b5cf6" stroke-width="2"/>
+                    <text x="90" y="55" font-size="10" fill="#8b5cf6" font-weight="bold" text-anchor="middle">P₁, V₁, T₁</text>
+                    <text x="90" y="75" font-size="9" fill="#64748b" text-anchor="middle">Initial State</text>
+                    
+                    <!-- سهم -->
+                    <line x1="140" y1="90" x2="240" y2="90" stroke="#64748b" stroke-width="2" stroke-dasharray="4,3" marker-end="url(#arrow-blue)"/>
+                    <text x="190" y="85" font-size="9" fill="#64748b" text-anchor="middle">Change</text>
+                    
+                    <!-- الحالة 2 -->
+                    <rect x="240" y="30" width="100" height="120" rx="6" fill="rgba(139,92,246,0.15)" stroke="#8b5cf6" stroke-width="2"/>
+                    <text x="290" y="55" font-size="10" fill="#8b5cf6" font-weight="bold" text-anchor="middle">P₂, V₂, T₂</text>
+                    <text x="290" y="75" font-size="9" fill="#64748b" text-anchor="middle">Final State</text>
+                </svg>
+            </div>
+
+            <div class="formula-box">
+                (P₁ × V₁) / T₁ = (P₂ × V₂) / T₂
+            </div>
+            
+            <p id="secP2">Where:</p>
+            <ul>
+                <li id="li1"><strong>P₁, P₂</strong> = Initial and final pressure</li>
+                <li id="li2"><strong>V₁, V₂</strong> = Initial and final volume</li>
+                <li id="li3"><strong>T₁, T₂</strong> = Initial and final temperature (in Kelvin)</li>
+            </ul>
+            <p id="secP3">The Combined Gas Law is used when pressure, volume, and temperature all change simultaneously. Temperature must always be in Kelvin (K = °C + 273.15).</p>
+        </div>
+
+        <div class="calculator-sidebar">
+            <div class="calculator">
+                <div class="top-bar">
+                    <a href="index.html" class="back-btn" id="backText2"><span id="backArrow">←</span> <span id="backLabel">Back to Directory</span></a>
+                    <select class="lang-select" id="langSelect2" onchange="changeLanguage()" style="display:none;"></select>
+                </div>
+
+                <h3 id="calcTitle" style="margin-top:0; color:var(--text-main); font-size:17px;">🔬 Combined Gas Law Calculator</h3>
+                
+                <div class="input-group">
+                    <label id="labelMode">Solve For:</label>
+                    <select id="calcMode" class="form-control" onchange="updatePlaceholders()">
+                        <option value="p2">Final Pressure (P₂)</option>
+                        <option value="v2">Final Volume (V₂)</option>
+                        <option value="t2">Final Temperature (T₂)</option>
+                        <option value="p1">Initial Pressure (P₁)</option>
+                        <option value="v1">Initial Volume (V₁)</option>
+                        <option value="t1">Initial Temperature (T₁)</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label id="labelP1">Initial Pressure (P₁):</label>
+                    <input type="number" id="p1" value="2" step="any" oninput="calculateCombined()">
+                </div>
+
+                <div class="input-group">
+                    <label id="labelV1">Initial Volume (V₁):</label>
+                    <input type="number" id="v1" value="10" step="any" oninput="calculateCombined()">
+                </div>
+
+                <div class="input-group">
+                    <label id="labelT1">Initial Temp (T₁ in K):</label>
+                    <input type="number" id="t1" value="273" step="any" oninput="calculateCombined()">
+                </div>
+
+                <div class="input-group">
+                    <label id="labelP2">Final Pressure (P₂):</label>
+                    <input type="number" id="p2" value="4" step="any" oninput="calculateCombined()">
+                </div>
+
+                <div class="input-group">
+                    <label id="labelV2">Final Volume (V₂):</label>
+                    <input type="number" id="v2" value="5" step="any" oninput="calculateCombined()">
+                </div>
+
+                <div class="input-group">
+                    <label id="labelT2">Final Temp (T₂ in K):</label>
+                    <input type="number" id="t2" value="273" step="any" oninput="calculateCombined()">
+                </div>
+
+                <button class="btn-calculate" id="calcBtn" onclick="calculateCombined()">🔬 Calculate</button>
+                
+                <div class="result-box" id="resultBox">
+                    <p class="result-text"><span id="textResult">Result:</span></p>
+                    <p class="result-text"><span id="resultValue" class="highlight">—</span></p>
+                    <div class="constants-info" id="constantsInfo">
+                        <span id="textFormula">(P₁V₁)/T₁ = (P₂V₂)/T₂</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ai-assistant-box">
+                <div class="ai-header">🤖 OmniEngineer AI Expert</div>
+                <div class="ai-chat-output" id="aiOutput">Hello! I'm your gas laws assistant. Ask me about the Combined Gas Law, PVT relationships, or gas behavior!</div>
+                <div class="ai-input-group">
+                    <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI a question...">
+                    <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            let html = document.getElementById('htmlTag');
+            let btn = document.getElementById('themeToggleBtn');
+            if (html.getAttribute('data-theme') === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                btn.innerText = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                btn.innerText = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        window.onload = function() {
+            let savedTheme = localStorage.getItem('theme') || 'light';
+            document.getElementById('htmlTag').setAttribute('data-theme', savedTheme);
+            document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
+            calculateCombined();
+        }
+
+        function updatePlaceholders() {
+            calculateCombined();
+        }
+
+        function calculateCombined() {
+            let mode = document.getElementById('calcMode').value;
+            let p1 = parseFloat(document.getElementById('p1').value);
+            let v1 = parseFloat(document.getElementById('v1').value);
+            let t1 = parseFloat(document.getElementById('t1').value);
+            let p2 = parseFloat(document.getElementById('p2').value);
+            let v2 = parseFloat(document.getElementById('v2').value);
+            let t2 = parseFloat(document.getElementById('t2').value);
+
+            let result = 0;
+            let unit = '';
+            let explanation = '';
+            let isValid = true;
+
+            if (isNaN(p1) || p1 <= 0) isValid = false;
+            if (isNaN(v1) || v1 <= 0) isValid = false;
+            if (isNaN(t1) || t1 <= 0) isValid = false;
+            if (isNaN(p2) || p2 <= 0) isValid = false;
+            if (isNaN(v2) || v2 <= 0) isValid = false;
+            if (isNaN(t2) || t2 <= 0) isValid = false;
+
+            if (!isValid) {
+                document.getElementById('resultValue').innerText = '⚠️ Please enter valid positive values';
+                return;
+            }
+
+            switch(mode) {
+                case 'p2':
+                    result = (p1 * v1 * t2) / (t1 * v2);
+                    unit = ' (pressure units)';
+                    explanation = `P₂ = (${p1} × ${v1} × ${t2}) / (${t1} × ${v2}) = ${result.toFixed(4)}`;
+                    break;
+                case 'v2':
+                    result = (p1 * v1 * t2) / (t1 * p2);
+                    unit = ' (volume units)';
+                    explanation = `V₂ = (${p1} × ${v1} × ${t2}) / (${t1} × ${p2}) = ${result.toFixed(4)}`;
+                    break;
+                case 't2':
+                    result = (p2 * v2 * t1) / (p1 * v1);
+                    unit = ' K';
+                    explanation = `T₂ = (${p2} × ${v2} × ${t1}) / (${p1} × ${v1}) = ${result.toFixed(4)} K`;
+                    break;
+                case 'p1':
+                    result = (p2 * v2 * t1) / (t2 * v1);
+                    unit = ' (pressure units)';
+                    explanation = `P₁ = (${p2} × ${v2} × ${t1}) / (${t2} × ${v1}) = ${result.toFixed(4)}`;
+                    break;
+                case 'v1':
+                    result = (p2 * v2 * t1) / (t2 * p1);
+                    unit = ' (volume units)';
+                    explanation = `V₁ = (${p2} × ${v2} × ${t1}) / (${t2} × ${p1}) = ${result.toFixed(4)}`;
+                    break;
+                case 't1':
+                    result = (p1 * v1 * t2) / (p2 * v2);
+                    unit = ' K';
+                    explanation = `T₁ = (${p1} × ${v1} × ${t2}) / (${p2} × ${v2}) = ${result.toFixed(4)} K`;
+                    break;
+            }
+
+            document.getElementById('resultValue').innerText = result.toFixed(4) + unit;
+            document.getElementById('constantsInfo').innerHTML = `
+                <span id="textFormula">(P₁V₁)/T₁ = (P₂V₂)/T₂</span><br>
+                <span style="font-size: 11px;">${explanation}</span>
+            `;
+        }
+
+        function askAiAssistant() {
+            let q = document.getElementById('aiQuestionInput').value.toLowerCase();
+            let output = document.getElementById('aiOutput');
+            
+            if (!q) {
+                output.innerText = "Please type a question for the AI assistant!";
+                return;
+            }
+
+            if (q.includes('combined') || q.includes('combiné')) {
+                output.innerText = "🔬 The Combined Gas Law: (P₁V₁)/T₁ = (P₂V₂)/T₂. It combines Boyle's, Charles's, and Gay-Lussac's laws into one equation.";
+            } else {
+                output.innerText = "💡 The Combined Gas Law is used when pressure, volume, and temperature all change. Use Kelvin for temperature!";
+            }
+        }
+
+        const translations = {
+            en: {
+                backText: "Back to Hub",
+                backLabel: "Back to Directory",
+                backArrow: "←",
+                headerArrow: "←",
+                badgeText: "🔬 Gas Laws",
+                calcTitle: "🔬 Combined Gas Law Calculator",
+                labelMode: "Solve For:",
+                labelP1: "Initial Pressure (P₁):",
+                labelV1: "Initial Volume (V₁):",
+                labelT1: "Initial Temp (T₁ in K):",
+                labelP2: "Final Pressure (P₂):",
+                labelV2: "Final Volume (V₂):",
+                labelT2: "Final Temp (T₂ in K):",
+                calcBtn: "🔬 Calculate",
+                textResult: "Result:",
+                textFormula: "(P₁V₁)/T₁ = (P₂V₂)/T₂",
+                secTitle: "Combined Gas Law",
+                secP1: "The Combined Gas Law combines Boyle's, Charles's, and Gay-Lussac's laws into one equation.",
+                secP2: "Where:",
+                secP3: "Temperature must always be in Kelvin (K = °C + 273.15).",
+                dir: "ltr",
+                li1: "P₁, P₂ = Initial and final pressure",
+                li2: "V₁, V₂ = Initial and final volume",
+                li3: "T₁, T₂ = Initial and final temperature (in Kelvin)"
+            },
+            fr: {
+                backText: "Retour au Hub",
+                backLabel: "Retour au répertoire",
+                backArrow: "←",
+                headerArrow: "←",
+                badgeText: "🔬 Lois des Gaz",
+                calcTitle: "🔬 Loi des Gaz Combinés",
+                labelMode: "Résoudre pour :",
+                labelP1: "Pression Initiale (P₁) :",
+                labelV1: "Volume Initial (V₁) :",
+                labelT1: "Temp. Initiale (T₁ en K) :",
+                labelP2: "Pression Finale (P₂) :",
+                labelV2: "Volume Final (V₂) :",
+                labelT2: "Temp. Finale (T₂ en K) :",
+                calcBtn: "🔬 Calculer",
+                textResult: "Résultat :",
+                textFormula: "(P₁V₁)/T₁ = (P₂V₂)/T₂",
+                secTitle: "Loi des Gaz Combinés",
+                secP1: "La loi des gaz combinés combine les lois de Boyle, Charles et Gay-Lussac.",
+                secP2: "Où :",
+                secP3: "La température doit toujours être en Kelvin (K = °C + 273.15).",
+                dir: "ltr",
+                li1: "P₁, P₂ = Pression initiale et finale",
+                li2: "V₁, V₂ = Volume initial et final",
+                li3: "T₁, T₂ = Température initiale et finale (en Kelvin)"
+            },
+            ar: {
+                backText: "العودة للرئيسية",
+                backLabel: "العودة إلى الدليل",
+                backArrow: "→",
+                headerArrow: "→",
+                badgeText: "🔬 قوانين الغازات",
+                calcTitle: "🔬 حاسبة قانون الغازات المجمع",
+                labelMode: "احسب:",
+                labelP1: "الضغط الابتدائي (P₁):",
+                labelV1: "الحجم الابتدائي (V₁):",
+                labelT1: "درجة الحرارة الابتدائية (T₁ بالكلفن):",
+                labelP2: "الضغط النهائي (P₂):",
+                labelV2: "الحجم النهائي (V₂):",
+                labelT2: "درجة الحرارة النهائية (T₂ بالكلفن):",
+                calcBtn: "🔬 احسب",
+                textResult: "النتيجة:",
+                textFormula: "(P₁V₁)/T₁ = (P₂V₂)/T₂",
+                secTitle: "قانون الغازات المجمع",
+                secP1: "يجمع قانون الغازات المجمع بين قوانين بويل وشارل وجاي-لوساك في معادلة واحدة.",
+                secP2: "حيث أن:",
+                secP3: "يجب أن تكون درجة الحرارة دائماً بالكلفن (كلفن = س° + 273.15).",
+                dir: "rtl",
+                li1: "P₁, P₂ = الضغط الابتدائي والنهائي",
+                li2: "V₁, V₂ = الحجم الابتدائي والنهائي",
+                li3: "T₁, T₂ = درجة الحرارة الابتدائية والنهائية (بالكلفن)"
+            }
+        };
+
+        function changeLanguage() {
+            let lang = document.getElementById('langSelect').value;
+            let t = translations[lang];
+            let html = document.getElementById('htmlTag');
+            
+            html.setAttribute('lang', lang);
+            html.setAttribute('dir', t.dir);
+            
+            document.getElementById('backText').innerText = t.backText;
+            document.getElementById('backLabel').innerText = t.backLabel;
+            document.getElementById('backArrow').innerText = t.backArrow;
+            document.getElementById('headerArrow').innerText = t.headerArrow;
+            document.getElementById('badgeText').innerText = t.badgeText;
+            document.getElementById('calcTitle').innerText = t.calcTitle;
+            document.getElementById('labelMode').innerHTML = t.labelMode;
+            document.getElementById('labelP1').innerHTML = t.labelP1;
+            document.getElementById('labelV1').innerHTML = t.labelV1;
+            document.getElementById('labelT1').innerHTML = t.labelT1;
+            document.getElementById('labelP2').innerHTML = t.labelP2;
+            document.getElementById('labelV2').innerHTML = t.labelV2;
+            document.getElementById('labelT2').innerHTML = t.labelT2;
+            document.getElementById('calcBtn').innerHTML = t.calcBtn;
+            document.getElementById('textResult').innerHTML = t.textResult;
+            document.getElementById('textFormula').innerHTML = t.textFormula;
+            document.getElementById('secTitle').innerHTML = t.secTitle;
+            document.getElementById('secP1').innerHTML = t.secP1;
+            document.getElementById('secP2').innerHTML = t.secP2;
+            document.getElementById('secP3').innerHTML = t.secP3;
+            
+            for(let i = 1; i <= 3; i++) {
+                if(document.getElementById(`li${i}`)) {
+                    document.getElementById(`li${i}`).innerHTML = t[`li${i}`];
+                }
+            }
+            
+            calculateCombined();
+        }
+    </script>
+</body>
+</html>
