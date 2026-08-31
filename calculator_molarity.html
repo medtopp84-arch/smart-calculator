@@ -29,8 +29,10 @@
             --result-bg: #065f46;
         }
 
+        * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
-        header { background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; box-shadow: 0 1px 3px rgba(0,0,0,0.05); }
+        
+        header { background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; }
         .logo { font-size: 18px; font-weight: bold; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 8px; }
         .header-controls { display: flex; align-items: center; gap: 12px; }
         
@@ -41,19 +43,26 @@
         .content-section h2 { color: var(--primary); margin-top: 0; font-size: 22px; }
         .content-section p { color: var(--text-muted); font-size: 15px; }
         
-        .pro-blueprint-box { background: #f1f5f9; border: 2px solid var(--primary); border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; }
+        [dir="rtl"] .content-section { text-align: right; }
+        [dir="rtl"] .content-section ul { padding-right: 20px; padding-left: 0; }
+        
+        .pro-blueprint-box { background: #f1f5f9; border: 2px solid var(--primary); border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; overflow: hidden; }
         [data-theme="dark"] .pro-blueprint-box { background: #1e293b; border-color: var(--primary); }
         .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+        [dir="rtl"] .pro-blueprint-box svg { transform: scaleX(-1); }
 
-        .formula-box { background: #eff6ff; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: var(--primary-dark); border-radius: 4px; text-align: left; }
-        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid var(--primary); text-align: right; }
+        .formula-box { background: #eff6ff; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: var(--primary-dark); border-radius: 4px; text-align: center; }
+        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid var(--primary); }
         [data-theme="dark"] .formula-box { background: #064e3b; color: #34d399; }
 
         .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
         .calculator { background: var(--card-bg); padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--border); }
+        
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
-        a.back-btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 13px; transition: color 0.2s; }
+        a.back-btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 13px; transition: color 0.2s; display: inline-flex; align-items: center; gap: 4px; }
         a.back-btn:hover { color: var(--primary-dark); }
+        [dir="rtl"] a.back-btn { flex-direction: row-reverse; }
+        
         select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
         
         .input-group { margin-bottom: 16px; }
@@ -79,13 +88,14 @@
         .ai-btn { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
         .ai-btn:hover { background: var(--primary-dark); }
 
-        .theme-btn { width: 36px; height: 36px; padding: 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; }
+        .theme-btn { width: 36px; height: 36px; padding: 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; }
+        .lang-select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
     </style>
 </head>
 <body>
 
     <header>
-        <a href="index.html" class="logo" id="homeLink">← <span id="backText">Back to Hub</span></a>
+        <a href="index.html" class="logo" id="homeLink"><span id="headerArrow">←</span> <span id="backText">Back to Hub</span></a>
         <div class="header-controls">
             <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙</button>
             <select class="lang-select" id="langSelect" onchange="changeLanguage()">
@@ -97,7 +107,6 @@
     </header>
 
     <div class="page-container">
-        <!-- القسم الأيسر: الشرح العلمي والمخطط -->
         <div class="content-section">
             <h2 id="secTitle">About Molarity & Solution Chemistry</h2>
             <p id="secP1">Molarity (M) is a measure of the concentration of a solute in a solution, defined as the number of moles of solute per liter of solution. It is one of the most commonly used units in chemistry for expressing concentration.</p>
@@ -109,21 +118,16 @@
                             <path d="M0,2 L8,4 L0,6 Z" fill="#2563eb"/>
                         </marker>
                     </defs>
-                    <!-- دورق مخروطي -->
                     <path d="M 160 50 L 220 50 L 230 170 L 150 170 Z" fill="rgba(5, 150, 105, 0.1)" stroke="#059669" stroke-width="2.5"/>
                     <ellipse cx="190" cy="50" rx="30" ry="10" fill="rgba(5, 150, 105, 0.2)" stroke="#059669" stroke-width="2"/>
-                    <!-- السائل داخل الدورق -->
                     <path d="M 165 70 L 215 70 L 225 155 L 155 155 Z" fill="rgba(5, 150, 105, 0.2)" stroke="none"/>
-                    <!-- خطوط مستوى -->
                     <line x1="155" y1="100" x2="225" y2="100" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,3"/>
                     <text x="230" y="104" font-size="11" fill="#64748b" font-weight="bold">V = 1 L</text>
-                    <!-- جسيمات المذاب -->
                     <circle cx="180" cy="120" r="6" fill="#2563eb" opacity="0.7"/>
                     <circle cx="195" cy="90" r="5" fill="#2563eb" opacity="0.5"/>
                     <circle cx="200" cy="130" r="7" fill="#2563eb" opacity="0.6"/>
                     <circle cx="175" cy="100" r="4" fill="#2563eb" opacity="0.4"/>
                     <circle cx="210" cy="110" r="5" fill="#2563eb" opacity="0.5"/>
-                    <!-- سهم يشير إلى الجسيمات -->
                     <line x1="120" y1="110" x2="165" y2="115" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
                     <text x="110" y="105" font-size="11" fill="#dc2626" font-weight="bold">Solute (moles)</text>
                 </svg>
@@ -144,16 +148,11 @@
             <p id="secP3">Molarity is essential for preparing standard solutions, titrations, and stoichiometric calculations in analytical chemistry and biochemistry.</p>
         </div>
 
-        <!-- القسم الأيمن: الحاسبة والذكاء الاصطناعي -->
         <div class="calculator-sidebar">
             <div class="calculator">
                 <div class="top-bar">
-                    <a href="index.html" class="back-btn" id="backText2">← Back to Directory</a>
-                    <select id="langSelect2" onchange="changeLanguage()" style="display:none;">
-                        <option value="en">English 🇬🇧</option>
-                        <option value="fr">Français 🇫🇷</option>
-                        <option value="ar">العربية 🇸🇦</option>
-                    </select>
+                    <a href="index.html" class="back-btn" id="backText2"><span id="backArrow">←</span> <span id="backLabel">Back to Directory</span></a>
+                    <select class="lang-select" id="langSelect2" onchange="changeLanguage()" style="display:none;"></select>
                 </div>
 
                 <h3 id="calcTitle" style="margin-top:0; color:var(--text-main); font-size:17px;">🧪 Molarity Calculator</h3>
@@ -268,7 +267,9 @@
         const translations = {
             en: {
                 backText: "Back to Hub",
-                backText2: "← Back to Directory",
+                backLabel: "Back to Directory",
+                backArrow: "←",
+                headerArrow: "←",
                 calcTitle: "🧪 Molarity Calculator",
                 labelMass: "Mass of Solute (m)",
                 labelMolarMass: "Molar Mass (MM)",
@@ -281,11 +282,18 @@
                 secP1: "Molarity (M) is a measure of the concentration of a solute in a solution, defined as the number of moles of solute per liter of solution. It is one of the most commonly used units in chemistry for expressing concentration.",
                 secP2: "Where:",
                 secP3: "Molarity is essential for preparing standard solutions, titrations, and stoichiometric calculations in analytical chemistry and biochemistry.",
-                dir: "ltr"
+                dir: "ltr",
+                li1: "M = Molarity (mol/L)",
+                li2: "n = Number of moles of solute",
+                li3: "V = Volume of solution in liters (L)",
+                li4: "m = Mass of solute in grams (g)",
+                li5: "MM = Molar mass of solute (g/mol)"
             },
             fr: {
                 backText: "Retour au Hub",
-                backText2: "← Retour au répertoire",
+                backLabel: "Retour au répertoire",
+                backArrow: "←",
+                headerArrow: "←",
                 calcTitle: "🧪 Calculateur de Molarité",
                 labelMass: "Masse du Soluté (m)",
                 labelMolarMass: "Masse Molaire (MM)",
@@ -298,11 +306,18 @@
                 secP1: "La molarité (M) est une mesure de la concentration d'un soluté dans une solution, définie comme le nombre de moles de soluté par litre de solution.",
                 secP2: "Où :",
                 secP3: "La molarité est essentielle pour la préparation de solutions étalons, les titrages et les calculs stoechiométriques.",
-                dir: "ltr"
+                dir: "ltr",
+                li1: "M = Molarité (mol/L)",
+                li2: "n = Nombre de moles de soluté",
+                li3: "V = Volume de la solution en litres (L)",
+                li4: "m = Masse du soluté en grammes (g)",
+                li5: "MM = Masse molaire du soluté (g/mol)"
             },
             ar: {
                 backText: "العودة للرئيسية",
-                backText2: "← العودة إلى الدليل",
+                backLabel: "العودة إلى الدليل",
+                backArrow: "→",
+                headerArrow: "→",
                 calcTitle: "🧪 حاسبة التركيز المولاري",
                 labelMass: "كتلة المادة المذابة (m)",
                 labelMolarMass: "الكتلة المولية (MM)",
@@ -315,18 +330,27 @@
                 secP1: "التركيز المولاري (M) هو مقياس لتركيز المذاب في المحلول، ويعرف بأنه عدد مولات المذاب لكل لتر من المحلول. وهي من أكثر الوحدات استخداماً في الكيمياء.",
                 secP2: "حيث أن:",
                 secP3: "التركيز المولاري ضروري لتحضير المحاليل القياسية، والمعايرة، والحسابات الكيميائية المختلفة.",
-                dir: "rtl"
+                dir: "rtl",
+                li1: "M = التركيز المولاري (مول/لتر)",
+                li2: "n = عدد مولات المادة المذابة",
+                li3: "V = حجم المحلول باللتر (L)",
+                li4: "m = كتلة المادة المذابة بالجرام (g)",
+                li5: "MM = الكتلة المولية للمادة المذابة (جم/مول)"
             }
         };
 
         function changeLanguage() {
             let lang = document.getElementById('langSelect').value;
             let t = translations[lang];
-            document.getElementById('htmlTag').setAttribute('lang', lang);
-            document.getElementById('htmlTag').setAttribute('dir', t.dir);
+            let html = document.getElementById('htmlTag');
+            
+            html.setAttribute('lang', lang);
+            html.setAttribute('dir', t.dir);
             
             document.getElementById('backText').innerText = t.backText;
-            document.getElementById('backText2').innerText = t.backText2;
+            document.getElementById('backLabel').innerText = t.backLabel;
+            document.getElementById('backArrow').innerText = t.backArrow;
+            document.getElementById('headerArrow').innerText = t.headerArrow;
             document.getElementById('calcTitle').innerText = t.calcTitle;
             document.getElementById('labelMass').innerHTML = t.labelMass;
             document.getElementById('labelMolarMass').innerHTML = t.labelMolarMass;
@@ -339,6 +363,12 @@
             document.getElementById('secP1').innerText = t.secP1;
             document.getElementById('secP2').innerText = t.secP2;
             document.getElementById('secP3').innerText = t.secP3;
+            
+            for(let i = 1; i <= 5; i++) {
+                if(document.getElementById(`li${i}`)) {
+                    document.getElementById(`li${i}`).innerHTML = t[`li${i}`];
+                }
+            }
         }
     </script>
 </body>
