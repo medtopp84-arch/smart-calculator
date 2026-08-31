@@ -3,70 +3,202 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Steel Pipe Weight Calculator</title>
+    <title>Steel Pipe Weight Calculator | OmniEngineer Pro</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-        .calculator { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); width: 100%; max-width: 520px; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; padding: 20px; }
+        .page-container { max-width: 1200px; margin: 30px auto; display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
+        @media (max-width: 900px) { .page-container { grid-template-columns: 1fr; } }
+        
+        .content-section { background: white; padding: 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; line-height: 1.7; }
+        .content-section h2 { color: #2563eb; margin-top: 0; font-size: 22px; }
+        .content-section p { color: #475569; font-size: 15px; }
+        
+        /* صندوق المخطط الهندسي للأنبوب الفولاذي (OD و WT) */
+        .pro-blueprint-box { background: #f1f5f9; border: 2px solid #3b82f6; border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; }
+        .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+
+        .formula-box { background: #eff6ff; border-left: 4px solid #2563eb; padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: #1d4ed8; border-radius: 4px; text-align: left; }
+        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid #2563eb; text-align: right; }
+
+        .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .calculator { background: white; padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        a.back-btn { text-decoration: none; color: #2563eb; font-weight: bold; font-size: 14px; }
-        select { padding: 5px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 14px; background: #fff; cursor: pointer; }
-        h2 { text-align: center; color: #1e293b; font-size: 18px; margin-bottom: 20px; }
+        a.back-btn { text-decoration: none; color: #2563eb; font-weight: bold; font-size: 13px; }
+        select { padding: 5px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 13px; background: #fff; cursor: pointer; }
+        
         .input-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 6px; color: #475569; font-weight: bold; font-size: 13px;}
         input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; box-sizing: border-box; }
         input:focus { border-color: #2563eb; outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
         .result-box { background: #f8fafc; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid #e2e8f0; }
-        .result-text { font-size: 15px; color: #334155; font-weight: bold; margin: 6px 0; }
+        .result-text { font-size: 14px; color: #334155; font-weight: bold; margin: 6px 0; }
         .highlight { color: #2563eb; font-size: 18px; }
+
+        .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .ai-header { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; color: #60a5fa; }
+        .ai-chat-output { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 13px; color: #cbd5e1; min-height: 60px; margin-bottom: 12px; line-height: 1.5; }
+        .ai-input-group { display: flex; gap: 8px; }
+        .ai-input { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
+        .ai-btn { background: #2563eb; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
+        .ai-btn:hover { background: #1d4ed8; }
     </style>
 </head>
 <body>
-    <div class="calculator">
-        <div class="top-bar">
-            <a href="index.html" class="back-btn" id="backText">← Back to Directory</a>
-            <select id="langSelect" onchange="changeLanguage()">
-                <option value="en">English 🇬🇧</option>
-                <option value="fr">Français 🇫🇷</option>
-                <option value="ar">العربية 🇸🇦</option>
-            </select>
+
+    <div class="page-container">
+        <div class="content-section">
+            <h2 id="secTitle">About Steel Pipe Weight & Structural Design</h2>
+            <p id="secP1">Calculating the weight of steel pipes per meter and total length is crucial for structural design, lifting load assessments, transportation logistics, and pipeline suspension engineering.</p>
+            
+            <div class="pro-blueprint-box">
+                <svg width="380" height="210" viewBox="0 0 380 210">
+                    <defs>
+                        <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                            <path d="M0,2 L8,4 L0,6 Z" fill="#1d4ed8"/>
+                        </marker>
+                    </defs>
+
+                    <circle cx="190" cy="105" r="75" fill="#f1f5f9" stroke="#2563eb" stroke-width="3"/>
+                    <circle cx="190" cy="105" r="50" fill="#ffffff" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4,4"/>
+
+                    <line x1="115" y1="30" x2="265" y2="30" stroke="#1d4ed8" stroke-width="1.5" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)"/>
+                    <text x="190" y="22" font-size="12" fill="#1d4ed8" font-weight="bold" text-anchor="middle">Outer Diameter (OD)</text>
+
+                    <line x1="240" y1="105" x2="265" y2="105" stroke="#dc2626" stroke-width="1.5" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)"/>
+                    <text x="285" y="109" font-size="11" fill="#dc2626" font-weight="bold" text-anchor="start">WT</text>
+                </svg>
+            </div>
+
+            <div class="formula-box">
+                Weight per Meter (kg/m) = 0.02466 · WT · (OD - WT) <br>
+                Total Weight (kg) = Weight per Meter × Length (L)
+            </div>
+            
+            <p id="secP2">Where:</p>
+            <ul>
+                <li id="li1"><strong>OD</strong> = Outer diameter of the steel pipe in millimeters (mm)</li>
+                <li id="li2"><strong>WT</strong> = Wall thickness of the steel pipe in millimeters (mm)</li>
+                <li id="li3"><strong>0.02466</strong> = Standard carbon steel volumetric constant (derived from density ~7.85 $g/cm^3$)</li>
+                <li id="li4"><strong>L</strong> = Total pipe length in meters (m)</li>
+            </ul>
+            <p id="secP3">This standard industry formula simplifies structural calculations by factoring in the specific density of steel to output accurate mass per unit length instantly.</p>
         </div>
 
-        <h2 id="calcTitle">pipe Ố Steel Pipe Weight Calculator</h2>
-        <div class="input-group">
-            <label id="labelOd">Outer Diameter - OD (mm):</label>
-            <input type="number" id="pipeOd" placeholder="e.g. 219.1" oninput="calculateSteelPipe()">
-        </div>
-        <div class="input-group">
-            <label id="labelWt">Wall Thickness - WT (mm):</label>
-            <input type="number" id="pipeWt" placeholder="e.g. 8.18" oninput="calculateSteelPipe()">
-        </div>
-        <div class="input-group">
-            <label id="labelLen">Total Length of Pipe (meters):</label>
-            <input type="number" id="pipeLen" placeholder="e.g. 12" oninput="calculateSteelPipe()">
-        </div>
-        
-        <div class="result-box">
-            <p class="result-text"><span id="textUnitWeight">Weight per Meter:</span> <span id="weightPerMeter" class="highlight">0.00</span> <span id="unitKgM">kg/m</span></p>
-            <p class="result-text"><span id="textTotalWeight">Total Pipe Weight:</span> <span id="totalWeight" class="highlight">0.00</span> <span id="unitKg">kg</span></p>
+        <div class="calculator-sidebar">
+            <div class="calculator">
+                <div class="top-bar">
+                    <a href="index.html" class="back-btn" id="backText">← Back to Directory</a>
+                    <select id="langSelect" onchange="changeLanguage()">
+                        <option value="en">English 🇬🇧</option>
+                        <option value="fr">Français 🇫🇷</option>
+                        <option value="ar">العربية 🇸🇦</option>
+                    </select>
+                </div>
+
+                <h2 id="calcTitle" style="text-align: left; font-size: 16px; margin-top: 0; color: #1e293b;">🔧 Steel Pipe Weight Calculator</h2>
+                
+                <div class="input-group">
+                    <label id="labelOd">Outer Diameter - OD (mm):</label>
+                    <input type="number" id="pipeOd" placeholder="e.g. 219.1" oninput="calculateSteelPipe()">
+                </div>
+                <div class="input-group">
+                    <label id="labelWt">Wall Thickness - WT (mm):</label>
+                    <input type="number" id="pipeWt" placeholder="e.g. 8.18" oninput="calculateSteelPipe()">
+                </div>
+                <div class="input-group">
+                    <label id="labelLen">Total Length of Pipe (meters):</label>
+                    <input type="number" id="pipeLen" placeholder="e.g. 12" oninput="calculateSteelPipe()">
+                </div>
+                
+                <div class="result-box">
+                    <p class="result-text"><span id="textUnitWeight">Weight per Meter:</span> <span id="weightPerMeter" class="highlight">0.00</span> <span id="unitKgM">kg/m</span></p>
+                    <p class="result-text"><span id="textTotalWeight">Total Pipe Weight:</span> <span id="totalWeight" class="highlight">0.00</span> <span id="unitKg">kg</span></p>
+                </div>
+            </div>
+
+            <div class="ai-assistant-box">
+                <div class="ai-header">
+                    🤖 OmniEngineer AI Expert
+                </div>
+                <div class="ai-chat-output" id="aiOutput">
+                    Hello! I'm your engineering AI assistant. Ask me about steel grades, pipe schedules, or lifting weight safety factors!
+                </div>
+                <div class="ai-input-group">
+                    <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI a question...">
+                    <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
+        function askAiAssistant() {
+            let q = document.getElementById('aiQuestionInput').value.toLowerCase();
+            let wtM = document.getElementById('weightPerMeter').innerText;
+            let output = document.getElementById('aiOutput');
+            
+            if (!q) {
+                output.innerText = "Please type a question for the AI assistant!";
+                return;
+            }
+
+            if (q.includes('schedule') || q.includes('sch') || q.includes('جدول')) {
+                output.innerText = "💡 Engineering Tip: Pipe schedules (like Schedule 40, 80, or 160) define the wall thickness for a given nominal pipe size, directly dictating pressure ratings and weight per meter.";
+            } else if (q.includes('lifting') || q.includes('safety') || q.includes('رفع') || q.includes('سلامة')) {
+                output.innerText = `📊 Current calculated weight per meter is ${wtM} kg/m. Always apply dynamic load and safety factors (minimum 1.5x to 2x) when rigging or crane-lifting steel pipe strings.`;
+            } else {
+                output.innerText = `🤖 AI Analysis: The weight calculation uses the standard carbon steel density constant (7.85 kg/dm³) multiplied by the net annular cross-sectional area of the pipe.`;
+            }
+        }
+
         const translations = {
             en: {
-                backText: "← Back to Directory", calcTitle: "🔧 Steel Pipe Weight Calculator",
-                labelOd: "Outer Diameter - OD (mm):", labelWt: "Wall Thickness - WT (mm):", labelLen: "Total Length of Pipe (meters):",
-                textUnitWeight: "Weight per Meter:", textTotalWeight: "Total Pipe Weight:", unitKgM: "kg/m", unitKg: "kg", dir: "ltr"
+                backText: "← Back to Directory",
+                calcTitle: "🔧 Steel Pipe Weight Calculator",
+                labelOd: "Outer Diameter - OD (mm):",
+                labelWt: "Wall Thickness - WT (mm):",
+                labelLen: "Total Length of Pipe (meters):",
+                textUnitWeight: "Weight per Meter:",
+                textTotalWeight: "Total Pipe Weight:",
+                unitKgM: "kg/m",
+                unitKg: "kg",
+                secTitle: "About Steel Pipe Weight & Structural Design",
+                secP1: "Calculating the weight of steel pipes per meter and total length is crucial for structural design, lifting load assessments, transportation logistics, and pipeline suspension engineering.",
+                secP2: "Where:",
+                secP3: "This standard industry formula simplifies structural calculations by factoring in the specific density of steel to output accurate mass per unit length instantly.",
+                dir: "ltr"
             },
             fr: {
-                backText: "← Retour au répertoire", calcTitle: "🔧 Calculateur de Poids de Tuyau en Acier",
-                labelOd: "Diamètre Extérieur - OD (mm) :", labelWt: "Épaisseur de Paroi - WT (mm) :", labelLen: "Longueur Totale du Tuyau (mètres) :",
-                textUnitWeight: "Poids par Mètre :", textTotalWeight: "Poids Total du Tuyau :", unitKgM: "kg/m", unitKg: "kg", dir: "ltr"
+                backText: "← Retour au répertoire",
+                calcTitle: "🔧 Calculateur de Poids de Tuyau en Acier",
+                labelOd: "Diamètre Extérieur - OD (mm) :",
+                labelWt: "Épaisseur de Paroi - WT (mm) :",
+                labelLen: "Longueur Totale du Tuyau (mètres) :",
+                textUnitWeight: "Poids par Mètre :",
+                textTotalWeight: "Poids Total du Tuyau :",
+                unitKgM: "kg/m",
+                unitKg: "kg",
+                secTitle: "À propos du Poids des Tuyaux en Acier",
+                secP1: "Le calcul du poids des tuyaux en acier est essentiel pour la conception structurelle, l'évaluation des charges de levage et la logistique.",
+                secP2: "Où :",
+                secP3: "Cette formule standard simplifie les calculs en tenant compte de la densité spécifique de l'acier.",
+                dir: "ltr"
             },
             ar: {
-                backText: "← العودة إلى الدليل", calcTitle: "🔧 حاسبة وزن الأنابيب الفولاذية",
-                labelOd: "القطر الخارجي - OD (مم):", labelWt: "سماكة الجدار - WT (مم):", labelLen: "الطول الإجمالي للأنبوب (متر):",
-                textUnitWeight: "الوزن لكل متر:", textTotalWeight: "إجمالي وزن الأنبوب:", unitKgM: "كجم/م", unitKg: "كجم", dir: "rtl"
+                backText: "← العودة إلى الدليل",
+                calcTitle: "🔧 حاسبة وزن الأنابيب الفولاذية",
+                labelOd: "القطر الخارجي - OD (مم):",
+                labelWt: "سماكة الجدار - WT (مم):",
+                labelLen: "الطول الإجمالي للأنبوب (متر):",
+                textUnitWeight: "الوزن لكل متر:",
+                textTotalWeight: "إجمالي وزن الأنبوب:",
+                unitKgM: "كجم/م",
+                unitKg: "كجم",
+                secTitle: "نبذة عن حساب وزن الأنابيب الفولاذية والتصميم الإنشائي",
+                secP1: "يعد حساب وزن الأنابيب الفولاذية لكل متر وللإجمالي أمراً بالغ الأهمية للتصميم الإنشائي، تقييم أحمال الرفع، لوجستيات النقل، وهندسة تعليق خطوط الأنابيب.",
+                secP2: "حيث أن:",
+                secP3: "تبسط هذه المعادلة القياسية في الصناعة الحسابات الإنشائية من خلال أخذ الكثافة المحددة للصلب في الاعتبار لإخراج كتلة دقيقة لكل وحدة طول فوراً.",
+                dir: "rtl"
             }
         };
 
@@ -84,6 +216,10 @@
             document.getElementById('textTotalWeight').innerText = t.textTotalWeight;
             document.getElementById('unitKgM').innerText = t.unitKgM;
             document.getElementById('unitKg').innerText = t.unitKg;
+            document.getElementById('secTitle').innerText = t.secTitle;
+            document.getElementById('secP1').innerText = t.secP1;
+            document.getElementById('secP2').innerText = t.secP2;
+            document.getElementById('secP3').innerText = t.secP3;
         }
 
         function calculateSteelPipe() {
@@ -91,7 +227,6 @@
             let WT = parseFloat(document.getElementById('pipeWt').value) || 0;
             let L = parseFloat(document.getElementById('pipeLen').value) || 0;
             
-            // معادلة وزن الأنبوب الفولاذي: الوزن (كجم/م) = 0.02466 * WT * (OD - WT)
             let weightPerM = 0.02466 * WT * (OD - WT);
             let totalW = weightPerM * L;
 
