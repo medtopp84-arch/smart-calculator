@@ -13,7 +13,6 @@
         .content-section h2 { color: #2563eb; margin-top: 0; font-size: 22px; }
         .content-section p { color: #475569; font-size: 15px; }
         
-        /* صندوق المخطط الهندسي لمعدل التدفق */
         .pro-blueprint-box { background: #f1f5f9; border: 2px solid #3b82f6; border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; }
         .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
 
@@ -129,6 +128,17 @@
     </div>
 
     <script>
+        function calculateFlow() {
+            let A = parseFloat(document.getElementById('pipeArea').value) || 0;
+            let V = parseFloat(document.getElementById('fluidVel').value) || 0;
+            
+            let flowM3s = A * V;
+            let flowLitersPerHour = flowM3s * 1000 * 3600;
+
+            document.getElementById('flowM3Result').innerText = flowM3s.toFixed(3);
+            document.getElementById('flowLhResult').innerText = flowLitersPerHour.toFixed(2);
+        }
+
         function askAiAssistant() {
             let q = document.getElementById('aiQuestionInput').value.toLowerCase();
             let flow = document.getElementById('flowM3Result').innerText;
@@ -205,17 +215,6 @@
             document.getElementById('secP1').innerText = t.secP1;
             document.getElementById('secP2').innerText = t.secP2;
             document.getElementById('secP3').innerText = t.secP3;
-        }
-
-        function calculateFlow() {
-            let A = parseFloat(document.getElementById('pipeArea').value) || 0;
-            let V = parseFloat(document.getElementById('fluidVel').value) || 0;
-            
-            let flowM3s = A * V;
-            let flowLitersPerHour = flowM3s * 1000 * 3600;
-
-            document.getElementById('flowM3Result').innerText = flowM3s.toFixed(3);
-            document.getElementById('flowLhResult').innerText = flowLitersPerHour.toFixed(2);
         }
     </script>
 </body>
