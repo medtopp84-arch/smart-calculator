@@ -1,0 +1,420 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="htmlTag" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Electromotive Force (EMF) Calculator | OmniEngineer Pro</title>
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --primary-dark: #6d28d9;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --result-bg: #f0fdf4;
+            --tag-bg: #ede9fe;
+        }
+
+        [data-theme="dark"] {
+            --primary: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --result-bg: #065f46;
+            --tag-bg: #2e1065;
+        }
+
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
+        
+        header { background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; }
+        .logo { font-size: 18px; font-weight: bold; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .header-controls { display: flex; align-items: center; gap: 12px; }
+        
+        .page-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
+        @media (max-width: 900px) { .page-container { grid-template-columns: 1fr; } }
+        
+        .content-section { background: var(--card-bg); padding: 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border); line-height: 1.7; }
+        .content-section h2 { color: var(--primary); margin-top: 0; font-size: 22px; }
+        .content-section p { color: var(--text-muted); font-size: 15px; }
+        
+        [dir="rtl"] .content-section { text-align: right; }
+        [dir="rtl"] .content-section ul { padding-right: 20px; padding-left: 0; }
+        
+        .pro-blueprint-box { background: #f1f5f9; border: 2px solid var(--primary); border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; overflow: hidden; }
+        [data-theme="dark"] .pro-blueprint-box { background: #1e293b; border-color: var(--primary); }
+        .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+        [dir="rtl"] .pro-blueprint-box svg { transform: scaleX(-1); }
+
+        .formula-box { background: #ede9fe; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: var(--primary-dark); border-radius: 4px; text-align: center; }
+        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid var(--primary); }
+        [data-theme="dark"] .formula-box { background: #2e1065; color: #a78bfa; }
+
+        .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .calculator { background: var(--card-bg); padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--border); }
+        
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        a.back-btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 13px; transition: color 0.2s; display: inline-flex; align-items: center; gap: 4px; }
+        a.back-btn:hover { color: var(--primary-dark); }
+        [dir="rtl"] a.back-btn { flex-direction: row-reverse; }
+        
+        select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
+        
+        .input-group { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 6px; color: var(--text-muted); font-weight: bold; font-size: 13px; }
+        input, select.form-control { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
+        input:focus, select.form-control:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(124,58,237,0.1); }
+        
+        .result-box { background: var(--result-bg); padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid var(--primary); }
+        .result-text { font-size: 14px; color: var(--text-main); font-weight: bold; margin: 6px 0; }
+        .highlight { font-size: 22px; color: var(--primary); }
+
+        .btn-calculate { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; font-size: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
+        .btn-calculate:hover { background: var(--primary-dark); }
+
+        .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .ai-header { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; color: #a78bfa; }
+        .ai-chat-output { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 13px; color: #cbd5e1; min-height: 60px; margin-bottom: 12px; line-height: 1.5; }
+        .ai-input-group { display: flex; gap: 8px; }
+        .ai-input { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
+        .ai-btn { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
+        .ai-btn:hover { background: var(--primary-dark); }
+
+        .theme-btn { width: 36px; height: 36px; padding: 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; }
+        .lang-select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
+
+        .badge { display: inline-block; background: var(--tag-bg); color: var(--primary); font-size: 11px; padding: 3px 10px; border-radius: 6px; font-weight: bold; margin-bottom: 12px; }
+        .cell-type { font-size: 13px; margin-top: 5px; padding: 6px 12px; border-radius: 6px; display: inline-block; }
+        .cell-spontaneous { background: #dcfce7; color: #166534; }
+        .cell-nonspontaneous { background: #fee2e2; color: #991b1b; }
+        [data-theme="dark"] .cell-spontaneous { background: #065f46; color: #86efac; }
+        [data-theme="dark"] .cell-nonspontaneous { background: #7f1d1d; color: #fca5a5; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo" id="homeLink"><span id="headerArrow">←</span> <span id="backText">Back to Hub</span></a>
+        <div class="header-controls">
+            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙</button>
+            <select class="lang-select" id="langSelect" onchange="changeLanguage()">
+                <option value="en">English 🇬🇧</option>
+                <option value="fr">Français 🇫🇷</option>
+                <option value="ar">العربية 🇸🇦</option>
+            </select>
+        </div>
+    </header>
+
+    <div class="page-container">
+        <div class="content-section">
+            <span class="badge" id="badgeText">⚡ Electrochemistry</span>
+            <h2 id="secTitle">Electromotive Force (EMF) & Galvanic Cells</h2>
+            <p id="secP1">The electromotive force (EMF) is the maximum potential difference between two electrodes of a galvanic or voltaic cell. It represents the ability of an electrochemical cell to drive the flow of electrons through an external circuit, generating electrical energy from chemical reactions.</p>
+            
+            <div class="pro-blueprint-box">
+                <svg width="380" height="200" viewBox="0 0 380 200">
+                    <defs>
+                        <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                            <path d="M0,2 L8,4 L0,6 Z" fill="#7c3aed"/>
+                        </marker>
+                    </defs>
+                    <!-- خلية كهروكيميائية مبسطة -->
+                    <rect x="60" y="50" width="80" height="80" rx="5" fill="rgba(124,58,237,0.1)" stroke="#7c3aed" stroke-width="2"/>
+                    <text x="100" y="95" font-size="11" fill="#7c3aed" font-weight="bold" text-anchor="middle">Anode (-)</text>
+                    <text x="100" y="115" font-size="9" fill="#64748b" text-anchor="middle">Zn | Zn²⁺</text>
+                    
+                    <rect x="240" y="50" width="80" height="80" rx="5" fill="rgba(124,58,237,0.1)" stroke="#7c3aed" stroke-width="2"/>
+                    <text x="280" y="95" font-size="11" fill="#7c3aed" font-weight="bold" text-anchor="middle">Cathode (+)</text>
+                    <text x="280" y="115" font-size="9" fill="#64748b" text-anchor="middle">Cu | Cu²⁺</text>
+                    
+                    <!-- جسر ملحي -->
+                    <line x1="140" y1="90" x2="240" y2="90" stroke="#94a3b8" stroke-width="2" stroke-dasharray="4,3"/>
+                    <text x="190" y="82" font-size="9" fill="#94a3b8" text-anchor="middle">Salt Bridge</text>
+                    
+                    <!-- دائرة خارجية -->
+                    <line x1="100" y1="50" x2="100" y2="20" stroke="#dc2626" stroke-width="1.5"/>
+                    <line x1="280" y1="50" x2="280" y2="20" stroke="#dc2626" stroke-width="1.5"/>
+                    <line x1="100" y1="20" x2="280" y2="20" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+                    <text x="190" y="15" font-size="9" fill="#dc2626" text-anchor="middle">e⁻ flow</text>
+                    
+                    <!-- فولتمتر -->
+                    <circle cx="190" cy="30" r="12" fill="none" stroke="#7c3aed" stroke-width="1.5"/>
+                    <text x="190" y="34" font-size="9" fill="#7c3aed" font-weight="bold" text-anchor="middle">V</text>
+                </svg>
+            </div>
+
+            <div class="formula-box">
+                EMF = E<sub>cathode</sub> − E<sub>anode</sub>
+            </div>
+            
+            <p id="secP2">Where:</p>
+            <ul>
+                <li id="li1"><strong>E<sub>cathode</sub></strong> = Reduction potential of the cathode (higher value, in volts)</li>
+                <li id="li2"><strong>E<sub>anode</sub></strong> = Reduction potential of the anode (lower value, in volts)</li>
+                <li id="li3"><strong>EMF &gt; 0</strong> = Spontaneous reaction (galvanic cell)</li>
+                <li id="li4"><strong>EMF &lt; 0</strong> = Non-spontaneous reaction (electrolytic cell)</li>
+            </ul>
+            <p id="secP3">The standard electrode potentials (E⁰) are measured under standard conditions (25°C, 1 M concentration, 1 atm pressure). Values are relative to the Standard Hydrogen Electrode (SHE) with E⁰ = 0.00 V.</p>
+        </div>
+
+        <div class="calculator-sidebar">
+            <div class="calculator">
+                <div class="top-bar">
+                    <a href="index.html" class="back-btn" id="backText2"><span id="backArrow">←</span> <span id="backLabel">Back to Directory</span></a>
+                    <select class="lang-select" id="langSelect2" onchange="changeLanguage()" style="display:none;"></select>
+                </div>
+
+                <h3 id="calcTitle" style="margin-top:0; color:var(--text-main); font-size:17px;">⚡ EMF Calculator</h3>
+                
+                <div class="input-group">
+                    <label id="labelCathode">Cathode (Reduction Potential):</label>
+                    <select id="cathodeSelect" class="form-control" onchange="updateCathodeValue()">
+                        <option value="0.34">Cu²⁺ + 2e⁻ → Cu (E⁰ = +0.34 V)</option>
+                        <option value="0.80">Ag⁺ + e⁻ → Ag (E⁰ = +0.80 V)</option>
+                        <option value="0.85">Hg²⁺ + 2e⁻ → Hg (E⁰ = +0.85 V)</option>
+                        <option value="1.52">Au³⁺ + 3e⁻ → Au (E⁰ = +1.52 V)</option>
+                        <option value="0.32">Bi³⁺ + 3e⁻ → Bi (E⁰ = +0.32 V)</option>
+                        <option value="0.00">2H⁺ + 2e⁻ → H₂ (E⁰ = 0.00 V)</option>
+                        <option value="-0.04">Fe³⁺ + 3e⁻ → Fe (E⁰ = -0.04 V)</option>
+                        <option value="-0.14">Pb²⁺ + 2e⁻ → Pb (E⁰ = -0.14 V)</option>
+                        <option value="-0.26">Ni²⁺ + 2e⁻ → Ni (E⁰ = -0.26 V)</option>
+                        <option value="-0.44">Fe²⁺ + 2e⁻ → Fe (E⁰ = -0.44 V)</option>
+                        <option value="-0.76">Zn²⁺ + 2e⁻ → Zn (E⁰ = -0.76 V)</option>
+                        <option value="-1.18">Mn²⁺ + 2e⁻ → Mn (E⁰ = -1.18 V)</option>
+                        <option value="-2.36">Mg²⁺ + 2e⁻ → Mg (E⁰ = -2.36 V)</option>
+                        <option value="-3.04">Li⁺ + e⁻ → Li (E⁰ = -3.04 V)</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label id="labelCathodeValue">Cathode Potential (E<sub>cathode</sub> in V):</label>
+                    <input type="number" id="cathodeValue" value="0.34" step="0.01" oninput="calculateEMF()">
+                </div>
+
+                <div class="input-group">
+                    <label id="labelAnode">Anode (Oxidation Potential):</label>
+                    <select id="anodeSelect" class="form-control" onchange="updateAnodeValue()">
+                        <option value="-0.76">Zn²⁺ + 2e⁻ → Zn (E⁰ = -0.76 V)</option>
+                        <option value="-3.04">Li⁺ + e⁻ → Li (E⁰ = -3.04 V)</option>
+                        <option value="-2.36">Mg²⁺ + 2e⁻ → Mg (E⁰ = -2.36 V)</option>
+                        <option value="-1.18">Mn²⁺ + 2e⁻ → Mn (E⁰ = -1.18 V)</option>
+                        <option value="-0.44">Fe²⁺ + 2e⁻ → Fe (E⁰ = -0.44 V)</option>
+                        <option value="-0.26">Ni²⁺ + 2e⁻ → Ni (E⁰ = -0.26 V)</option>
+                        <option value="-0.14">Pb²⁺ + 2e⁻ → Pb (E⁰ = -0.14 V)</option>
+                        <option value="-0.04">Fe³⁺ + 3e⁻ → Fe (E⁰ = -0.04 V)</option>
+                        <option value="0.00">2H⁺ + 2e⁻ → H₂ (E⁰ = 0.00 V)</option>
+                        <option value="0.32">Bi³⁺ + 3e⁻ → Bi (E⁰ = +0.32 V)</option>
+                        <option value="0.34">Cu²⁺ + 2e⁻ → Cu (E⁰ = +0.34 V)</option>
+                        <option value="0.80">Ag⁺ + e⁻ → Ag (E⁰ = +0.80 V)</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label id="labelAnodeValue">Anode Potential (E<sub>anode</sub> in V):</label>
+                    <input type="number" id="anodeValue" value="-0.76" step="0.01" oninput="calculateEMF()">
+                </div>
+
+                <button class="btn-calculate" id="calcBtn" onclick="calculateEMF()">⚡ Calculate EMF</button>
+                
+                <div class="result-box" id="resultBox">
+                    <p class="result-text"><span id="textResult">Electromotive Force (EMF):</span></p>
+                    <p class="result-text"><span id="emfResult" class="highlight">1.10</span> <span id="unitVolt">V</span></p>
+                    <div id="cellType" class="cell-type cell-spontaneous">✅ Spontaneous Reaction (Galvanic Cell)</div>
+                </div>
+            </div>
+
+            <div class="ai-assistant-box">
+                <div class="ai-header">🤖 OmniEngineer AI Expert</div>
+                <div class="ai-chat-output" id="aiOutput">Hello! I'm your electrochemistry assistant. Ask me about EMF, Nernst equation, or galvanic cells!</div>
+                <div class="ai-input-group">
+                    <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI a question...">
+                    <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // بيانات جهود الأكسدة والاختزال
+        const electrodeData = {
+            cathode: {
+                'Cu²⁺ + 2e⁻ → Cu': 0.34,
+                'Ag⁺ + e⁻ → Ag': 0.80,
+                'Hg²⁺ + 2e⁻ → Hg': 0.85,
+                'Au³⁺ + 3e⁻ → Au': 1.52,
+                'Bi³⁺ + 3e⁻ → Bi': 0.32,
+                '2H⁺ + 2e⁻ → H₂': 0.00,
+                'Fe³⁺ + 3e⁻ → Fe': -0.04,
+                'Pb²⁺ + 2e⁻ → Pb': -0.14,
+                'Ni²⁺ + 2e⁻ → Ni': -0.26,
+                'Fe²⁺ + 2e⁻ → Fe': -0.44,
+                'Zn²⁺ + 2e⁻ → Zn': -0.76,
+                'Mn²⁺ + 2e⁻ → Mn': -1.18,
+                'Mg²⁺ + 2e⁻ → Mg': -2.36,
+                'Li⁺ + e⁻ → Li': -3.04
+            },
+            anode: {
+                'Zn²⁺ + 2e⁻ → Zn': -0.76,
+                'Li⁺ + e⁻ → Li': -3.04,
+                'Mg²⁺ + 2e⁻ → Mg': -2.36,
+                'Mn²⁺ + 2e⁻ → Mn': -1.18,
+                'Fe²⁺ + 2e⁻ → Fe': -0.44,
+                'Ni²⁺ + 2e⁻ → Ni': -0.26,
+                'Pb²⁺ + 2e⁻ → Pb': -0.14,
+                'Fe³⁺ + 3e⁻ → Fe': -0.04,
+                '2H⁺ + 2e⁻ → H₂': 0.00,
+                'Bi³⁺ + 3e⁻ → Bi': 0.32,
+                'Cu²⁺ + 2e⁻ → Cu': 0.34,
+                'Ag⁺ + e⁻ → Ag': 0.80
+            }
+        };
+
+        function toggleTheme() {
+            let html = document.getElementById('htmlTag');
+            let btn = document.getElementById('themeToggleBtn');
+            if (html.getAttribute('data-theme') === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                btn.innerText = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                btn.innerText = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        window.onload = function() {
+            let savedTheme = localStorage.getItem('theme') || 'light';
+            document.getElementById('htmlTag').setAttribute('data-theme', savedTheme);
+            document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
+            calculateEMF();
+        }
+
+        function updateCathodeValue() {
+            let select = document.getElementById('cathodeSelect');
+            let value = parseFloat(select.value);
+            document.getElementById('cathodeValue').value = value;
+            calculateEMF();
+        }
+
+        function updateAnodeValue() {
+            let select = document.getElementById('anodeSelect');
+            let value = parseFloat(select.value);
+            document.getElementById('anodeValue').value = value;
+            calculateEMF();
+        }
+
+        function calculateEMF() {
+            let cathode = parseFloat(document.getElementById('cathodeValue').value) || 0;
+            let anode = parseFloat(document.getElementById('anodeValue').value) || 0;
+            let emf = cathode - anode;
+            
+            document.getElementById('emfResult').innerText = emf.toFixed(3);
+            
+            let cellType = document.getElementById('cellType');
+            if (emf > 0) {
+                cellType.className = 'cell-type cell-spontaneous';
+                cellType.innerText = '✅ ' + (document.getElementById('textSpontaneous') ? document.getElementById('textSpontaneous').innerText : 'Spontaneous Reaction (Galvanic Cell)');
+            } else if (emf < 0) {
+                cellType.className = 'cell-type cell-nonspontaneous';
+                cellType.innerText = '❌ ' + (document.getElementById('textNonSpontaneous') ? document.getElementById('textNonSpontaneous').innerText : 'Non-Spontaneous Reaction (Electrolytic Cell)');
+            } else {
+                cellType.className = 'cell-type';
+                cellType.style.background = '#f1f5f9';
+                cellType.style.color = '#64748b';
+                cellType.innerText = '⚖️ ' + (document.getElementById('textEquilibrium') ? document.getElementById('textEquilibrium').innerText : 'Equilibrium State (No Net Reaction)');
+            }
+        }
+
+        function askAiAssistant() {
+            let q = document.getElementById('aiQuestionInput').value.toLowerCase();
+            let output = document.getElementById('aiOutput');
+            
+            if (!q) {
+                output.innerText = "Please type a question for the AI assistant!";
+                return;
+            }
+
+            if (q.includes('nernst') || q.includes('non-standard') || q.includes('نيرنست')) {
+                output.innerText = "🧪 Nernst Equation: E = E⁰ - (RT/nF) ln(Q). It calculates cell potential under non-standard conditions (different concentrations, temperatures).";
+            } else if (q.includes('spontaneous') || q.includes('galvanic') || q.includes('تلقائي')) {
+                output.innerText = "⚡ A positive EMF (> 0) indicates a spontaneous reaction. This is the basis for galvanic (voltaic) cells that generate electrical energy from chemical reactions.";
+            } else if (q.includes('standard') || q.includes('potential') || q.includes('قياسي')) {
+                output.innerText = "📊 Standard electrode potentials (E⁰) are measured at 25°C, 1 M concentration, and 1 atm pressure, using the Standard Hydrogen Electrode (SHE) as reference (E⁰ = 0.00 V).";
+            } else {
+                output.innerText = "💡 The EMF of a cell is calculated as: EMF = E(cathode) - E(anode). The cathode has the higher reduction potential, and the anode has the lower one.";
+            }
+        }
+
+        const translations = {
+            en: {
+                backText: "Back to Hub",
+                backLabel: "Back to Directory",
+                backArrow: "←",
+                headerArrow: "←",
+                badgeText: "⚡ Electrochemistry",
+                calcTitle: "⚡ EMF Calculator",
+                labelCathode: "Cathode (Reduction Potential):",
+                labelCathodeValue: "Cathode Potential (Ecathode in V):",
+                labelAnode: "Anode (Oxidation Potential):",
+                labelAnodeValue: "Anode Potential (Eanode in V):",
+                calcBtn: "⚡ Calculate EMF",
+                textResult: "Electromotive Force (EMF):",
+                unitVolt: "V",
+                textSpontaneous: "Spontaneous Reaction (Galvanic Cell)",
+                textNonSpontaneous: "Non-Spontaneous Reaction (Electrolytic Cell)",
+                textEquilibrium: "Equilibrium State (No Net Reaction)",
+                secTitle: "Electromotive Force (EMF) & Galvanic Cells",
+                secP1: "The electromotive force (EMF) is the maximum potential difference between two electrodes of a galvanic or voltaic cell. It represents the ability of an electrochemical cell to drive the flow of electrons through an external circuit, generating electrical energy from chemical reactions.",
+                secP2: "Where:",
+                secP3: "The standard electrode potentials (E⁰) are measured under standard conditions (25°C, 1 M concentration, 1 atm pressure). Values are relative to the Standard Hydrogen Electrode (SHE) with E⁰ = 0.00 V.",
+                dir: "ltr",
+                li1: "Ecathode = Reduction potential of the cathode (higher value, in volts)",
+                li2: "Eanode = Reduction potential of the anode (lower value, in volts)",
+                li3: "EMF > 0 = Spontaneous reaction (galvanic cell)",
+                li4: "EMF < 0 = Non-spontaneous reaction (electrolytic cell)"
+            },
+            fr: {
+                backText: "Retour au Hub",
+                backLabel: "Retour au répertoire",
+                backArrow: "←",
+                headerArrow: "←",
+                badgeText: "⚡ Électrochimie",
+                calcTitle: "⚡ Calculateur EMF",
+                labelCathode: "Cathode (Potentiel de réduction) :",
+                labelCathodeValue: "Potentiel de cathode (Ecathode en V) :",
+                labelAnode: "Anode (Potentiel d'oxydation) :",
+                labelAnodeValue: "Potentiel d'anode (Eanode en V) :",
+                calcBtn: "⚡ Calculer EMF",
+                textResult: "Force Électromotrice (EMF) :",
+                unitVolt: "V",
+                textSpontaneous: "Réaction Spontanée (Pile Galvanique)",
+                textNonSpontaneous: "Réaction Non-Spontanée (Cellule Électrolytique)",
+                textEquilibrium: "État d'Équilibre (Pas de Réaction Nette)",
+                secTitle: "Force Électromotrice (EMF) & Piles Galvaniques",
+                secP1: "La force électromotrice (EMF) est la différence de potentiel maximale entre deux électrodes d'une pile galvanique ou voltaïque. Elle représente la capacité d'une cellule électrochimique à générer un courant électrique à partir de réactions chimiques.",
+                secP2: "Où :",
+                secP3: "Les potentiels standard (E⁰) sont mesurés dans des conditions standards (25°C, concentration 1 M, pression 1 atm).",
+                dir: "ltr",
+                li1: "Ecathode = Potentiel de réduction de la cathode (valeur la plus élevée, en volts)",
+                li2: "Eanode = Potentiel de réduction de l'anode (valeur la plus basse, en volts)",
+                li3: "EMF > 0 = Réaction spontanée (pile galvanique)",
+                li4: "EMF < 0 = Réaction non-spontanée (cellule électrolytique)"
+            },
+            ar: {
+                backText: "العودة للرئيسية",
+                backLabel: "العودة إلى الدليل",
+                backArrow: "→",
+                headerArrow: "→",
+                badgeText: "⚡ كيمياء كهربائية",
+                calcTitle: "⚡ حاسبة القوة الدافعة الكهربائية (EMF)",
+                labelCathode: "المهبط (جهد الاختزال):",
+                labelCathodeValue: "جهد المهبط (Ecathode بالفولت):",
+                labelAnode: "المصعد (جهد الأكسدة):",
+                labelAnodeValue: "جهد المصعد (Eanode بالفولت):",
+                calcBtn: "⚡ احسب القوة الداف
