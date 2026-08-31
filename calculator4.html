@@ -3,88 +3,101 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Trench Excavation Volume Calculator | OmniEngineer Pro</title>
+    <title>Advanced Trench Excavation Volume Calculator | OmniEngineer Pro Max</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; padding: 20px; }
-        .page-container { max-width: 1200px; margin: 30px auto; display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
-        @media (max-width: 900px) { .page-container { grid-template-columns: 1fr; } }
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --bg-main: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #475569;
+            --border-color: #e2e8f0;
+        }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-main); color: var(--text-main); margin: 0; padding: 20px; }
+        .page-container { max-width: 1280px; margin: 30px auto; display: grid; grid-template-columns: 1fr 440px; gap: 30px; }
+        @media (max-width: 992px) { .page-container { grid-template-columns: 1fr; } }
         
-        .content-section { background: white; padding: 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; line-height: 1.7; }
-        .content-section h2 { color: #2563eb; margin-top: 0; font-size: 22px; }
-        .content-section p { color: #475569; font-size: 15px; }
+        .content-section { background: var(--card-bg); padding: 35px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.04); border: 1px solid var(--border-color); line-height: 1.8; }
+        .content-section h2 { color: var(--primary); margin-top: 0; font-size: 24px; }
+        .content-section p { color: var(--text-muted); font-size: 15px; }
         
-        /* صندوق المخطط الهندسي لمقطع الخندق */
-        .pro-blueprint-box { background: #f1f5f9; border: 2px solid #3b82f6; border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; }
+        .pro-blueprint-box { background: #f1f5f9; border: 2px solid #3b82f6; border-radius: 14px; padding: 20px; text-align: center; margin: 25px 0; position: relative; overflow: hidden; }
         .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
 
-        .formula-box { background: #eff6ff; border-left: 4px solid #2563eb; padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: #1d4ed8; border-radius: 4px; text-align: left; }
-        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid #2563eb; text-align: right; }
+        .formula-box { background: #eff6ff; border-left: 4px solid var(--primary); padding: 15px 20px; margin: 25px 0; font-family: 'Courier New', monospace; font-size: 15px; color: var(--primary-dark); border-radius: 6px; text-align: left; }
+        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid var(--primary); text-align: right; }
 
         .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
-        .calculator { background: white; padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
+        .calculator { background: var(--card-bg); padding: 25px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.06); border: 1px solid var(--border-color); }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        a.back-btn { text-decoration: none; color: #2563eb; font-weight: bold; font-size: 13px; }
-        select { padding: 5px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 13px; background: #fff; cursor: pointer; }
+        a.back-btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 13px; transition: color 0.2s; }
+        a.back-btn:hover { color: var(--primary-dark); }
+        select { padding: 6px 12px; border-radius: 8px; border: 1px solid #cbd5e1; font-size: 13px; background: #fff; cursor: pointer; outline: none; }
         
-        .input-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 6px; color: #475569; font-weight: bold; font-size: 13px;}
-        input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; box-sizing: border-box; }
-        input:focus { border-color: #2563eb; outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
-        .result-box { background: #f0fdf4; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid #bbf7d0; }
-        .result-text { font-size: 14px; color: #15803d; font-weight: bold; margin: 6px 0; }
-        .highlight { font-size: 18px; }
+        .input-group { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 6px; color: var(--text-muted); font-weight: bold; font-size: 13px;}
+        input, select.form-control { width: 100%; padding: 11px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; box-sizing: border-box; transition: all 0.2s; background: #fff; }
+        input:focus, select.form-control:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.12); }
+        
+        .result-box { background: #f0fdf4; padding: 18px; border-radius: 10px; margin-top: 20px; text-align: center; border: 1px solid #bbf7d0; }
+        .result-text { font-size: 14px; color: #15803d; font-weight: bold; margin: 8px 0; }
+        .highlight { font-size: 19px; font-weight: 800; }
 
-        .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .btn-action { width: 100%; background: #10b981; color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; margin-top: 15px; transition: background 0.2s; }
+        .btn-action:hover { background: #059669; }
+
+        .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 22px; border-radius: 16px; box-shadow: 0 4px 20px rgba(0,0,0,0.15); }
         .ai-header { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; color: #60a5fa; }
-        .ai-chat-output { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 13px; color: #cbd5e1; min-height: 60px; margin-bottom: 12px; line-height: 1.5; }
+        .ai-chat-output { background: #1e293b; padding: 14px; border-radius: 10px; font-size: 13px; color: #cbd5e1; min-height: 70px; margin-bottom: 14px; line-height: 1.6; border: 1px solid #334155; }
         .ai-input-group { display: flex; gap: 8px; }
-        .ai-input { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
-        .ai-btn { background: #2563eb; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
-        .ai-btn:hover { background: #1d4ed8; }
+        .ai-input { flex: 1; padding: 9px 12px; border-radius: 8px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
+        .ai-btn { background: var(--primary); color: white; border: none; padding: 9px 16px; border-radius: 8px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
+        .ai-btn:hover { background: var(--primary-dark); }
     </style>
 </head>
 <body>
 
     <div class="page-container">
+        <!-- القسم الإنشائي الشارح -->
         <div class="content-section">
-            <h2 id="secTitle">About Trench Excavation & Volume Principles</h2>
-            <p id="secP1">Trench excavation volume calculations are fundamental in civil engineering, pipeline installations, and infrastructure projects to estimate soil removal quantities and bedding materials.</p>
+            <h2 id="secTitle">Advanced Trench Excavation & Volume Engineering</h2>
+            <p id="secP1">Comprehensive trench volume calculations are vital in civil engineering, pipeline routing, and infrastructure development. Beyond geometric prism dimensions, professional execution requires accounting for soil swell factors (bulking) and machinery logistics for soil disposal.</p>
             
             <div class="pro-blueprint-box">
-                <svg width="380" height="210" viewBox="0 0 380 210">
+                <svg width="400" height="220" viewBox="0 0 400 220">
                     <defs>
                         <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
                             <path d="M0,2 L8,4 L0,6 Z" fill="#1d4ed8"/>
                         </marker>
                     </defs>
-
-                    <line x1="50" y1="50" x2="330" y2="50" stroke="#475569" stroke-width="3"/>
-                    <text x="190" y="38" font-size="12" fill="#475569" font-weight="bold" text-anchor="middle">Ground Surface</text>
-
-                    <path d="M 110 50 L 110 160 L 270 160 L 270 50" fill="rgba(37, 99, 235, 0.08)" stroke="#2563eb" stroke-width="3"/>
-
-                    <line x1="110" y1="175" x2="270" y2="175" stroke="#2563eb" stroke-width="1.5" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)"/>
-                    <text x="190" y="195" font-size="12" fill="#2563eb" font-weight="bold" text-anchor="middle">Width (W)</text>
-
-                    <line x1="90" y1="50" x2="90" y2="160" stroke="#dc2626" stroke-width="1.5" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)"/>
-                    <text x="75" y="110" font-size="12" fill="#dc2626" font-weight="bold" text-anchor="middle">Depth (D)</text>
+                    <line x1="40" y1="50" x2="360" y2="50" stroke="#475569" stroke-width="3"/>
+                    <text x="200" y="38" font-size="12" fill="#475569" font-weight="bold" text-anchor="middle">Ground Surface Level</text>
+                    <path d="M 120 50 L 120 160 L 280 160 L 280 50" fill="rgba(37, 99, 235, 0.08)" stroke="#2563eb" stroke-width="3"/>
+                    <line x1="120" y1="175" x2="280" y2="175" stroke="#2563eb" stroke-width="1.5" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)"/>
+                    <text x="200" y="195" font-size="13" fill="#2563eb" font-weight="bold" text-anchor="middle">Trench Width (W)</text>
+                    <line x1="100" y1="50" x2="100" y2="160" stroke="#dc2626" stroke-width="1.5" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)"/>
+                    <text x="75" y="110" font-size="13" fill="#dc2626" font-weight="bold" text-anchor="middle">Depth (D)</text>
                 </svg>
             </div>
 
             <div class="formula-box">
-                Excavation Volume (V) = Length × Width × Depth
+                In-Situ Volume (V) = Length × Width × Depth <br>
+                Loose Volume (After Swell) = V × (1 + Swell Percentage) <br>
+                Estimated Truck Trips = Loose Volume / Truck Capacity
             </div>
             
-            <p id="secP2">Where:</p>
+            <p id="secP2">Key Engineering Parameters:</p>
             <ul>
-                <li id="li1"><strong>Length (L)</strong> = Total linear length of the trench alignment in meters</li>
-                <li id="li2"><strong>Width (W)</strong> = Bottom width of the excavation trench in meters</li>
-                <li id="li3"><strong>Depth (D)</strong> = Average excavation depth from ground level in meters</li>
-                <li id="li4"><strong>Volume (V)</strong> = Total cubic meters of soil to be excavated ($m^3$)</li>
+                <li id="li1"><strong>Trench Prism Geometry:</strong> Determines structural soil removal quantities for piping networks.</li>
+                <li id="li2"><strong>Soil Swell Factor:</strong> Accounts for soil expansion once excavated (ranges from 15% to 30%).</li>
+                <li id="li3"><strong>Logistics & Fleet:</strong> Calculates required dump truck trips for waste disposal.</li>
+                <li id="li4"><strong>Safety Compliance:</strong> Deep trenches require adherence to OSHA standards for shoring and slopes.</li>
             </ul>
-            <p id="secP3">Accurate volume estimation ensures precise budgeting for heavy machinery rental, soil disposal trucks, and backfill requirements.</p>
+            <p id="secP3">Accurate forecasting prevents budgetary overruns in heavy machinery rental and backfill procurement.</p>
         </div>
 
+        <!-- الشريط الجانبي للحسابات والذكاء الاصطناعي -->
         <div class="calculator-sidebar">
             <div class="calculator">
                 <div class="top-bar">
@@ -96,7 +109,7 @@
                     </select>
                 </div>
 
-                <h2 id="calcTitle" style="text-align: left; font-size: 16px; margin-top: 0; color: #1e293b;">🚜 Trench Excavation Volume Calculator</h2>
+                <h2 id="calcTitle" style="text-align: left; font-size: 17px; margin-top: 0; color: #1e293b;">🚜 Pro Trench Volume Calculator</h2>
                 
                 <div class="input-group">
                     <label id="labelLength">Trench Length (meters):</label>
@@ -110,21 +123,41 @@
                     <label id="labelDepth">Trench Depth (meters):</label>
                     <input type="number" id="trenchDepth" placeholder="e.g. 1.5" oninput="calculateVolume()">
                 </div>
+
+                <div class="input-group">
+                    <label id="labelSwell">Soil Swell Factor (%):</label>
+                    <select id="soilSwell" class="form-control" onchange="calculateVolume()">
+                        <option value="0">0% (In-Situ Solid)</option>
+                        <option value="15">15% (Compact Clay / Silt)</option>
+                        <option value="25" selected>25% (Standard Earth / Loam)</option>
+                        <option value="35">35% (Broken Rock / Gravel)</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label id="labelTruck">Dump Truck Capacity (m³):</label>
+                    <input type="number" id="truckCapacity" value="15" placeholder="e.g. 15" oninput="calculateVolume()">
+                </div>
                 
                 <div class="result-box">
-                    <p class="result-text"><span id="textVolume">Excavation Volume:</span> <span id="volumeResult" class="highlight">0.00</span> <span id="unitCubic">m³</span></p>
+                    <p class="result-text"><span id="textVolume">In-Situ Volume:</span> <span id="volumeResult" class="highlight">0.00</span> <span id="unitCubic">m³</span></p>
+                    <p class="result-text"><span id="textLoose">Loose Volume (Swell):</span> <span id="looseResult" class="highlight">0.00</span> <span id="unitLoose">m³</span></p>
+                    <p class="result-text"><span id="textTrucks">Est. Truck Trips:</span> <span id="trucksResult" class="highlight">0</span> <span id="unitTrips">Trips</span></p>
                 </div>
+
+                <button class="btn-action" id="btnPrint" onclick="generateReport()">📄 Export Excavation Report</button>
             </div>
 
+            <!-- صندوق مساعد الذكاء الاصطناعي المطور -->
             <div class="ai-assistant-box">
                 <div class="ai-header">
-                    🤖 OmniEngineer AI Expert
+                    🤖 OmniEngineer Pro Max AI
                 </div>
                 <div class="ai-chat-output" id="aiOutput">
-                    Hello! I'm your engineering AI assistant. Ask me about trench safety slopes, bulking factors, or soil swell ratios!
+                    Hello Engineer! Ask me about soil swell ratios, trench safety slopes, or excavation logistics.
                 </div>
                 <div class="ai-input-group">
-                    <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI a question...">
+                    <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI technical question...">
                     <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
                 </div>
             </div>
@@ -132,66 +165,114 @@
     </div>
 
     <script>
+        function calculateVolume() {
+            let L = parseFloat(document.getElementById('trenchLength').value) || 0;
+            let W = parseFloat(document.getElementById('trenchWidth').value) || 0;
+            let D = parseFloat(document.getElementById('trenchDepth').value) || 0;
+            let swellPct = parseFloat(document.getElementById('soilSwell').value) || 0;
+            let truckCap = parseFloat(document.getElementById('truckCapacity').value) || 15;
+
+            let inSituVolume = L * W * D;
+            let looseVolume = inSituVolume * (1 + (swellPct / 100));
+            let truckTrips = truckCap > 0 ? Math.ceil(looseVolume / truckCap) : 0;
+
+            document.getElementById('volumeResult').innerText = inSituVolume.toFixed(2);
+            document.getElementById('looseResult').innerText = looseVolume.toFixed(2);
+            document.getElementById('trucksResult').innerText = truckTrips;
+        }
+
         function askAiAssistant() {
             let q = document.getElementById('aiQuestionInput').value.toLowerCase();
             let vol = document.getElementById('volumeResult').innerText;
             let output = document.getElementById('aiOutput');
             
             if (!q) {
-                output.innerText = "Please type a question for the AI assistant!";
+                output.innerText = "Please type a technical question for the AI assistant!";
                 return;
             }
 
-            if (q.includes('bulking') || q.includes('swell') || q.includes('انتفاخ')) {
-                output.innerText = "💡 Engineering Tip: Remember to account for the soil swell/bulking factor (typically 15% to 30% depending on soil type) when calculating dump truck capacities for excavated soil disposal.";
-            } else if (q.includes('safety') || q.includes('slope') || q.includes('أمان')) {
-                output.innerText = `📊 Current calculated bank volume is ${vol} m³. For trenches deeper than 1.5 meters, OSHA standards require proper shoring, sloping, or trench boxing to prevent cave-ins.`;
+            if (q.includes('safety') || q.includes('slope') || q.includes('أمان')) {
+                output.innerText = "🛡️ Safety Compliance: For trenches exceeding 1.5 meters in depth, soil stabilization, sloping, or engineered trench boxing (shoring) is mandatory according to international safety standards to prevent fatal cave-ins.";
+            } else if (q.includes('swell') || q.includes('bulking') || q.includes('انتفاخ')) {
+                output.innerText = `💡 Soil Mechanics: The selected swell factor increases the bank volume (${vol} m³) to account for air voids, requiring more disposal truck capacity than the raw geometrical calculation.`;
             } else {
-                output.innerText = `🤖 AI Analysis: The computed value represents the in-situ bank volume of earth removed from the rectangular trench prism.`;
+                output.innerText = `🤖 AI Analysis: Evaluated for total linear excavation prism. Ensure proper bedding material (sand/gravel) is ordered to replace pipeline bottom clearance.`;
             }
+        }
+
+        function generateReport() {
+            let insitu = document.getElementById('volumeResult').innerText;
+            let loose = document.getElementById('looseResult').innerText;
+            let trucks = document.getElementById('trucksResult').innerText;
+            let L = document.getElementById('trenchLength').value;
+            let W = document.getElementById('trenchWidth').value;
+            let D = document.getElementById('trenchDepth').value;
+
+            alert(`=== OMNIENGINEER EXCAVATION REPORT ===\n\n- Dimensions: L=${L}m | W=${W}m | D=${D}m\n- In-Situ Volume: ${insitu} m³\n- Loose Volume (Swell): ${loose} m³\n- Required Truck Trips: ${trucks} Trips\n\nStatus: Ready for project budgeting and site execution.`);
         }
 
         const translations = {
             en: {
                 backText: "← Back to Directory",
-                calcTitle: "🚜 Trench Excavation Volume Calculator",
+                calcTitle: "🚜 Pro Trench Volume Calculator",
                 labelLength: "Trench Length (meters):",
                 labelWidth: "Trench Width (meters):",
                 labelDepth: "Trench Depth (meters):",
-                textVolume: "Excavation Volume:",
+                labelSwell: "Soil Swell Factor (%):",
+                labelTruck: "Dump Truck Capacity (m³):",
+                textVolume: "In-Situ Volume:",
+                textLoose: "Loose Volume (Swell):",
+                textTrucks: "Est. Truck Trips:",
                 unitCubic: "m³",
-                secTitle: "About Trench Excavation & Volume Principles",
-                secP1: "Trench excavation volume calculations are fundamental in civil engineering, pipeline installations, and infrastructure projects to estimate soil removal quantities and bedding materials.",
-                secP2: "Where:",
-                secP3: "Accurate volume estimation ensures precise budgeting for heavy machinery rental, soil disposal trucks, and backfill requirements.",
+                unitLoose: "m³",
+                unitTrips: "Trips",
+                btnPrint: "📄 Export Excavation Report",
+                secTitle: "Advanced Trench Excavation & Volume Engineering",
+                secP1: "Comprehensive trench volume calculations are vital in civil engineering, pipeline routing, and infrastructure development. Beyond geometric prism dimensions, professional execution requires accounting for soil swell factors (bulking) and machinery logistics for soil disposal.",
+                secP2: "Key Engineering Parameters:",
+                secP3: "Accurate forecasting prevents budgetary overruns in heavy machinery rental and backfill procurement.",
                 dir: "ltr"
             },
             fr: {
                 backText: "← Retour au répertoire",
-                calcTitle: "🚜 Calculateur de Volume de Tranchée",
+                calcTitle: "🚜 Calculateur Pro de Tranchée",
                 labelLength: "Longueur de la tranchée (mètres) :",
                 labelWidth: "Largeur de la tranchée (mètres) :",
                 labelDepth: "Profondeur de la tranchée (mètres) :",
-                textVolume: "Volume de Déblai :",
+                labelSwell: "Facteur de gonflement du sol (%) :",
+                labelTruck: "Capacité du camion benne (m³) :",
+                textVolume: "Volume en place :",
+                textLoose: "Volume fouille (Gonflé) :",
+                textTrucks: "Camions estimés :",
                 unitCubic: "m³",
-                secTitle: "À propos du Volume de Tranchée",
-                secP1: "Les calculs de volume d'excavation sont essentiels en génie civil et pose de canalisations pour estimer les quantités de terre.",
-                secP2: "Où :",
-                secP3: "Une estimation précise garantit une budgétisation exacte pour la location de machinerie lourde.",
+                unitLoose: "m³",
+                unitTrips: "Voyages",
+                btnPrint: "📄 Exporter le Rapport d'excavation",
+                secTitle: "Ingénierie Avancée des Volumes de Tranchées",
+                secP1: "Les calculs de volume de tranchée sont essentiels en génie civil pour estimer les déblais et gérer la logistique des camions.",
+                secP2: "Paramètres Techniques Clés :",
+                secP3: "Une prévision précise évite les dépassements budgétaires.",
                 dir: "ltr"
             },
             ar: {
                 backText: "← العودة إلى الدليل",
-                calcTitle: "🚜 حاسبة حجم حفريات الخنادق",
+                calcTitle: "🚜 الحاسبة الاحترافية لحجم حفريات الخنادق",
                 labelLength: "طول الخندق (متر):",
                 labelWidth: "عرض الخندق (متر):",
                 labelDepth: "عمق الخندق (متر):",
-                textVolume: "حجم الحفريات الإجمالي:",
-                unitCubic: "متر مكعب (م³)",
-                secTitle: "نبذة عن مبادئ حفريات الخنادق وحساب الحجوم",
-                secP1: "تعتبر حسابات حجم حفريات الخنادق أساسية في الهندسة المدنية وتمديد خطوط الأنابيب لتقدير كميات التربة المزاحة ومواد التمهيد.",
-                secP2: "حيث أن:",
-                secP3: "يضمن التقدير الدقيق للحجوم إعداد ميزانية دقيقة لتأجير المعدات الثقيلة، شاحنات نقل التربة، ومتطلبات الردم.",
+                labelSwell: "معامل انتفاخ التربة (Swell Factor %):",
+                labelTruck: "سعة شاحنة التفريغ (متر مكعب):",
+                textVolume: "حجم الحفريات الطبيعي (In-Situ):",
+                textLoose: "الحجم بعد الانتفاخ (Loose Volume):",
+                textTrucks: "عدد رحلات الشاحنات التقديرية:",
+                unitCubic: "م³",
+                unitLoose: "م³",
+                unitTrips: "رحلة",
+                btnPrint: "📄 استخراج تقرير الحفريات المعتمد",
+                secTitle: "الهندسة المتقدمة لحفريات الخنادق وحساب الحجوم",
+                secP1: "تعتبر حسابات حفريات الخنادق بالغة الأهمية في الهندسة المدنية وتمديد الأنابيب. تتجاوز الحسابات الهندسية البسيطة لتشمل حساب معاملات انتفاخ التربة (Swell Factors) ولوجستيات شاحنات نقل المخلفات.",
+                secP2: "المعاملات الهندسية الأساسية:",
+                secP3: "يمنع التقدير الدقيق تجاوزات ميزانية تأجير المعدات الثقيلة وشاحنات النقل.",
                 dir: "rtl"
             }
         };
@@ -206,21 +287,19 @@
             document.getElementById('labelLength').innerText = t.labelLength;
             document.getElementById('labelWidth').innerText = t.labelWidth;
             document.getElementById('labelDepth').innerText = t.labelDepth;
+            document.getElementById('labelSwell').innerText = t.labelSwell;
+            document.getElementById('labelTruck').innerText = t.labelTruck;
             document.getElementById('textVolume').innerText = t.textVolume;
+            document.getElementById('textLoose').innerText = t.textLoose;
+            document.getElementById('textTrucks').innerText = t.textTrucks;
             document.getElementById('unitCubic').innerText = t.unitCubic;
+            document.getElementById('unitLoose').innerText = t.unitLoose;
+            document.getElementById('unitTrips').innerText = t.unitTrips;
+            document.getElementById('btnPrint').innerText = t.btnPrint;
             document.getElementById('secTitle').innerText = t.secTitle;
             document.getElementById('secP1').innerText = t.secP1;
             document.getElementById('secP2').innerText = t.secP2;
             document.getElementById('secP3').innerText = t.secP3;
-        }
-
-        function calculateVolume() {
-            let L = parseFloat(document.getElementById('trenchLength').value) || 0;
-            let W = parseFloat(document.getElementById('trenchWidth').value) || 0;
-            let D = parseFloat(document.getElementById('trenchDepth').value) || 0;
-            let volume = L * W * D;
-
-            document.getElementById('volumeResult').innerText = volume.toFixed(2);
         }
     </script>
 </body>
