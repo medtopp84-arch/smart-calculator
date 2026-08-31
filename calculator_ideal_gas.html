@@ -1,0 +1,470 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="htmlTag" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ideal Gas Law Calculator | OmniEngineer Pro</title>
+    <style>
+        :root {
+            --primary: #7c3aed;
+            --primary-dark: #6d28d9;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --result-bg: #f0fdf4;
+            --tag-bg: #ede9fe;
+        }
+
+        [data-theme="dark"] {
+            --primary: #8b5cf6;
+            --primary-dark: #7c3aed;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --result-bg: #065f46;
+            --tag-bg: #2e1065;
+        }
+
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
+        
+        header { background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; }
+        .logo { font-size: 18px; font-weight: bold; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .header-controls { display: flex; align-items: center; gap: 12px; }
+        
+        .page-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
+        @media (max-width: 900px) { .page-container { grid-template-columns: 1fr; } }
+        
+        .content-section { background: var(--card-bg); padding: 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border); line-height: 1.7; }
+        .content-section h2 { color: var(--primary); margin-top: 0; font-size: 22px; }
+        .content-section p { color: var(--text-muted); font-size: 15px; }
+        
+        [dir="rtl"] .content-section { text-align: right; }
+        [dir="rtl"] .content-section ul { padding-right: 20px; padding-left: 0; }
+        
+        .pro-blueprint-box { background: #f1f5f9; border: 2px solid var(--primary); border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; overflow: hidden; }
+        [data-theme="dark"] .pro-blueprint-box { background: #1e293b; border-color: var(--primary); }
+        .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+        [dir="rtl"] .pro-blueprint-box svg { transform: scaleX(-1); }
+
+        .formula-box { background: #ede9fe; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: var(--primary-dark); border-radius: 4px; text-align: center; }
+        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid var(--primary); }
+        [data-theme="dark"] .formula-box { background: #2e1065; color: #a78bfa; }
+
+        .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .calculator { background: var(--card-bg); padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--border); }
+        
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        a.back-btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 13px; transition: color 0.2s; display: inline-flex; align-items: center; gap: 4px; }
+        a.back-btn:hover { color: var(--primary-dark); }
+        [dir="rtl"] a.back-btn { flex-direction: row-reverse; }
+        
+        select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
+        
+        .input-group { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 6px; color: var(--text-muted); font-weight: bold; font-size: 13px; }
+        input, select.form-control { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
+        input:focus, select.form-control:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(124,58,237,0.1); }
+        
+        .result-box { background: var(--result-bg); padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid var(--primary); }
+        .result-text { font-size: 14px; color: var(--text-main); font-weight: bold; margin: 6px 0; }
+        .highlight { font-size: 22px; color: var(--primary); }
+
+        .btn-calculate { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; font-size: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
+        .btn-calculate:hover { background: var(--primary-dark); }
+
+        .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .ai-header { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; color: #a78bfa; }
+        .ai-chat-output { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 13px; color: #cbd5e1; min-height: 60px; margin-bottom: 12px; line-height: 1.5; }
+        .ai-input-group { display: flex; gap: 8px; }
+        .ai-input { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
+        .ai-btn { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
+        .ai-btn:hover { background: var(--primary-dark); }
+
+        .theme-btn { width: 36px; height: 36px; padding: 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; }
+        .lang-select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
+
+        .badge { display: inline-block; background: var(--tag-bg); color: var(--primary); font-size: 11px; padding: 3px 10px; border-radius: 6px; font-weight: bold; margin-bottom: 12px; }
+        .constants-info { font-size: 12px; color: var(--text-muted); margin-top: 10px; padding: 10px; background: var(--bg-color); border-radius: 6px; }
+        [dir="rtl"] .constants-info { text-align: right; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo" id="homeLink"><span id="headerArrow">←</span> <span id="backText">Back to Hub</span></a>
+        <div class="header-controls">
+            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙</button>
+            <select class="lang-select" id="langSelect" onchange="changeLanguage()">
+                <option value="en">English 🇬🇧</option>
+                <option value="fr">Français 🇫🇷</option>
+                <option value="ar">العربية 🇸🇦</option>
+            </select>
+        </div>
+    </header>
+
+    <div class="page-container">
+        <div class="content-section">
+            <span class="badge" id="badgeText">🎈 Gas Laws</span>
+            <h2 id="secTitle">Ideal Gas Law & Thermodynamics</h2>
+            <p id="secP1">The Ideal Gas Law is one of the most fundamental equations in thermodynamics. It describes the relationship between pressure (P), volume (V), temperature (T), and the number of moles (n) of an ideal gas. It is derived from the combination of Boyle's, Charles's, and Avogadro's laws.</p>
+            
+            <div class="pro-blueprint-box">
+                <svg width="380" height="200" viewBox="0 0 380 200">
+                    <defs>
+                        <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                            <path d="M0,2 L8,4 L0,6 Z" fill="#7c3aed"/>
+                        </marker>
+                    </defs>
+                    
+                    <!-- وعاء غاز -->
+                    <rect x="100" y="40" width="180" height="120" rx="8" fill="rgba(124,58,237,0.06)" stroke="#7c3aed" stroke-width="2.5"/>
+                    <rect x="100" y="40" width="180" height="120" rx="8" fill="rgba(124,58,237,0.03)" stroke="none"/>
+                    
+                    <!-- جسيمات الغاز -->
+                    <circle cx="140" cy="80" r="6" fill="#7c3aed" opacity="0.6"/>
+                    <circle cx="180" cy="65" r="5" fill="#7c3aed" opacity="0.4"/>
+                    <circle cx="220" cy="90" r="7" fill="#7c3aed" opacity="0.5"/>
+                    <circle cx="160" cy="110" r="5" fill="#7c3aed" opacity="0.3"/>
+                    <circle cx="240" cy="70" r="6" fill="#7c3aed" opacity="0.4"/>
+                    <circle cx="200" cy="130" r="5" fill="#7c3aed" opacity="0.5"/>
+                    
+                    <!-- متغيرات -->
+                    <line x1="280" y1="45" x2="280" y2="155" stroke="#dc2626" stroke-width="2" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)"/>
+                    <text x="300" y="100" font-size="12" fill="#dc2626" font-weight="bold">Pressure (P)</text>
+                    
+                    <line x1="100" y1="170" x2="280" y2="170" stroke="#2563eb" stroke-width="2" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)"/>
+                    <text x="190" y="190" font-size="12" fill="#2563eb" font-weight="bold" text-anchor="middle">Volume (V)</text>
+                    
+                    <text x="190" y="35" font-size="11" fill="#7c3aed" font-weight="bold" text-anchor="middle">n = moles, T = temperature</text>
+                </svg>
+            </div>
+
+            <div class="formula-box">
+                P × V = n × R × T
+            </div>
+            
+            <p id="secP2">Where:</p>
+            <ul>
+                <li id="li1"><strong>P</strong> = Pressure (atm, Pa, mmHg, bar, psi)</li>
+                <li id="li2"><strong>V</strong> = Volume (L, m³, mL)</li>
+                <li id="li3"><strong>n</strong> = Number of moles of gas</li>
+                <li id="li4"><strong>R</strong> = Ideal gas constant (0.0821 L·atm/mol·K)</li>
+                <li id="li5"><strong>T</strong> = Temperature in Kelvin (K = °C + 273.15)</li>
+            </ul>
+            <p id="secP3">The Ideal Gas Law assumes that gas particles have negligible volume and no intermolecular forces. It works well for most gases under normal conditions (low pressure, high temperature). For real gases, use the Van der Waals equation.</p>
+        </div>
+
+        <div class="calculator-sidebar">
+            <div class="calculator">
+                <div class="top-bar">
+                    <a href="index.html" class="back-btn" id="backText2"><span id="backArrow">←</span> <span id="backLabel">Back to Directory</span></a>
+                    <select class="lang-select" id="langSelect2" onchange="changeLanguage()" style="display:none;"></select>
+                </div>
+
+                <h3 id="calcTitle" style="margin-top:0; color:var(--text-main); font-size:17px;">🎈 Ideal Gas Law Calculator</h3>
+                
+                <div class="input-group">
+                    <label id="labelMode">Solve For:</label>
+                    <select id="calcMode" class="form-control" onchange="updatePlaceholders()">
+                        <option value="p">Pressure (P)</option>
+                        <option value="v">Volume (V)</option>
+                        <option value="n">Moles (n)</option>
+                        <option value="t">Temperature (T)</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label id="labelPressure">Pressure (P):</label>
+                    <input type="number" id="pressure" value="1" step="any" oninput="calculateIdealGas()">
+                </div>
+
+                <div class="input-group">
+                    <label id="labelVolume">Volume (V):</label>
+                    <input type="number" id="volume" value="22.4" step="any" oninput="calculateIdealGas()">
+                </div>
+
+                <div class="input-group">
+                    <label id="labelMoles">Moles (n):</label>
+                    <input type="number" id="moles" value="1" step="any" oninput="calculateIdealGas()">
+                </div>
+
+                <div class="input-group">
+                    <label id="labelTemp">Temperature (T):</label>
+                    <div style="display: flex; gap: 8px;">
+                        <input type="number" id="temperature" value="273.15" step="0.1" oninput="calculateIdealGas()" style="flex: 1;">
+                        <select id="tempUnit" class="form-control" onchange="calculateIdealGas()" style="width: 80px; flex: none;">
+                            <option value="k">K</option>
+                            <option value="c">°C</option>
+                        </select>
+                    </div>
+                </div>
+
+                <button class="btn-calculate" id="calcBtn" onclick="calculateIdealGas()">🎈 Calculate</button>
+                
+                <div class="result-box" id="resultBox">
+                    <p class="result-text"><span id="textResult">Result:</span></p>
+                    <p class="result-text"><span id="resultValue" class="highlight">—</span></p>
+                    <div class="constants-info" id="constantsInfo">
+                        <span id="textConstants">R = 0.0821 L·atm/mol·K</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ai-assistant-box">
+                <div class="ai-header">🤖 OmniEngineer AI Expert</div>
+                <div class="ai-chat-output" id="aiOutput">Hello! I'm your gas laws assistant. Ask me about ideal gas, STP conditions, or real gases!</div>
+                <div class="ai-input-group">
+                    <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI a question...">
+                    <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // ثابت الغازات
+        const R = 0.0821; // L·atm/mol·K
+
+        function toggleTheme() {
+            let html = document.getElementById('htmlTag');
+            let btn = document.getElementById('themeToggleBtn');
+            if (html.getAttribute('data-theme') === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                btn.innerText = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                btn.innerText = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        window.onload = function() {
+            let savedTheme = localStorage.getItem('theme') || 'light';
+            document.getElementById('htmlTag').setAttribute('data-theme', savedTheme);
+            document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
+            calculateIdealGas();
+        }
+
+        function updatePlaceholders() {
+            let mode = document.getElementById('calcMode').value;
+            let labels = {
+                p: { label: 'Pressure (P):', placeholder: 'e.g., 1 atm' },
+                v: { label: 'Volume (V):', placeholder: 'e.g., 22.4 L' },
+                n: { label: 'Moles (n):', placeholder: 'e.g., 1 mol' },
+                t: { label: 'Temperature (T):', placeholder: 'e.g., 273.15 K' }
+            };
+            
+            // تحديث التسميات حسب وضع الحساب
+            // سيتم تحديثها في دالة calculateIdealGas
+            calculateIdealGas();
+        }
+
+        function calculateIdealGas() {
+            let mode = document.getElementById('calcMode').value;
+            let P = parseFloat(document.getElementById('pressure').value);
+            let V = parseFloat(document.getElementById('volume').value);
+            let n = parseFloat(document.getElementById('moles').value);
+            let tempVal = parseFloat(document.getElementById('temperature').value);
+            let tempUnit = document.getElementById('tempUnit').value;
+
+            // تحويل درجة الحرارة إلى كلفن
+            let T = tempUnit === 'c' ? tempVal + 273.15 : tempVal;
+            if (T <= 0) T = 273.15;
+
+            let result = 0;
+            let unit = '';
+            let explanation = '';
+            let isValid = true;
+
+            // التحقق من صحة المدخلات
+            if (isNaN(P) || P <= 0) isValid = false;
+            if (isNaN(V) || V <= 0) isValid = false;
+            if (isNaN(n) || n <= 0) isValid = false;
+            if (T <= 0) isValid = false;
+
+            if (!isValid) {
+                document.getElementById('resultValue').innerText = '⚠️ Please enter valid positive values';
+                return;
+            }
+
+            // حساب المتغير المطلوب
+            switch(mode) {
+                case 'p':
+                    result = (n * R * T) / V;
+                    unit = ' atm';
+                    explanation = `P = (${n} × ${R} × ${T.toFixed(2)}) / ${V} = ${result.toFixed(4)} atm`;
+                    break;
+                case 'v':
+                    result = (n * R * T) / P;
+                    unit = ' L';
+                    explanation = `V = (${n} × ${R} × ${T.toFixed(2)}) / ${P} = ${result.toFixed(4)} L`;
+                    break;
+                case 'n':
+                    result = (P * V) / (R * T);
+                    unit = ' mol';
+                    explanation = `n = (${P} × ${V}) / (${R} × ${T.toFixed(2)}) = ${result.toFixed(4)} mol`;
+                    break;
+                case 't':
+                    result = (P * V) / (n * R);
+                    unit = ' K';
+                    explanation = `T = (${P} × ${V}) / (${n} × ${R}) = ${result.toFixed(2)} K (${(result - 273.15).toFixed(2)}°C)`;
+                    break;
+            }
+
+            let resultDisplay = result.toFixed(4) + unit;
+            if (mode === 't') {
+                resultDisplay = result.toFixed(2) + ' K (' + (result - 273.15).toFixed(2) + '°C)';
+            }
+
+            document.getElementById('resultValue').innerText = resultDisplay;
+            document.getElementById('constantsInfo').innerHTML = `
+                <span id="textConstants">R = 0.0821 L·atm/mol·K</span><br>
+                <span style="font-size: 11px;">${explanation}</span>
+            `;
+        }
+
+        function askAiAssistant() {
+            let q = document.getElementById('aiQuestionInput').value.toLowerCase();
+            let output = document.getElementById('aiOutput');
+            
+            if (!q) {
+                output.innerText = "Please type a question for the AI assistant!";
+                return;
+            }
+
+            if (q.includes('stp') || q.includes('standard') || q.includes('قياسي')) {
+                output.innerText = "📊 STP (Standard Temperature and Pressure) = 0°C (273.15 K) and 1 atm. At STP, 1 mole of any ideal gas occupies 22.4 L.";
+            } else if (q.includes('real') || q.includes('van der waals') || q.includes('حقيقي')) {
+                output.innerText = "🔬 Real Gases: The Van der Waals equation accounts for molecular volume and intermolecular forces: (P + a(n/V)²)(V - nb) = nRT.";
+            } else if (q.includes('r') || q.includes('constant') || q.includes('ثابت')) {
+                output.innerText = "📐 The ideal gas constant R = 0.0821 L·atm/mol·K. Other values: R = 8.314 J/mol·K, R = 62.36 L·mmHg/mol·K.";
+            } else {
+                output.innerText = "💡 The Ideal Gas Law combines Boyle's, Charles's, and Avogadro's laws into one equation: PV = nRT. It works well for gases at low pressure and high temperature.";
+            }
+        }
+
+        const translations = {
+            en: {
+                backText: "Back to Hub",
+                backLabel: "Back to Directory",
+                backArrow: "←",
+                headerArrow: "←",
+                badgeText: "🎈 Gas Laws",
+                calcTitle: "🎈 Ideal Gas Law Calculator",
+                labelMode: "Solve For:",
+                labelPressure: "Pressure (P):",
+                labelVolume: "Volume (V):",
+                labelMoles: "Moles (n):",
+                labelTemp: "Temperature (T):",
+                calcBtn: "🎈 Calculate",
+                textResult: "Result:",
+                textConstants: "R = 0.0821 L·atm/mol·K",
+                secTitle: "Ideal Gas Law & Thermodynamics",
+                secP1: "The Ideal Gas Law describes the relationship between pressure (P), volume (V), temperature (T), and the number of moles (n) of an ideal gas.",
+                secP2: "Where:",
+                secP3: "The Ideal Gas Law assumes gas particles have negligible volume and no intermolecular forces.",
+                dir: "ltr",
+                li1: "P = Pressure (atm, Pa, mmHg, bar, psi)",
+                li2: "V = Volume (L, m³, mL)",
+                li3: "n = Number of moles of gas",
+                li4: "R = Ideal gas constant (0.0821 L·atm/mol·K)",
+                li5: "T = Temperature in Kelvin (K = °C + 273.15)"
+            },
+            fr: {
+                backText: "Retour au Hub",
+                backLabel: "Retour au répertoire",
+                backArrow: "←",
+                headerArrow: "←",
+                badgeText: "🎈 Lois des Gaz",
+                calcTitle: "🎈 Loi des Gaz Parfaits",
+                labelMode: "Résoudre pour :",
+                labelPressure: "Pression (P) :",
+                labelVolume: "Volume (V) :",
+                labelMoles: "Moles (n) :",
+                labelTemp: "Température (T) :",
+                calcBtn: "🎈 Calculer",
+                textResult: "Résultat :",
+                textConstants: "R = 0.0821 L·atm/mol·K",
+                secTitle: "Loi des Gaz Parfaits",
+                secP1: "La loi des gaz parfaits décrit la relation entre la pression (P), le volume (V), la température (T) et le nombre de moles (n) d'un gaz parfait.",
+                secP2: "Où :",
+                secP3: "La loi des gaz parfaits suppose que les particules de gaz ont un volume négligeable et pas de forces intermoléculaires.",
+                dir: "ltr",
+                li1: "P = Pression (atm, Pa, mmHg, bar, psi)",
+                li2: "V = Volume (L, m³, mL)",
+                li3: "n = Nombre de moles de gaz",
+                li4: "R = Constante des gaz parfaits (0.0821 L·atm/mol·K)",
+                li5: "T = Température en Kelvin (K = °C + 273.15)"
+            },
+            ar: {
+                backText: "العودة للرئيسية",
+                backLabel: "العودة إلى الدليل",
+                backArrow: "→",
+                headerArrow: "→",
+                badgeText: "🎈 قوانين الغازات",
+                calcTitle: "🎈 حاسبة قانون الغاز المثالي",
+                labelMode: "احسب:",
+                labelPressure: "الضغط (P):",
+                labelVolume: "الحجم (V):",
+                labelMoles: "عدد المولات (n):",
+                labelTemp: "درجة الحرارة (T):",
+                calcBtn: "🎈 احسب",
+                textResult: "النتيجة:",
+                textConstants: "R = 0.0821 لتر·ضغط جوي/مول·كلفن",
+                secTitle: "قانون الغاز المثالي والديناميكا الحرارية",
+                secP1: "يصف قانون الغاز المثالي العلاقة بين الضغط (P) والحجم (V) ودرجة الحرارة (T) وعدد المولات (n) للغاز المثالي.",
+                secP2: "حيث أن:",
+                secP3: "يفترض قانون الغاز المثالي أن جسيمات الغاز لها حجم مهمل ولا توجد قوى تجاذب بينها.",
+                dir: "rtl",
+                li1: "P = الضغط (ضغط جوي، باسكال، مم زئبق، بار، باوند/إنش²)",
+                li2: "V = الحجم (لتر، متر مكعب، ميليلتر)",
+                li3: "n = عدد مولات الغاز",
+                li4: "R = ثابت الغازات المثالية (0.0821 لتر·ضغط جوي/مول·كلفن)",
+                li5: "T = درجة الحرارة بالكلفن (كلفن = س° + 273.15)"
+            }
+        };
+
+        function changeLanguage() {
+            let lang = document.getElementById('langSelect').value;
+            let t = translations[lang];
+            let html = document.getElementById('htmlTag');
+            
+            html.setAttribute('lang', lang);
+            html.setAttribute('dir', t.dir);
+            
+            document.getElementById('backText').innerText = t.backText;
+            document.getElementById('backLabel').innerText = t.backLabel;
+            document.getElementById('backArrow').innerText = t.backArrow;
+            document.getElementById('headerArrow').innerText = t.headerArrow;
+            document.getElementById('badgeText').innerText = t.badgeText;
+            document.getElementById('calcTitle').innerText = t.calcTitle;
+            document.getElementById('labelMode').innerHTML = t.labelMode;
+            document.getElementById('labelPressure').innerHTML = t.labelPressure;
+            document.getElementById('labelVolume').innerHTML = t.labelVolume;
+            document.getElementById('labelMoles').innerHTML = t.labelMoles;
+            document.getElementById('labelTemp').innerHTML = t.labelTemp;
+            document.getElementById('calcBtn').innerHTML = t.calcBtn;
+            document.getElementById('textResult').innerHTML = t.textResult;
+            document.getElementById('textConstants').innerHTML = t.textConstants;
+            document.getElementById('secTitle').innerHTML = t.secTitle;
+            document.getElementById('secP1').innerHTML = t.secP1;
+            document.getElementById('secP2').innerHTML = t.secP2;
+            document.getElementById('secP3').innerHTML = t.secP3;
+            
+            for(let i = 1; i <= 5; i++) {
+                if(document.getElementById(`li${i}`)) {
+                    document.getElementById(`li${i}`).innerHTML = t[`li${i}`];
+                }
+            }
+            
+            calculateIdealGas();
+        }
+    </script>
+</body>
+</html>
