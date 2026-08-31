@@ -46,12 +46,10 @@
 <body>
 
     <div class="page-container">
-        <!-- الجانب الأيسر: الشرح العلمي مع المخطط الهندسي الإحداثي الجديد -->
         <div class="content-section">
             <h2 id="secTitle">About Hydrostatic Pressure & Engineering Principles</h2>
             <p id="secP1">Hydrostatic pressure is the pressure exerted by a fluid at rest due to the force of gravity. It increases in direct proportion to the depth measured from the surface.</p>
             
-            <!-- المخطط الهندسي الجديد المزود بالإحداثيات والأبعاد -->
             <div class="pro-blueprint-box">
                 <svg width="380" height="230" viewBox="0 0 380 230">
                     <defs>
@@ -63,20 +61,16 @@
                         </marker>
                     </defs>
 
-                    <!-- إطار الخزان الهندسي -->
                     <rect x="110" y="30" width="180" height="150" fill="#dbeafe" stroke="#1e3a8a" stroke-width="3" rx="3"/>
                     
-                    <!-- خط السطح (محور الإحداثي h = 0) -->
                     <line x1="110" y1="55" x2="290" y2="55" stroke="#2563eb" stroke-dasharray="6,4" stroke-width="2"/>
                     <text x="200" y="47" font-size="11" fill="#1d4ed8" font-weight="bold" text-anchor="middle">Surface (h = 0 m)</text>
 
-                    <!-- سهم العمق h مع الإحداثيات والقياس الجانبي -->
                     <line x1="80" y1="55" x2="80" y2="180" stroke="#1d4ed8" stroke-width="2.5" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)"/>
                     <line x1="75" y1="55" x2="85" y2="55" stroke="#1d4ed8" stroke-width="2"/>
                     <line x1="75" y1="180" x2="85" y2="180" stroke="#1d4ed8" stroke-width="2"/>
                     <text x="60" y="122" font-size="14" fill="#1d4ed8" font-weight="bold" text-anchor="middle">h</text>
 
-                    <!-- رسم توزيع الضغط المتزايد (مخطط المثلث على الجدار) -->
                     <polygon points="290,55 340,180 290,180" fill="rgba(220, 38, 38, 0.15)" stroke="#dc2626" stroke-width="2"/>
                     <line x1="315" y1="117" x2="340" y2="117" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow-red)"/>
                     <text x="330" y="200" font-size="12" fill="#dc2626" font-weight="bold" text-anchor="middle">Pressure Vector (P = ρgh)</text>
@@ -97,7 +91,6 @@
             <p id="secP3">Engineers use this calculation extensively when designing pipelines, water storage tanks, and dams.</p>
         </div>
 
-        <!-- الجانب الأيمن: الحاسبة + الذكاء الاصطناعي -->
         <div class="calculator-sidebar">
             <div class="calculator">
                 <div class="top-bar">
