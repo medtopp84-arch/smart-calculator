@@ -232,6 +232,24 @@
                 </div>
             </a>
 
+            <!-- 17. Combined Gas Law (calculator_combined_gas.html) -->
+            <a href="calculator_combined_gas.html" class="calc-card" data-category="gases" data-keywords="combined gas law pvt pressure volume temperature غازات مجمع ضغط حجم حرارة">
+                <div>
+                    <span class="card-tag" id="tag17">🔬 Gas Laws</span>
+                    <h3 id="c17Title">🔬 Combined Gas Law</h3>
+                    <p id="c17Desc">Calculate PVT relationships using (P₁V₁)/T₁ = (P₂V₂)/T₂.</p>
+                </div>
+            </a>
+
+            <!-- 18. Dilution Calculator (calculator_dilution.html) -->
+            <a href="calculator_dilution.html" class="calc-card" data-category="solutions" data-keywords="dilution concentration stock volume c1v1=c2v2 تخفيف تركيز حجم">
+                <div>
+                    <span class="card-tag" id="tag18">💧 Solutions</span>
+                    <h3 id="c18Title">💧 Dilution Calculator</h3>
+                    <p id="c18Desc">Calculate volume or concentration using C₁V₁ = C₂V₂.</p>
+                </div>
+            </a>
+
         </div>
     </div>
 
@@ -308,6 +326,8 @@
                 tag14: "🎈 Gas Laws", c14Title: "🎈 Ideal Gas Law", c14Desc: "Calculate pressure, volume, temperature, or moles using PV = nRT.",
                 tag15: "📊 Gas Laws", c15Title: "📊 Boyle's Law", c15Desc: "Calculate pressure-volume relationships at constant temperature (P₁V₁ = P₂V₂).",
                 tag16: "🌡️ Gas Laws", c16Title: "🌡️ Charles's Law", c16Desc: "Determine volume-temperature relationships at constant pressure (V₁/T₁ = V₂/T₂).",
+                tag17: "🔬 Gas Laws", c17Title: "🔬 Combined Gas Law", c17Desc: "Calculate PVT relationships using (P₁V₁)/T₁ = (P₂V₂)/T₂.",
+                tag18: "💧 Solutions", c18Title: "💧 Dilution Calculator", c18Desc: "Calculate volume or concentration using C₁V₁ = C₂V₂.",
                 dir: "ltr"
             },
             fr: {
@@ -331,6 +351,8 @@
                 tag14: "🎈 Lois des Gaz", c14Title: "🎈 Loi des Gaz Parfaits", c14Desc: "Calculez la pression, le volume, la température ou les moles avec PV = nRT.",
                 tag15: "📊 Lois des Gaz", c15Title: "📊 Loi de Boyle-Mariotte", c15Desc: "Calculez les relations pression-volume à température constante.",
                 tag16: "🌡️ Lois des Gaz", c16Title: "🌡️ Loi de Charles", c16Desc: "Déterminez les relations volume-température à pression constante.",
+                tag17: "🔬 Lois des Gaz", c17Title: "🔬 Loi des Gaz Combinés", c17Desc: "Calculez les relations PVT avec (P₁V₁)/T₁ = (P₂V₂)/T₂.",
+                tag18: "💧 Solutions", c18Title: "💧 Calculateur de Dilution", c18Desc: "Calculez le volume ou la concentration avec C₁V₁ = C₂V₂.",
                 dir: "ltr"
             },
             ar: {
@@ -354,6 +376,8 @@
                 tag14: "🎈 قوانين الغازات", c14Title: "🎈 قانون الغاز المثالي", c14Desc: "حساب الضغط، الحجم، درجة الحرارة، أو عدد المولات باستخدام PV = nRT.",
                 tag15: "📊 قوانين الغازات", c15Title: "📊 قانون بويل", c15Desc: "حساب العلاقات بين الضغط والحجم عند ثبات درجة الحرارة.",
                 tag16: "🌡️ قوانين الغازات", c16Title: "🌡️ قانون شارل", c16Desc: "حساب العلاقات بين الحجم ودرجة الحرارة عند ثبات الضغط.",
+                tag17: "🔬 قوانين الغازات", c17Title: "🔬 قانون الغازات المجمع", c17Desc: "حساب العلاقات بين الضغط والحجم ودرجة الحرارة.",
+                tag18: "💧 المحاليل", c18Title: "💧 حاسبة تخفيف المحاليل", c18Desc: "حساب الحجم أو التركيز باستخدام C₁V₁ = C₂V₂.",
                 dir: "rtl"
             }
         };
@@ -372,7 +396,7 @@
             document.getElementById('catGases').innerText = t.catGases;
             document.getElementById('catSurvey').innerText = t.catSurvey;
 
-            for(let i = 1; i <= 16; i++) {
+            for(let i = 1; i <= 18; i++) {
                 if(document.getElementById(`tag${i}`)) document.getElementById(`tag${i}`).innerText = t[`tag${i}`];
                 if(document.getElementById(`c${i}Title`)) document.getElementById(`c${i}Title`).innerText = t[`c${i}Title`];
                 if(document.getElementById(`c${i}Desc`)) document.getElementById(`c${i}Desc`).innerText = t[`c${i}Desc`];
