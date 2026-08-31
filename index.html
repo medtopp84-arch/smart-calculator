@@ -205,6 +205,15 @@
                 </div>
             </a>
 
+            <!-- 14. Ideal Gas Law (calculator_ideal_gas.html) -->
+            <a href="calculator_ideal_gas.html" class="calc-card" data-category="gases" data-keywords="ideal gas law pressure volume temperature moles PV=nRT غازات مثالية ضغط حجم درجة حرارة مولات">
+                <div>
+                    <span class="card-tag" id="tag14">🎈 Gas Laws</span>
+                    <h3 id="c14Title">🎈 Ideal Gas Law</h3>
+                    <p id="c14Desc">Calculate pressure, volume, temperature, or moles using PV = nRT.</p>
+                </div>
+            </a>
+
         </div>
     </div>
 
@@ -278,6 +287,7 @@
                 tag11: "Fluid Mechanics", c11Title: "⚡ Hydraulic Flow Rate", c11Desc: "Calculate flow rate based on cross-sectional area and velocity.",
                 tag12: "Structural Engineering", c12Title: "🏗️ Concrete Volume & Weight", c12Desc: "Calculate concrete volume and weight for slabs and footings.",
                 tag13: "Structural Engineering", c13Title: "🔧 Steel Pipe Weight", c13Desc: "Calculate weight per meter and total weight of steel pipes.",
+                tag14: "🎈 Gas Laws", c14Title: "🎈 Ideal Gas Law", c14Desc: "Calculate pressure, volume, temperature, or moles using PV = nRT.",
                 dir: "ltr"
             },
             fr: {
@@ -298,6 +308,7 @@
                 tag11: "Mécanique des fluides", c11Title: "⚡ Débit Hydraulique", c11Desc: "Calculez le débit en fonction de la section et de la vitesse.",
                 tag12: "Génie Structurel", c12Title: "🏗️ Volume de Béton", c12Desc: "Calculez le volume et le poids du béton pour les dalles.",
                 tag13: "Génie Structurel", c13Title: "🔧 Poids des Tuyaux", c13Desc: "Calculez le poids par mètre des tuyaux en acier.",
+                tag14: "🎈 Lois des Gaz", c14Title: "🎈 Loi des Gaz Parfaits", c14Desc: "Calculez la pression, le volume, la température ou les moles avec PV = nRT.",
                 dir: "ltr"
             },
             ar: {
@@ -318,6 +329,7 @@
                 tag11: "ميكانيكا الموائع", c11Title: "⚡ معدل التدفق الهيدروليكي", c11Desc: "حساب معدل التدفق بناءً على مساحة المقطع والسرعة.",
                 tag12: "هندسة إنشائية", c12Title: "🏗️ حجم ووزن الخرسانة", c12Desc: "حساب حجم ووزن الخرسانة للأساسات والبلاطات.",
                 tag13: "هندسة إنشائية", c13Title: "🔧 وزن الأنابيب الفولاذية", c13Desc: "حساب الوزن لكل متر والوزن الإجمالي للأنابيب الفولاذية.",
+                tag14: "🎈 قوانين الغازات", c14Title: "🎈 قانون الغاز المثالي", c14Desc: "حساب الضغط، الحجم، درجة الحرارة، أو عدد المولات باستخدام PV = nRT.",
                 dir: "rtl"
             }
         };
@@ -336,7 +348,7 @@
             document.getElementById('catGases').innerText = t.catGases;
             document.getElementById('catSurvey').innerText = t.catSurvey;
 
-            for(let i = 1; i <= 13; i++) {
+            for(let i = 1; i <= 14; i++) {
                 if(document.getElementById(`tag${i}`)) document.getElementById(`tag${i}`).innerText = t[`tag${i}`];
                 if(document.getElementById(`c${i}Title`)) document.getElementById(`c${i}Title`).innerText = t[`c${i}Title`];
                 if(document.getElementById(`c${i}Desc`)) document.getElementById(`c${i}Desc`).innerText = t[`c${i}Desc`];
