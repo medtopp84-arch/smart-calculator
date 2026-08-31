@@ -41,7 +41,6 @@
         .content-section h2 { color: var(--primary); margin-top: 0; font-size: 22px; }
         .content-section p { color: var(--text-muted); font-size: 15px; }
         
-        /* تنسيق خاص لاتجاه RTL */
         [dir="rtl"] .content-section { text-align: right; }
         [dir="rtl"] .content-section ul { padding-right: 20px; padding-left: 0; }
         
@@ -56,6 +55,7 @@
 
         .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
         .calculator { background: var(--card-bg); padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--border); }
+        
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
         a.back-btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 13px; transition: color 0.2s; display: inline-flex; align-items: center; gap: 4px; }
         a.back-btn:hover { color: var(--primary-dark); }
@@ -87,7 +87,7 @@
 <body>
 
     <header>
-        <a href="index.html" class="logo" id="homeLink">← <span id="backText">Back to Hub</span></a>
+        <a href="index.html" class="logo" id="homeLink"><span id="headerArrow">←</span> <span id="backText">Back to Hub</span></a>
         <div class="header-controls">
             <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙</button>
             <select class="lang-select" id="langSelect" onchange="changeLanguage()">
@@ -144,7 +144,7 @@
         <div class="calculator-sidebar">
             <div class="calculator">
                 <div class="top-bar">
-                    <a href="index.html" class="back-btn" id="backText2"><span id="arrowSymbol">←</span> <span id="backLabel">Back to Directory</span></a>
+                    <a href="index.html" class="back-btn" id="backText2"><span id="backArrow">←</span> <span id="backLabel">Back to Directory</span></a>
                     <select class="lang-select" id="langSelect2" onchange="changeLanguage()" style="display:none;"></select>
                 </div>
 
@@ -232,7 +232,8 @@
             en: {
                 backText: "Back to Hub",
                 backLabel: "Back to Directory",
-                arrowSymbol: "←",
+                backArrow: "←",
+                headerArrow: "←",
                 calcTitle: "💧 Hydrostatic Pressure Calculator",
                 labelHeight: "Liquid Height / Depth (meters):",
                 labelDensity: "Fluid Density (kg/m³, Water = 1000):",
@@ -251,7 +252,8 @@
             fr: {
                 backText: "Retour au Hub",
                 backLabel: "Retour au répertoire",
-                arrowSymbol: "←",
+                backArrow: "←",
+                headerArrow: "←",
                 calcTitle: "💧 Calculateur de Pression Hydrostatique",
                 labelHeight: "Hauteur / Profondeur du Liquide (mètres) :",
                 labelDensity: "Densité du Fluide (kg/m³, Eau = 1000) :",
@@ -270,7 +272,8 @@
             ar: {
                 backText: "العودة للرئيسية",
                 backLabel: "العودة إلى الدليل",
-                arrowSymbol: "→",
+                backArrow: "→",
+                headerArrow: "→",
                 calcTitle: "💧 حاسبة الضغط الهيدروستاتيكي",
                 labelHeight: "ارتفاع أو عمق السائل (متر):",
                 labelDensity: "كثافة السائل (كجم/م³، الماء = 1000):",
@@ -298,7 +301,8 @@
             
             document.getElementById('backText').innerText = t.backText;
             document.getElementById('backLabel').innerText = t.backLabel;
-            document.getElementById('arrowSymbol').innerText = t.arrowSymbol;
+            document.getElementById('backArrow').innerText = t.backArrow;
+            document.getElementById('headerArrow').innerText = t.headerArrow;
             document.getElementById('calcTitle').innerText = t.calcTitle;
             document.getElementById('labelHeight').innerText = t.labelHeight;
             document.getElementById('labelDensity').innerText = t.labelDensity;
@@ -308,10 +312,12 @@
             document.getElementById('secP1').innerText = t.secP1;
             document.getElementById('secP2').innerText = t.secP2;
             document.getElementById('secP3').innerText = t.secP3;
-            document.getElementById('li1').innerHTML = t.li1;
-            document.getElementById('li2').innerHTML = t.li2;
-            document.getElementById('li3').innerHTML = t.li3;
-            document.getElementById('li4').innerHTML = t.li4;
+            
+            for(let i = 1; i <= 4; i++) {
+                if(document.getElementById(`li${i}`)) {
+                    document.getElementById(`li${i}`).innerHTML = t[`li${i}`];
+                }
+            }
         }
     </script>
 </body>
