@@ -1,0 +1,500 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="htmlTag" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>pH Calculator | OmniEngineer Pro</title>
+    <style>
+        :root {
+            --primary: #dc2626;
+            --primary-dark: #b91c1c;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --result-bg: #f0fdf4;
+            --tag-bg: #fef2f2;
+        }
+
+        [data-theme="dark"] {
+            --primary: #ef4444;
+            --primary-dark: #dc2626;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --result-bg: #065f46;
+            --tag-bg: #450a0a;
+        }
+
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
+        
+        header { background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; }
+        .logo { font-size: 18px; font-weight: bold; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .header-controls { display: flex; align-items: center; gap: 12px; }
+        
+        .page-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
+        @media (max-width: 900px) { .page-container { grid-template-columns: 1fr; } }
+        
+        .content-section { background: var(--card-bg); padding: 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border); line-height: 1.7; }
+        .content-section h2 { color: var(--primary); margin-top: 0; font-size: 22px; }
+        .content-section p { color: var(--text-muted); font-size: 15px; }
+        
+        [dir="rtl"] .content-section { text-align: right; }
+        [dir="rtl"] .content-section ul { padding-right: 20px; padding-left: 0; }
+        
+        .pro-blueprint-box { background: #f1f5f9; border: 2px solid var(--primary); border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; overflow: hidden; }
+        [data-theme="dark"] .pro-blueprint-box { background: #1e293b; border-color: var(--primary); }
+        .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+        [dir="rtl"] .pro-blueprint-box svg { transform: scaleX(-1); }
+
+        .formula-box { background: #fef2f2; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: var(--primary-dark); border-radius: 4px; text-align: center; }
+        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid var(--primary); }
+        [data-theme="dark"] .formula-box { background: #450a0a; color: #fca5a5; }
+
+        .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .calculator { background: var(--card-bg); padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--border); }
+        
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        a.back-btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 13px; transition: color 0.2s; display: inline-flex; align-items: center; gap: 4px; }
+        a.back-btn:hover { color: var(--primary-dark); }
+        [dir="rtl"] a.back-btn { flex-direction: row-reverse; }
+        
+        select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
+        
+        .input-group { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 6px; color: var(--text-muted); font-weight: bold; font-size: 13px; }
+        input, select.form-control { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
+        input:focus, select.form-control:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(220,38,38,0.1); }
+        
+        .result-box { background: var(--result-bg); padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid var(--primary); }
+        .result-text { font-size: 14px; color: var(--text-main); font-weight: bold; margin: 6px 0; }
+        .highlight { font-size: 22px; color: var(--primary); }
+
+        .btn-calculate { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; font-size: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
+        .btn-calculate:hover { background: var(--primary-dark); }
+
+        .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .ai-header { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; color: #fca5a5; }
+        .ai-chat-output { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 13px; color: #cbd5e1; min-height: 60px; margin-bottom: 12px; line-height: 1.5; }
+        .ai-input-group { display: flex; gap: 8px; }
+        .ai-input { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
+        .ai-btn { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
+        .ai-btn:hover { background: var(--primary-dark); }
+
+        .theme-btn { width: 36px; height: 36px; padding: 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; }
+        .lang-select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
+
+        .badge { display: inline-block; background: var(--tag-bg); color: var(--primary); font-size: 11px; padding: 3px 10px; border-radius: 6px; font-weight: bold; margin-bottom: 12px; }
+        
+        .nature-indicator {
+            display: inline-block;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-weight: bold;
+            font-size: 14px;
+            margin-top: 8px;
+        }
+        .nature-acidic { background: #fee2e2; color: #991b1b; }
+        .nature-neutral { background: #fef9c3; color: #854d0e; }
+        .nature-basic { background: #dbeafe; color: #1e40af; }
+        [data-theme="dark"] .nature-acidic { background: #7f1d1d; color: #fca5a5; }
+        [data-theme="dark"] .nature-neutral { background: #713f12; color: #fde047; }
+        [data-theme="dark"] .nature-basic { background: #1e3a5f; color: #93c5fd; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo" id="homeLink"><span id="headerArrow">←</span> <span id="backText">Back to Hub</span></a>
+        <div class="header-controls">
+            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙</button>
+            <select class="lang-select" id="langSelect" onchange="changeLanguage()">
+                <option value="en">English 🇬🇧</option>
+                <option value="fr">Français 🇫🇷</option>
+                <option value="ar">العربية 🇸🇦</option>
+            </select>
+        </div>
+    </header>
+
+    <div class="page-container">
+        <div class="content-section">
+            <span class="badge" id="badgeText">🧪 Acid-Base Chemistry</span>
+            <h2 id="secTitle">pH, pOH & Acid-Base Equilibrium</h2>
+            <p id="secP1">The pH scale measures the acidity or basicity of an aqueous solution. It is defined as the negative logarithm of the hydrogen ion concentration. Solutions with pH &lt; 7 are acidic, pH = 7 are neutral, and pH &gt; 7 are basic (alkaline).</p>
+            
+            <div class="pro-blueprint-box">
+                <svg width="380" height="200" viewBox="0 0 380 200">
+                    <defs>
+                        <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                            <path d="M0,2 L8,4 L0,6 Z" fill="#dc2626"/>
+                        </marker>
+                    </defs>
+                    
+                    <!-- مقياس pH -->
+                    <rect x="30" y="70" width="320" height="30" rx="15" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+                    
+                    <!-- ألوان المقياس -->
+                    <rect x="35" y="73" width="40" height="24" rx="12" fill="#dc2626"/>
+                    <rect x="75" y="73" width="30" height="24" rx="12" fill="#f97316"/>
+                    <rect x="105" y="73" width="30" height="24" rx="12" fill="#eab308"/>
+                    <rect x="135" y="73" width="30" height="24" rx="12" fill="#84cc16"/>
+                    <rect x="165" y="73" width="30" height="24" rx="12" fill="#10b981"/>
+                    <rect x="195" y="73" width="30" height="24" rx="12" fill="#34d399"/>
+                    <rect x="225" y="73" width="30" height="24" rx="12" fill="#3b82f6"/>
+                    <rect x="255" y="73" width="30" height="24" rx="12" fill="#8b5cf6"/>
+                    <rect x="285" y="73" width="30" height="24" rx="12" fill="#a855f7"/>
+                    
+                    <!-- أرقام pH -->
+                    <text x="55" y="65" font-size="9" fill="#475569" text-anchor="middle">0</text>
+                    <text x="95" y="65" font-size="9" fill="#475569" text-anchor="middle">2</text>
+                    <text x="135" y="65" font-size="9" fill="#475569" text-anchor="middle">4</text>
+                    <text x="175" y="65" font-size="9" fill="#475569" text-anchor="middle">6</text>
+                    <text x="215" y="65" font-size="9" fill="#475569" text-anchor="middle">8</text>
+                    <text x="255" y="65" font-size="9" fill="#475569" text-anchor="middle">10</text>
+                    <text x="295" y="65" font-size="9" fill="#475569" text-anchor="middle">12</text>
+                    <text x="335" y="65" font-size="9" fill="#475569" text-anchor="middle">14</text>
+                    
+                    <!-- تسميات -->
+                    <text x="55" y="118" font-size="10" fill="#dc2626" font-weight="bold" text-anchor="middle">Acidic</text>
+                    <text x="190" y="118" font-size="10" fill="#10b981" font-weight="bold" text-anchor="middle">Neutral</text>
+                    <text x="315" y="118" font-size="10" fill="#8b5cf6" font-weight="bold" text-anchor="middle">Basic</text>
+                    
+                    <!-- الأسهم -->
+                    <line x1="55" y1="130" x2="55" y2="155" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+                    <text x="55" y="170" font-size="9" fill="#dc2626" text-anchor="middle">pH &lt; 7</text>
+                    
+                    <line x1="190" y1="130" x2="190" y2="155" stroke="#10b981" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+                    <text x="190" y="170" font-size="9" fill="#10b981" text-anchor="middle">pH = 7</text>
+                    
+                    <line x1="315" y1="130" x2="315" y2="155" stroke="#8b5cf6" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+                    <text x="315" y="170" font-size="9" fill="#8b5cf6" text-anchor="middle">pH &gt; 7</text>
+                </svg>
+            </div>
+
+            <div class="formula-box">
+                pH = -log₁₀[H⁺] &nbsp;|&nbsp; pOH = -log₁₀[OH⁻] &nbsp;|&nbsp; pH + pOH = 14
+            </div>
+            
+            <p id="secP2">Key Relationships:</p>
+            <ul>
+                <li id="li1"><strong>pH</strong> = Negative logarithm of hydrogen ion concentration</li>
+                <li id="li2"><strong>pOH</strong> = Negative logarithm of hydroxide ion concentration</li>
+                <li id="li3"><strong>pH + pOH = 14</strong> at 25°C (water autoionization constant)</li>
+                <li id="li4"><strong>[H⁺] × [OH⁻] = 10⁻¹⁴</strong> at 25°C (ion product of water)</li>
+            </ul>
+            <p id="secP3">pH is a crucial parameter in chemistry, biology, medicine, and environmental science. It affects enzyme activity, drug solubility, corrosion rates, and many industrial processes.</p>
+        </div>
+
+        <div class="calculator-sidebar">
+            <div class="calculator">
+                <div class="top-bar">
+                    <a href="index.html" class="back-btn" id="backText2"><span id="backArrow">←</span> <span id="backLabel">Back to Directory</span></a>
+                    <select class="lang-select" id="langSelect2" onchange="changeLanguage()" style="display:none;"></select>
+                </div>
+
+                <h3 id="calcTitle" style="margin-top:0; color:var(--text-main); font-size:17px;">🧪 pH Calculator</h3>
+                
+                <div class="input-group">
+                    <label id="labelMode">Calculation Mode:</label>
+                    <select id="calcMode" class="form-control" onchange="switchMode()">
+                        <option value="from_h">From [H⁺] → pH</option>
+                        <option value="from_oh">From [OH⁻] → pOH</option>
+                        <option value="from_ph">From pH → [H⁺]</option>
+                        <option value="from_poh">From pOH → [OH⁻]</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label id="labelInput">Enter Value:</label>
+                    <input type="number" id="inputValue" value="1e-7" step="any" oninput="calculatePH()">
+                </div>
+
+                <button class="btn-calculate" id="calcBtn" onclick="calculatePH()">🧪 Calculate</button>
+                
+                <div class="result-box" id="resultBox">
+                    <p class="result-text"><span id="textResult">Result:</span></p>
+                    <p class="result-text"><span id="phResult" class="highlight">7.00</span></p>
+                    <div id="natureIndicator" class="nature-indicator nature-neutral">⚖️ Neutral</div>
+                    <div id="extraResult" style="margin-top: 8px; font-size: 13px; color: var(--text-muted);">[H⁺] = 1.00 × 10⁻⁷ M</div>
+                </div>
+            </div>
+
+            <div class="ai-assistant-box">
+                <div class="ai-header">🤖 OmniEngineer AI Expert</div>
+                <div class="ai-chat-output" id="aiOutput">Hello! I'm your chemistry assistant. Ask me about pH, buffers, or acid-base titrations!</div>
+                <div class="ai-input-group">
+                    <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI a question...">
+                    <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            let html = document.getElementById('htmlTag');
+            let btn = document.getElementById('themeToggleBtn');
+            if (html.getAttribute('data-theme') === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                btn.innerText = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                btn.innerText = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        window.onload = function() {
+            let savedTheme = localStorage.getItem('theme') || 'light';
+            document.getElementById('htmlTag').setAttribute('data-theme', savedTheme);
+            document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
+            calculatePH();
+        }
+
+        function switchMode() {
+            let mode = document.getElementById('calcMode').value;
+            let label = document.getElementById('labelInput');
+            let input = document.getElementById('inputValue');
+            
+            if (mode === 'from_h' || mode === 'from_oh') {
+                label.innerText = document.getElementById('textEnterConc') ? document.getElementById('textEnterConc').innerText : 'Enter Concentration (M):';
+                input.placeholder = 'e.g., 1e-7';
+                input.value = '1e-7';
+            } else if (mode === 'from_ph') {
+                label.innerText = document.getElementById('textEnterPH') ? document.getElementById('textEnterPH').innerText : 'Enter pH Value:';
+                input.placeholder = 'e.g., 7.0';
+                input.value = '7';
+            } else {
+                label.innerText = document.getElementById('textEnterPOH') ? document.getElementById('textEnterPOH').innerText : 'Enter pOH Value:';
+                input.placeholder = 'e.g., 7.0';
+                input.value = '7';
+            }
+            calculatePH();
+        }
+
+        function calculatePH() {
+            let mode = document.getElementById('calcMode').value;
+            let inputVal = parseFloat(document.getElementById('inputValue').value);
+            
+            let ph = 0, poh = 0, hConc = 0, ohConc = 0;
+            let resultText = '';
+            let extraText = '';
+            let natureText = '';
+            let natureClass = '';
+
+            if (isNaN(inputVal) || inputVal <= 0) {
+                inputVal = 1e-7;
+                document.getElementById('inputValue').value = '1e-7';
+            }
+
+            switch(mode) {
+                case 'from_h':
+                    hConc = inputVal;
+                    ph = -Math.log10(hConc);
+                    poh = 14 - ph;
+                    ohConc = Math.pow(10, -poh);
+                    resultText = `pH = ${ph.toFixed(4)}`;
+                    extraText = `[H⁺] = ${hConc.toExponential(4)} M`;
+                    break;
+                case 'from_oh':
+                    ohConc = inputVal;
+                    poh = -Math.log10(ohConc);
+                    ph = 14 - poh;
+                    hConc = Math.pow(10, -ph);
+                    resultText = `pOH = ${poh.toFixed(4)}`;
+                    extraText = `[OH⁻] = ${ohConc.toExponential(4)} M`;
+                    break;
+                case 'from_ph':
+                    ph = inputVal;
+                    poh = 14 - ph;
+                    hConc = Math.pow(10, -ph);
+                    ohConc = Math.pow(10, -poh);
+                    resultText = `pH = ${ph.toFixed(4)}`;
+                    extraText = `[H⁺] = ${hConc.toExponential(4)} M`;
+                    break;
+                case 'from_poh':
+                    poh = inputVal;
+                    ph = 14 - poh;
+                    hConc = Math.pow(10, -ph);
+                    ohConc = Math.pow(10, -poh);
+                    resultText = `pOH = ${poh.toFixed(4)}`;
+                    extraText = `[OH⁻] = ${ohConc.toExponential(4)} M`;
+                    break;
+            }
+
+            // تحديث النتيجة الرئيسية
+            document.getElementById('phResult').innerText = resultText;
+
+            // تحديث المعلومات الإضافية
+            let extraDiv = document.getElementById('extraResult');
+            extraDiv.innerHTML = extraText + ' | ' + `[OH⁻] = ${ohConc.toExponential(4)} M`;
+
+            // تحديد طبيعة المحلول
+            let natureDiv = document.getElementById('natureIndicator');
+            let textAcidic = document.getElementById('textAcidic') ? document.getElementById('textAcidic').innerText : 'Acidic';
+            let textNeutral = document.getElementById('textNeutral') ? document.getElementById('textNeutral').innerText : 'Neutral';
+            let textBasic = document.getElementById('textBasic') ? document.getElementById('textBasic').innerText : 'Basic';
+
+            if (ph < 6.99) {
+                natureDiv.className = 'nature-indicator nature-acidic';
+                natureDiv.innerText = '🔴 ' + textAcidic;
+            } else if (ph > 7.01) {
+                natureDiv.className = 'nature-indicator nature-basic';
+                natureDiv.innerText = '🔵 ' + textBasic;
+            } else {
+                natureDiv.className = 'nature-indicator nature-neutral';
+                natureDiv.innerText = '⚖️ ' + textNeutral;
+            }
+        }
+
+        function askAiAssistant() {
+            let q = document.getElementById('aiQuestionInput').value.toLowerCase();
+            let output = document.getElementById('aiOutput');
+            
+            if (!q) {
+                output.innerText = "Please type a question for the AI assistant!";
+                return;
+            }
+
+            if (q.includes('buffer') || q.includes('buffering') || q.includes('محلول منظم')) {
+                output.innerText = "🧪 Buffer Solutions: A buffer resists pH changes when small amounts of acid or base are added. It consists of a weak acid and its conjugate base. The Henderson-Hasselbalch equation is used to calculate buffer pH: pH = pKa + log([A⁻]/[HA]).";
+            } else if (q.includes('acid') || q.includes('base') || q.includes('حمض') || q.includes('قاعدة')) {
+                output.innerText = "⚖️ Acid-Base Theory: Acids donate protons (H⁺) while bases accept protons. Strong acids and bases dissociate completely in water, while weak ones partially dissociate.";
+            } else if (q.includes('indicator') || q.includes('مؤشر')) {
+                output.innerText = "🎨 pH Indicators: These are dyes that change color at specific pH ranges. Litmus turns red in acid (pH < 5) and blue in base (pH > 8). Phenolphthalein is colorless in acid and pink in base (pH 8-10).";
+            } else {
+                output.innerText = "💡 The pH scale ranges from 0 (strong acid) to 14 (strong base), with 7 being neutral. The pH of pure water at 25°C is exactly 7.0.";
+            }
+        }
+
+        const translations = {
+            en: {
+                backText: "Back to Hub",
+                backLabel: "Back to Directory",
+                backArrow: "←",
+                headerArrow: "←",
+                badgeText: "🧪 Acid-Base Chemistry",
+                calcTitle: "🧪 pH Calculator",
+                labelMode: "Calculation Mode:",
+                labelInput: "Enter Concentration (M):",
+                textEnterConc: "Enter Concentration (M):",
+                textEnterPH: "Enter pH Value:",
+                textEnterPOH: "Enter pOH Value:",
+                calcBtn: "🧪 Calculate",
+                textResult: "Result:",
+                textAcidic: "Acidic",
+                textNeutral: "Neutral",
+                textBasic: "Basic",
+                secTitle: "pH, pOH & Acid-Base Equilibrium",
+                secP1: "The pH scale measures the acidity or basicity of an aqueous solution. It is defined as the negative logarithm of the hydrogen ion concentration. Solutions with pH < 7 are acidic, pH = 7 are neutral, and pH > 7 are basic (alkaline).",
+                secP2: "Key Relationships:",
+                secP3: "pH is a crucial parameter in chemistry, biology, medicine, and environmental science. It affects enzyme activity, drug solubility, corrosion rates, and many industrial processes.",
+                dir: "ltr",
+                li1: "pH = Negative logarithm of hydrogen ion concentration",
+                li2: "pOH = Negative logarithm of hydroxide ion concentration",
+                li3: "pH + pOH = 14 at 25°C (water autoionization constant)",
+                li4: "[H⁺] × [OH⁻] = 10⁻¹⁴ at 25°C (ion product of water)"
+            },
+            fr: {
+                backText: "Retour au Hub",
+                backLabel: "Retour au répertoire",
+                backArrow: "←",
+                headerArrow: "←",
+                badgeText: "🧪 Chimie Acide-Base",
+                calcTitle: "🧪 Calculateur de pH",
+                labelMode: "Mode de Calcul :",
+                labelInput: "Entrer la Concentration (M) :",
+                textEnterConc: "Entrer la Concentration (M) :",
+                textEnterPH: "Entrer la valeur du pH :",
+                textEnterPOH: "Entrer la valeur du pOH :",
+                calcBtn: "🧪 Calculer",
+                textResult: "Résultat :",
+                textAcidic: "Acide",
+                textNeutral: "Neutre",
+                textBasic: "Basique",
+                secTitle: "pH, pOH & Équilibre Acide-Base",
+                secP1: "L'échelle de pH mesure l'acidité ou la basicité d'une solution aqueuse. Elle est définie comme le logarithme négatif de la concentration en ions hydrogène.",
+                secP2: "Relations Clés :",
+                secP3: "Le pH est un paramètre crucial en chimie, biologie, médecine et sciences environnementales.",
+                dir: "ltr",
+                li1: "pH = Logarithme négatif de la concentration en ions H⁺",
+                li2: "pOH = Logarithme négatif de la concentration en ions OH⁻",
+                li3: "pH + pOH = 14 à 25°C (constante d'auto-ionisation de l'eau)",
+                li4: "[H⁺] × [OH⁻] = 10⁻¹⁴ à 25°C (produit ionique de l'eau)"
+            },
+            ar: {
+                backText: "العودة للرئيسية",
+                backLabel: "العودة إلى الدليل",
+                backArrow: "→",
+                headerArrow: "→",
+                badgeText: "🧪 كيمياء الأحماض والقواعد",
+                calcTitle: "🧪 حاسبة الأس الهيدروجيني (pH)",
+                labelMode: "وضع الحساب:",
+                labelInput: "أدخل التركيز (مولار):",
+                textEnterConc: "أدخل التركيز (مولار):",
+                textEnterPH: "أدخل قيمة pH:",
+                textEnterPOH: "أدخل قيمة pOH:",
+                calcBtn: "🧪 احسب",
+                textResult: "النتيجة:",
+                textAcidic: "حمضي",
+                textNeutral: "متعادل",
+                textBasic: "قاعدي",
+                secTitle: "الأس الهيدروجيني (pH) وتوازن الأحماض والقواعد",
+                secP1: "مقياس pH يقيس حموضة أو قاعدية المحلول المائي. يعرف بأنه اللوغاريتم السالب لتركيز أيونات الهيدروجين. المحاليل ذات pH أقل من 7 تكون حمضية، و pH يساوي 7 متعادلة، و pH أكبر من 7 قاعدية.",
+                secP2: "العلاقات الأساسية:",
+                secP3: "يعد pH معلمة حاسمة في الكيمياء، الأحياء، الطب، والعلوم البيئية. يؤثر على نشاط الإنزيمات، ذوبانية الأدوية، معدلات التآكل، والعديد من العمليات الصناعية.",
+                dir: "rtl",
+                li1: "pH = اللوغاريتم السالب لتركيز أيونات الهيدروجين",
+                li2: "pOH = اللوغاريتم السالب لتركيز أيونات الهيدروكسيد",
+                li3: "pH + pOH = 14 عند 25°C (ثابت تأين الماء الذاتي)",
+                li4: "[H⁺] × [OH⁻] = 10⁻¹⁴ عند 25°C (حاصل أيون الماء)"
+            }
+        };
+
+        function changeLanguage() {
+            let lang = document.getElementById('langSelect').value;
+            let t = translations[lang];
+            let html = document.getElementById('htmlTag');
+            
+            html.setAttribute('lang', lang);
+            html.setAttribute('dir', t.dir);
+            
+            document.getElementById('backText').innerText = t.backText;
+            document.getElementById('backLabel').innerText = t.backLabel;
+            document.getElementById('backArrow').innerText = t.backArrow;
+            document.getElementById('headerArrow').innerText = t.headerArrow;
+            document.getElementById('badgeText').innerText = t.badgeText;
+            document.getElementById('calcTitle').innerText = t.calcTitle;
+            document.getElementById('labelMode').innerHTML = t.labelMode;
+            document.getElementById('labelInput').innerHTML = t.labelInput;
+            document.getElementById('textEnterConc').innerHTML = t.textEnterConc;
+            document.getElementById('textEnterPH').innerHTML = t.textEnterPH;
+            document.getElementById('textEnterPOH').innerHTML = t.textEnterPOH;
+            document.getElementById('calcBtn').innerHTML = t.calcBtn;
+            document.getElementById('textResult').innerHTML = t.textResult;
+            document.getElementById('textAcidic').innerHTML = t.textAcidic;
+            document.getElementById('textNeutral').innerHTML = t.textNeutral;
+            document.getElementById('textBasic').innerHTML = t.textBasic;
+            document.getElementById('secTitle').innerHTML = t.secTitle;
+            document.getElementById('secP1').innerHTML = t.secP1;
+            document.getElementById('secP2').innerHTML = t.secP2;
+            document.getElementById('secP3').innerHTML = t.secP3;
+            
+            for(let i = 1; i <= 4; i++) {
+                if(document.getElementById(`li${i}`)) {
+                    document.getElementById(`li${i}`).innerHTML = t[`li${i}`];
+                }
+            }
+            
+            // تحديث التسميات في وضع الحساب
+            switchMode();
+            calculatePH();
+        }
+    </script>
+</body>
+</html>
