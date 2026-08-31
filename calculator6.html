@@ -3,49 +3,151 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hydraulic Flow Rate Calculator</title>
+    <title>Hydraulic Flow Rate Calculator | OmniEngineer Pro</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f8fafc; display: flex; justify-content: center; align-items: center; min-height: 100vh; margin: 0; padding: 20px; }
-        .calculator { background: white; padding: 25px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.08); width: 100%; max-width: 520px; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; padding: 20px; }
+        .page-container { max-width: 1200px; margin: 30px auto; display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
+        @media (max-width: 900px) { .page-container { grid-template-columns: 1fr; } }
+        
+        .content-section { background: white; padding: 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; line-height: 1.7; }
+        .content-section h2 { color: #2563eb; margin-top: 0; font-size: 22px; }
+        .content-section p { color: #475569; font-size: 15px; }
+        
+        /* صندوق المخطط الهندسي لمعدل التدفق */
+        .pro-blueprint-box { background: #f1f5f9; border: 2px solid #3b82f6; border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; }
+        .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+
+        .formula-box { background: #eff6ff; border-left: 4px solid #2563eb; padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: #1d4ed8; border-radius: 4px; text-align: left; }
+        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid #2563eb; text-align: right; }
+
+        .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .calculator { background: white; padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        a.back-btn { text-decoration: none; color: #2563eb; font-weight: bold; font-size: 14px; }
-        select { padding: 5px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 14px; background: #fff; cursor: pointer; }
-        h2 { text-align: center; color: #1e293b; font-size: 18px; margin-bottom: 20px; }
+        a.back-btn { text-decoration: none; color: #2563eb; font-weight: bold; font-size: 13px; }
+        select { padding: 5px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 13px; background: #fff; cursor: pointer; }
+        
         .input-group { margin-bottom: 15px; }
         label { display: block; margin-bottom: 6px; color: #475569; font-weight: bold; font-size: 13px;}
         input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; box-sizing: border-box; }
         input:focus { border-color: #2563eb; outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
         .result-box { background: #f0fdf4; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid #bbf7d0; }
-        .result-text { font-size: 15px; color: #15803d; font-weight: bold; margin: 6px 0; }
+        .result-text { font-size: 14px; color: #15803d; font-weight: bold; margin: 6px 0; }
+        .highlight { font-size: 18px; }
+
+        .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .ai-header { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; color: #60a5fa; }
+        .ai-chat-output { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 13px; color: #cbd5e1; min-height: 60px; margin-bottom: 12px; line-height: 1.5; }
+        .ai-input-group { display: flex; gap: 8px; }
+        .ai-input { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
+        .ai-btn { background: #2563eb; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
+        .ai-btn:hover { background: #1d4ed8; }
     </style>
 </head>
 <body>
-    <div class="calculator">
-        <div class="top-bar">
-            <a href="index.html" class="back-btn" id="backText">← Back to Directory</a>
-            <select id="langSelect" onchange="changeLanguage()">
-                <option value="en">English 🇬🇧</option>
-                <option value="fr">Français 🇫🇷</option>
-                <option value="ar">العربية 🇸🇦</option>
-            </select>
+
+    <div class="page-container">
+        <div class="content-section">
+            <h2 id="secTitle">About Hydraulic Flow Rate & Principles</h2>
+            <p id="secP1">Hydraulic flow rate calculations are crucial in fluid mechanics for designing water supply networks, open channels, drainage systems, and industrial piping.</p>
+            
+            <div class="pro-blueprint-box">
+                <svg width="380" height="210" viewBox="0 0 380 210">
+                    <defs>
+                        <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                            <path d="M0,2 L8,4 L0,6 Z" fill="#1d4ed8"/>
+                        </marker>
+                    </defs>
+
+                    <rect x="50" y="55" width="280" height="100" rx="8" ry="8" fill="rgba(37, 99, 235, 0.08)" stroke="#2563eb" stroke-width="3"/>
+                    
+                    <line x1="90" y1="105" x2="160" y2="105" stroke="#dc2626" stroke-width="2.5" marker-end="url(#arrow-blue)"/>
+                    <line x1="150" y1="85" x2="220" y2="85" stroke="#dc2626" stroke-width="2.5" marker-end="url(#arrow-blue)"/>
+                    <line x1="120" y1="125" x2="190" y2="125" stroke="#dc2626" stroke-width="2.5" marker-end="url(#arrow-blue)"/>
+                    <text x="175" y="110" font-size="13" fill="#dc2626" font-weight="bold">Velocity (V)</text>
+
+                    <line x1="40" y1="55" x2="40" y2="155" stroke="#1d4ed8" stroke-width="1.5" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)"/>
+                    <text x="25" y="110" font-size="12" fill="#1d4ed8" font-weight="bold" text-anchor="middle">Area (A)</text>
+                </svg>
+            </div>
+
+            <div class="formula-box">
+                Flow Rate (Q) = Area (A) × Velocity (V) <br>
+                Flow (L/h) = Q (m³/s) × 1,000 × 3,600
+            </div>
+            
+            <p id="secP2">Where:</p>
+            <ul>
+                <li id="li1"><strong>Area (A)</strong> = Cross-sectional area of the flow path in square meters ($m^2$)</li>
+                <li id="li2"><strong>Velocity (V)</strong> = Average fluid velocity in meters per second ($m/s$)</li>
+                <li id="li3"><strong>Flow Rate (Q)</strong> = Discharge volume per second in cubic meters ($m^3/s$)</li>
+                <li id="li4"><strong>Flow (L/h)</strong> = Hourly volumetric flow rate converted to Liters per hour</li>
+            </ul>
+            <p id="secP3">Applying the continuity equation ensures proper pump sizing, pipe diameter selection, and prevents excessive frictional pressure losses in networks.</p>
         </div>
 
-        <h2 id="calcTitle">⚡ Hydraulic Flow Rate Calculator</h2>
-        <div class="input-group">
-            <label id="labelArea">Cross-Sectional Area (square meters):</label>
-            <input type="number" id="pipeArea" placeholder="e.g. 0.2" oninput="calculateFlow()">
-        </div>
-        <div class="input-group">
-            <label id="labelVel">Fluid Velocity (meters per second):</label>
-            <input type="number" id="fluidVel" placeholder="e.g. 2.5" oninput="calculateFlow()">
-        </div>
-        <div class="result-box">
-            <p class="result-text"><span id="textFlowM3">Flow Rate (m³/s):</span> <span id="flowM3Result">0.00</span></p>
-            <p class="result-text"><span id="textFlowLh">Flow Rate (Liters/hour):</span> <span id="flowLhResult">0.00</span></p>
+        <div class="calculator-sidebar">
+            <div class="calculator">
+                <div class="top-bar">
+                    <a href="index.html" class="back-btn" id="backText">← Back to Directory</a>
+                    <select id="langSelect" onchange="changeLanguage()">
+                        <option value="en">English 🇬🇧</option>
+                        <option value="fr">Français 🇫🇷</option>
+                        <option value="ar">العربية 🇸🇦</option>
+                    </select>
+                </div>
+
+                <h2 id="calcTitle" style="text-align: left; font-size: 16px; margin-top: 0; color: #1e293b;">⚡ Hydraulic Flow Rate Calculator</h2>
+                
+                <div class="input-group">
+                    <label id="labelArea">Cross-Sectional Area (square meters):</label>
+                    <input type="number" id="pipeArea" placeholder="e.g. 0.2" oninput="calculateFlow()">
+                </div>
+                <div class="input-group">
+                    <label id="labelVel">Fluid Velocity (meters per second):</label>
+                    <input type="number" id="fluidVel" placeholder="e.g. 2.5" oninput="calculateFlow()">
+                </div>
+                
+                <div class="result-box">
+                    <p class="result-text"><span id="textFlowM3">Flow Rate (m³/s):</span> <span id="flowM3Result" class="highlight">0.00</span></p>
+                    <p class="result-text"><span id="textFlowLh">Flow Rate (Liters/hour):</span> <span id="flowLhResult" class="highlight">0.00</span></p>
+                </div>
+            </div>
+
+            <div class="ai-assistant-box">
+                <div class="ai-header">
+                    🤖 OmniEngineer AI Expert
+                </div>
+                <div class="ai-chat-output" id="aiOutput">
+                    Hello! I'm your engineering AI assistant. Ask me about flow velocity limits, Reynolds number, or continuity equations!
+                </div>
+                <div class="ai-input-group">
+                    <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI a question...">
+                    <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
+                </div>
+            </div>
         </div>
     </div>
 
     <script>
+        function askAiAssistant() {
+            let q = document.getElementById('aiQuestionInput').value.toLowerCase();
+            let flow = document.getElementById('flowM3Result').innerText;
+            let output = document.getElementById('aiOutput');
+            
+            if (!q) {
+                output.innerText = "Please type a question for the AI assistant!";
+                return;
+            }
+
+            if (q.includes('velocity') || q.includes('limit') || q.includes('سرعة')) {
+                output.innerText = "💡 Engineering Tip: For typical water distribution pipelines, standard design velocity ranges between 1.0 to 3.0 m/s to prevent sediment buildup and minimize excessive pipe erosion.";
+            } else if (q.includes('reynolds') || q.includes('turbulent') || q.includes('اضطراب')) {
+                output.innerText = `📊 Current calculated discharge is ${flow} m³/s. Use this flow rate along with fluid viscosity to calculate the Reynolds number and determine if flow is laminar or turbulent.`;
+            } else {
+                output.innerText = `🤖 AI Analysis: The flow rate is computed directly via the continuity equation Q = A × V, assuming incompressible and steady-state fluid flow conditions.`;
+            }
+        }
+
         const translations = {
             en: {
                 backText: "← Back to Directory",
@@ -54,6 +156,10 @@
                 labelVel: "Fluid Velocity (meters per second):",
                 textFlowM3: "Flow Rate (m³/s):",
                 textFlowLh: "Flow Rate (Liters/hour):",
+                secTitle: "About Hydraulic Flow Rate & Principles",
+                secP1: "Hydraulic flow rate calculations are crucial in fluid mechanics for designing water supply networks, open channels, drainage systems, and industrial piping.",
+                secP2: "Where:",
+                secP3: "Applying the continuity equation ensures proper pump sizing, pipe diameter selection, and prevents excessive frictional pressure losses in networks.",
                 dir: "ltr"
             },
             fr: {
@@ -63,6 +169,10 @@
                 labelVel: "Vitesse du fluide (mètres par seconde) :",
                 textFlowM3: "Débit (m³/s) :",
                 textFlowLh: "Débit (Litres/heure) :",
+                secTitle: "À propos du Débit Hydraulique",
+                secP1: "Les calculs de débit hydraulique sont essentiels en mécanique des fluides pour la conception des réseaux d'eau.",
+                secP2: "Où :",
+                secP3: "L'application de l'équation de continuité garantit un dimensionnement correct des pompes.",
                 dir: "ltr"
             },
             ar: {
@@ -72,6 +182,10 @@
                 labelVel: "سرعة السائل (متر / ثانية):",
                 textFlowM3: "معدل التدفق (م³/ث):",
                 textFlowLh: "معدل التدفق (لتر / ساعة):",
+                secTitle: "نبذة عن مبادئ معدل التدفق الهيدروليكي",
+                secP1: "تعتبر حسابات معدل التدفق الهيدروليكي بالغة الأهمية في ميكانيكا الموائع لتصميم شبكات إمداد المياه، القنوات المفتوحة، وأنظمة الصرف.",
+                secP2: "حيث أن:",
+                secP3: "يضمن تطبيق معادلة الاستمرارية الاختيار السليم لأحجام المضخات وأقطار الأنابيب ويمنع فقد الضغط الاحتكاكي المفرط.",
                 dir: "rtl"
             }
         };
@@ -87,13 +201,16 @@
             document.getElementById('labelVel').innerText = t.labelVel;
             document.getElementById('textFlowM3').innerText = t.textFlowM3;
             document.getElementById('textFlowLh').innerText = t.textFlowLh;
+            document.getElementById('secTitle').innerText = t.secTitle;
+            document.getElementById('secP1').innerText = t.secP1;
+            document.getElementById('secP2').innerText = t.secP2;
+            document.getElementById('secP3').innerText = t.secP3;
         }
 
         function calculateFlow() {
             let A = parseFloat(document.getElementById('pipeArea').value) || 0;
             let V = parseFloat(document.getElementById('fluidVel').value) || 0;
             
-            // معادلة التدفق Q = A * V (متر مكعب لكل ثانية)
             let flowM3s = A * V;
             let flowLitersPerHour = flowM3s * 1000 * 3600;
 
