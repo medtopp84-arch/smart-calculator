@@ -6,7 +6,7 @@
     <title>Molarity Calculator | OmniEngineer Pro</title>
     <style>
         :root {
-            --primary: #059669; /* لون أخضر زمردي خاص بقسم الكيمياء والعلوم */
+            --primary: #059669;
             --primary-dark: #047857;
             --bg-color: #f8fafc;
             --card-bg: #ffffff;
@@ -34,30 +34,52 @@
         .logo { font-size: 18px; font-weight: bold; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 8px; }
         .header-controls { display: flex; align-items: center; gap: 12px; }
         
-        .container { max-width: 800px; margin: 30px auto; padding: 0 20px; }
-        .calc-card { background: var(--card-bg); border: 1px solid var(--border); border-radius: 16px; padding: 30px; box-shadow: 0 4px 6px -1px rgba(0,0,0,0.02); }
+        .page-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
+        @media (max-width: 900px) { .page-container { grid-template-columns: 1fr; } }
         
-        .badge { display: inline-block; background: var(--tag-bg); color: var(--primary); font-size: 12px; padding: 4px 10px; border-radius: 6px; font-weight: bold; margin-bottom: 15px; }
-        h1 { font-size: 24px; margin-top: 0; color: var(--text-main); }
-        p.desc { color: var(--text-muted); font-size: 14px; line-height: 1.5; margin-bottom: 25px; }
+        .content-section { background: var(--card-bg); padding: 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border); line-height: 1.7; }
+        .content-section h2 { color: var(--primary); margin-top: 0; font-size: 22px; }
+        .content-section p { color: var(--text-muted); font-size: 15px; }
+        
+        .pro-blueprint-box { background: #f1f5f9; border: 2px solid var(--primary); border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; }
+        [data-theme="dark"] .pro-blueprint-box { background: #1e293b; border-color: var(--primary); }
+        .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
 
-        .form-group { margin-bottom: 20px; }
-        label { display: block; font-size: 14px; font-weight: 600; margin-bottom: 8px; color: var(--text-main); }
-        .input-wrapper { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 10px; overflow: hidden; background: var(--card-bg); transition: border-color 0.2s; }
+        .formula-box { background: #eff6ff; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: var(--primary-dark); border-radius: 4px; text-align: left; }
+        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid var(--primary); text-align: right; }
+        [data-theme="dark"] .formula-box { background: #064e3b; color: #34d399; }
+
+        .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .calculator { background: var(--card-bg); padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--border); }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        a.back-btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 13px; transition: color 0.2s; }
+        a.back-btn:hover { color: var(--primary-dark); }
+        select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
+        
+        .input-group { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 6px; color: var(--text-muted); font-weight: bold; font-size: 13px; }
+        .input-wrapper { display: flex; align-items: center; border: 1px solid var(--border); border-radius: 8px; overflow: hidden; background: var(--card-bg); transition: border-color 0.2s; }
         .input-wrapper:focus-within { border-color: var(--primary); box-shadow: 0 0 0 3px rgba(5,150,105,0.1); }
-        input { flex: 1; padding: 12px 16px; border: none; outline: none; font-size: 16px; background: transparent; color: var(--text-main); }
-        .unit-label { padding: 0 16px; background: var(--border); color: var(--text-muted); font-size: 13px; font-weight: bold; height: 100%; display: flex; align-items: center; }
-
-        .btn-calculate { width: 100%; background: var(--primary); color: white; border: none; padding: 14px; font-size: 16px; font-weight: bold; border-radius: 10px; cursor: pointer; transition: background 0.2s; margin-top: 10px; }
+        input { flex: 1; padding: 10px 14px; border: none; outline: none; font-size: 15px; background: transparent; color: var(--text-main); }
+        .unit-label { padding: 0 14px; background: var(--border); color: var(--text-muted); font-size: 12px; font-weight: bold; height: 100%; display: flex; align-items: center; }
+        
+        .btn-calculate { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; font-size: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; transition: background 0.2s; margin-top: 10px; }
         .btn-calculate:hover { background: var(--primary-dark); }
 
-        .result-box { margin-top: 30px; background: var(--result-bg); border: 1px solid var(--primary); border-radius: 12px; padding: 20px; display: none; }
-        .result-title { font-size: 15px; font-weight: bold; color: var(--primary); margin-bottom: 10px; }
-        .result-item { font-size: 16px; margin-bottom: 8px; display: flex; justify-content: space-between; }
+        .result-box { margin-top: 20px; background: var(--result-bg); border: 1px solid var(--primary); border-radius: 10px; padding: 18px; display: none; }
+        .result-title { font-size: 14px; font-weight: bold; color: var(--primary); margin-bottom: 10px; }
+        .result-item { font-size: 14px; margin-bottom: 6px; display: flex; justify-content: space-between; }
         .result-value { font-weight: bold; color: var(--text-main); }
 
-        .lang-select, .theme-btn { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px; }
-        .theme-btn { width: 36px; height: 36px; padding: 0; display: flex; align-items: center; justify-content: center; }
+        .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .ai-header { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; color: #60a5fa; }
+        .ai-chat-output { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 13px; color: #cbd5e1; min-height: 60px; margin-bottom: 12px; line-height: 1.5; }
+        .ai-input-group { display: flex; gap: 8px; }
+        .ai-input { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
+        .ai-btn { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
+        .ai-btn:hover { background: var(--primary-dark); }
+
+        .theme-btn { width: 36px; height: 36px; padding: 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px; display: flex; align-items: center; justify-content: center; }
     </style>
 </head>
 <body>
@@ -74,47 +96,113 @@
         </div>
     </header>
 
-    <div class="container">
-        <div class="calc-card">
-            <span class="badge" id="badgeText">Chemistry & Applied Science</span>
-            <h1 id="mainTitle">Molarity Calculator</h1>
-            <p class="desc" id="mainDesc">Calculate the molar concentration ($M$) of a solution based on the mass of the solute, its molar mass, and the total volume of the solution.</p>
+    <div class="page-container">
+        <!-- القسم الأيسر: الشرح العلمي والمخطط -->
+        <div class="content-section">
+            <h2 id="secTitle">About Molarity & Solution Chemistry</h2>
+            <p id="secP1">Molarity (M) is a measure of the concentration of a solute in a solution, defined as the number of moles of solute per liter of solution. It is one of the most commonly used units in chemistry for expressing concentration.</p>
+            
+            <div class="pro-blueprint-box">
+                <svg width="380" height="220" viewBox="0 0 380 220">
+                    <defs>
+                        <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                            <path d="M0,2 L8,4 L0,6 Z" fill="#2563eb"/>
+                        </marker>
+                    </defs>
+                    <!-- دورق مخروطي -->
+                    <path d="M 160 50 L 220 50 L 230 170 L 150 170 Z" fill="rgba(5, 150, 105, 0.1)" stroke="#059669" stroke-width="2.5"/>
+                    <ellipse cx="190" cy="50" rx="30" ry="10" fill="rgba(5, 150, 105, 0.2)" stroke="#059669" stroke-width="2"/>
+                    <!-- السائل داخل الدورق -->
+                    <path d="M 165 70 L 215 70 L 225 155 L 155 155 Z" fill="rgba(5, 150, 105, 0.2)" stroke="none"/>
+                    <!-- خطوط مستوى -->
+                    <line x1="155" y1="100" x2="225" y2="100" stroke="#94a3b8" stroke-width="1.5" stroke-dasharray="4,3"/>
+                    <text x="230" y="104" font-size="11" fill="#64748b" font-weight="bold">V = 1 L</text>
+                    <!-- جسيمات المذاب -->
+                    <circle cx="180" cy="120" r="6" fill="#2563eb" opacity="0.7"/>
+                    <circle cx="195" cy="90" r="5" fill="#2563eb" opacity="0.5"/>
+                    <circle cx="200" cy="130" r="7" fill="#2563eb" opacity="0.6"/>
+                    <circle cx="175" cy="100" r="4" fill="#2563eb" opacity="0.4"/>
+                    <circle cx="210" cy="110" r="5" fill="#2563eb" opacity="0.5"/>
+                    <!-- سهم يشير إلى الجسيمات -->
+                    <line x1="120" y1="110" x2="165" y2="115" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
+                    <text x="110" y="105" font-size="11" fill="#dc2626" font-weight="bold">Solute (moles)</text>
+                </svg>
+            </div>
 
-            <div class="form-group">
-                <label id="labelMass">Mass of Solute ($m$)</label>
-                <div class="input-wrapper">
-                    <input type="number" id="massInput" placeholder="e.g., 58.44" step="any">
-                    <span class="unit-label">g</span>
+            <div class="formula-box">
+                M = n / V &nbsp;&nbsp; where &nbsp;&nbsp; n = m / MM
+            </div>
+            
+            <p id="secP2">Where:</p>
+            <ul>
+                <li id="li1"><strong>M</strong> = Molarity (mol/L)</li>
+                <li id="li2"><strong>n</strong> = Number of moles of solute</li>
+                <li id="li3"><strong>V</strong> = Volume of solution in liters (L)</li>
+                <li id="li4"><strong>m</strong> = Mass of solute in grams (g)</li>
+                <li id="li5"><strong>MM</strong> = Molar mass of solute (g/mol)</li>
+            </ul>
+            <p id="secP3">Molarity is essential for preparing standard solutions, titrations, and stoichiometric calculations in analytical chemistry and biochemistry.</p>
+        </div>
+
+        <!-- القسم الأيمن: الحاسبة والذكاء الاصطناعي -->
+        <div class="calculator-sidebar">
+            <div class="calculator">
+                <div class="top-bar">
+                    <a href="index.html" class="back-btn" id="backText2">← Back to Directory</a>
+                    <select id="langSelect2" onchange="changeLanguage()" style="display:none;">
+                        <option value="en">English 🇬🇧</option>
+                        <option value="fr">Français 🇫🇷</option>
+                        <option value="ar">العربية 🇸🇦</option>
+                    </select>
+                </div>
+
+                <h3 id="calcTitle" style="margin-top:0; color:var(--text-main); font-size:17px;">🧪 Molarity Calculator</h3>
+
+                <div class="input-group">
+                    <label id="labelMass">Mass of Solute (m)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="massInput" placeholder="e.g., 58.44" step="any">
+                        <span class="unit-label">g</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label id="labelMolarMass">Molar Mass (MM)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="molarMassInput" placeholder="e.g., 58.44 (NaCl)" step="any">
+                        <span class="unit-label">g/mol</span>
+                    </div>
+                </div>
+
+                <div class="input-group">
+                    <label id="labelVolume">Volume of Solution (V)</label>
+                    <div class="input-wrapper">
+                        <input type="number" id="volumeInput" placeholder="e.g., 1.0" step="any">
+                        <span class="unit-label">L</span>
+                    </div>
+                </div>
+
+                <button class="btn-calculate" id="calcBtn" onclick="calculateMolarity()">Calculate Molarity</button>
+
+                <div class="result-box" id="resultBox">
+                    <div class="result-title" id="resTitle">Calculation Results:</div>
+                    <div class="result-item">
+                        <span id="resMolesLabel">Number of Moles (n):</span>
+                        <span class="result-value" id="resMoles">-</span>
+                    </div>
+                    <div class="result-item">
+                        <span id="resMolarityLabel">Molar Concentration (M):</span>
+                        <span class="result-value" id="resMolarity">-</span>
+                    </div>
                 </div>
             </div>
 
-            <div class="form-group">
-                <label id="labelMolarMass">Molar Mass ($MM$)</label>
-                <div class="input-wrapper">
-                    <input type="number" id="molarMassInput" placeholder="e.g., 58.44 (NaCl)" step="any">
-                    <span class="unit-label">g/mol</span>
-                </div>
-            </div>
-
-            <div class="form-group">
-                <label id="labelVolume">Volume of Solution ($V$)</label>
-                <div class="input-wrapper">
-                    <input type="number" id="volumeInput" placeholder="e.g., 1.0" step="any">
-                    <span class="unit-label">L</span>
-                </div>
-            </div>
-
-            <button class="btn-calculate" id="calcBtn" onclick="calculateMolarity()">Calculate Molarity</button>
-
-            <div class="result-box" id="resultBox">
-                <div class="result-title" id="resTitle">Calculation Results:</div>
-                <div class="result-item">
-                    <span id="resMolesLabel">Number of Moles ($n$):</span>
-                    <span class="result-value" id="resMoles">-</span>
-                </div>
-                <div class="result-item">
-                    <span id="resMolarityLabel">Molar Concentration ($M$):</span>
-                    <span class="result-value" id="resMolarity">-</span>
+            <div class="ai-assistant-box">
+                <div class="ai-header">🤖 OmniEngineer AI Expert</div>
+                <div class="ai-chat-output" id="aiOutput">Hello! I'm your chemistry assistant. Ask me about molarity, dilutions, or stoichiometry!</div>
+                <div class="ai-input-group">
+                    <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI a question...">
+                    <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
                 </div>
             </div>
         </div>
@@ -151,7 +239,6 @@
                 return;
             }
 
-            // Calculations
             let moles = mass / molarMass;
             let molarity = moles / volume;
 
@@ -160,12 +247,29 @@
             document.getElementById('resultBox').style.display = "block";
         }
 
+        function askAiAssistant() {
+            let q = document.getElementById('aiQuestionInput').value.toLowerCase();
+            let output = document.getElementById('aiOutput');
+            
+            if (!q) {
+                output.innerText = "Please type a question for the AI assistant!";
+                return;
+            }
+
+            if (q.includes('dilution') || q.includes('dilute') || q.includes('تخفيف')) {
+                output.innerText = "💡 Dilution Tip: Use the formula C₁V₁ = C₂V₂ to calculate how much stock solution is needed to prepare a diluted solution.";
+            } else if (q.includes('mole') || q.includes('mol') || q.includes('مول')) {
+                output.innerText = "⚛️ The number of moles is calculated by dividing the mass of solute by its molar mass (n = m / MM). This is the foundation of molarity calculations.";
+            } else {
+                output.innerText = "🧪 Molarity is the number of moles of solute per liter of solution. It is the most common unit of concentration in chemistry labs.";
+            }
+        }
+
         const translations = {
             en: {
                 backText: "Back to Hub",
-                badgeText: "Chemistry & Applied Science",
-                mainTitle: "Molarity Calculator",
-                mainDesc: "Calculate the molar concentration (M) of a solution based on the mass of the solute, its molar mass, and the total volume of the solution.",
+                backText2: "← Back to Directory",
+                calcTitle: "🧪 Molarity Calculator",
                 labelMass: "Mass of Solute (m)",
                 labelMolarMass: "Molar Mass (MM)",
                 labelVolume: "Volume of Solution (V)",
@@ -173,13 +277,16 @@
                 resTitle: "Calculation Results:",
                 resMolesLabel: "Number of Moles (n):",
                 resMolarityLabel: "Molar Concentration (M):",
+                secTitle: "About Molarity & Solution Chemistry",
+                secP1: "Molarity (M) is a measure of the concentration of a solute in a solution, defined as the number of moles of solute per liter of solution. It is one of the most commonly used units in chemistry for expressing concentration.",
+                secP2: "Where:",
+                secP3: "Molarity is essential for preparing standard solutions, titrations, and stoichiometric calculations in analytical chemistry and biochemistry.",
                 dir: "ltr"
             },
             fr: {
                 backText: "Retour au Hub",
-                badgeText: "Chimie & Science Appliquée",
-                mainTitle: "Calculateur de Molarité",
-                mainDesc: "Calculez la concentration molaire (M) d'une solution en fonction de la masse du soluté, sa masse molaire et le volume total.",
+                backText2: "← Retour au répertoire",
+                calcTitle: "🧪 Calculateur de Molarité",
                 labelMass: "Masse du Soluté (m)",
                 labelMolarMass: "Masse Molaire (MM)",
                 labelVolume: "Volume de la Solution (V)",
@@ -187,20 +294,27 @@
                 resTitle: "Résultats du Calcul :",
                 resMolesLabel: "Nombre de moles (n) :",
                 resMolarityLabel: "Concentration molaire (M) :",
+                secTitle: "À propos de la Molarité",
+                secP1: "La molarité (M) est une mesure de la concentration d'un soluté dans une solution, définie comme le nombre de moles de soluté par litre de solution.",
+                secP2: "Où :",
+                secP3: "La molarité est essentielle pour la préparation de solutions étalons, les titrages et les calculs stoechiométriques.",
                 dir: "ltr"
             },
             ar: {
                 backText: "العودة للرئيسية",
-                badgeText: "الكيمياء والعلوم التطبيقية",
-                mainTitle: "حاسبة التركيز المولاري (Molarity)",
-                mainDesc: "حساب التركيز المولاري للمحلول بناءً على كتلة المادة المذابة، الكتلة المولية، والحجم الإجمالي للمحلول.",
+                backText2: "← العودة إلى الدليل",
+                calcTitle: "🧪 حاسبة التركيز المولاري",
                 labelMass: "كتلة المادة المذابة (m)",
                 labelMolarMass: "الكتلة المولية (MM)",
                 labelVolume: "حجم المحلول (V)",
                 calcBtn: "احسب التركيز المولاري",
                 resTitle: "نتائج الحساب:",
-                resMolesLabel: "عدد المولات ($n$):",
-                resMolarityLabel: "التركيز المولاري ($M$):",
+                resMolesLabel: "عدد المولات (n):",
+                resMolarityLabel: "التركيز المولاري (M):",
+                secTitle: "نبذة عن التركيز المولاري",
+                secP1: "التركيز المولاري (M) هو مقياس لتركيز المذاب في المحلول، ويعرف بأنه عدد مولات المذاب لكل لتر من المحلول. وهي من أكثر الوحدات استخداماً في الكيمياء.",
+                secP2: "حيث أن:",
+                secP3: "التركيز المولاري ضروري لتحضير المحاليل القياسية، والمعايرة، والحسابات الكيميائية المختلفة.",
                 dir: "rtl"
             }
         };
@@ -210,17 +324,21 @@
             let t = translations[lang];
             document.getElementById('htmlTag').setAttribute('lang', lang);
             document.getElementById('htmlTag').setAttribute('dir', t.dir);
+            
             document.getElementById('backText').innerText = t.backText;
-            document.getElementById('badgeText').innerText = t.badgeText;
-            document.getElementById('mainTitle').innerText = t.mainTitle;
-            document.getElementById('mainDesc').innerText = t.mainDesc;
-            document.getElementById('labelMass').innerText = t.labelMass;
-            document.getElementById('labelMolarMass').innerText = t.labelMolarMass;
-            document.getElementById('labelVolume').innerText = t.labelVolume;
+            document.getElementById('backText2').innerText = t.backText2;
+            document.getElementById('calcTitle').innerText = t.calcTitle;
+            document.getElementById('labelMass').innerHTML = t.labelMass;
+            document.getElementById('labelMolarMass').innerHTML = t.labelMolarMass;
+            document.getElementById('labelVolume').innerHTML = t.labelVolume;
             document.getElementById('calcBtn').innerText = t.calcBtn;
             document.getElementById('resTitle').innerText = t.resTitle;
             document.getElementById('resMolesLabel').innerHTML = t.resMolesLabel;
             document.getElementById('resMolarityLabel').innerHTML = t.resMolarityLabel;
+            document.getElementById('secTitle').innerText = t.secTitle;
+            document.getElementById('secP1').innerText = t.secP1;
+            document.getElementById('secP2').innerText = t.secP2;
+            document.getElementById('secP3').innerText = t.secP3;
         }
     </script>
 </body>
