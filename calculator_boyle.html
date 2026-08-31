@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr" id="htmlTag" data-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Boyle's Law Calculator | OmniEngineer Pro</title>
+    <style>
+        :root {
+            --primary: #0891b2;
+            --primary-dark: #0e7490;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --result-bg: #f0fdf4;
+            --tag-bg: #ecfdf5;
+        }
+
+        [data-theme="dark"] {
+            --primary: #06b6d4;
+            --primary-dark: #22d3ee;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --result-bg: #065f46;
+            --tag-bg: #164e63;
+        }
+
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
+        
+        header { background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; }
+        .logo { font-size: 18px; font-weight: bold; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .header-controls { display: flex; align-items: center; gap: 12px; }
+        
+        .page-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
+        @media (max-width: 900px) { .page-container { grid-template-columns: 1fr; } }
+        
+        .content-section { background: var(--card-bg); padding: 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border); line-height: 1.7; }
+        .content-section h2 { color: var(--primary); margin-top: 0; font-size: 22px; }
+        .content-section p { color: var(--text-muted); font-size: 15px; }
+        
+        [dir="rtl"] .content-section { text-align: right; }
+        [dir="rtl"] .content-section ul { padding-right: 20px; padding-left: 0; }
+        
+        .pro-blueprint-box { background: #f1f5f9; border: 2px solid var(--primary); border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; overflow: hidden; }
+        [data-theme="dark"] .pro-blueprint-box { background: #1e293b; border-color: var(--primary); }
+        .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+        [dir="rtl"] .pro-blueprint-box svg { transform: scaleX(-1); }
+
+        .formula-box { background: #ecfdf5; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: var(--primary-dark); border-radius: 4px; text-align: center; }
+        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid var(--primary); }
+        [data-theme="dark"] .formula-box { background: #164e63; color: #67e8f9; }
+
+        .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .calculator { background: var(--card-bg); padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--border); }
+        
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        a.back-btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 13px; transition: color 0.2s; display: inline-flex; align-items: center; gap: 4px; }
+        a.back-btn:hover { color: var(--primary-dark); }
+        [dir="rtl"] a.back-btn { flex-direction: row-reverse; }
+        
+        select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
+        
+        .input-group { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 6px; color: var(--text-muted); font-weight: bold; font-size: 13px; }
+        input, select.form-control { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
+        input:focus, select.form-control:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(8,145,178,0.1); }
+        
+        .result-box { background: var(--result-bg); padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid var(--primary); }
+        .result-text { font-size: 14px; color: var(--text-main); font-weight: bold; margin: 6px 0; }
+        .highlight { font-size: 22px; color: var(--primary); }
+
+        .btn-calculate { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; font-size: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
+        .btn-calculate:hover { background: var(--primary-dark); }
+
+        .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
+        .ai-header { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; color: #67e8f9; }
+        .ai-chat-output { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 13px; color: #cbd5e1; min-height: 60px; margin-bottom: 12px; line-height: 1.5; }
+        .ai-input-group { display: flex; gap: 8px; }
+        .ai-input { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
+        .ai-btn { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
+        .ai-btn:hover { background: var(--primary-dark); }
+
+        .theme-btn { width: 36px; height: 36px; padding: 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; }
+        .lang-select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
+
+        .badge { display: inline-block; background: var(--tag-bg); color: var(--primary); font-size: 11px; padding: 3px 10px; border-radius: 6px; font-weight: bold; margin-bottom: 12px; }
+        .constants-info { font-size: 12px; color: var(--text-muted); margin-top: 10px; padding: 10px; background: var(--bg-color); border-radius: 6px; }
+        [dir="rtl"] .constants-info { text-align: right; }
+    </style>
+</head>
+<body>
+
+    <header>
+        <a href="index.html" class="logo" id="homeLink"><span id="headerArrow">←</span> <span id="backText">Back to Hub</span></a>
+        <div class="header-controls">
+            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙</button>
+            <select class="lang-select" id="langSelect" onchange="changeLanguage()">
+                <option value="en">English 🇬🇧</option>
+                <option value="fr">Français 🇫🇷</option>
+                <option value="ar">العربية 🇸🇦</option>
+            </select>
+        </div>
+    </header>
+
+    <div class="page-container">
+        <div class="content-section">
+            <span class="badge" id="badgeText">📊 Gas Laws</span>
+            <h2 id="secTitle">Boyle's Law: Pressure-Volume Relationship</h2>
+            <p id="secP1">Boyle's Law states that the pressure of a gas is inversely proportional to its volume when temperature and the number of moles are held constant. As pressure increases, volume decreases proportionally. This relationship was discovered by Robert Boyle in 1662.</p>
+            
+            <div class="pro-blueprint-box">
+                <svg width="380" height="200" viewBox="0 0 380 200">
+                    <defs>
+                        <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                            <path d="M0,2 L8,4 L0,6 Z" fill="#0891b2"/>
+                        </marker>
+                    </defs>
+                    
+                    <!-- مكبس غاز - الحالة 1 -->
+                    <rect x="40" y="40" width="80" height="120" rx="4" fill="rgba(8,145,178,0.08)" stroke="#0891b2" stroke-width="2"/>
+                    <rect x="45" y="45" width="70" height="50" rx="2" fill="rgba(8,145,178,0.15)" stroke="none"/>
+                    <text x="80" y="70" font-size="9" fill="#0891b2" font-weight="bold" text-anchor="middle">P₁</text>
+                    <text x="80" y="85" font-size="9" fill="#0891b2" font-weight="bold" text-anchor="middle">V₁</text>
+                    
+                    <text x="80" y="30" font-size="10" fill="#475569" text-anchor="middle">Initial</text>
+                    
+                    <!-- سهم -->
+                    <line x1="120" y1="100" x2="260" y2="100" stroke="#64748b" stroke-width="2" stroke-dasharray="4,3"/>
+                    <text x="190" y="95" font-size="10" fill="#64748b" text-anchor="middle">↓ Pressure ↑</text>
+                    
+                    <!-- مكبس غاز - الحالة 2 -->
+                    <rect x="260" y="40" width="80" height="120" rx="4" fill="rgba(8,145,178,0.08)" stroke="#0891b2" stroke-width="2"/>
+                    <rect x="265" y="90" width="70" height="60" rx="2" fill="rgba(8,145,178,0.2)" stroke="none"/>
+                    <text x="300" y="115" font-size="9" fill="#0891b2" font-weight="bold" text-anchor="middle">P₂</text>
+                    <text x="300" y="130" font-size="9" fill="#0891b2" font-weight="bold" text-anchor="middle">V₂</text>
+                    
+                    <text x="300" y="30" font-size="10" fill="#475569" text-anchor="middle">Final</text>
+                </svg>
+            </div>
+
+            <div class="formula-box">
+                P₁ × V₁ = P₂ × V₂
+            </div>
+            
+            <p id="secP2">Where:</p>
+            <ul>
+                <li id="li1"><strong>P₁</strong> = Initial pressure</li>
+                <li id="li2"><strong>V₁</strong> = Initial volume</li>
+                <li id="li3"><strong>P₂</strong> = Final pressure</li>
+                <li id="li4"><strong>V₂</strong> = Final volume</li>
+            </ul>
+            <p id="secP3">Boyle's Law is valid for ideal gases at constant temperature. It is used in applications like breathing (lungs), syringes, and pressure cookers.</p>
+        </div>
+
+        <div class="calculator-sidebar">
+            <div class="calculator">
+                <div class="top-bar">
+                    <a href="index.html" class="back-btn" id="backText2"><span id="backArrow">←</span> <span id="backLabel">Back to Directory</span></a>
+                    <select class="lang-select" id="langSelect2" onchange="changeLanguage()" style="display:none;"></select>
+                </div>
+
+                <h3 id="calcTitle" style="margin-top:0; color:var(--text-main); font-size:17px;">📊 Boyle's Law Calculator</h3>
+                
+                <div class="input-group">
+                    <label id="labelMode">Solve For:</label>
+                    <select id="calcMode" class="form-control" onchange="updatePlaceholders()">
+                        <option value="p2">Final Pressure (P₂)</option>
+                        <option value="v2">Final Volume (V₂)</option>
+                        <option value="p1">Initial Pressure (P₁)</option>
+                        <option value="v1">Initial Volume (V₁)</option>
+                    </select>
+                </div>
+
+                <div class="input-group">
+                    <label id="labelP1">Initial Pressure (P₁):</label>
+                    <input type="number" id="p1" value="2" step="any" oninput="calculateBoyle()">
+                </div>
+
+                <div class="input-group">
+                    <label id="labelV1">Initial Volume (V₁):</label>
+                    <input type="number" id="v1" value="10" step="any" oninput="calculateBoyle()">
+                </div>
+
+                <div class="input-group">
+                    <label id="labelP2">Final Pressure (P₂):</label>
+                    <input type="number" id="p2" value="4" step="any" oninput="calculateBoyle()">
+                </div>
+
+                <div class="input-group">
+                    <label id="labelV2">Final Volume (V₂):</label>
+                    <input type="number" id="v2" value="5" step="any" oninput="calculateBoyle()">
+                </div>
+
+                <button class="btn-calculate" id="calcBtn" onclick="calculateBoyle()">📊 Calculate</button>
+                
+                <div class="result-box" id="resultBox">
+                    <p class="result-text"><span id="textResult">Result:</span></p>
+                    <p class="result-text"><span id="resultValue" class="highlight">—</span></p>
+                    <div class="constants-info" id="constantsInfo">
+                        <span id="textFormula">P₁V₁ = P₂V₂</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="ai-assistant-box">
+                <div class="ai-header">🤖 OmniEngineer AI Expert</div>
+                <div class="ai-chat-output" id="aiOutput">Hello! I'm your gas laws assistant. Ask me about Boyle's Law, pressure-volume relationships, or real gas behavior!</div>
+                <div class="ai-input-group">
+                    <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI a question...">
+                    <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function toggleTheme() {
+            let html = document.getElementById('htmlTag');
+            let btn = document.getElementById('themeToggleBtn');
+            if (html.getAttribute('data-theme') === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                btn.innerText = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                btn.innerText = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        window.onload = function() {
+            let savedTheme = localStorage.getItem('theme') || 'light';
+            document.getElementById('htmlTag').setAttribute('data-theme', savedTheme);
+            document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
+            calculateBoyle();
+        }
+
+        function updatePlaceholders() {
+            calculateBoyle();
+        }
+
+        function calculateBoyle() {
+            let mode = document.getElementById('calcMode').value;
+            let p1 = parseFloat(document.getElementById('p1').value);
+            let v1 = parseFloat(document.getElementById('v1').value);
+            let p2 = parseFloat(document.getElementById('p2').value);
+            let v2 = parseFloat(document.getElementById('v2').value);
+
+            let result = 0;
+            let unit = '';
+            let explanation = '';
+            let isValid = true;
+
+            // التحقق من الصحة
+            if (isNaN(p1) || p1 <= 0) isValid = false;
+            if (isNaN(v1) || v1 <= 0) isValid = false;
+            if (isNaN(p2) || p2 <= 0) isValid = false;
+            if (isNaN(v2) || v2 <= 0) isValid = false;
+
+            if (!isValid) {
+                document.getElementById('resultValue').innerText = '⚠️ Please enter valid positive values';
+                return;
+            }
+
+            switch(mode) {
+                case 'p2':
+                    result = (p1 * v1) / v2;
+                    unit = ' (pressure units)';
+                    explanation = `P₂ = (${p1} × ${v1}) / ${v2} = ${result.toFixed(4)}`;
+                    break;
+                case 'v2':
+                    result = (p1 * v1) / p2;
+                    unit = ' (volume units)';
+                    explanation = `V₂ = (${p1} × ${v1}) / ${p2} = ${result.toFixed(4)}`;
+                    break;
+                case 'p1':
+                    result = (p2 * v2) / v1;
+                    unit = ' (pressure units)';
+                    explanation = `P₁ = (${p2} × ${v2}) / ${v1} = ${result.toFixed(4)}`;
+                    break;
+                case 'v1':
+                    result = (p2 * v2) / p1;
+                    unit = ' (volume units)';
+                    explanation = `V₁ = (${p2} × ${v2}) / ${p1} = ${result.toFixed(4)}`;
+                    break;
+            }
+
+            document.getElementById('resultValue').innerText = result.toFixed(4) + unit;
+            document.getElementById('constantsInfo').innerHTML = `
+                <span id="textFormula">P₁V₁ = P₂V₂</span><br>
+                <span style="font-size: 11px;">${explanation}</span>
+            `;
+        }
+
+        function askAiAssistant() {
+            let q = document.getElementById('aiQuestionInput').value.toLowerCase();
+            let output = document.getElementById('aiOutput');
+            
+            if (!q) {
+                output.innerText = "Please type a question for the AI assistant!";
+                return;
+            }
+
+            if (q.includes('breathing') || q.includes('lung') || q.includes('تنفس')) {
+                output.innerText = "🫁 Boyle's Law in Breathing: When you inhale, your diaphragm expands lung volume, decreasing pressure, and air flows in. Exhaling compresses volume, increasing pressure, and air flows out.";
+            } else if (q.includes('syringe') || q.includes('حقنة')) {
+                output.innerText = "💉 Syringes work via Boyle's Law: Pulling the plunger increases volume and decreases pressure, drawing liquid in. Pushing decreases volume and increases pressure, forcing liquid out.";
+            } else {
+                output.innerText = "📊 Boyle's Law: P₁V₁ = P₂V₂. Pressure and volume are inversely proportional at constant temperature. Double the pressure → half the volume.";
+            }
+        }
+
+        const translations = {
+            en: {
+                backText: "Back to Hub",
+                backLabel: "Back to Directory",
+                backArrow: "←",
+                headerArrow: "←",
+                badgeText: "📊 Gas Laws",
+                calcTitle: "📊 Boyle's Law Calculator",
+                labelMode: "Solve For:",
+                labelP1: "Initial Pressure (P₁):",
+                labelV1: "Initial Volume (V₁):",
+                labelP2: "Final Pressure (P₂):",
+                labelV2: "Final Volume (V₂):",
+                calcBtn: "📊 Calculate",
+                textResult: "Result:",
+                textFormula: "P₁V₁ = P₂V₂",
+                secTitle: "Boyle's Law: Pressure-Volume Relationship",
+                secP1: "Boyle's Law states that the pressure of a gas is inversely proportional to its volume when temperature and the number of moles are held constant.",
+                secP2: "Where:",
+                secP3: "Boyle's Law is valid for ideal gases at constant temperature. It is used in applications like breathing, syringes, and pressure cookers.",
+                dir: "ltr",
+                li1: "P₁ = Initial pressure",
+                li2: "V₁ = Initial volume",
+                li3: "P₂ = Final pressure",
+                li4: "V₂ = Final volume"
+            },
+            fr: {
+                backText: "Retour au Hub",
+                backLabel: "Retour au répertoire",
+                backArrow: "←",
+                headerArrow: "←",
+                badgeText: "📊 Lois des Gaz",
+                calcTitle: "📊 Loi de Boyle-Mariotte",
+                labelMode: "Résoudre pour :",
+                labelP1: "Pression Initiale (P₁) :",
+                labelV1: "Volume Initial (V₁) :",
+                labelP2: "Pression Finale (P₂) :",
+                labelV2: "Volume Final (V₂) :",
+                calcBtn: "📊 Calculer",
+                textResult: "Résultat :",
+                textFormula: "P₁V₁ = P₂V₂",
+                secTitle: "Loi de Boyle-Mariotte",
+                secP1: "La loi de Boyle-Mariotte stipule que la pression d'un gaz est inversement proportionnelle à son volume à température constante.",
+                secP2: "Où :",
+                secP3: "La loi de Boyle-Mariotte est valable pour les gaz parfaits à température constante.",
+                dir: "ltr",
+                li1: "P₁ = Pression initiale",
+                li2: "V₁ = Volume initial",
+                li3: "P₂ = Pression finale",
+                li4: "V₂ = Volume final"
+            },
+            ar: {
+                backText: "العودة للرئيسية",
+                backLabel: "العودة إلى الدليل",
+                backArrow: "→",
+                headerArrow: "→",
+                badgeText: "📊 قوانين الغازات",
+                calcTitle: "📊 حاسبة قانون بويل",
+                labelMode: "احسب:",
+                labelP1: "الضغط الابتدائي (P₁):",
+                labelV1: "الحجم الابتدائي (V₁):",
+                labelP2: "الضغط النهائي (P₂):",
+                labelV2: "الحجم النهائي (V₂):",
+                calcBtn: "📊 احسب",
+                textResult: "النتيجة:",
+                textFormula: "P₁V₁ = P₂V₂",
+                secTitle: "قانون بويل: العلاقة بين الضغط والحجم",
+                secP1: "ينص قانون بويل على أن ضغط الغاز يتناسب عكسياً مع حجمه عندما تظل درجة الحرارة وعدد المولات ثابتين.",
+                secP2: "حيث أن:",
+                secP3: "قانون بويل صالح للغازات المثالية عند درجة حرارة ثابتة. يستخدم في تطبيقات مثل التنفس والمحاقن.",
+                dir: "rtl",
+                li1: "P₁ = الضغط الابتدائي",
+                li2: "V₁ = الحجم الابتدائي",
+                li3: "P₂ = الضغط النهائي",
+                li4: "V₂ = الحجم النهائي"
+            }
+        };
+
+        function changeLanguage() {
+            let lang = document.getElementById('langSelect').value;
+            let t = translations[lang];
+            let html = document.getElementById('htmlTag');
+            
+            html.setAttribute('lang', lang);
+            html.setAttribute('dir', t.dir);
+            
+            document.getElementById('backText').innerText = t.backText;
+            document.getElementById('backLabel').innerText = t.backLabel;
+            document.getElementById('backArrow').innerText = t.backArrow;
+            document.getElementById('headerArrow').innerText = t.headerArrow;
+            document.getElementById('badgeText').innerText = t.badgeText;
+            document.getElementById('calcTitle').innerText = t.calcTitle;
+            document.getElementById('labelMode').innerHTML = t.labelMode;
+            document.getElementById('labelP1').innerHTML = t.labelP1;
+            document.getElementById('labelV1').innerHTML = t.labelV1;
+            document.getElementById('labelP2').innerHTML = t.labelP2;
+            document.getElementById('labelV2').innerHTML = t.labelV2;
+            document.getElementById('calcBtn').innerHTML = t.calcBtn;
+            document.getElementById('textResult').innerHTML = t.textResult;
+            document.getElementById('textFormula').innerHTML = t.textFormula;
+            document.getElementById('secTitle').innerHTML = t.secTitle;
+            document.getElementById('secP1').innerHTML = t.secP1;
+            document.getElementById('secP2').innerHTML = t.secP2;
+            document.getElementById('secP3').innerHTML = t.secP3;
+            
+            for(let i = 1; i <= 4; i++) {
+                if(document.getElementById(`li${i}`)) {
+                    document.getElementById(`li${i}`).innerHTML = t[`li${i}`];
+                }
+            }
+            
+            calculateBoyle();
+        }
+    </script>
+</body>
+</html>
