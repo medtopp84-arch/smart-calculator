@@ -1,48 +1,103 @@
 <!DOCTYPE html>
-<html lang="en" dir="ltr" id="htmlTag">
+<html lang="en" dir="ltr" id="htmlTag" data-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Concrete Volume & Weight Calculator | OmniEngineer Pro</title>
     <style>
-        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: #f8fafc; color: #1e293b; margin: 0; padding: 20px; }
-        .page-container { max-width: 1200px; margin: 30px auto; display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
+        :root {
+            --primary: #2563eb;
+            --primary-dark: #1d4ed8;
+            --bg-color: #f8fafc;
+            --card-bg: #ffffff;
+            --text-main: #1e293b;
+            --text-muted: #64748b;
+            --border: #e2e8f0;
+            --result-bg: #f0fdf4;
+        }
+
+        [data-theme="dark"] {
+            --primary: #3b82f6;
+            --primary-dark: #60a5fa;
+            --bg-color: #0f172a;
+            --card-bg: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --border: #334155;
+            --result-bg: #065f46;
+        }
+
+        * { box-sizing: border-box; }
+        body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
+        
+        header { background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; }
+        .logo { font-size: 18px; font-weight: bold; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 8px; }
+        .header-controls { display: flex; align-items: center; gap: 12px; }
+        
+        .page-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
         @media (max-width: 900px) { .page-container { grid-template-columns: 1fr; } }
         
-        .content-section { background: white; padding: 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid #e2e8f0; line-height: 1.7; }
-        .content-section h2 { color: #2563eb; margin-top: 0; font-size: 22px; }
-        .content-section p { color: #475569; font-size: 15px; }
+        .content-section { background: var(--card-bg); padding: 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border); line-height: 1.7; }
+        .content-section h2 { color: var(--primary); margin-top: 0; font-size: 22px; }
+        .content-section p { color: var(--text-muted); font-size: 15px; }
         
-        .pro-blueprint-box { background: #f1f5f9; border: 2px solid #3b82f6; border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; }
+        [dir="rtl"] .content-section { text-align: right; }
+        [dir="rtl"] .content-section ul { padding-right: 20px; padding-left: 0; }
+        
+        .pro-blueprint-box { background: #f1f5f9; border: 2px solid var(--primary); border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; overflow: hidden; }
+        [data-theme="dark"] .pro-blueprint-box { background: #1e293b; border-color: var(--primary); }
         .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
+        [dir="rtl"] .pro-blueprint-box svg { transform: scaleX(-1); }
 
-        .formula-box { background: #eff6ff; border-left: 4px solid #2563eb; padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: #1d4ed8; border-radius: 4px; text-align: left; }
-        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid #2563eb; text-align: right; }
+        .formula-box { background: #eff6ff; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: var(--primary-dark); border-radius: 4px; text-align: center; }
+        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid var(--primary); }
+        [data-theme="dark"] .formula-box { background: #1e3a8a; color: #60a5fa; }
 
         .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
-        .calculator { background: white; padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid #e2e8f0; }
-        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; }
-        a.back-btn { text-decoration: none; color: #2563eb; font-weight: bold; font-size: 13px; }
-        select { padding: 5px 10px; border-radius: 6px; border: 1px solid #cbd5e1; font-size: 13px; background: #fff; cursor: pointer; }
+        .calculator { background: var(--card-bg); padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--border); }
         
-        .input-group { margin-bottom: 15px; }
-        label { display: block; margin-bottom: 6px; color: #475569; font-weight: bold; font-size: 13px;}
-        input { width: 100%; padding: 10px; border: 1px solid #cbd5e1; border-radius: 8px; font-size: 15px; box-sizing: border-box; }
-        input:focus { border-color: #2563eb; outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
-        .result-box { background: #f8fafc; padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid #e2e8f0; }
-        .result-text { font-size: 14px; color: #334155; font-weight: bold; margin: 6px 0; }
-        .highlight { color: #2563eb; font-size: 18px; }
+        .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
+        a.back-btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 13px; transition: color 0.2s; display: inline-flex; align-items: center; gap: 4px; }
+        a.back-btn:hover { color: var(--primary-dark); }
+        [dir="rtl"] a.back-btn { flex-direction: row-reverse; }
+        
+        select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
+        
+        .input-group { margin-bottom: 16px; }
+        label { display: block; margin-bottom: 6px; color: var(--text-muted); font-weight: bold; font-size: 13px; }
+        input { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
+        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+        
+        .result-box { background: var(--result-bg); padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid var(--primary); }
+        .result-text { font-size: 14px; color: var(--text-main); font-weight: bold; margin: 6px 0; }
+        .highlight { font-size: 18px; color: var(--primary); }
+        .note-text { font-size: 11px; color: var(--text-muted); margin-top: 10px; }
 
         .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .ai-header { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; color: #60a5fa; }
         .ai-chat-output { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 13px; color: #cbd5e1; min-height: 60px; margin-bottom: 12px; line-height: 1.5; }
         .ai-input-group { display: flex; gap: 8px; }
         .ai-input { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
-        .ai-btn { background: #2563eb; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
-        .ai-btn:hover { background: #1d4ed8; }
+        .ai-btn { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
+        .ai-btn:hover { background: var(--primary-dark); }
+
+        .theme-btn { width: 36px; height: 36px; padding: 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; }
+        .lang-select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
     </style>
 </head>
 <body>
+
+    <header>
+        <a href="index.html" class="logo" id="homeLink"><span id="headerArrow">←</span> <span id="backText">Back to Hub</span></a>
+        <div class="header-controls">
+            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙</button>
+            <select class="lang-select" id="langSelect" onchange="changeLanguage()">
+                <option value="en">English 🇬🇧</option>
+                <option value="fr">Français 🇫🇷</option>
+                <option value="ar">العربية 🇸🇦</option>
+            </select>
+        </div>
+    </header>
 
     <div class="page-container">
         <div class="content-section">
@@ -90,15 +145,11 @@
         <div class="calculator-sidebar">
             <div class="calculator">
                 <div class="top-bar">
-                    <a href="index.html" class="back-btn" id="backText">← Back to Directory</a>
-                    <select id="langSelect" onchange="changeLanguage()">
-                        <option value="en">English 🇬🇧</option>
-                        <option value="fr">Français 🇫🇷</option>
-                        <option value="ar">العربية 🇸🇦</option>
-                    </select>
+                    <a href="index.html" class="back-btn" id="backText2"><span id="backArrow">←</span> <span id="backLabel">Back to Directory</span></a>
+                    <select class="lang-select" id="langSelect2" onchange="changeLanguage()" style="display:none;"></select>
                 </div>
 
-                <h2 id="calcTitle" style="text-align: left; font-size: 16px; margin-top: 0; color: #1e293b;">🏗️ Concrete Volume & Weight Calculator</h2>
+                <h2 id="calcTitle" style="text-align: left; font-size: 16px; margin-top: 0; color: var(--text-main);">🏗️ Concrete Volume & Weight Calculator</h2>
                 
                 <div class="input-group">
                     <label id="labelLength">Length (meters):</label>
@@ -116,17 +167,13 @@
                 <div class="result-box">
                     <p class="result-text"><span id="textVolume">Total Volume:</span> <span id="volResult" class="highlight">0.00</span> <span id="unitVol">m³</span></p>
                     <p class="result-text"><span id="textWeight">Estimated Weight:</span> <span id="weightResult" class="highlight">0.00</span> <span id="unitWeight">Tons</span></p>
-                    <p style="font-size:11px; color:#64748b; margin-top:10px;" id="noteText">*Based on normal weight concrete (2400 kg/m³)</p>
+                    <p class="note-text" id="noteText">*Based on normal weight concrete (2400 kg/m³)</p>
                 </div>
             </div>
 
             <div class="ai-assistant-box">
-                <div class="ai-header">
-                    🤖 OmniEngineer AI Expert
-                </div>
-                <div class="ai-chat-output" id="aiOutput">
-                    Hello! I'm your engineering AI assistant. Ask me about concrete mix ratios, wastage factors, or curing requirements!
-                </div>
+                <div class="ai-header">🤖 OmniEngineer AI Expert</div>
+                <div class="ai-chat-output" id="aiOutput">Hello! I'm your engineering AI assistant. Ask me about concrete mix ratios, wastage factors, or curing requirements!</div>
                 <div class="ai-input-group">
                     <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI a question...">
                     <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
@@ -136,6 +183,26 @@
     </div>
 
     <script>
+        function toggleTheme() {
+            let html = document.getElementById('htmlTag');
+            let btn = document.getElementById('themeToggleBtn');
+            if (html.getAttribute('data-theme') === 'light') {
+                html.setAttribute('data-theme', 'dark');
+                btn.innerText = '☀️';
+                localStorage.setItem('theme', 'dark');
+            } else {
+                html.setAttribute('data-theme', 'light');
+                btn.innerText = '🌙';
+                localStorage.setItem('theme', 'light');
+            }
+        }
+
+        window.onload = function() {
+            let savedTheme = localStorage.getItem('theme') || 'light';
+            document.getElementById('htmlTag').setAttribute('data-theme', savedTheme);
+            document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
+        }
+
         function askAiAssistant() {
             let q = document.getElementById('aiQuestionInput').value.toLowerCase();
             let vol = document.getElementById('volResult').innerText;
@@ -149,15 +216,30 @@
             if (q.includes('wastage') || q.includes('loss') || q.includes('هدر') || q.includes('ضائع')) {
                 output.innerText = "💡 Engineering Tip: Always order 5% to 10% extra concrete volume above your theoretical calculation to cover foundation unevenness, spillage, and formwork bulging.";
             } else if (q.includes('weight') || q.includes('load') || q.includes('وزن') || q.includes('حمل')) {
-                output.innerText = `📊 Current calculated volume is ${vol} m³, weighing approx ${(vol * 2.4).toFixed(2)} tons. For reinforced concrete, remember steel reinforcement adds roughly 1% to 2% extra weight.`;
+                output.innerText = `📊 Current calculated volume is ${vol} m³, weighing approx ${(parseFloat(vol) * 2.4).toFixed(2)} tons. For reinforced concrete, remember steel reinforcement adds roughly 1% to 2% extra weight.`;
             } else {
                 output.innerText = `🤖 AI Analysis: The computed volume corresponds to the gross rectangular prismatic concrete geometry before accounting for rebar volume displacement.`;
             }
         }
 
+        function calculateConcrete() {
+            let L = parseFloat(document.getElementById('cLength').value) || 0;
+            let W = parseFloat(document.getElementById('cWidth').value) || 0;
+            let D = parseFloat(document.getElementById('cDepth').value) || 0;
+            
+            let volume = L * W * D;
+            let weightTons = (volume * 2400) / 1000;
+
+            document.getElementById('volResult').innerText = volume.toFixed(2);
+            document.getElementById('weightResult').innerText = weightTons.toFixed(2);
+        }
+
         const translations = {
             en: {
-                backText: "← Back to Directory",
+                backText: "Back to Hub",
+                backLabel: "Back to Directory",
+                backArrow: "←",
+                headerArrow: "←",
                 calcTitle: "🏗️ Concrete Volume & Weight Calculator",
                 labelLength: "Length (meters):",
                 labelWidth: "Width (meters):",
@@ -171,10 +253,17 @@
                 secP1: "Accurate estimation of concrete volume is vital in structural engineering for ordering ready-mix trucks, managing budgets, and calculating total dead loads of foundations, slabs, and footings.",
                 secP2: "Where:",
                 secP3: "Always add a 5% to 10% wastage and spillage safety margin when ordering concrete truckloads to account for formwork deflection and uneven sub-grades.",
-                dir: "ltr"
+                dir: "ltr",
+                li1: "Length (L) = Clear span length of the concrete element in meters",
+                li2: "Width (W) = Clear span width of the concrete element in meters",
+                li3: "Depth (D) = Thickness or depth of the slab/footing in meters",
+                li4: "Density = Standard normal-weight reinforced concrete unit weight (~2400 kg/m³)"
             },
             fr: {
-                backText: "← Retour au répertoire",
+                backText: "Retour au Hub",
+                backLabel: "Retour au répertoire",
+                backArrow: "←",
+                headerArrow: "←",
                 calcTitle: "🏗️ Calculateur de Volume de Béton",
                 labelLength: "Longueur (mètres) :",
                 labelWidth: "Largeur (mètres) :",
@@ -188,10 +277,17 @@
                 secP1: "L'estimation précise du volume de béton est essentielle en génie civil pour commander les camions malaxeurs et gérer les budgets.",
                 secP2: "Où :",
                 secP3: "Ajoutez toujours une marge de sécurité de 5% à 10% pour les pertes lors de la commande.",
-                dir: "ltr"
+                dir: "ltr",
+                li1: "Longueur (L) = Portée libre de l'élément en béton en mètres",
+                li2: "Largeur (W) = Largeur de l'élément en béton en mètres",
+                li3: "Profondeur (D) = Épaisseur de la dalle/fondation en mètres",
+                li4: "Densité = Poids unitaire du béton armé (~2400 kg/m³)"
             },
             ar: {
-                backText: "← العودة إلى الدليل",
+                backText: "العودة للرئيسية",
+                backLabel: "العودة إلى الدليل",
+                backArrow: "→",
+                headerArrow: "→",
                 calcTitle: "🏗️ حاسبة حجم ووزن الخرسانة",
                 labelLength: "الطول (متر):",
                 labelWidth: "العرض (متر):",
@@ -205,16 +301,26 @@
                 secP1: "يعد التقدير الدقيق لحجم الخرسانة أمراً بالغ الأهمية في الهندسة الإنشائية لطلب شاحنات الخرسانة الجاهزة، إدارة الميزانيات، وحساب الأحمال الميتة للقواعد والأساسات.",
                 secP2: "حيث أن:",
                 secP3: "قم دائماً بإضافة نسبة أمان تتراوح بين 5% إلى 10% لمواجهة الهدر وفقدان الخرسانة أثناء الصب وتسوية الشدات الخشبية.",
-                dir: "rtl"
+                dir: "rtl",
+                li1: "الطول (L) = طول العنصر الخرساني بالمتر",
+                li2: "العرض (W) = عرض العنصر الخرساني بالمتر",
+                li3: "العمق (D) = سماكة البلاطة أو الأساس بالمتر",
+                li4: "الكثافة = الوزن النوعي للخرسانة المسلحة (~2400 كجم/م³)"
             }
         };
 
         function changeLanguage() {
             let lang = document.getElementById('langSelect').value;
             let t = translations[lang];
-            document.getElementById('htmlTag').setAttribute('lang', lang);
-            document.getElementById('htmlTag').setAttribute('dir', t.dir);
+            let html = document.getElementById('htmlTag');
+            
+            html.setAttribute('lang', lang);
+            html.setAttribute('dir', t.dir);
+            
             document.getElementById('backText').innerText = t.backText;
+            document.getElementById('backLabel').innerText = t.backLabel;
+            document.getElementById('backArrow').innerText = t.backArrow;
+            document.getElementById('headerArrow').innerText = t.headerArrow;
             document.getElementById('calcTitle').innerText = t.calcTitle;
             document.getElementById('labelLength').innerText = t.labelLength;
             document.getElementById('labelWidth').innerText = t.labelWidth;
@@ -228,18 +334,12 @@
             document.getElementById('secP1').innerText = t.secP1;
             document.getElementById('secP2').innerText = t.secP2;
             document.getElementById('secP3').innerText = t.secP3;
-        }
-
-        function calculateConcrete() {
-            let L = parseFloat(document.getElementById('cLength').value) || 0;
-            let W = parseFloat(document.getElementById('cWidth').value) || 0;
-            let D = parseFloat(document.getElementById('cDepth').value) || 0;
             
-            let volume = L * W * D;
-            let weightTons = (volume * 2400) / 1000;
-
-            document.getElementById('volResult').innerText = volume.toFixed(2);
-            document.getElementById('weightResult').innerText = weightTons.toFixed(2);
+            for(let i = 1; i <= 4; i++) {
+                if(document.getElementById(`li${i}`)) {
+                    document.getElementById(`li${i}`).innerHTML = t[`li${i}`];
+                }
+            }
         }
     </script>
 </body>
