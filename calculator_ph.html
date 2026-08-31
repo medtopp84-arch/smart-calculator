@@ -134,10 +134,7 @@
                         </marker>
                     </defs>
                     
-                    <!-- مقياس pH -->
                     <rect x="30" y="70" width="320" height="30" rx="15" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
-                    
-                    <!-- ألوان المقياس -->
                     <rect x="35" y="73" width="40" height="24" rx="12" fill="#dc2626"/>
                     <rect x="75" y="73" width="30" height="24" rx="12" fill="#f97316"/>
                     <rect x="105" y="73" width="30" height="24" rx="12" fill="#eab308"/>
@@ -148,7 +145,6 @@
                     <rect x="255" y="73" width="30" height="24" rx="12" fill="#8b5cf6"/>
                     <rect x="285" y="73" width="30" height="24" rx="12" fill="#a855f7"/>
                     
-                    <!-- أرقام pH -->
                     <text x="55" y="65" font-size="9" fill="#475569" text-anchor="middle">0</text>
                     <text x="95" y="65" font-size="9" fill="#475569" text-anchor="middle">2</text>
                     <text x="135" y="65" font-size="9" fill="#475569" text-anchor="middle">4</text>
@@ -158,12 +154,10 @@
                     <text x="295" y="65" font-size="9" fill="#475569" text-anchor="middle">12</text>
                     <text x="335" y="65" font-size="9" fill="#475569" text-anchor="middle">14</text>
                     
-                    <!-- تسميات -->
                     <text x="55" y="118" font-size="10" fill="#dc2626" font-weight="bold" text-anchor="middle">Acidic</text>
                     <text x="190" y="118" font-size="10" fill="#10b981" font-weight="bold" text-anchor="middle">Neutral</text>
                     <text x="315" y="118" font-size="10" fill="#8b5cf6" font-weight="bold" text-anchor="middle">Basic</text>
                     
-                    <!-- الأسهم -->
                     <line x1="55" y1="130" x2="55" y2="155" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arrow-blue)"/>
                     <text x="55" y="170" font-size="9" fill="#dc2626" text-anchor="middle">pH &lt; 7</text>
                     
@@ -209,7 +203,7 @@
                 </div>
 
                 <div class="input-group">
-                    <label id="labelInput">Enter Value:</label>
+                    <label id="labelInput">Enter Concentration (M):</label>
                     <input type="number" id="inputValue" value="1e-7" step="any" oninput="calculatePH()">
                 </div>
 
@@ -262,15 +256,11 @@
             let input = document.getElementById('inputValue');
             
             if (mode === 'from_h' || mode === 'from_oh') {
-                label.innerText = document.getElementById('textEnterConc') ? document.getElementById('textEnterConc').innerText : 'Enter Concentration (M):';
+                label.innerText = 'Enter Concentration (M):';
                 input.placeholder = 'e.g., 1e-7';
                 input.value = '1e-7';
-            } else if (mode === 'from_ph') {
-                label.innerText = document.getElementById('textEnterPH') ? document.getElementById('textEnterPH').innerText : 'Enter pH Value:';
-                input.placeholder = 'e.g., 7.0';
-                input.value = '7';
             } else {
-                label.innerText = document.getElementById('textEnterPOH') ? document.getElementById('textEnterPOH').innerText : 'Enter pOH Value:';
+                label.innerText = 'Enter Value:';
                 input.placeholder = 'e.g., 7.0';
                 input.value = '7';
             }
@@ -327,28 +317,22 @@
                     break;
             }
 
-            // تحديث النتيجة الرئيسية
             document.getElementById('phResult').innerText = resultText;
 
-            // تحديث المعلومات الإضافية
             let extraDiv = document.getElementById('extraResult');
             extraDiv.innerHTML = extraText + ' | ' + `[OH⁻] = ${ohConc.toExponential(4)} M`;
 
-            // تحديد طبيعة المحلول
             let natureDiv = document.getElementById('natureIndicator');
-            let textAcidic = document.getElementById('textAcidic') ? document.getElementById('textAcidic').innerText : 'Acidic';
-            let textNeutral = document.getElementById('textNeutral') ? document.getElementById('textNeutral').innerText : 'Neutral';
-            let textBasic = document.getElementById('textBasic') ? document.getElementById('textBasic').innerText : 'Basic';
 
             if (ph < 6.99) {
                 natureDiv.className = 'nature-indicator nature-acidic';
-                natureDiv.innerText = '🔴 ' + textAcidic;
+                natureDiv.innerText = '🔴 Acidic';
             } else if (ph > 7.01) {
                 natureDiv.className = 'nature-indicator nature-basic';
-                natureDiv.innerText = '🔵 ' + textBasic;
+                natureDiv.innerText = '🔵 Basic';
             } else {
                 natureDiv.className = 'nature-indicator nature-neutral';
-                natureDiv.innerText = '⚖️ ' + textNeutral;
+                natureDiv.innerText = '⚖️ Neutral';
             }
         }
 
@@ -361,12 +345,10 @@
                 return;
             }
 
-            if (q.includes('buffer') || q.includes('buffering') || q.includes('محلول منظم')) {
-                output.innerText = "🧪 Buffer Solutions: A buffer resists pH changes when small amounts of acid or base are added. It consists of a weak acid and its conjugate base. The Henderson-Hasselbalch equation is used to calculate buffer pH: pH = pKa + log([A⁻]/[HA]).";
-            } else if (q.includes('acid') || q.includes('base') || q.includes('حمض') || q.includes('قاعدة')) {
-                output.innerText = "⚖️ Acid-Base Theory: Acids donate protons (H⁺) while bases accept protons. Strong acids and bases dissociate completely in water, while weak ones partially dissociate.";
-            } else if (q.includes('indicator') || q.includes('مؤشر')) {
-                output.innerText = "🎨 pH Indicators: These are dyes that change color at specific pH ranges. Litmus turns red in acid (pH < 5) and blue in base (pH > 8). Phenolphthalein is colorless in acid and pink in base (pH 8-10).";
+            if (q.includes('buffer') || q.includes('buffering')) {
+                output.innerText = "🧪 Buffer Solutions: A buffer resists pH changes when small amounts of acid or base are added. It consists of a weak acid and its conjugate base.";
+            } else if (q.includes('acid') || q.includes('base')) {
+                output.innerText = "⚖️ Acid-Base Theory: Acids donate protons (H⁺) while bases accept protons. Strong acids and bases dissociate completely in water.";
             } else {
                 output.innerText = "💡 The pH scale ranges from 0 (strong acid) to 14 (strong base), with 7 being neutral. The pH of pure water at 25°C is exactly 7.0.";
             }
@@ -381,19 +363,12 @@
                 badgeText: "🧪 Acid-Base Chemistry",
                 calcTitle: "🧪 pH Calculator",
                 labelMode: "Calculation Mode:",
-                labelInput: "Enter Concentration (M):",
-                textEnterConc: "Enter Concentration (M):",
-                textEnterPH: "Enter pH Value:",
-                textEnterPOH: "Enter pOH Value:",
                 calcBtn: "🧪 Calculate",
                 textResult: "Result:",
-                textAcidic: "Acidic",
-                textNeutral: "Neutral",
-                textBasic: "Basic",
                 secTitle: "pH, pOH & Acid-Base Equilibrium",
-                secP1: "The pH scale measures the acidity or basicity of an aqueous solution. It is defined as the negative logarithm of the hydrogen ion concentration. Solutions with pH < 7 are acidic, pH = 7 are neutral, and pH > 7 are basic (alkaline).",
+                secP1: "The pH scale measures the acidity or basicity of an aqueous solution. It is defined as the negative logarithm of the hydrogen ion concentration.",
                 secP2: "Key Relationships:",
-                secP3: "pH is a crucial parameter in chemistry, biology, medicine, and environmental science. It affects enzyme activity, drug solubility, corrosion rates, and many industrial processes.",
+                secP3: "pH is a crucial parameter in chemistry, biology, medicine, and environmental science.",
                 dir: "ltr",
                 li1: "pH = Negative logarithm of hydrogen ion concentration",
                 li2: "pOH = Negative logarithm of hydroxide ion concentration",
@@ -408,17 +383,10 @@
                 badgeText: "🧪 Chimie Acide-Base",
                 calcTitle: "🧪 Calculateur de pH",
                 labelMode: "Mode de Calcul :",
-                labelInput: "Entrer la Concentration (M) :",
-                textEnterConc: "Entrer la Concentration (M) :",
-                textEnterPH: "Entrer la valeur du pH :",
-                textEnterPOH: "Entrer la valeur du pOH :",
                 calcBtn: "🧪 Calculer",
                 textResult: "Résultat :",
-                textAcidic: "Acide",
-                textNeutral: "Neutre",
-                textBasic: "Basique",
                 secTitle: "pH, pOH & Équilibre Acide-Base",
-                secP1: "L'échelle de pH mesure l'acidité ou la basicité d'une solution aqueuse. Elle est définie comme le logarithme négatif de la concentration en ions hydrogène.",
+                secP1: "L'échelle de pH mesure l'acidité ou la basicité d'une solution aqueuse.",
                 secP2: "Relations Clés :",
                 secP3: "Le pH est un paramètre crucial en chimie, biologie, médecine et sciences environnementales.",
                 dir: "ltr",
@@ -435,19 +403,12 @@
                 badgeText: "🧪 كيمياء الأحماض والقواعد",
                 calcTitle: "🧪 حاسبة الأس الهيدروجيني (pH)",
                 labelMode: "وضع الحساب:",
-                labelInput: "أدخل التركيز (مولار):",
-                textEnterConc: "أدخل التركيز (مولار):",
-                textEnterPH: "أدخل قيمة pH:",
-                textEnterPOH: "أدخل قيمة pOH:",
                 calcBtn: "🧪 احسب",
                 textResult: "النتيجة:",
-                textAcidic: "حمضي",
-                textNeutral: "متعادل",
-                textBasic: "قاعدي",
                 secTitle: "الأس الهيدروجيني (pH) وتوازن الأحماض والقواعد",
-                secP1: "مقياس pH يقيس حموضة أو قاعدية المحلول المائي. يعرف بأنه اللوغاريتم السالب لتركيز أيونات الهيدروجين. المحاليل ذات pH أقل من 7 تكون حمضية، و pH يساوي 7 متعادلة، و pH أكبر من 7 قاعدية.",
+                secP1: "مقياس pH يقيس حموضة أو قاعدية المحلول المائي. يعرف بأنه اللوغاريتم السالب لتركيز أيونات الهيدروجين.",
                 secP2: "العلاقات الأساسية:",
-                secP3: "يعد pH معلمة حاسمة في الكيمياء، الأحياء، الطب، والعلوم البيئية. يؤثر على نشاط الإنزيمات، ذوبانية الأدوية، معدلات التآكل، والعديد من العمليات الصناعية.",
+                secP3: "يعد pH معلمة حاسمة في الكيمياء، الأحياء، الطب، والعلوم البيئية.",
                 dir: "rtl",
                 li1: "pH = اللوغاريتم السالب لتركيز أيونات الهيدروجين",
                 li2: "pOH = اللوغاريتم السالب لتركيز أيونات الهيدروكسيد",
@@ -471,15 +432,8 @@
             document.getElementById('badgeText').innerText = t.badgeText;
             document.getElementById('calcTitle').innerText = t.calcTitle;
             document.getElementById('labelMode').innerHTML = t.labelMode;
-            document.getElementById('labelInput').innerHTML = t.labelInput;
-            document.getElementById('textEnterConc').innerHTML = t.textEnterConc;
-            document.getElementById('textEnterPH').innerHTML = t.textEnterPH;
-            document.getElementById('textEnterPOH').innerHTML = t.textEnterPOH;
             document.getElementById('calcBtn').innerHTML = t.calcBtn;
             document.getElementById('textResult').innerHTML = t.textResult;
-            document.getElementById('textAcidic').innerHTML = t.textAcidic;
-            document.getElementById('textNeutral').innerHTML = t.textNeutral;
-            document.getElementById('textBasic').innerHTML = t.textBasic;
             document.getElementById('secTitle').innerHTML = t.secTitle;
             document.getElementById('secP1').innerHTML = t.secP1;
             document.getElementById('secP2').innerHTML = t.secP2;
@@ -491,7 +445,6 @@
                 }
             }
             
-            // تحديث التسميات في وضع الحساب
             switchMode();
             calculatePH();
         }
