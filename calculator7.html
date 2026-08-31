@@ -13,7 +13,6 @@
         .content-section h2 { color: #2563eb; margin-top: 0; font-size: 22px; }
         .content-section p { color: #475569; font-size: 15px; }
         
-        /* صندوق المخطط الهندسي للأساس الخرساني */
         .pro-blueprint-box { background: #f1f5f9; border: 2px solid #3b82f6; border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; }
         .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
 
@@ -37,7 +36,7 @@
         .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
         .ai-header { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; color: #60a5fa; }
         .ai-chat-output { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 13px; color: #cbd5e1; min-height: 60px; margin-bottom: 12px; line-height: 1.5; }
-        .ai-input-group { display: flex; gap: block; }
+        .ai-input-group { display: flex; gap: 8px; }
         .ai-input { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
         .ai-btn { background: #2563eb; color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
         .ai-btn:hover { background: #1d4ed8; }
@@ -128,7 +127,7 @@
                 <div class="ai-chat-output" id="aiOutput">
                     Hello! I'm your engineering AI assistant. Ask me about concrete mix ratios, wastage factors, or curing requirements!
                 </div>
-                <div class="ai-input-group" style="display:flex; gap:8px;">
+                <div class="ai-input-group">
                     <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI a question...">
                     <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
                 </div>
