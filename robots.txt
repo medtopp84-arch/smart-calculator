@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://medtopp84-arch.github.io/smart-calculator/sitemap.xml
