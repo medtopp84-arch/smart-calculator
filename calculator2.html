@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2474106204487574" crossorigin="anonymous"></script>
-    <title>Angle & Offset Calculator | OmniEngineer Pro</title>
+    <title>Angle and Offset Calculator: Vertical Offset & Slope Distance | ChemiCalc Pro</title>
+    <meta name="description" content="Free angle and offset calculator. Enter a horizontal distance and a slope angle to get the vertical offset and the true slope distance, with formulas and worked examples.">
+    <link rel="canonical" href="https://medtopp84-arch.github.io/smart-calculator/calculator2.html">
     <style>
         :root {
             --primary: #2563eb;
@@ -39,19 +41,14 @@
         @media (max-width: 900px) { .page-container { grid-template-columns: 1fr; } }
         
         .content-section { background: var(--card-bg); padding: 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border); line-height: 1.7; }
-        .content-section h2 { color: var(--primary); margin-top: 0; font-size: 22px; }
-        .content-section p { color: var(--text-muted); font-size: 15px; }
-        
-        [dir="rtl"] .content-section { text-align: right; }
-        [dir="rtl"] .content-section ul { padding-right: 20px; padding-left: 0; }
+        .content-section h2 { color: var(--primary); margin-top: 24px; font-size: 20px; }
+        .content-section p, .content-section li { color: var(--text-muted); font-size: 15px; }
         
         .pro-blueprint-box { background: #f1f5f9; border: 2px solid var(--primary); border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; overflow: hidden; }
         [data-theme="dark"] .pro-blueprint-box { background: #1e293b; border-color: var(--primary); }
         .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
-        [dir="rtl"] .pro-blueprint-box svg { transform: scaleX(-1); }
 
         .formula-box { background: #eff6ff; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: var(--primary-dark); border-radius: 4px; text-align: center; }
-        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid var(--primary); }
         [data-theme="dark"] .formula-box { background: #1e3a8a; color: #60a5fa; }
 
         .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
@@ -60,9 +57,6 @@
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
         a.back-btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 13px; transition: color 0.2s; display: inline-flex; align-items: center; gap: 4px; }
         a.back-btn:hover { color: var(--primary-dark); }
-        [dir="rtl"] a.back-btn { flex-direction: row-reverse; }
-        
-        select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
         
         .input-group { margin-bottom: 16px; }
         label { display: block; margin-bottom: 6px; color: var(--text-muted); font-weight: bold; font-size: 13px; }
@@ -73,36 +67,25 @@
         .result-text { font-size: 14px; color: var(--text-main); font-weight: bold; margin: 6px 0; }
         .highlight { font-size: 18px; color: var(--primary); }
 
-        .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .ai-header { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; color: #60a5fa; }
-        .ai-chat-output { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 13px; color: #cbd5e1; min-height: 60px; margin-bottom: 12px; line-height: 1.5; }
-        .ai-input-group { display: flex; gap: 8px; }
-        .ai-input { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
-        .ai-btn { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
-        .ai-btn:hover { background: var(--primary-dark); }
-
         .theme-btn { width: 36px; height: 36px; padding: 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; }
-        .lang-select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
     </style>
 </head>
 <body>
 
     <header>
-        <a href="index.html" class="logo" id="homeLink"><span id="headerArrow">←</span> <span id="backText">Back to Hub</span></a>
+        <a href="index.html" class="logo" id="homeLink">← Back to Hub</a>
         <div class="header-controls">
             <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙</button>
-            <select class="lang-select" id="langSelect" onchange="changeLanguage()">
-                <option value="en">English 🇬🇧</option>
-                <option value="fr">Français 🇫🇷</option>
-                <option value="ar">العربية 🇸🇦</option>
-            </select>
         </div>
     </header>
 
     <div class="page-container">
         <div class="content-section">
-            <h2 id="secTitle">About Angle & Offset Principles</h2>
-            <p id="secP1">Trigonometric angle and offset calculations are crucial in construction, surveying, and mechanical engineering for determining vertical displacement and true slope lengths.</p>
+            <h1 style="color:var(--primary); font-size:24px; margin-top:0;">Angle and Offset Calculator: Vertical Offset and Slope Distance</h1>
+            <p>This calculator converts a horizontal distance and a slope angle into two values: the vertical offset (how much the line rises or falls) and the slope distance (the true length measured along the incline). It is useful for pipe routing, ramp and stair layout, roof and embankment work, and any survey where an angle is measured instead of two elevations.</p>
+            
+            <h2>How it works</h2>
+            <p>The horizontal distance, the vertical offset and the slope distance form a right triangle. The horizontal distance is the side next to the angle (adjacent), the vertical offset is the side opposite it, and the slope distance is the hypotenuse.</p>
             
             <div class="pro-blueprint-box">
                 <svg width="380" height="210" viewBox="0 0 380 210">
@@ -128,50 +111,101 @@
             </div>
 
             <div class="formula-box">
-                Vertical Offset = L × tan(θ) <br>
-                Slope Distance = L / cos(θ)
+                Vertical offset = L × tan(θ)<br>
+                Slope distance = L ÷ cos(θ)
             </div>
-            
-            <p id="secP2">Where:</p>
+
+            <h2>How to use the calculator</h2>
+            <ol>
+                <li>Enter the horizontal distance L in meters.</li>
+                <li>Enter the slope angle θ in degrees, between 0 and 90 (exclusive).</li>
+                <li>Read the vertical offset and the actual slope distance.</li>
+            </ol>
+
+            <h2>Worked example 1</h2>
+            <p>A pipeline runs 500 m horizontally on a 5° incline.</p>
             <ul>
-                <li id="li1"><strong>L</strong> = Horizontal base distance</li>
-                <li id="li2"><strong>θ (Theta)</strong> = Slope angle in degrees</li>
-                <li id="li3"><strong>Vertical Offset</strong> = Height difference calculated using tangent</li>
-                <li id="li4"><strong>Slope Distance</strong> = Actual diagonal length calculated using cosine</li>
+                <li>Vertical offset: 500 × tan(5°) = 500 × 0.08749 = <strong>43.74 m</strong></li>
+                <li>Slope distance: 500 ÷ cos(5°) = 500 ÷ 0.99619 = <strong>501.91 m</strong></li>
             </ul>
-            <p id="secP3">Engineers use these formulas extensively for pipe routing, alignment layout, and structural grade evaluations.</p>
+            <p>The pipe is about 1.9 m longer than the horizontal distance, which matters when ordering material.</p>
+
+            <h2>Worked example 2</h2>
+            <p>A ramp covers 120 m horizontally at 12°.</p>
+            <ul>
+                <li>Vertical offset: 120 × tan(12°) = <strong>25.51 m</strong></li>
+                <li>Slope distance: 120 ÷ cos(12°) = <strong>122.68 m</strong></li>
+            </ul>
+
+            <h2>Reference values per 100 m of horizontal distance</h2>
+            <table style="width:100%; border-collapse:collapse; font-size:14px;">
+                <tr>
+                    <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border);">Angle</th>
+                    <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border);">Vertical offset</th>
+                    <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border);">Slope distance</th>
+                </tr>
+                <tr><td style="padding:8px;">2°</td><td style="padding:8px;">3.49 m</td><td style="padding:8px;">100.06 m</td></tr>
+                <tr><td style="padding:8px;">5°</td><td style="padding:8px;">8.75 m</td><td style="padding:8px;">100.38 m</td></tr>
+                <tr><td style="padding:8px;">10°</td><td style="padding:8px;">17.63 m</td><td style="padding:8px;">101.54 m</td></tr>
+                <tr><td style="padding:8px;">15°</td><td style="padding:8px;">26.79 m</td><td style="padding:8px;">103.53 m</td></tr>
+                <tr><td style="padding:8px;">30°</td><td style="padding:8px;">57.74 m</td><td style="padding:8px;">115.47 m</td></tr>
+            </table>
+            <p>On gentle slopes the slope distance is almost equal to the horizontal distance. The difference grows quickly above 15°.</p>
+
+            <h2>If you measured the slope distance instead</h2>
+            <p>Tape and laser measurements are often taken along the incline. In that case use the reverse relationships:</p>
+            
+            <div class="formula-box">
+                Horizontal distance = S × cos(θ)<br>
+                Vertical offset = S × sin(θ)
+            </div>
+            <p>where S is the measured slope distance. Once you have the horizontal distance and the offset, our <a href="calculator1.html">Slope Calculator</a> gives the percent grade.</p>
+
+            <h2>Common mistakes</h2>
+            <ul>
+                <li><strong>Calculator set to radians.</strong> This tool takes degrees. If you use a handheld calculator to check, make sure it is in degree mode.</li>
+                <li><strong>Mixing up horizontal and slope distance.</strong> L here is always the horizontal distance.</li>
+                <li><strong>Entering a percent grade as an angle.</strong> A 10 % grade is about 5.7°, not 10°.</li>
+                <li><strong>Using angles near 90°.</strong> The tangent grows without limit, so results become meaningless. The tool accepts angles below 90° only.</li>
+            </ul>
+
+            <h2>Frequently asked questions</h2>
+            <h3>What is the difference between vertical offset and elevation difference?</h3>
+            <p>They are the same quantity. "Offset" is the term often used in layout and pipe fitting, while "elevation difference" is used in surveying.</p>
+
+            <h3>Why is slope distance always longer than horizontal distance?</h3>
+            <p>It is the hypotenuse of a right triangle, which is always longer than either of the other two sides.</p>
+
+            <h3>Can I enter a negative angle?</h3>
+            <p>The tool is designed for 0° to 90°. For a downward slope, enter the positive angle and treat the offset as a drop.</p>
+
+            <h3>Does this include the curvature of the earth?</h3>
+            <p>No. It assumes a flat right triangle, which is accurate for the distances used in most construction work. See our <a href="disclaimer.html">disclaimer</a>.</p>
+
+            <h2>Related calculators</h2>
+            <p><a href="calculator1.html">Slope Calculator</a> · <a href="calculator3.html">Pipeline Bends Calculator</a> · <a href="calculator5.html">Pipeline Volume</a> · <a href="calculator4.html">Trench Volume</a></p>
         </div>
 
         <div class="calculator-sidebar">
             <div class="calculator">
                 <div class="top-bar">
-                    <a href="index.html" class="back-btn" id="backText2"><span id="backArrow">←</span> <span id="backLabel">Back to Directory</span></a>
-                    <select class="lang-select" id="langSelect2" onchange="changeLanguage()" style="display:none;"></select>
+                    <a href="index.html" class="back-btn">← Back to Directory</a>
                 </div>
 
-                <h2 id="calcTitle" style="text-align: left; font-size: 16px; margin-top: 0; color: var(--text-main);">📐 Angle & Offset Calculator</h2>
+                <h2 style="text-align: left; font-size: 16px; margin-top: 0; color: var(--text-main);">📐 Angle & Offset Calculator</h2>
                 
                 <div class="input-group">
-                    <label id="labelHoriz">Horizontal Distance (meters):</label>
+                    <label for="horizDist">Horizontal Distance (meters):</label>
                     <input type="number" id="horizDist" placeholder="e.g. 500" oninput="calculateOffset()">
                 </div>
                 <div class="input-group">
-                    <label id="labelAngle">Slope Angle (Degrees):</label>
+                    <label for="angleDeg">Slope Angle (Degrees):</label>
                     <input type="number" id="angleDeg" placeholder="e.g. 5" oninput="calculateOffset()">
                 </div>
                 
                 <div class="result-box">
-                    <p class="result-text"><span id="textOffset">Vertical Offset:</span> <span id="offsetResult" class="highlight">0.00</span> <span id="unitM">m</span></p>
-                    <p class="result-text"><span id="textHypot">Actual Slope Distance:</span> <span id="hypotResult" class="highlight">0.00</span> <span id="unitM2">m</span></p>
-                </div>
-            </div>
-
-            <div class="ai-assistant-box">
-                <div class="ai-header">🤖 OmniEngineer AI Expert</div>
-                <div class="ai-chat-output" id="aiOutput">Hello! I'm your engineering AI assistant. Ask me about trigonometric layouts, offsets, or surveying right-angle triangles!</div>
-                <div class="ai-input-group">
-                    <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI a question...">
-                    <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
+                    <p class="result-text">Vertical Offset: <span id="offsetResult" class="highlight">0.00</span> m</p>
+                    <p class="result-text">Actual Slope Distance: <span id="hypotResult" class="highlight">0.00</span> m</p>
                 </div>
             </div>
         </div>
@@ -198,136 +232,19 @@
             document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
         }
 
-        function askAiAssistant() {
-            let q = document.getElementById('aiQuestionInput').value.toLowerCase();
-            let angle = document.getElementById('angleDeg').value;
-            let output = document.getElementById('aiOutput');
-            
-            if (!q) {
-                output.innerText = "Please type a question for the AI assistant!";
-                return;
-            }
-
-            if (q.includes('triangle') || q.includes('right') || q.includes('قائم')) {
-                output.innerText = "💡 Engineering Tip: This calculation relies entirely on right-angle triangle trigonometry (SOH-CAH-TOA), where horizontal distance acts as the adjacent side.";
-            } else if (q.includes('accuracy') || q.includes('precision') || q.includes('دقة')) {
-                output.innerText = `📊 Current angle input is ${angle || '0'}°. For high-precision surveying over long distances, small angular errors can compound significantly.`;
-            } else {
-                output.innerText = `🤖 AI Analysis: Vertical offset represents the rise, while the actual slope distance represents the hypotenuse of the alignment path.`;
-            }
-        }
-
         function calculateOffset() {
             let horiz = parseFloat(document.getElementById('horizDist').value) || 0;
             let angleDeg = parseFloat(document.getElementById('angleDeg').value) || 0;
+            if (horiz <= 0 || angleDeg <= -90 || angleDeg >= 90) {
+                document.getElementById('offsetResult').innerText = '0.00';
+                document.getElementById('hypotResult').innerText = '0.00';
+                return;
+            }
             let angleRad = angleDeg * (Math.PI / 180);
             let offset = horiz * Math.tan(angleRad);
             let hypotenuse = horiz / Math.cos(angleRad);
-
-            if (horiz === 0 || isNaN(hypotenuse)) {
-                hypotenuse = 0;
-                offset = 0;
-            }
-
             document.getElementById('offsetResult').innerText = offset.toFixed(2);
             document.getElementById('hypotResult').innerText = hypotenuse.toFixed(2);
-        }
-
-        const translations = {
-            en: {
-                backText: "Back to Hub",
-                backLabel: "Back to Directory",
-                backArrow: "←",
-                headerArrow: "←",
-                calcTitle: "📐 Angle & Offset Calculator",
-                labelHoriz: "Horizontal Distance (meters):",
-                labelAngle: "Slope Angle (Degrees):",
-                textOffset: "Vertical Offset:",
-                textHypot: "Actual Slope Distance:",
-                unitM: "m",
-                secTitle: "About Angle & Offset Principles",
-                secP1: "Trigonometric angle and offset calculations are crucial in construction, surveying, and mechanical engineering for determining vertical displacement and true slope lengths.",
-                secP2: "Where:",
-                secP3: "Engineers use these formulas extensively for pipe routing, alignment layout, and structural grade evaluations.",
-                dir: "ltr",
-                li1: "L = Horizontal base distance",
-                li2: "θ (Theta) = Slope angle in degrees",
-                li3: "Vertical Offset = Height difference calculated using tangent",
-                li4: "Slope Distance = Actual diagonal length calculated using cosine"
-            },
-            fr: {
-                backText: "Retour au Hub",
-                backLabel: "Retour au répertoire",
-                backArrow: "←",
-                headerArrow: "←",
-                calcTitle: "📐 Calculateur Angle & Offset",
-                labelHoriz: "Distance horizontale (mètres) :",
-                labelAngle: "Angle d'inclinaison (Degrés) :",
-                textOffset: "Offset Vertical :",
-                textHypot: "Distance Inclinée Réelle :",
-                unitM: "m",
-                secTitle: "À propos des principes d'Angle et d'Offset",
-                secP1: "Les calculs trigonométriques sont essentiels en construction et en topographie pour déterminer les déplacements verticaux.",
-                secP2: "Où :",
-                secP3: "Les ingénieurs utilisent ces formules pour le tracé des canalisations et l'évaluation des pentes.",
-                dir: "ltr",
-                li1: "L = Distance horizontale",
-                li2: "θ (Theta) = Angle d'inclinaison en degrés",
-                li3: "Offset Vertical = Différence de hauteur calculée avec la tangente",
-                li4: "Distance Inclinée = Longueur diagonale réelle calculée avec le cosinus"
-            },
-            ar: {
-                backText: "العودة للرئيسية",
-                backLabel: "العودة إلى الدليل",
-                backArrow: "→",
-                headerArrow: "→",
-                calcTitle: "📐 حاسبة زاوية الميل والـ Offset",
-                labelHoriz: "المسافة الأفقية (متر):",
-                labelAngle: "زاوية الميل (بالدرجات):",
-                textOffset: "الإزاحة العمودية (Offset):",
-                textHypot: "المسافة المائلة الفعلية:",
-                unitM: "متر",
-                secTitle: "نبذة عن مبادئ زوايا الميل والإزاحة الهندسية",
-                secP1: "تعتبر حسابات الزوايا والإزاحة المثلثية بالغة الأهمية في البناء، المساحة، والهندسة لتحديد الارتفاعات والمسافات المائلة الحقيقية.",
-                secP2: "حيث أن:",
-                secP3: "يستخدم المهندسون هذه المعادلات بشكل مكثف لتوجيه الأنابيب، تخطيط المسارات، وتقييم الميول الهندسية.",
-                dir: "rtl",
-                li1: "L = المسافة الأفقية الأساسية",
-                li2: "θ (ثيتا) = زاوية الميل بالدرجات",
-                li3: "الإزاحة العمودية = فرق الارتفاع المحسوب باستخدام الظل",
-                li4: "المسافة المائلة = الطول القطري الفعلي المحسوب باستخدام جيب التمام"
-            }
-        };
-
-        function changeLanguage() {
-            let lang = document.getElementById('langSelect').value;
-            let t = translations[lang];
-            let html = document.getElementById('htmlTag');
-            
-            html.setAttribute('lang', lang);
-            html.setAttribute('dir', t.dir);
-            
-            document.getElementById('backText').innerText = t.backText;
-            document.getElementById('backLabel').innerText = t.backLabel;
-            document.getElementById('backArrow').innerText = t.backArrow;
-            document.getElementById('headerArrow').innerText = t.headerArrow;
-            document.getElementById('calcTitle').innerText = t.calcTitle;
-            document.getElementById('labelHoriz').innerText = t.labelHoriz;
-            document.getElementById('labelAngle').innerText = t.labelAngle;
-            document.getElementById('textOffset').innerText = t.textOffset;
-            document.getElementById('textHypot').innerText = t.textHypot;
-            document.getElementById('unitM').innerText = t.unitM;
-            document.getElementById('unitM2').innerText = t.unitM;
-            document.getElementById('secTitle').innerText = t.secTitle;
-            document.getElementById('secP1').innerText = t.secP1;
-            document.getElementById('secP2').innerText = t.secP2;
-            document.getElementById('secP3').innerText = t.secP3;
-            
-            for(let i = 1; i <= 4; i++) {
-                if(document.getElementById(`li${i}`)) {
-                    document.getElementById(`li${i}`).innerHTML = t[`li${i}`];
-                }
-            }
         }
     </script>
 
