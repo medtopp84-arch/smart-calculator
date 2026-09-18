@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2474106204487574" crossorigin="anonymous"></script>
-    <title>Hydraulic Flow Rate Calculator | OmniEngineer Pro</title>
+    <meta name="google-adsense-account" content="ca-pub-2474106204487574">
+
+    <title>Flow Rate Calculator: Area × Velocity to m³/s, L/s and m³/h | ChemiCalc Pro</title>
+    <meta name="description" content="Free hydraulic flow rate calculator. Enter cross-sectional area or pipe diameter and fluid velocity to get flow in m³/s, L/s, m³/h and L/h, with the continuity equation and worked examples.">
+    <link rel="canonical" href="https://medtopp84-arch.github.io/smart-calculator/calculator6.html">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧪</text></svg>">
+
     <style>
         :root {
             --primary: #2563eb;
@@ -15,6 +21,8 @@
             --text-muted: #64748b;
             --border: #e2e8f0;
             --result-bg: #f0fdf4;
+            --btn-success: #10b981;
+            --btn-success-hover: #059669;
         }
 
         [data-theme="dark"] {
@@ -26,309 +34,321 @@
             --text-muted: #94a3b8;
             --border: #334155;
             --result-bg: #065f46;
+            --btn-success: #059669;
+            --btn-success-hover: #047857;
         }
 
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
-        
+
         header { background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; }
         .logo { font-size: 18px; font-weight: bold; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 8px; }
         .header-controls { display: flex; align-items: center; gap: 12px; }
-        
-        .page-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
-        @media (max-width: 900px) { .page-container { grid-template-columns: 1fr; } }
-        
+
+        .page-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 420px; gap: 30px; align-items: start; }
+        @media (max-width: 992px) { .page-container { grid-template-columns: 1fr; } .calculator-sidebar { order: -1; } }
+
         .content-section { background: var(--card-bg); padding: 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border); line-height: 1.7; }
-        .content-section h2 { color: var(--primary); margin-top: 0; font-size: 22px; }
-        .content-section p { color: var(--text-muted); font-size: 15px; }
-        
-        [dir="rtl"] .content-section { text-align: right; }
-        [dir="rtl"] .content-section ul { padding-right: 20px; padding-left: 0; }
-        
+        .content-section h1 { color: var(--primary); margin-top: 0; font-size: 26px; line-height: 1.3; }
+        .content-section h2 { color: var(--primary); margin-top: 30px; margin-bottom: 8px; font-size: 20px; }
+        .content-section h3 { color: var(--text-main); margin-top: 20px; margin-bottom: 4px; font-size: 16px; }
+        .content-section p, .content-section li { color: var(--text-muted); font-size: 15px; }
+        .content-section a { color: var(--primary); }
+
+        .table-wrap { overflow-x: auto; }
+        .content-section table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 10px 0; }
+        .content-section th { text-align: left; padding: 8px; border-bottom: 2px solid var(--border); color: var(--text-main); }
+        .content-section td { padding: 8px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+
         .pro-blueprint-box { background: #f1f5f9; border: 2px solid var(--primary); border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; overflow: hidden; }
         [data-theme="dark"] .pro-blueprint-box { background: #1e293b; border-color: var(--primary); }
         .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
-        [dir="rtl"] .pro-blueprint-box svg { transform: scaleX(-1); }
 
-        .formula-box { background: #eff6ff; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: var(--primary-dark); border-radius: 4px; text-align: center; }
-        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid var(--primary); }
+        .formula-box { background: #eff6ff; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 15px; color: var(--primary-dark); border-radius: 4px; text-align: center; }
         [data-theme="dark"] .formula-box { background: #1e3a8a; color: #60a5fa; }
 
-        .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 90px; }
+        @media (max-width: 992px) { .calculator-sidebar { position: static; } }
         .calculator { background: var(--card-bg); padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--border); }
-        
+
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
         a.back-btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 13px; transition: color 0.2s; display: inline-flex; align-items: center; gap: 4px; }
         a.back-btn:hover { color: var(--primary-dark); }
-        [dir="rtl"] a.back-btn { flex-direction: row-reverse; }
-        
-        select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
-        
+
         .input-group { margin-bottom: 16px; }
         label { display: block; margin-bottom: 6px; color: var(--text-muted); font-weight: bold; font-size: 13px; }
-        input { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
-        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
-        
+        input, select.form-control { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
+        input:focus, select.form-control:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+
         .result-box { background: var(--result-bg); padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid var(--primary); }
         .result-text { font-size: 14px; color: var(--text-main); font-weight: bold; margin: 6px 0; }
         .highlight { font-size: 18px; color: var(--primary); }
 
-        .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .ai-header { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; color: #60a5fa; }
-        .ai-chat-output { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 13px; color: #cbd5e1; min-height: 60px; margin-bottom: 12px; line-height: 1.5; }
-        .ai-input-group { display: flex; gap: 8px; }
-        .ai-input { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
-        .ai-btn { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
-        .ai-btn:hover { background: var(--primary-dark); }
+        .btn-action { width: 100%; background: var(--btn-success); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; margin-top: 15px; transition: background 0.2s; }
+        .btn-action:hover { background: var(--btn-success-hover); }
 
         .theme-btn { width: 36px; height: 36px; padding: 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; }
-        .lang-select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
     </style>
 </head>
 <body>
 
     <header>
-        <a href="index.html" class="logo" id="homeLink"><span id="headerArrow">←</span> <span id="backText">Back to Hub</span></a>
+        <a href="index.html" class="logo">← Back to Hub</a>
         <div class="header-controls">
-            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙</button>
-            <select class="lang-select" id="langSelect" onchange="changeLanguage()">
-                <option value="en">English 🇬🇧</option>
-                <option value="fr">Français 🇫🇷</option>
-                <option value="ar">العربية 🇸🇦</option>
-            </select>
+            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
         </div>
     </header>
 
     <div class="page-container">
         <div class="content-section">
-            <h2 id="secTitle">About Hydraulic Flow Rate & Principles</h2>
-            <p id="secP1">Hydraulic flow rate calculations are crucial in fluid mechanics for designing water supply networks, open channels, drainage systems, and industrial piping.</p>
-            
+            <h1>Flow Rate Calculator: Area × Velocity to m³/s, L/s and m³/h</h1>
+            <p>This calculator converts the size of a flow path and the speed of the fluid into a volumetric flow rate. You can enter the cross-sectional area directly or enter a pipe inner diameter and let the calculator find the area. Results are given in cubic meters per second, liters per second, cubic meters per hour and liters per hour. It is useful for sizing pumps and pipes, checking water supply and drainage lines, and converting between flow units.</p>
+
+            <h2>The continuity equation</h2>
+            <p>For an incompressible fluid that fills the flow path, the volume passing a point each second equals the cross-sectional area times the average velocity. This is the basic form of the continuity equation.</p>
+
             <div class="pro-blueprint-box">
-                <svg width="380" height="210" viewBox="0 0 380 210">
+                <svg width="380" height="210" viewBox="0 0 380 210" role="img" aria-label="Fluid flowing through a cross-section of area A at velocity V">
                     <defs>
                         <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
                             <path d="M0,2 L8,4 L0,6 Z" fill="#1d4ed8"/>
                         </marker>
                     </defs>
-
                     <rect x="50" y="55" width="280" height="100" rx="8" ry="8" fill="rgba(37, 99, 235, 0.08)" stroke="#2563eb" stroke-width="3"/>
-                    
                     <line x1="90" y1="105" x2="160" y2="105" stroke="#dc2626" stroke-width="2.5" marker-end="url(#arrow-blue)"/>
                     <line x1="150" y1="85" x2="220" y2="85" stroke="#dc2626" stroke-width="2.5" marker-end="url(#arrow-blue)"/>
                     <line x1="120" y1="125" x2="190" y2="125" stroke="#dc2626" stroke-width="2.5" marker-end="url(#arrow-blue)"/>
                     <text x="175" y="110" font-size="13" fill="#dc2626" font-weight="bold">Velocity (V)</text>
-
                     <line x1="40" y1="55" x2="40" y2="155" stroke="#1d4ed8" stroke-width="1.5" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)"/>
                     <text x="25" y="110" font-size="12" fill="#1d4ed8" font-weight="bold" text-anchor="middle">Area (A)</text>
                 </svg>
             </div>
 
             <div class="formula-box">
-                Flow Rate (Q) = Area (A) × Velocity (V) <br>
-                Flow (L/h) = Q (m³/s) × 1,000 × 3,600
+                Q = A × V<br>
+                Circular pipe: A = π × (D ÷ 2)²<br>
+                Q (L/s) = Q (m³/s) × 1000 &nbsp;|&nbsp; Q (m³/h) = Q (m³/s) × 3600
             </div>
-            
-            <p id="secP2">Where:</p>
+            <p>Here Q is the flow rate in m³/s, A the cross-sectional area in m² and V the average velocity in m/s. Rearranging gives the velocity when you know the flow: V = Q ÷ A.</p>
+
+            <h2>How to use the calculator</h2>
+            <ol>
+                <li>Choose whether you know the <em>area</em> or the <em>pipe inner diameter</em>.</li>
+                <li>Enter the area in m², or the inner diameter in millimeters.</li>
+                <li>Enter the average fluid velocity in m/s.</li>
+                <li>Read the flow rate in the unit you need.</li>
+            </ol>
+
+            <h2>Worked example 1: known area</h2>
+            <p>A channel section has a flow area of 0.2 m² and the water moves at 2.5 m/s.</p>
             <ul>
-                <li id="li1"><strong>Area (A)</strong> = Cross-sectional area of the flow path in square meters (m²)</li>
-                <li id="li2"><strong>Velocity (V)</strong> = Average fluid velocity in meters per second (m/s)</li>
-                <li id="li3"><strong>Flow Rate (Q)</strong> = Discharge volume per second in cubic meters (m³/s)</li>
-                <li id="li4"><strong>Flow (L/h)</strong> = Hourly volumetric flow rate converted to Liters per hour</li>
+                <li>Q = 0.2 × 2.5 = <strong>0.5 m³/s</strong></li>
+                <li>In liters per second: 0.5 × 1000 = <strong>500 L/s</strong></li>
+                <li>In cubic meters per hour: 0.5 × 3600 = <strong>1800 m³/h</strong></li>
+                <li>In liters per hour: <strong>1,800,000 L/h</strong></li>
             </ul>
-            <p id="secP3">Applying the continuity equation ensures proper pump sizing, pipe diameter selection, and prevents excessive frictional pressure losses in networks.</p>
+
+            <h2>Worked example 2: known pipe diameter</h2>
+            <p>Water flows at 1.5 m/s in a pipe with an inner diameter of 200 mm.</p>
+            <ul>
+                <li>Area: π × 0.1² = 0.031416 m²</li>
+                <li>Q = 0.031416 × 1.5 = <strong>0.04712 m³/s</strong></li>
+                <li>In liters per second: <strong>47.12 L/s</strong></li>
+                <li>In cubic meters per hour: <strong>169.65 m³/h</strong></li>
+            </ul>
+
+            <h2>Worked example 3: finding the velocity</h2>
+            <p>A pump delivers 100 m³/h into a pipe with an inner diameter of 150 mm. What is the velocity?</p>
+            <ul>
+                <li>Q = 100 ÷ 3600 = 0.027778 m³/s</li>
+                <li>Area: π × 0.075² = 0.017671 m²</li>
+                <li>V = 0.027778 ÷ 0.017671 = <strong>1.57 m/s</strong></li>
+            </ul>
+            <p>To do this with the calculator, try velocities until the flow matches, or use the formula V = Q ÷ A directly.</p>
+
+            <h2>Flow at 1 m/s for common pipe sizes</h2>
+            <p>Flow is directly proportional to velocity, so multiply these values by your velocity in m/s. Diameters are inner diameters.</p>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Inner diameter</th><th>Area (m²)</th><th>Flow at 1 m/s (L/s)</th><th>Flow at 1 m/s (m³/h)</th></tr>
+                    <tr><td>50 mm</td><td>0.001963</td><td>1.96</td><td>7.07</td></tr>
+                    <tr><td>100 mm</td><td>0.007854</td><td>7.85</td><td>28.27</td></tr>
+                    <tr><td>150 mm</td><td>0.017671</td><td>17.67</td><td>63.62</td></tr>
+                    <tr><td>200 mm</td><td>0.031416</td><td>31.42</td><td>113.10</td></tr>
+                    <tr><td>300 mm</td><td>0.070686</td><td>70.69</td><td>254.47</td></tr>
+                    <tr><td>500 mm</td><td>0.196350</td><td>196.35</td><td>706.86</td></tr>
+                </table>
+            </div>
+
+            <h2>Unit conversions</h2>
+            <ul>
+                <li>1 m³/s = 1000 L/s = 3600 m³/h = 3,600,000 L/h</li>
+                <li>1 L/s = 3.6 m³/h</li>
+                <li>1 m³/h = 0.2778 L/s</li>
+            </ul>
+
+            <h2>Choosing a design velocity</h2>
+            <p>Velocity that is too low lets sediment settle, and velocity that is too high causes friction losses, noise, erosion and surge problems. Suitable values depend on the fluid, the pipe material, the application (suction, discharge, gravity drain, fire main) and the local standard. Many water supply lines are designed for velocities of roughly 1 to 2 m/s, but always check your project specification or the applicable code instead of relying on a general figure.</p>
+
+            <h2>Assumptions and limits</h2>
+            <ul>
+                <li><strong>Full flow.</strong> The formula assumes the fluid fills the whole cross-section. For a partly full pipe or an open channel, the area depends on the water depth and must be computed first.</li>
+                <li><strong>Average velocity.</strong> The velocity is the mean across the section. Velocity is lower near the walls and higher at the center.</li>
+                <li><strong>Incompressible fluid.</strong> This is accurate for liquids. For gases, the density changes with pressure, so volumetric flow varies along the line.</li>
+                <li><strong>No pressure loss.</strong> This is only the flow relationship. Head loss, pump curves and Reynolds number are separate calculations.</li>
+            </ul>
+
+            <h2>Common mistakes</h2>
+            <ul>
+                <li><strong>Using outside diameter.</strong> Use the inner diameter of the pipe.</li>
+                <li><strong>Mixing millimeters and meters.</strong> In diameter mode the calculator expects millimeters, and in area mode square meters.</li>
+                <li><strong>Mixing hours and seconds.</strong> The velocity is per second, and the hourly values are the flow multiplied by 3600.</li>
+                <li><strong>Forgetting that area grows with the square of the diameter.</strong> Doubling the diameter increases the flow four times at the same velocity.</li>
+            </ul>
+
+            <h2>Frequently asked questions</h2>
+            <h3>How do I calculate flow rate from pipe diameter and velocity?</h3>
+            <p>Find the area with π × (D ÷ 2)² using D in meters, then multiply by the velocity. For 200 mm and 1.5 m/s, that gives 0.0471 m³/s.</p>
+            <h3>How do I convert m³/s to liters per minute?</h3>
+            <p>Multiply by 1000 to get liters per second, then by 60. For example, 0.0471 m³/s is 47.1 L/s, or about 2827 L/min.</p>
+            <h3>What if the pipe changes diameter?</h3>
+            <p>The flow stays the same for an incompressible fluid, so A₁ × V₁ = A₂ × V₂. The velocity rises where the pipe narrows and drops where it widens.</p>
+            <h3>Is this the same as the pump flow rate?</h3>
+            <p>It is the flow the pipe carries at that velocity. The actual flow of a pump depends on the pump curve and the system resistance. See our <a href="disclaimer.html">disclaimer</a> about using results for final design.</p>
+
+            <h2>Related calculators</h2>
+            <p><a href="calculator5.html">Pipeline Volume and Hydrotest</a> · <a href="calculator_ai_example.html">Hydrostatic Pressure</a> · <a href="calculator4.html">Trench Volume Calculator</a> · <a href="calculator8.html">Steel Pipe Weight</a></p>
         </div>
 
         <div class="calculator-sidebar">
             <div class="calculator">
                 <div class="top-bar">
-                    <a href="index.html" class="back-btn" id="backText2"><span id="backArrow">←</span> <span id="backLabel">Back to Directory</span></a>
-                    <select class="lang-select" id="langSelect2" onchange="changeLanguage()" style="display:none;"></select>
+                    <a href="index.html" class="back-btn">← Back to Directory</a>
                 </div>
 
-                <h2 id="calcTitle" style="text-align: left; font-size: 16px; margin-top: 0; color: var(--text-main);">⚡ Hydraulic Flow Rate Calculator</h2>
-                
+                <h2 style="text-align: left; font-size: 16px; margin-top: 0; color: var(--text-main);">⚡ Flow Rate Calculator</h2>
+
                 <div class="input-group">
-                    <label id="labelArea">Cross-Sectional Area (square meters):</label>
-                    <input type="number" id="pipeArea" placeholder="e.g. 0.2" oninput="calculateFlow()">
+                    <label for="inputMode">I know the:</label>
+                    <select id="inputMode" class="form-control" onchange="switchMode()">
+                        <option value="area" selected>Cross-sectional area</option>
+                        <option value="diameter">Pipe inner diameter</option>
+                    </select>
+                </div>
+
+                <div class="input-group" id="areaGroup">
+                    <label for="pipeArea">Cross-Sectional Area (square meters):</label>
+                    <input type="number" id="pipeArea" min="0" step="any" placeholder="e.g. 0.2" oninput="calculateFlow()">
+                </div>
+                <div class="input-group" id="diamGroup" style="display:none;">
+                    <label for="pipeDiam">Pipe Inner Diameter (millimeters):</label>
+                    <input type="number" id="pipeDiam" min="0" step="any" placeholder="e.g. 200" oninput="calculateFlow()">
                 </div>
                 <div class="input-group">
-                    <label id="labelVel">Fluid Velocity (meters per second):</label>
-                    <input type="number" id="fluidVel" placeholder="e.g. 2.5" oninput="calculateFlow()">
+                    <label for="fluidVel">Fluid Velocity (meters per second):</label>
+                    <input type="number" id="fluidVel" min="0" step="any" placeholder="e.g. 2.5" oninput="calculateFlow()">
                 </div>
-                
+
                 <div class="result-box">
-                    <p class="result-text"><span id="textFlowM3">Flow Rate (m³/s):</span> <span id="flowM3Result" class="highlight">0.00</span></p>
-                    <p class="result-text"><span id="textFlowLh">Flow Rate (Liters/hour):</span> <span id="flowLhResult" class="highlight">0.00</span></p>
+                    <p class="result-text">Area used: <span id="areaResult" class="highlight">0.0000</span> m²</p>
+                    <p class="result-text">Flow: <span id="flowM3sResult" class="highlight">0.0000</span> m³/s</p>
+                    <p class="result-text">Flow: <span id="flowLsResult" class="highlight">0.00</span> L/s</p>
+                    <p class="result-text">Flow: <span id="flowM3hResult" class="highlight">0.00</span> m³/h</p>
+                    <p class="result-text">Flow: <span id="flowLhResult" class="highlight">0</span> L/h</p>
                 </div>
-            </div>
 
-            <div class="ai-assistant-box">
-                <div class="ai-header">🤖 OmniEngineer AI Expert</div>
-                <div class="ai-chat-output" id="aiOutput">Hello! I'm your engineering AI assistant. Ask me about flow velocity limits, Reynolds number, or continuity equations!</div>
-                <div class="ai-input-group">
-                    <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI a question...">
-                    <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
-                </div>
+                <button class="btn-action" id="copyBtn" onclick="copyResult()">📋 Copy Result</button>
             </div>
         </div>
     </div>
 
+    <footer style="text-align:center; padding:20px; font-size:14px; color:var(--text-muted); margin-top: 40px; border-top: 1px solid var(--border);">
+        <a href="index.html" style="color:var(--primary); text-decoration:underline;">Home</a>
+        &nbsp;|&nbsp;
+        <a href="about.html" style="color:var(--primary); text-decoration:underline;">About Us</a>
+        &nbsp;|&nbsp;
+        <a href="contact.html" style="color:var(--primary); text-decoration:underline;">Contact Us</a>
+        &nbsp;|&nbsp;
+        <a href="terms.html" style="color:var(--primary); text-decoration:underline;">Terms of Service</a>
+        &nbsp;|&nbsp;
+        <a href="disclaimer.html" style="color:var(--primary); text-decoration:underline;">Disclaimer</a>
+        &nbsp;|&nbsp;
+        <a href="https://www.freeprivacypolicy.com/live/1ca3e19a-906b-4b42-8c57-2bde2d789f30" target="_blank" rel="noopener" style="color:var(--primary); text-decoration:underline;">Privacy Policy</a>
+    </footer>
+
     <script>
         function toggleTheme() {
-            let html = document.getElementById('htmlTag');
-            let btn = document.getElementById('themeToggleBtn');
-            if (html.getAttribute('data-theme') === 'light') {
-                html.setAttribute('data-theme', 'dark');
-                btn.innerText = '☀️';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                html.setAttribute('data-theme', 'light');
-                btn.innerText = '🌙';
-                localStorage.setItem('theme', 'light');
-            }
+            var html = document.getElementById('htmlTag');
+            var btn = document.getElementById('themeToggleBtn');
+            var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', next);
+            btn.innerText = next === 'dark' ? '☀️' : '🌙';
+            try { localStorage.setItem('theme', next); } catch (e) {}
         }
 
-        window.onload = function() {
-            let savedTheme = localStorage.getItem('theme') || 'light';
-            document.getElementById('htmlTag').setAttribute('data-theme', savedTheme);
-            document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
+        window.onload = function () {
+            var saved = 'light';
+            try { saved = localStorage.getItem('theme') || 'light'; } catch (e) {}
+            document.getElementById('htmlTag').setAttribute('data-theme', saved);
+            document.getElementById('themeToggleBtn').innerText = saved === 'dark' ? '☀️' : '🌙';
+            calculateFlow();
+        };
+
+        function switchMode() {
+            var mode = document.getElementById('inputMode').value;
+            document.getElementById('areaGroup').style.display = mode === 'area' ? 'block' : 'none';
+            document.getElementById('diamGroup').style.display = mode === 'diameter' ? 'block' : 'none';
+            calculateFlow();
         }
 
         function calculateFlow() {
-            let A = parseFloat(document.getElementById('pipeArea').value) || 0;
-            let V = parseFloat(document.getElementById('fluidVel').value) || 0;
-            
-            let flowM3s = A * V;
-            let flowLitersPerHour = flowM3s * 1000 * 3600;
+            var mode = document.getElementById('inputMode').value;
+            var V = parseFloat(document.getElementById('fluidVel').value) || 0;
+            var A = 0;
 
-            document.getElementById('flowM3Result').innerText = flowM3s.toFixed(3);
-            document.getElementById('flowLhResult').innerText = flowLitersPerHour.toFixed(2);
-        }
-
-        function askAiAssistant() {
-            let q = document.getElementById('aiQuestionInput').value.toLowerCase();
-            let flow = document.getElementById('flowM3Result').innerText;
-            let output = document.getElementById('aiOutput');
-            
-            if (!q) {
-                output.innerText = "Please type a question for the AI assistant!";
-                return;
-            }
-
-            if (q.includes('velocity') || q.includes('limit') || q.includes('سرعة')) {
-                output.innerText = "💡 Engineering Tip: For typical water distribution pipelines, standard design velocity ranges between 1.0 to 3.0 m/s to prevent sediment buildup and minimize excessive pipe erosion.";
-            } else if (q.includes('reynolds') || q.includes('turbulent') || q.includes('اضطراب')) {
-                output.innerText = `📊 Current calculated discharge is ${flow} m³/s. Use this flow rate along with fluid viscosity to calculate the Reynolds number and determine if flow is laminar or turbulent.`;
+            if (mode === 'area') {
+                A = parseFloat(document.getElementById('pipeArea').value) || 0;
             } else {
-                output.innerText = `🤖 AI Analysis: The flow rate is computed directly via the continuity equation Q = A × V, assuming incompressible and steady-state fluid flow conditions.`;
+                var dMm = parseFloat(document.getElementById('pipeDiam').value) || 0;
+                A = dMm > 0 ? Math.PI * Math.pow(dMm / 1000 / 2, 2) : 0;
             }
+
+            if (A < 0 || V < 0) { A = 0; V = 0; }
+
+            var q = A * V;
+
+            document.getElementById('areaResult').innerText = A.toFixed(4);
+            document.getElementById('flowM3sResult').innerText = q.toFixed(4);
+            document.getElementById('flowLsResult').innerText = (q * 1000).toFixed(2);
+            document.getElementById('flowM3hResult').innerText = (q * 3600).toFixed(2);
+            document.getElementById('flowLhResult').innerText = (q * 3600000).toLocaleString(undefined, { maximumFractionDigits: 0 });
         }
 
-        const translations = {
-            en: {
-                backText: "Back to Hub",
-                backLabel: "Back to Directory",
-                backArrow: "←",
-                headerArrow: "←",
-                calcTitle: "⚡ Hydraulic Flow Rate Calculator",
-                labelArea: "Cross-Sectional Area (square meters):",
-                labelVel: "Fluid Velocity (meters per second):",
-                textFlowM3: "Flow Rate (m³/s):",
-                textFlowLh: "Flow Rate (Liters/hour):",
-                secTitle: "About Hydraulic Flow Rate & Principles",
-                secP1: "Hydraulic flow rate calculations are crucial in fluid mechanics for designing water supply networks, open channels, drainage systems, and industrial piping.",
-                secP2: "Where:",
-                secP3: "Applying the continuity equation ensures proper pump sizing, pipe diameter selection, and prevents excessive frictional pressure losses in networks.",
-                dir: "ltr",
-                li1: "Area (A) = Cross-sectional area of the flow path in square meters (m²)",
-                li2: "Velocity (V) = Average fluid velocity in meters per second (m/s)",
-                li3: "Flow Rate (Q) = Discharge volume per second in cubic meters (m³/s)",
-                li4: "Flow (L/h) = Hourly volumetric flow rate converted to Liters per hour"
-            },
-            fr: {
-                backText: "Retour au Hub",
-                backLabel: "Retour au répertoire",
-                backArrow: "←",
-                headerArrow: "←",
-                calcTitle: "⚡ Calculateur de Débit Hydraulique",
-                labelArea: "Section transversale (mètres carrés) :",
-                labelVel: "Vitesse du fluide (mètres par seconde) :",
-                textFlowM3: "Débit (m³/s) :",
-                textFlowLh: "Débit (Litres/heure) :",
-                secTitle: "À propos du Débit Hydraulique",
-                secP1: "Les calculs de débit hydraulique sont essentiels en mécanique des fluides pour la conception des réseaux d'eau.",
-                secP2: "Où :",
-                secP3: "L'application de l'équation de continuité garantit un dimensionnement correct des pompes.",
-                dir: "ltr",
-                li1: "Section (A) = Surface de la section transversale en m²",
-                li2: "Vitesse (V) = Vitesse moyenne du fluide en m/s",
-                li3: "Débit (Q) = Volume déchargé par seconde en m³/s",
-                li4: "Débit (L/h) = Débit volumétrique horaire en Litres/heure"
-            },
-            ar: {
-                backText: "العودة للرئيسية",
-                backLabel: "العودة إلى الدليل",
-                backArrow: "→",
-                headerArrow: "→",
-                calcTitle: "⚡ حاسبة معدل التدفق الهيدروليكي",
-                labelArea: "مساحة المقطع العرضي (متر مربع):",
-                labelVel: "سرعة السائل (متر / ثانية):",
-                textFlowM3: "معدل التدفق (م³/ث):",
-                textFlowLh: "معدل التدفق (لتر / ساعة):",
-                secTitle: "نبذة عن مبادئ معدل التدفق الهيدروليكي",
-                secP1: "تعتبر حسابات معدل التدفق الهيدروليكي بالغة الأهمية في ميكانيكا الموائع لتصميم شبكات إمداد المياه، القنوات المفتوحة، وأنظمة الصرف.",
-                secP2: "حيث أن:",
-                secP3: "يضمن تطبيق معادلة الاستمرارية الاختيار السليم لأحجام المضخات وأقطار الأنابيب ويمنع فقد الضغط الاحتكاكي المفرط.",
-                dir: "rtl",
-                li1: "المساحة (A) = مساحة المقطع العرضي لمسار التدفق بالمتر المربع (م²)",
-                li2: "السرعة (V) = متوسط سرعة السائل بالمتر لكل ثانية (م/ث)",
-                li3: "معدل التدفق (Q) = حجم التصريف لكل ثانية بالمتر المكعب (م³/ث)",
-                li4: "معدل التدفق (لتر/ساعة) = معدل التدفق الحجمي بالساعة باللتر"
-            }
-        };
+        function copyResult() {
+            var text =
+                'Area: ' + document.getElementById('areaResult').innerText + ' m2\n' +
+                'Velocity: ' + (document.getElementById('fluidVel').value || 0) + ' m/s\n' +
+                'Flow: ' + document.getElementById('flowM3sResult').innerText + ' m3/s = ' +
+                document.getElementById('flowLsResult').innerText + ' L/s = ' +
+                document.getElementById('flowM3hResult').innerText + ' m3/h';
+            var btn = document.getElementById('copyBtn');
 
-        function changeLanguage() {
-            let lang = document.getElementById('langSelect').value;
-            let t = translations[lang];
-            let html = document.getElementById('htmlTag');
-            
-            html.setAttribute('lang', lang);
-            html.setAttribute('dir', t.dir);
-            
-            document.getElementById('backText').innerText = t.backText;
-            document.getElementById('backLabel').innerText = t.backLabel;
-            document.getElementById('backArrow').innerText = t.backArrow;
-            document.getElementById('headerArrow').innerText = t.headerArrow;
-            document.getElementById('calcTitle').innerText = t.calcTitle;
-            document.getElementById('labelArea').innerText = t.labelArea;
-            document.getElementById('labelVel').innerText = t.labelVel;
-            document.getElementById('textFlowM3').innerText = t.textFlowM3;
-            document.getElementById('textFlowLh').innerText = t.textFlowLh;
-            document.getElementById('secTitle').innerText = t.secTitle;
-            document.getElementById('secP1').innerText = t.secP1;
-            document.getElementById('secP2').innerText = t.secP2;
-            document.getElementById('secP3').innerText = t.secP3;
-            
-            for(let i = 1; i <= 4; i++) {
-                if(document.getElementById(`li${i}`)) {
-                    document.getElementById(`li${i}`).innerHTML = t[`li${i}`];
-                }
+            function done() {
+                btn.innerText = '✅ Copied';
+                setTimeout(function () { btn.innerText = '📋 Copy Result'; }, 1500);
+            }
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(done);
+            } else {
+                var ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand('copy'); done(); } catch (e) {}
+                document.body.removeChild(ta);
             }
         }
     </script>
-    <footer style="text-align:center; padding:20px; font-size:14px; color:var(--text-muted); margin-top: 40px; border-top: 1px solid var(--border);">
-    <a href="index.html" style="color:var(--primary); text-decoration:underline;">Home</a>
-    &nbsp;|&nbsp;
-    <a href="about.html" style="color:var(--primary); text-decoration:underline;">About Us</a>
-    &nbsp;|&nbsp;
-    <a href="contact.html" style="color:var(--primary); text-decoration:underline;">Contact Us</a>
-    &nbsp;|&nbsp;
-    <a href="terms.html" style="color:var(--primary); text-decoration:underline;">Terms of Service</a>
-    &nbsp;|&nbsp;
-    <a href="disclaimer.html" style="color:var(--primary); text-decoration:underline;">Disclaimer</a>
-    &nbsp;|&nbsp;
-    <a href="https://www.freeprivacypolicy.com/live/1ca3e19a-906b-4b42-8c57-2bde2d789f30" target="_blank" style="color:var(--primary); text-decoration:underline;">Privacy Policy</a>
-</footer>
 </body>
 </html>
