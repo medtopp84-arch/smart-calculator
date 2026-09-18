@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2474106204487574" crossorigin="anonymous"></script>
-    <title>Advanced Pipeline Liquid Volume & Hydrotest Calculator | OmniEngineer Pro Max</title>
+    <meta name="google-adsense-account" content="ca-pub-2474106204487574">
+
+    <title>Pipeline Volume Calculator: Liters, Fluid Mass and Fill Time | ChemiCalc Pro</title>
+    <meta name="description" content="Free pipeline volume calculator. Enter inner diameter and length to get internal volume in m³ and liters, fluid mass, filling time and fill velocity, with formulas and worked examples for hydrotest planning.">
+    <link rel="canonical" href="https://medtopp84-arch.github.io/smart-calculator/calculator5.html">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧪</text></svg>">
+
     <style>
         :root {
             --primary: #2563eb;
@@ -34,45 +40,46 @@
 
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
-        
+
         header { background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; }
         .logo { font-size: 18px; font-weight: bold; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 8px; }
         .header-controls { display: flex; align-items: center; gap: 12px; }
-        
-        .page-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
-        @media (max-width: 992px) { .page-container { grid-template-columns: 1fr; } }
-        
+
+        .page-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 420px; gap: 30px; align-items: start; }
+        @media (max-width: 992px) { .page-container { grid-template-columns: 1fr; } .calculator-sidebar { order: -1; } }
+
         .content-section { background: var(--card-bg); padding: 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border); line-height: 1.7; }
-        .content-section h2 { color: var(--primary); margin-top: 0; font-size: 22px; }
-        .content-section p { color: var(--text-muted); font-size: 15px; }
-        
-        [dir="rtl"] .content-section { text-align: right; }
-        [dir="rtl"] .content-section ul { padding-right: 20px; padding-left: 0; }
-        
+        .content-section h1 { color: var(--primary); margin-top: 0; font-size: 26px; line-height: 1.3; }
+        .content-section h2 { color: var(--primary); margin-top: 30px; margin-bottom: 8px; font-size: 20px; }
+        .content-section h3 { color: var(--text-main); margin-top: 20px; margin-bottom: 4px; font-size: 16px; }
+        .content-section p, .content-section li { color: var(--text-muted); font-size: 15px; }
+        .content-section a { color: var(--primary); }
+
+        .table-wrap { overflow-x: auto; }
+        .content-section table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 10px 0; }
+        .content-section th { text-align: left; padding: 8px; border-bottom: 2px solid var(--border); color: var(--text-main); }
+        .content-section td { padding: 8px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+
         .pro-blueprint-box { background: #f1f5f9; border: 2px solid var(--primary); border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; overflow: hidden; }
         [data-theme="dark"] .pro-blueprint-box { background: #1e293b; border-color: var(--primary); }
         .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
-        [dir="rtl"] .pro-blueprint-box svg { transform: scaleX(-1); }
 
         .formula-box { background: #eff6ff; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 14px; color: var(--primary-dark); border-radius: 4px; text-align: center; }
-        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid var(--primary); }
         [data-theme="dark"] .formula-box { background: #1e3a8a; color: #60a5fa; }
 
-        .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 90px; }
+        @media (max-width: 992px) { .calculator-sidebar { position: static; } }
         .calculator { background: var(--card-bg); padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--border); }
-        
+
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
         a.back-btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 13px; transition: color 0.2s; display: inline-flex; align-items: center; gap: 4px; }
         a.back-btn:hover { color: var(--primary-dark); }
-        [dir="rtl"] a.back-btn { flex-direction: row-reverse; }
-        
-        select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
-        
+
         .input-group { margin-bottom: 16px; }
         label { display: block; margin-bottom: 6px; color: var(--text-muted); font-weight: bold; font-size: 13px; }
         input, select.form-control { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
         input:focus, select.form-control:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
-        
+
         .result-box { background: var(--result-bg); padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid var(--primary); }
         .result-text { font-size: 13px; color: var(--text-main); font-weight: bold; margin: 6px 0; }
         .highlight { font-size: 17px; color: var(--primary); }
@@ -80,39 +87,28 @@
         .btn-action { width: 100%; background: var(--btn-success); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; margin-top: 15px; transition: background 0.2s; }
         .btn-action:hover { background: var(--btn-success-hover); }
 
-        .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .ai-header { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; color: #60a5fa; }
-        .ai-chat-output { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 13px; color: #cbd5e1; min-height: 60px; margin-bottom: 12px; line-height: 1.5; }
-        .ai-input-group { display: flex; gap: 8px; }
-        .ai-input { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
-        .ai-btn { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
-        .ai-btn:hover { background: var(--primary-dark); }
-
         .theme-btn { width: 36px; height: 36px; padding: 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; }
-        .lang-select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
     </style>
 </head>
 <body>
 
     <header>
-        <a href="index.html" class="logo" id="homeLink"><span id="headerArrow">←</span> <span id="backText">Back to Hub</span></a>
+        <a href="index.html" class="logo">← Back to Hub</a>
         <div class="header-controls">
-            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙</button>
-            <select class="lang-select" id="langSelect" onchange="changeLanguage()">
-                <option value="en">English 🇬🇧</option>
-                <option value="fr">Français 🇫🇷</option>
-                <option value="ar">العربية 🇸🇦</option>
-            </select>
+            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
         </div>
     </header>
 
     <div class="page-container">
         <div class="content-section">
-            <h2 id="secTitle">Advanced Pipeline Liquid Volume, Mass & Hydrotest Engineering</h2>
-            <p id="secP1">Calculating internal liquid volume, fluid mass, and filling logistics of a pipeline is critical for hydrotesting, chemical flushing, pipeline purging, and hydraulic inventory estimations in oil, gas, and water networks.</p>
-            
+            <h1>Pipeline Volume Calculator: Liters, Fluid Mass and Fill Time</h1>
+            <p>This calculator works out how much liquid a pipe holds. From the inner diameter and the length it gives the internal volume in cubic meters and liters, the mass of the fluid for the density you choose, the time needed to fill the line at a given pump rate, and the average velocity of the fluid while filling. It is useful for hydrotest planning, flushing and cleaning, commissioning, and estimating line inventory for water, oil and fuel pipelines.</p>
+
+            <h2>How the calculation works</h2>
+            <p>The inside of a pipe is a cylinder. Its volume is the cross-sectional area of the bore multiplied by the length. The mass follows from the fluid density, and the filling time from the pump rate.</p>
+
             <div class="pro-blueprint-box">
-                <svg width="400" height="210" viewBox="0 0 400 210">
+                <svg width="400" height="210" viewBox="0 0 400 210" role="img" aria-label="Pipe with inner diameter D and length L">
                     <defs>
                         <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
                             <path d="M0,2 L8,4 L0,6 Z" fill="#1d4ed8"/>
@@ -129,40 +125,126 @@
             </div>
 
             <div class="formula-box">
-                Volume (V) = π · (D / 2)² · L <br>
-                Fluid Mass (M) = V (m³) × Fluid Density (kg/m³) <br>
-                Filling Time (Hours) = Total Volume (m³) / Pump Rate (m³/h)
+                Volume V = π × (D ÷ 2)² × L &nbsp;&nbsp; (D and L in meters)<br>
+                Mass M = V × density (kg/m³)<br>
+                Fill time = V ÷ pump rate (m³/h)<br>
+                Fill velocity v = (pump rate ÷ 3600) ÷ [π × (D ÷ 2)²]
             </div>
-            
-            <p id="secP2">Key Engineering Parameters Addressed:</p>
+
+            <h2>Use the inner diameter</h2>
+            <p>The calculator needs the <strong>inner</strong> diameter of the pipe, not the nominal size or the outside diameter. If you only know the outside diameter (OD) and wall thickness (WT), calculate:</p>
+            <div class="formula-box">Inner diameter = OD − 2 × WT</div>
+            <p>For example, a pipe with an outside diameter of 508 mm and a wall thickness of 9.5 mm has an inner diameter of 508 − 19 = 489 mm. Using the nominal diameter instead can change the volume by several percent.</p>
+
+            <h2>How to use the calculator</h2>
+            <ol>
+                <li>Enter the inner diameter in millimeters.</li>
+                <li>Enter the pipeline length in meters.</li>
+                <li>Select the fluid. This sets the density used for the mass.</li>
+                <li>Enter the pump rate in m³/h.</li>
+                <li>Read the volume, the mass, the fill time and the fill velocity.</li>
+            </ol>
+
+            <h2>Worked example 1: water hydrotest</h2>
+            <p>A water line has an inner diameter of 500 mm and a length of 1000 m. It is filled with water using a pump delivering 50 m³/h.</p>
             <ul>
-                <li id="li1"><strong>Internal Geometry & Volume:</strong> Exact volumetric capacity in m³ and Liters.</li>
-                <li id="li2"><strong>Fluid Density & Mass:</strong> Weight verification for structural support and buoyancy calculations.</li>
-                <li id="li3"><strong>Pumping Logistics:</strong> Estimating precise filling/flushing duration based on injection rate.</li>
-                <li id="li4"><strong>Hydrostatic Testing:</strong> Establishing safety water volume baselines for pressure holding tests.</li>
+                <li>Bore area: π × 0.25² = 0.19635 m²</li>
+                <li>Volume: 0.19635 × 1000 = <strong>196.35 m³</strong> (196,350 liters)</li>
+                <li>Mass of water: 196.35 × 1000 = <strong>196,350 kg</strong> (about 196 tonnes)</li>
+                <li>Fill time: 196.35 ÷ 50 = <strong>3.93 hours</strong></li>
+                <li>Fill velocity: (50 ÷ 3600) ÷ 0.19635 = <strong>0.07 m/s</strong></li>
             </ul>
-            <p id="secP3">Accurate forecasting prevents operational downtime and ensures safe pressure thresholds during pre-commissioning.</p>
+
+            <h2>Worked example 2: diesel line</h2>
+            <p>A diesel pipeline has an inner diameter of 300 mm and a length of 2500 m. It is filled at 30 m³/h.</p>
+            <ul>
+                <li>Bore area: π × 0.15² = 0.070686 m²</li>
+                <li>Volume: 0.070686 × 2500 = <strong>176.71 m³</strong></li>
+                <li>Mass at 830 kg/m³: 176.71 × 830 ≈ <strong>146,673 kg</strong></li>
+                <li>Fill time: 176.71 ÷ 30 = <strong>5.89 hours</strong></li>
+                <li>Fill velocity: (30 ÷ 3600) ÷ 0.070686 = <strong>0.12 m/s</strong></li>
+            </ul>
+
+            <h2>Volume per meter for common inner diameters</h2>
+            <p>Multiply by the length in meters to get liters.</p>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Inner diameter</th><th>Liters per meter</th><th>m³ per 100 m</th></tr>
+                    <tr><td>100 mm</td><td>7.85</td><td>0.785</td></tr>
+                    <tr><td>200 mm</td><td>31.42</td><td>3.142</td></tr>
+                    <tr><td>300 mm</td><td>70.69</td><td>7.069</td></tr>
+                    <tr><td>400 mm</td><td>125.66</td><td>12.566</td></tr>
+                    <tr><td>500 mm</td><td>196.35</td><td>19.635</td></tr>
+                    <tr><td>600 mm</td><td>282.74</td><td>28.274</td></tr>
+                    <tr><td>800 mm</td><td>502.65</td><td>50.265</td></tr>
+                    <tr><td>1000 mm</td><td>785.40</td><td>78.540</td></tr>
+                </table>
+            </div>
+            <p>Doubling the diameter multiplies the volume by four, because the area depends on the square of the diameter.</p>
+
+            <h2>Fluid densities used</h2>
+            <p>The densities are typical values for planning. Actual density changes with temperature and composition, so use the figure from your product data when accuracy matters.</p>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Fluid</th><th>Density used</th></tr>
+                    <tr><td>Water</td><td>1000 kg/m³</td></tr>
+                    <tr><td>Crude oil</td><td>about 850 kg/m³</td></tr>
+                    <tr><td>Diesel</td><td>about 830 kg/m³</td></tr>
+                    <tr><td>Gasoline</td><td>about 750 kg/m³</td></tr>
+                    <tr><td>Brine / heavy fluid</td><td>1200 kg/m³</td></tr>
+                </table>
+            </div>
+
+            <h2>Using the result for a hydrotest</h2>
+            <p>The volume is the baseline for how much water the line holds, and the mass helps you check that supports, sleepers and temporary structures can carry the filled weight. Keep in mind what the calculator does not include:</p>
+            <ul>
+                <li><strong>Extra volume for pressurization.</strong> Raising the pressure needs additional water to compensate for the compressibility of water, the expansion of the pipe and any trapped air.</li>
+                <li><strong>Temperature effects.</strong> A temperature change during a test changes the pressure in a closed line, so it affects how the results are interpreted.</li>
+                <li><strong>Fittings and valves.</strong> Their internal volume is not included unless you add it.</li>
+                <li><strong>Elevation differences.</strong> The mass and volume do not depend on them, but the pressure at the low points does.</li>
+            </ul>
+            <p>The test pressure, hold time and acceptance criteria come from the applicable code and your project specification, not from this calculator.</p>
+
+            <h2>Common mistakes</h2>
+            <ul>
+                <li><strong>Entering the outside diameter.</strong> This overstates the volume. Subtract twice the wall thickness first.</li>
+                <li><strong>Entering meters instead of millimeters.</strong> The diameter field is in millimeters. A 0.5 in the field means a 0.5 mm pipe.</li>
+                <li><strong>Forgetting pipe length of the whole system.</strong> Add branches, bypasses and tie-ins if they are filled too.</li>
+                <li><strong>Confusing volume with fill time.</strong> Fill time is only the pumping time at a constant rate. It does not include venting, air removal or waiting.</li>
+            </ul>
+
+            <h2>Frequently asked questions</h2>
+            <h3>How do I convert cubic meters to liters?</h3>
+            <p>Multiply by 1000. One cubic meter is 1000 liters, so 196.35 m³ is 196,350 liters.</p>
+            <h3>How do I calculate the volume of a pipe in liters per meter?</h3>
+            <p>Use π × (D ÷ 2)² with D in meters, then multiply by 1000. For a 200 mm pipe: π × 0.1² × 1000 = 31.42 liters per meter.</p>
+            <h3>What fill velocity is acceptable?</h3>
+            <p>It depends on the pipe size, the terrain, the air release arrangement and the procedure in your specification. Slow filling with proper venting is the common practice, because fast filling can trap air and cause pressure surges. Follow your project procedure.</p>
+            <h3>Does the calculator handle partly filled pipes?</h3>
+            <p>No. It assumes the pipe is full over its entire length. For partly full pipes, such as gravity drains, use a partial-flow calculation.</p>
+
+            <h2>Related calculators</h2>
+            <p><a href="calculator4.html">Trench Volume Calculator</a> · <a href="calculator6.html">Hydraulic Flow Rate</a> · <a href="calculator8.html">Steel Pipe Weight</a> · <a href="calculator3.html">Pipeline Bend Calculator</a></p>
         </div>
 
         <div class="calculator-sidebar">
             <div class="calculator">
                 <div class="top-bar">
-                    <a href="index.html" class="back-btn" id="backText2"><span id="backArrow">←</span> <span id="backLabel">Back to Directory</span></a>
-                    <select class="lang-select" id="langSelect2" onchange="changeLanguage()" style="display:none;"></select>
+                    <a href="index.html" class="back-btn">← Back to Directory</a>
                 </div>
 
-                <h2 id="calcTitle" style="text-align: left; font-size: 16px; margin-top: 0; color: var(--text-main);">💧 Pro Pipeline Calculator</h2>
-                
+                <h2 style="text-align: left; font-size: 16px; margin-top: 0; color: var(--text-main);">💧 Pipeline Volume Calculator</h2>
+
                 <div class="input-group">
-                    <label id="labelDiam">Inner Diameter (millimeters):</label>
-                    <input type="number" id="innerDiam" placeholder="e.g. 500" oninput="calculateVolume()">
+                    <label for="innerDiam">Inner Diameter (millimeters):</label>
+                    <input type="number" id="innerDiam" min="0" step="any" placeholder="e.g. 500" oninput="calculateVolume()">
                 </div>
                 <div class="input-group">
-                    <label id="labelLen">Pipeline Length (meters):</label>
-                    <input type="number" id="pipeLength" placeholder="e.g. 1000" oninput="calculateVolume()">
+                    <label for="pipeLength">Pipeline Length (meters):</label>
+                    <input type="number" id="pipeLength" min="0" step="any" placeholder="e.g. 1000" oninput="calculateVolume()">
                 </div>
                 <div class="input-group">
-                    <label id="labelFluid">Fluid Type / Density:</label>
+                    <label for="fluidType">Fluid Type / Density:</label>
                     <select id="fluidType" class="form-control" onchange="calculateVolume()">
                         <option value="1000" selected>Water (1000 kg/m³)</option>
                         <option value="850">Crude Oil (~850 kg/m³)</option>
@@ -172,241 +254,104 @@
                     </select>
                 </div>
                 <div class="input-group">
-                    <label id="labelPump">Pump Rate (m³/h):</label>
-                    <input type="number" id="pumpRate" value="50" placeholder="e.g. 50" oninput="calculateVolume()">
+                    <label for="pumpRate">Pump Rate (m³/h):</label>
+                    <input type="number" id="pumpRate" value="50" min="0" step="any" placeholder="e.g. 50" oninput="calculateVolume()">
                 </div>
-                
+
                 <div class="result-box">
-                    <p class="result-text"><span id="textVolM3">Volume:</span> <span id="volM3Result" class="highlight">0.00</span> <span id="unitM3">m³</span></p>
-                    <p class="result-text"><span id="textVolLiters">Capacity:</span> <span id="volLitersResult" class="highlight">0.00</span> <span id="unitLiters">Liters</span></p>
-                    <p class="result-text"><span id="textMass">Total Mass:</span> <span id="massResult" class="highlight">0.00</span> <span id="unitMass">kg</span></p>
-                    <p class="result-text"><span id="textTime">Est. Fill Time:</span> <span id="timeResult" class="highlight">0.00</span> <span id="unitHours">Hours</span></p>
+                    <p class="result-text">Volume: <span id="volM3Result" class="highlight">0.00</span> m³</p>
+                    <p class="result-text">Capacity: <span id="volLitersResult" class="highlight">0.00</span> liters</p>
+                    <p class="result-text">Total Mass: <span id="massResult" class="highlight">0.00</span> kg</p>
+                    <p class="result-text">Est. Fill Time: <span id="timeResult" class="highlight">0.00</span> hours</p>
+                    <p class="result-text">Fill Velocity: <span id="velResult" class="highlight">0.00</span> m/s</p>
                 </div>
 
-                <button class="btn-action" id="btnPrint" onclick="generateReport()">📄 Export Hydrotest Report</button>
-            </div>
-
-            <div class="ai-assistant-box">
-                <div class="ai-header">🤖 OmniEngineer Pro Max AI</div>
-                <div class="ai-chat-output" id="aiOutput">Hello Engineer! Ask me about hydrotesting standards, flow velocities, or mass inventory.</div>
-                <div class="ai-input-group">
-                    <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI technical question...">
-                    <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
-                </div>
+                <button class="btn-action" id="copyBtn" onclick="copyResult()">📋 Copy Result</button>
             </div>
         </div>
     </div>
 
+    <footer style="text-align:center; padding:20px; font-size:14px; color:var(--text-muted); margin-top: 40px; border-top: 1px solid var(--border);">
+        <a href="index.html" style="color:var(--primary); text-decoration:underline;">Home</a>
+        &nbsp;|&nbsp;
+        <a href="about.html" style="color:var(--primary); text-decoration:underline;">About Us</a>
+        &nbsp;|&nbsp;
+        <a href="contact.html" style="color:var(--primary); text-decoration:underline;">Contact Us</a>
+        &nbsp;|&nbsp;
+        <a href="terms.html" style="color:var(--primary); text-decoration:underline;">Terms of Service</a>
+        &nbsp;|&nbsp;
+        <a href="disclaimer.html" style="color:var(--primary); text-decoration:underline;">Disclaimer</a>
+        &nbsp;|&nbsp;
+        <a href="https://www.freeprivacypolicy.com/live/1ca3e19a-906b-4b42-8c57-2bde2d789f30" target="_blank" rel="noopener" style="color:var(--primary); text-decoration:underline;">Privacy Policy</a>
+    </footer>
+
     <script>
         function toggleTheme() {
-            let html = document.getElementById('htmlTag');
-            let btn = document.getElementById('themeToggleBtn');
-            if (html.getAttribute('data-theme') === 'light') {
-                html.setAttribute('data-theme', 'dark');
-                btn.innerText = '☀️';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                html.setAttribute('data-theme', 'light');
-                btn.innerText = '🌙';
-                localStorage.setItem('theme', 'light');
-            }
+            var html = document.getElementById('htmlTag');
+            var btn = document.getElementById('themeToggleBtn');
+            var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', next);
+            btn.innerText = next === 'dark' ? '☀️' : '🌙';
+            try { localStorage.setItem('theme', next); } catch (e) {}
         }
 
-        window.onload = function() {
-            let savedTheme = localStorage.getItem('theme') || 'light';
-            document.getElementById('htmlTag').setAttribute('data-theme', savedTheme);
-            document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
-        }
-
-        function calculateVolume() {
-            let D_mm = parseFloat(document.getElementById('innerDiam').value) || 0;
-            let L = parseFloat(document.getElementById('pipeLength').value) || 0;
-            let density = parseFloat(document.getElementById('fluidType').value) || 1000;
-            let pumpRate = parseFloat(document.getElementById('pumpRate').value) || 1;
-            
-            let D_m = D_mm / 1000;
-            let volumeM3 = Math.PI * Math.pow((D_m / 2), 2) * L;
-            let volumeLiters = volumeM3 * 1000;
-            let totalMassKg = volumeM3 * density;
-            let fillTimeHours = pumpRate > 0 ? (volumeM3 / pumpRate) : 0;
-
-            document.getElementById('volM3Result').innerText = volumeM3.toFixed(2);
-            document.getElementById('volLitersResult').innerText = volumeLiters.toFixed(2);
-            document.getElementById('massResult').innerText = totalMassKg.toLocaleString(undefined, {maximumFractionDigits: 2});
-            document.getElementById('timeResult').innerText = fillTimeHours.toFixed(2);
-        }
-
-        function askAiAssistant() {
-            let q = document.getElementById('aiQuestionInput').value.toLowerCase();
-            let vol = document.getElementById('volM3Result').innerText;
-            let mass = document.getElementById('massResult').innerText;
-            let output = document.getElementById('aiOutput');
-            
-            if (!q) {
-                output.innerText = "Please type a technical question for the AI assistant!";
-                return;
-            }
-
-            if (q.includes('hydrotest') || q.includes('pressure') || q.includes('اختبار')) {
-                output.innerText = `💡 Hydrotest Insight: The total filling volume is ${vol} m³. During hydrostatic testing, monitor thermal expansion and compressibility closely as fluid mass (${mass} kg) exerts significant internal forces.`;
-            } else if (q.includes('mass') || q.includes('weight') || q.includes('وزن')) {
-                output.innerText = `⚖️ Structural Load: The fluid mass inside the pipe equals ${mass} kg. Ensure pipe supports and sleeper spacing are designed to safely carry this live load.`;
-            } else {
-                output.innerText = `🤖 AI Analysis: Evaluated for cylindrical fluid geometry. Adjust pump rates to maintain safe filling velocities (typically < 1 m/s) to avoid water hammer risks.`;
-            }
-        }
-
-        function generateReport() {
-            let diam = document.getElementById('innerDiam').value;
-            let len = document.getElementById('pipeLength').value;
-            let vol = document.getElementById('volM3Result').innerText;
-            let liters = document.getElementById('volLitersResult').innerText;
-            let mass = document.getElementById('massResult').innerText;
-            let time = document.getElementById('timeResult').innerText;
-
-            alert(`=== OMNIENGINEER PIPELINE HYDROTEST REPORT ===\n\n- Inner Diameter: ${diam} mm\n- Length: ${len} m\n- Volume: ${vol} m³ (${liters} Liters)\n- Total Fluid Mass: ${mass} kg\n- Estimated Filling Time: ${time} Hours\n\nStatus: Ready for pre-commissioning documentation & site sign-off.`);
-        }
-
-        const translations = {
-            en: {
-                backText: "Back to Hub",
-                backLabel: "Back to Directory",
-                backArrow: "←",
-                headerArrow: "←",
-                calcTitle: "💧 Pro Pipeline Calculator",
-                labelDiam: "Inner Diameter (millimeters):",
-                labelLen: "Pipeline Length (meters):",
-                labelFluid: "Fluid Type / Density:",
-                labelPump: "Pump Rate (m³/h):",
-                textVolM3: "Volume:",
-                textVolLiters: "Capacity:",
-                textMass: "Total Mass:",
-                textTime: "Est. Fill Time:",
-                unitM3: "m³",
-                unitLiters: "Liters",
-                unitMass: "kg",
-                unitHours: "Hours",
-                btnPrint: "📄 Export Hydrotest Report",
-                secTitle: "Advanced Pipeline Liquid Volume, Mass & Hydrotest Engineering",
-                secP1: "Calculating internal liquid volume, fluid mass, and filling logistics of a pipeline is critical for hydrotesting, chemical flushing, pipeline purging, and hydraulic inventory estimations.",
-                secP2: "Key Engineering Parameters Addressed:",
-                secP3: "Accurate forecasting prevents operational downtime and ensures safe pressure thresholds during pre-commissioning.",
-                dir: "ltr",
-                li1: "Internal Geometry & Volume = Exact volumetric capacity in m³ and Liters.",
-                li2: "Fluid Density & Mass = Weight verification for structural support and buoyancy calculations.",
-                li3: "Pumping Logistics = Estimating precise filling/flushing duration based on injection rate.",
-                li4: "Hydrostatic Testing = Establishing safety water volume baselines for pressure holding tests."
-            },
-            fr: {
-                backText: "Retour au Hub",
-                backLabel: "Retour au répertoire",
-                backArrow: "←",
-                headerArrow: "←",
-                calcTitle: "💧 Calculateur Pro de Conduite",
-                labelDiam: "Diamètre Intérieur (millimètres) :",
-                labelLen: "Longueur de la Conduite (mètres) :",
-                labelFluid: "Type de Fluide / Densité :",
-                labelPump: "Débit de Pompe (m³/h) :",
-                textVolM3: "Volume :",
-                textVolLiters: "Capacité :",
-                textMass: "Masse Totale :",
-                textTime: "Temps de Remplissage :",
-                unitM3: "m³",
-                unitLiters: "Litres",
-                unitMass: "kg",
-                unitHours: "Heures",
-                btnPrint: "📄 Exporter le Rapport Hydrotest",
-                secTitle: "Ingénierie Avancée des Conduites et Hydrotests",
-                secP1: "Le calcul du volume interne, de la masse du fluide et de la logistique de remplissage est essentiel pour les tests hydrostatiques.",
-                secP2: "Paramètres Techniques Clés :",
-                secP3: "Une prévision précise garantit la sécurité des seuils de pression.",
-                dir: "ltr",
-                li1: "Géométrie et Volume = Capacité volumétrique exacte en m³ et Litres.",
-                li2: "Densité et Masse = Vérification du poids pour les calculs structurels.",
-                li3: "Logistique de pompage = Estimation de la durée de remplissage.",
-                li4: "Test Hydrostatique = Établissement des volumes de base pour les tests de pression."
-            },
-            ar: {
-                backText: "العودة للرئيسية",
-                backLabel: "العودة إلى الدليل",
-                backArrow: "→",
-                headerArrow: "→",
-                calcTitle: "💧 الحاسبة الاحترافية لخطوط الأنابيب",
-                labelDiam: "القطر الداخلي للأنبوب (ملمتر):",
-                labelLen: "طول خط الأنابيب (متر):",
-                labelFluid: "نوع السائل / الكثافة:",
-                labelPump: "معدل الضخ (م³ / ساعة):",
-                textVolM3: "الحجم الإجمالي:",
-                textVolLiters: "السعة باللتر:",
-                textMass: "الوزن الكلي للسائل:",
-                textTime: "وقت التعبئة التقديري:",
-                unitM3: "م³",
-                unitLiters: "لتر",
-                unitMass: "كغ",
-                unitHours: "ساعة",
-                btnPrint: "📄 استخراج تقرير اختبار الضغط المعتمد",
-                secTitle: "الهندسة المتقدمة لحجوم السوائل والأوزان واختبارات الضغط (Hydrotest)",
-                secP1: "يعد حساب حجم السوائل الداخلي، والكتلة الكلية للسوائل، ولوجستيات التعبئة أمراً بالغ الأهمية لاختبارات الضغط الهيدروستاتيكي، الغسيل الكيميائي، وتحديد الأحمال الهيدروليكية لخطوط الأنابيب.",
-                secP2: "المعاملات الهندسية المعالجة:",
-                secP3: "يمنع التقدير الدقيق أي توقف تشغيلي ويضمن الالتزام بمعايير الضغط الآمنة أثناء مرحلة ما قبل التشغيل.",
-                dir: "rtl",
-                li1: "الهندسة الداخلية والحجم = السعة الحجمية الدقيقة بالمتر المكعب واللتر.",
-                li2: "كثافة السائل والكتلة = التحقق من الوزن للدعم الهيكلي وحسابات الطفو.",
-                li3: "خدمات الضخ = تقدير مدة التعبئة/التنظيف بناءً على معدل الحقن.",
-                li4: "اختبار الضغط الهيدروستاتيكي = إنشاء خطوط أساس لحجم المياه الآمن لاختبارات الضغط."
-            }
+        window.onload = function () {
+            var saved = 'light';
+            try { saved = localStorage.getItem('theme') || 'light'; } catch (e) {}
+            document.getElementById('htmlTag').setAttribute('data-theme', saved);
+            document.getElementById('themeToggleBtn').innerText = saved === 'dark' ? '☀️' : '🌙';
+            calculateVolume();
         };
 
-        function changeLanguage() {
-            let lang = document.getElementById('langSelect').value;
-            let t = translations[lang];
-            let html = document.getElementById('htmlTag');
-            
-            html.setAttribute('lang', lang);
-            html.setAttribute('dir', t.dir);
-            
-            document.getElementById('backText').innerText = t.backText;
-            document.getElementById('backLabel').innerText = t.backLabel;
-            document.getElementById('backArrow').innerText = t.backArrow;
-            document.getElementById('headerArrow').innerText = t.headerArrow;
-            document.getElementById('calcTitle').innerText = t.calcTitle;
-            document.getElementById('labelDiam').innerText = t.labelDiam;
-            document.getElementById('labelLen').innerText = t.labelLen;
-            document.getElementById('labelFluid').innerText = t.labelFluid;
-            document.getElementById('labelPump').innerText = t.labelPump;
-            document.getElementById('textVolM3').innerText = t.textVolM3;
-            document.getElementById('textVolLiters').innerText = t.textVolLiters;
-            document.getElementById('textMass').innerText = t.textMass;
-            document.getElementById('textTime').innerText = t.textTime;
-            document.getElementById('unitM3').innerText = t.unitM3;
-            document.getElementById('unitLiters').innerText = t.unitLiters;
-            document.getElementById('unitMass').innerText = t.unitMass;
-            document.getElementById('unitHours').innerText = t.unitHours;
-            document.getElementById('btnPrint').innerText = t.btnPrint;
-            document.getElementById('secTitle').innerText = t.secTitle;
-            document.getElementById('secP1').innerText = t.secP1;
-            document.getElementById('secP2').innerText = t.secP2;
-            document.getElementById('secP3').innerText = t.secP3;
-            
-            for(let i = 1; i <= 4; i++) {
-                if(document.getElementById(`li${i}`)) {
-                    document.getElementById(`li${i}`).innerHTML = t[`li${i}`];
-                }
+        function calculateVolume() {
+            var dMm = parseFloat(document.getElementById('innerDiam').value) || 0;
+            var L = parseFloat(document.getElementById('pipeLength').value) || 0;
+            var density = parseFloat(document.getElementById('fluidType').value) || 1000;
+            var pump = parseFloat(document.getElementById('pumpRate').value) || 0;
+
+            if (dMm < 0 || L < 0 || pump < 0) { dMm = 0; L = 0; pump = 0; }
+
+            var dM = dMm / 1000;
+            var area = Math.PI * Math.pow(dM / 2, 2);
+            var volM3 = area * L;
+            var mass = volM3 * density;
+            var hours = pump > 0 ? volM3 / pump : 0;
+            var velocity = (pump > 0 && area > 0) ? (pump / 3600) / area : 0;
+
+            document.getElementById('volM3Result').innerText = volM3.toFixed(2);
+            document.getElementById('volLitersResult').innerText = (volM3 * 1000).toLocaleString(undefined, { maximumFractionDigits: 2 });
+            document.getElementById('massResult').innerText = mass.toLocaleString(undefined, { maximumFractionDigits: 0 });
+            document.getElementById('timeResult').innerText = hours.toFixed(2);
+            document.getElementById('velResult').innerText = velocity.toFixed(2);
+        }
+
+        function copyResult() {
+            var text =
+                'Pipe: inner diameter ' + (document.getElementById('innerDiam').value || 0) + ' mm, length ' +
+                (document.getElementById('pipeLength').value || 0) + ' m\n' +
+                'Volume: ' + document.getElementById('volM3Result').innerText + ' m3 (' +
+                document.getElementById('volLitersResult').innerText + ' liters)\n' +
+                'Fluid mass: ' + document.getElementById('massResult').innerText + ' kg\n' +
+                'Fill time: ' + document.getElementById('timeResult').innerText + ' h\n' +
+                'Fill velocity: ' + document.getElementById('velResult').innerText + ' m/s';
+            var btn = document.getElementById('copyBtn');
+
+            function done() {
+                btn.innerText = '✅ Copied';
+                setTimeout(function () { btn.innerText = '📋 Copy Result'; }, 1500);
+            }
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(done);
+            } else {
+                var ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand('copy'); done(); } catch (e) {}
+                document.body.removeChild(ta);
             }
         }
     </script>
-    <footer style="text-align:center; padding:20px; font-size:14px; color:var(--text-muted); margin-top: 40px; border-top: 1px solid var(--border);">
-    <a href="index.html" style="color:var(--primary); text-decoration:underline;">Home</a>
-    &nbsp;|&nbsp;
-    <a href="about.html" style="color:var(--primary); text-decoration:underline;">About Us</a>
-    &nbsp;|&nbsp;
-    <a href="contact.html" style="color:var(--primary); text-decoration:underline;">Contact Us</a>
-    &nbsp;|&nbsp;
-    <a href="terms.html" style="color:var(--primary); text-decoration:underline;">Terms of Service</a>
-    &nbsp;|&nbsp;
-    <a href="disclaimer.html" style="color:var(--primary); text-decoration:underline;">Disclaimer</a>
-    &nbsp;|&nbsp;
-    <a href="https://www.freeprivacypolicy.com/live/1ca3e19a-906b-4b42-8c57-2bde2d789f30" target="_blank" style="color:var(--primary); text-decoration:underline;">Privacy Policy</a>
-</footer>
 </body>
 </html>
