@@ -4,7 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2474106204487574" crossorigin="anonymous"></script>
-    <title>Advanced Pipeline Bends Calculator | OmniEngineer Pro Max</title>
+    <title>Pipeline Bend Calculator: Arc Length and Tangent Length | ChemiCalc Pro</title>
+    <meta name="description" content="Free pipeline bend calculator. Enter the bend radius (or 3D/5D with pipe diameter) and the deflection angle to get arc length and tangent length, with formulas and worked examples.">
+    <link rel="canonical" href="https://medtopp84-arch.github.io/smart-calculator/calculator3.html">
     <style>
         :root {
             --primary: #2563eb;
@@ -43,16 +45,15 @@
         @media (max-width: 992px) { .page-container { grid-template-columns: 1fr; } }
         
         .content-section { background: var(--card-bg); padding: 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border); line-height: 1.7; }
-        .content-section h2 { color: var(--primary); margin-top: 0; font-size: 22px; }
-        .content-section p { color: var(--text-muted); font-size: 15px; }
+        .content-section h2 { color: var(--primary); margin-top: 25px; font-size: 20px; }
+        .content-section p, .content-section li { color: var(--text-muted); font-size: 15px; }
         
         [dir="rtl"] .content-section { text-align: right; }
-        [dir="rtl"] .content-section ul { padding-right: 20px; padding-left: 0; }
+        [dir="rtl"] .content-section ul, [dir="rtl"] .content-section ol { padding-right: 20px; padding-left: 0; }
         
         .pro-blueprint-box { background: #f1f5f9; border: 2px solid var(--primary); border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; overflow: hidden; }
         [data-theme="dark"] .pro-blueprint-box { background: #1e293b; border-color: var(--primary); }
         .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
-        [dir="rtl"] .pro-blueprint-box svg { transform: scaleX(-1); }
 
         .formula-box { background: #eff6ff; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: var(--primary-dark); border-radius: 4px; text-align: center; }
         [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid var(--primary); }
@@ -107,44 +108,121 @@
     </header>
 
     <div class="page-container">
+        <!-- Content Section Starts Here -->
         <div class="content-section">
-            <h2 id="secTitle">Advanced Pipeline Bends & Geometry Engineering</h2>
-            <p id="secP1">Pipeline bends (Cintre) calculations are critical in high-pressure piping engineering, petroleum transport networks, and routing layouts. They define exact arc lengths and tangent dimensions required for spool prefabrication and site fitting according to international codes (ASME B31.4 / B31.8).</p>
-            
-            <div class="pro-blueprint-box">
-                <svg width="400" height="220" viewBox="0 0 400 220">
-                    <defs>
-                        <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
-                            <path d="M0,2 L8,4 L0,6 Z" fill="#1d4ed8"/>
-                        </marker>
-                    </defs>
-                    <circle cx="200" cy="185" r="5" fill="#64748b"/>
-                    <path d="M 70 140 A 130 130 0 0 1 330 140" fill="none" stroke="#2563eb" stroke-width="7"/>
-                    <line x1="20" y1="140" x2="70" y2="140" stroke="#475569" stroke-dasharray="4,4" stroke-width="2"/>
-                    <line x1="330" y1="140" x2="380" y2="140" stroke="#475569" stroke-dasharray="4,4" stroke-width="2"/>
-                    <line x1="200" y1="185" x2="130" y2="85" stroke="#d97706" stroke-width="2" stroke-dasharray="3,3"/>
-                    <text x="150" y="130" font-size="13" fill="#d97706" font-weight="bold">R (Radius)</text>
-                    <text x="200" y="50" font-size="13" fill="#2563eb" font-weight="bold" text-anchor="middle">Arc Length (L)</text>
-                    <text x="45" y="125" font-size="12" fill="#475569" font-weight="bold" text-anchor="middle">Tangent</text>
-                    <text x="355" y="125" font-size="12" fill="#475569" font-weight="bold" text-anchor="middle">Tangent</text>
-                </svg>
-            </div>
+          <h1 style="color:var(--primary); font-size:24px; margin-top:0;">Pipeline Bend Calculator: Arc Length and Tangent Length</h1>
+          <p>This calculator finds the length of pipe along a bend (the arc length) and the tangent length, which is the distance from the point where the two straight runs would intersect to the start or end of the curve. Enter a bend radius and a deflection angle, or choose a 3D or 5D bend and enter the nominal pipe diameter. It is useful for pipe routing, spool prefabrication, trench layout and setting out curves in the field.</p>
+          
+          <h2>Key terms</h2>
+          <ul>
+            <li><strong>Deflection angle (Δ):</strong> the change in direction between the two straight runs. A pipe that turns a full right angle has Δ = 90°.</li>
+            <li><strong>Bend radius (R):</strong> the radius of the pipe centerline around the bend.</li>
+            <li><strong>Arc length (L):</strong> the length of pipe measured along the centerline of the curve.</li>
+            <li><strong>Tangent length (T):</strong> the distance from the intersection point (PI) of the two straight runs to the point where the curve begins or ends.</li>
+          </ul>
 
-            <div class="formula-box">
-                Arc Length (L) = R · (Δ · π / 180) <br>
-                Tangent Length (T) = R · tan(Δ / 2)
-            </div>
-            
-            <p id="secP2">Engineering Parameters:</p>
-            <ul>
-                <li id="li1"><strong>R</strong> = Centerline Bend Radius (Standard or Custom Code Radius)</li>
-                <li id="li2"><strong>Δ (Delta)</strong> = Deflection / Bending Angle in Degrees</li>
-                <li id="li3"><strong>Arc Length</strong> = Actual physical pipe length along the curvature</li>
-                <li id="li4"><strong>Tangent Length</strong> = Distance from the Intersection Point (PI) to the curve tangent point (TC/CT)</li>
-            </ul>
-            <p id="secP3">Utilized extensively by pipeline construction engineers to minimize fluid pressure drops and secure flawless alignment across complex geographical profiles.</p>
+          <div class="pro-blueprint-box">
+            <svg width="400" height="220" viewBox="0 0 400 220">
+                <defs>
+                    <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
+                        <path d="M0,2 L8,4 L0,6 Z" fill="#1d4ed8"/>
+                    </marker>
+                </defs>
+                <circle cx="200" cy="185" r="5" fill="#64748b"/>
+                <path d="M 70 140 A 130 130 0 0 1 330 140" fill="none" stroke="#2563eb" stroke-width="7"/>
+                <line x1="20" y1="140" x2="70" y2="140" stroke="#475569" stroke-dasharray="4,4" stroke-width="2"/>
+                <line x1="330" y1="140" x2="380" y2="140" stroke="#475569" stroke-dasharray="4,4" stroke-width="2"/>
+                <line x1="200" y1="185" x2="130" y2="85" stroke="#d97706" stroke-width="2" stroke-dasharray="3,3"/>
+                <text x="150" y="130" font-size="13" fill="#d97706" font-weight="bold">R (Radius)</text>
+                <text x="200" y="50" font-size="13" fill="#2563eb" font-weight="bold" text-anchor="middle">Arc Length (L)</text>
+                <text x="45" y="125" font-size="12" fill="#475569" font-weight="bold" text-anchor="middle">Tangent</text>
+                <text x="355" y="125" font-size="12" fill="#475569" font-weight="bold" text-anchor="middle">Tangent</text>
+            </svg>
+          </div>
+
+          <div class="formula-box">
+            Arc length L = R × Δ × (π ÷ 180)<br>
+            Tangent length T = R × tan(Δ ÷ 2)<br>
+            3D bend: R = 3 × DN &nbsp;|&nbsp; 5D bend: R = 5 × DN
+          </div>
+
+          <h2>How to use the calculator</h2>
+          <ol>
+            <li>Select <em>Custom Radius</em> and type R in meters, or select 3D or 5D.</li>
+            <li>For 3D or 5D, enter the nominal diameter DN in millimeters. The radius is calculated for you.</li>
+            <li>Enter the deflection angle in degrees (greater than 0 and less than 180).</li>
+            <li>Read the arc length and tangent length in meters.</li>
+          </ol>
+
+          <h2>Worked example 1: custom radius</h2>
+          <p>A pipeline changes direction by 30° with a bend radius of 40 m.</p>
+          <ul>
+            <li>Arc length: 40 × 30 × π ÷ 180 = <strong>20.944 m</strong></li>
+            <li>Tangent length: 40 × tan(15°) = 40 × 0.26795 = <strong>10.718 m</strong></li>
+          </ul>
+          <p>The straight-run saving compared with a sharp corner is 2T − L = 21.436 − 20.944 = 0.492 m. This is the difference between the two tangents and the curve, and it is useful when checking total pipe length along a route.</p>
+
+          <h2>Worked example 2: 5D bend</h2>
+          <p>A DN 500 pipe uses a 5D bend with a 45° deflection.</p>
+          <ul>
+            <li>Radius: 5 × 500 mm = 2500 mm = 2.5 m</li>
+            <li>Arc length: 2.5 × 45 × π ÷ 180 = <strong>1.963 m</strong></li>
+            <li>Tangent length: 2.5 × tan(22.5°) = 2.5 × 0.41421 = <strong>1.036 m</strong></li>
+          </ul>
+
+          <h2>Worked example 3: 3D bend</h2>
+          <p>A DN 300 pipe uses a 3D bend with a 90° deflection.</p>
+          <ul>
+            <li>Radius: 3 × 300 mm = 900 mm = 0.9 m</li>
+            <li>Arc length: 0.9 × π ÷ 2 = <strong>1.414 m</strong></li>
+            <li>Tangent length: 0.9 × tan(45°) = <strong>0.900 m</strong></li>
+          </ul>
+
+          <h2>Quick reference for a radius of 1 m</h2>
+          <p>Multiply the values below by your radius R to get the result.</p>
+          <table style="width:100%; border-collapse:collapse; font-size:14px;">
+            <tr>
+              <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border);">Deflection</th>
+              <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border);">Arc length</th>
+              <th style="text-align:left; padding:8px; border-bottom:1px solid var(--border);">Tangent length</th>
+            </tr>
+            <tr><td style="padding:8px;">10°</td><td style="padding:8px;">0.1745</td><td style="padding:8px;">0.0875</td></tr>
+            <tr><td style="padding:8px;">20°</td><td style="padding:8px;">0.3491</td><td style="padding:8px;">0.1763</td></tr>
+            <tr><td style="padding:8px;">30°</td><td style="padding:8px;">0.5236</td><td style="padding:8px;">0.2679</td></tr>
+            <tr><td style="padding:8px;">45°</td><td style="padding:8px;">0.7854</td><td style="padding:8px;">0.4142</td></tr>
+            <tr><td style="padding:8px;">60°</td><td style="padding:8px;">1.0472</td><td style="padding:8px;">0.5774</td></tr>
+            <tr><td style="padding:8px;">90°</td><td style="padding:8px;">1.5708</td><td style="padding:8px;">1.0000</td></tr>
+          </table>
+
+          <h2>Choosing a bend radius</h2>
+          <p>Short factory fittings are commonly described as 1.5D, 3D or 5D, where D is the nominal diameter. Field-bent line pipe and long-radius bends usually use much larger radii, often many diameters, and the minimum allowed depends on the pipe grade, wall thickness, coating and the applicable code. Always take the minimum radius from your project specification or the manufacturer, not from this calculator.</p>
+
+          <h2>Common mistakes</h2>
+          <ul>
+            <li><strong>Confusing deflection angle with the interior angle.</strong> A straight pipe has a deflection of 0°, not 180°. If you know the interior angle I at the corner, then Δ = 180° − I.</li>
+            <li><strong>Mixing units.</strong> DN is in millimeters but the radius is in meters. The 3D/5D option converts for you, but a custom radius must be entered in meters.</li>
+            <li><strong>Using the outside surface instead of the centerline.</strong> The radius here is to the pipe centerline.</li>
+            <li><strong>Forgetting the tangents.</strong> The arc length is only the curved part. The pipe also continues along both tangents.</li>
+          </ul>
+
+          <h2>Frequently asked questions</h2>
+          <h3>What does a 5D bend mean?</h3>
+          <p>The centerline radius equals five times the nominal pipe diameter. A DN 200 pipe with a 5D bend has a radius of 1000 mm.</p>
+
+          <h3>How do I find the total length of a bend with its tangents?</h3>
+          <p>Add the arc length and the length of the straight runs. If you are measuring from the intersection point, the total path along one side to the far end of the curve is T plus the arc, and the two tangent distances are equal.</p>
+
+          <h3>Is a larger radius always better?</h3>
+          <p>A larger radius lowers flow resistance and stresses, but it needs more space and a wider trench. The right radius balances these factors within the limits of the specification.</p>
+
+          <h3>Does this calculator check code compliance?</h3>
+          <p>No. It only performs the geometry. Wall thinning, ovality and allowable radii must be verified against the applicable code and the manufacturer's data. See our <a href="disclaimer.html">disclaimer</a>.</p>
+
+          <h2>Related calculators</h2>
+          <p><a href="calculator2.html">Angle and Offset Calculator</a> · <a href="calculator4.html">Trench Volume Calculator</a> · <a href="calculator5.html">Pipeline Volume and Hydrotest</a> · <a href="calculator8.html">Steel Pipe Weight</a></p>
         </div>
 
+        <!-- Sidebar Section -->
         <div class="calculator-sidebar">
             <div class="calculator">
                 <div class="top-bar">
@@ -179,8 +257,8 @@
                 </div>
                 
                 <div class="result-box">
-                    <p class="result-text"><span id="textArcLength">Arc Length:</span> <span id="arcResult" class="highlight">0.00</span> <span id="unitM">m</span></p>
-                    <p class="result-text"><span id="textTangent">Tangent Length:</span> <span id="tangentResult" class="highlight">0.00</span> <span id="unitM2">m</span></p>
+                    <p class="result-text"><span id="textArcLength">Arc Length:</span> <span id="arcResult" class="highlight">0.000</span> <span id="unitM">m</span></p>
+                    <p class="result-text"><span id="textTangent">Tangent Length:</span> <span id="tangentResult" class="highlight">0.000</span> <span id="unitM2">m</span></p>
                 </div>
 
                 <button class="btn-action" id="btnPrint" onclick="generateReport()">📄 Export Engineering Report</button>
@@ -222,42 +300,37 @@
             let std = document.getElementById('bendStandard').value;
             let nomGroup = document.getElementById('nominalGroup');
             let radiusInput = document.getElementById('bendRadius');
-
             if (std === 'custom') {
                 nomGroup.style.display = 'none';
                 radiusInput.disabled = false;
+                radiusInput.value = '';
             } else {
                 nomGroup.style.display = 'block';
                 radiusInput.disabled = true;
-                calculateBend();
             }
+            calculateBend();
         }
 
         function calculateBend() {
             let std = document.getElementById('bendStandard').value;
             let R = 0;
-
             if (std === 'custom') {
                 R = parseFloat(document.getElementById('bendRadius').value) || 0;
             } else {
                 let DN = parseFloat(document.getElementById('nominalDiameter').value) || 0;
                 let multiplier = std === '3d' ? 3 : 5;
                 R = (multiplier * DN) / 1000;
-                document.getElementById('bendRadius').value = R.toFixed(2);
+                document.getElementById('bendRadius').value = R > 0 ? R.toFixed(3) : '';
             }
-
             let deltaDeg = parseFloat(document.getElementById('deflectionAngle').value) || 0;
-            let deltaRad = deltaDeg * (Math.PI / 180);
-            let arcLength = R * deltaRad;
-            let tangent = R * Math.tan(deltaRad / 2);
-
-            if (R === 0 || deltaDeg === 0) {
-                arcLength = 0;
-                tangent = 0;
+            if (R <= 0 || deltaDeg <= 0 || deltaDeg >= 180) {
+                document.getElementById('arcResult').innerText = '0.000';
+                document.getElementById('tangentResult').innerText = '0.000';
+                return;
             }
-
-            document.getElementById('arcResult').innerText = arcLength.toFixed(3);
-            document.getElementById('tangentResult').innerText = tangent.toFixed(3);
+            let deltaRad = deltaDeg * (Math.PI / 180);
+            document.getElementById('arcResult').innerText = (R * deltaRad).toFixed(3);
+            document.getElementById('tangentResult').innerText = (R * Math.tan(deltaRad / 2)).toFixed(3);
         }
 
         function askAiAssistant() {
@@ -302,16 +375,9 @@
                 textArcLength: "Arc Length:",
                 textTangent: "Tangent Length:",
                 unitM: "m",
+                unitM2: "m",
                 btnPrint: "📄 Export Engineering Report",
-                secTitle: "Advanced Pipeline Bends & Geometry Engineering",
-                secP1: "Pipeline bends (Cintre) calculations are critical in high-pressure piping engineering, petroleum transport networks, and routing layouts. They define exact arc lengths and tangent dimensions required for spool prefabrication and site fitting according to international codes (ASME B31.4 / B31.8).",
-                secP2: "Engineering Parameters:",
-                secP3: "Utilized extensively by pipeline construction engineers to minimize fluid pressure drops and secure flawless alignment across complex geographical profiles.",
-                dir: "ltr",
-                li1: "R = Centerline Bend Radius (Standard or Custom Code Radius)",
-                li2: "Δ (Delta) = Deflection / Bending Angle in Degrees",
-                li3: "Arc Length = Actual physical pipe length along the curvature",
-                li4: "Tangent Length = Distance from the Intersection Point (PI) to the curve tangent point (TC/CT)"
+                dir: "ltr"
             },
             fr: {
                 backText: "Retour au Hub",
@@ -326,16 +392,9 @@
                 textArcLength: "Longueur d'arc :",
                 textTangent: "Longueur de tangente :",
                 unitM: "m",
+                unitM2: "m",
                 btnPrint: "📄 Exporter le Rapport Technique",
-                secTitle: "Ingénierie Avancée des Cintrages de Pipelines",
-                secP1: "Les calculs de cintrages sont vitaux pour la tuyauterie haute pression et les réseaux pétroliers selon les normes internationales (ASME B31.4 / B31.8).",
-                secP2: "Paramètres Techniques :",
-                secP3: "Utilisé par les ingénieurs pour garantir l'alignement parfait des réseaux de canalisations.",
-                dir: "ltr",
-                li1: "R = Rayon de courbure (Standard ou personnalisé)",
-                li2: "Δ (Delta) = Angle de déviation en degrés",
-                li3: "Longueur d'arc = Longueur réelle du tuyau le long de la courbure",
-                li4: "Longueur de tangente = Distance du PI au point de tangence (TC/CT)"
+                dir: "ltr"
             },
             ar: {
                 backText: "العودة للرئيسية",
@@ -350,16 +409,9 @@
                 textArcLength: "طول القوس (Arc Length):",
                 textTangent: "طول المماس (Tangent Length):",
                 unitM: "متر",
+                unitM2: "متر",
                 btnPrint: "📄 استخراج التقرير الهندسي المعتمد",
-                secTitle: "الهندسة المتقدمة لانحناءات ومسارات خطوط الأنابيب",
-                secP1: "تعتبر حسابات انحناءات الأنابيب (Cintre) بالغة الأهمية في هندسة الأنابيب عالية الضغط وشبكات نقل البترول لتحديد أطوال الأقواس والمماس بدقة مطابقة للأكواد العالمية (ASME B31.4 / B31.8).",
-                secP2: "المعاملات الهندسية:",
-                secP3: "تستخدم على نطاق واسع من قبل مهندسي الإنشاءات لتقليل فقد الضغط وضمان التوافق التام لمسارات الأنابيب.",
-                dir: "rtl",
-                li1: "R = نصف قطر الانحناء (قياسي أو مخصص)",
-                li2: "Δ (دلتا) = زاوية الانحراف بالدرجات",
-                li3: "طول القوس = طول الأنبوب الفعلي على طول المنحنى",
-                li4: "طول المماس = المسافة من نقطة التقاطع (PI) إلى نقطة تماس المنحنى"
+                dir: "rtl"
             }
         };
 
@@ -383,32 +435,9 @@
             document.getElementById('textArcLength').innerText = t.textArcLength;
             document.getElementById('textTangent').innerText = t.textTangent;
             document.getElementById('unitM').innerText = t.unitM;
-            document.getElementById('unitM2').innerText = t.unitM;
+            document.getElementById('unitM2').innerText = t.unitM2;
             document.getElementById('btnPrint').innerText = t.btnPrint;
-            document.getElementById('secTitle').innerText = t.secTitle;
-            document.getElementById('secP1').innerText = t.secP1;
-            document.getElementById('secP2').innerText = t.secP2;
-            document.getElementById('secP3').innerText = t.secP3;
-            
-            for(let i = 1; i <= 4; i++) {
-                if(document.getElementById(`li${i}`)) {
-                    document.getElementById(`li${i}`).innerHTML = t[`li${i}`];
-                }
-            }
         }
     </script>
-    <footer style="text-align:center; padding:20px; font-size:14px; color:var(--text-muted); margin-top: 40px; border-top: 1px solid var(--border);">
-    <a href="index.html" style="color:var(--primary); text-decoration:underline;">Home</a>
-    &nbsp;|&nbsp;
-    <a href="about.html" style="color:var(--primary); text-decoration:underline;">About Us</a>
-    &nbsp;|&nbsp;
-    <a href="contact.html" style="color:var(--primary); text-decoration:underline;">Contact Us</a>
-    &nbsp;|&nbsp;
-    <a href="terms.html" style="color:var(--primary); text-decoration:underline;">Terms of Service</a>
-    &nbsp;|&nbsp;
-    <a href="disclaimer.html" style="color:var(--primary); text-decoration:underline;">Disclaimer</a>
-    &nbsp;|&nbsp;
-    <a href="https://www.freeprivacypolicy.com/live/1ca3e19a-906b-4b42-8c57-2bde2d789f30" target="_blank" style="color:var(--primary); text-decoration:underline;">Privacy Policy</a>
-</footer>
 </body>
 </html>
