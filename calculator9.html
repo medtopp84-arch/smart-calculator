@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2474106204487574" crossorigin="anonymous"></script>
-    <title>Hydrostatic Pressure | OmniEngineer Pro</title>
+    <meta name="google-adsense-account" content="ca-pub-2474106204487574">
+
+    <title>Hydrostatic Pressure Calculator: P = ρgh in kPa, bar and psi | ChemiCalc Pro</title>
+    <meta name="description" content="Free hydrostatic pressure calculator. Enter fluid depth and density to get pressure in kPa, bar, psi and MPa, gauge and absolute, plus the force on a tank bottom, with the P = ρgh formula and worked examples.">
+    <link rel="canonical" href="https://medtopp84-arch.github.io/smart-calculator/calculator_ai_example.html">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧪</text></svg>">
+
     <style>
         :root {
             --primary: #2563eb;
@@ -15,6 +21,8 @@
             --text-muted: #64748b;
             --border: #e2e8f0;
             --result-bg: #f0fdf4;
+            --btn-success: #10b981;
+            --btn-success-hover: #059669;
         }
 
         [data-theme="dark"] {
@@ -26,86 +34,82 @@
             --text-muted: #94a3b8;
             --border: #334155;
             --result-bg: #065f46;
+            --btn-success: #059669;
+            --btn-success-hover: #047857;
         }
 
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
-        
+
         header { background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; }
         .logo { font-size: 18px; font-weight: bold; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 8px; }
         .header-controls { display: flex; align-items: center; gap: 12px; }
-        
-        .page-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
-        @media (max-width: 900px) { .page-container { grid-template-columns: 1fr; } }
-        
+
+        .page-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 420px; gap: 30px; align-items: start; }
+        @media (max-width: 992px) { .page-container { grid-template-columns: 1fr; } .calculator-sidebar { order: -1; } }
+
         .content-section { background: var(--card-bg); padding: 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border); line-height: 1.7; }
-        .content-section h2 { color: var(--primary); margin-top: 0; font-size: 22px; }
-        .content-section p { color: var(--text-muted); font-size: 15px; }
-        
-        [dir="rtl"] .content-section { text-align: right; }
-        [dir="rtl"] .content-section ul { padding-right: 20px; padding-left: 0; }
-        
+        .content-section h1 { color: var(--primary); margin-top: 0; font-size: 26px; line-height: 1.3; }
+        .content-section h2 { color: var(--primary); margin-top: 30px; margin-bottom: 8px; font-size: 20px; }
+        .content-section h3 { color: var(--text-main); margin-top: 20px; margin-bottom: 4px; font-size: 16px; }
+        .content-section p, .content-section li { color: var(--text-muted); font-size: 15px; }
+        .content-section a { color: var(--primary); }
+
+        .table-wrap { overflow-x: auto; }
+        .content-section table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 10px 0; }
+        .content-section th { text-align: left; padding: 8px; border-bottom: 2px solid var(--border); color: var(--text-main); }
+        .content-section td { padding: 8px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+
         .pro-blueprint-box { background: #f1f5f9; border: 2px solid var(--primary); border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; overflow: hidden; }
         [data-theme="dark"] .pro-blueprint-box { background: #1e293b; border-color: var(--primary); }
         .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
-        [dir="rtl"] .pro-blueprint-box svg { transform: scaleX(-1); }
 
-        .formula-box { background: #eff6ff; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: var(--primary-dark); border-radius: 4px; text-align: center; }
-        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid var(--primary); }
+        .formula-box { background: #eff6ff; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 15px; color: var(--primary-dark); border-radius: 4px; text-align: center; }
         [data-theme="dark"] .formula-box { background: #1e3a8a; color: #60a5fa; }
 
-        .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 90px; }
+        @media (max-width: 992px) { .calculator-sidebar { position: static; } }
         .calculator { background: var(--card-bg); padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--border); }
-        
+
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
         a.back-btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 13px; transition: color 0.2s; display: inline-flex; align-items: center; gap: 4px; }
         a.back-btn:hover { color: var(--primary-dark); }
-        [dir="rtl"] a.back-btn { flex-direction: row-reverse; }
-        
-        select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
-        
+
         .input-group { margin-bottom: 16px; }
         label { display: block; margin-bottom: 6px; color: var(--text-muted); font-weight: bold; font-size: 13px; }
-        input { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
-        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
-        
+        input, select.form-control { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
+        input:focus, select.form-control:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+
         .result-box { background: var(--result-bg); padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid var(--primary); }
         .result-text { font-size: 14px; color: var(--text-main); font-weight: bold; margin: 6px 0; }
         .highlight { font-size: 18px; color: var(--primary); }
+        .note-text { font-size: 11px; color: var(--text-muted); margin-top: 10px; }
 
-        .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .ai-header { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; color: #60a5fa; }
-        .ai-chat-output { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 13px; color: #cbd5e1; min-height: 60px; margin-bottom: 12px; line-height: 1.5; }
-        .ai-input-group { display: flex; gap: 8px; }
-        .ai-input { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
-        .ai-btn { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
-        .ai-btn:hover { background: var(--primary-dark); }
+        .btn-action { width: 100%; background: var(--btn-success); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; margin-top: 15px; transition: background 0.2s; }
+        .btn-action:hover { background: var(--btn-success-hover); }
 
         .theme-btn { width: 36px; height: 36px; padding: 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; }
-        .lang-select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
     </style>
 </head>
 <body>
 
     <header>
-        <a href="index.html" class="logo" id="homeLink"><span id="headerArrow">←</span> <span id="backText">Back to Hub</span></a>
+        <a href="index.html" class="logo">← Back to Hub</a>
         <div class="header-controls">
-            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙</button>
-            <select class="lang-select" id="langSelect" onchange="changeLanguage()">
-                <option value="en">English 🇬🇧</option>
-                <option value="fr">Français 🇫🇷</option>
-                <option value="ar">العربية 🇸🇦</option>
-            </select>
+            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
         </div>
     </header>
 
     <div class="page-container">
         <div class="content-section">
-            <h2 id="secTitle">About Hydrostatic Pressure & Engineering Principles</h2>
-            <p id="secP1">Hydrostatic pressure is the pressure exerted by a fluid at rest due to the force of gravity. It increases in direct proportion to the depth measured from the surface, because of the increasing weight of fluid exerting downward force.</p>
-            
+            <h1>Hydrostatic Pressure Calculator: P = ρgh in kPa, bar and psi</h1>
+            <p>This calculator finds the pressure at a given depth in a liquid at rest. Enter the depth and choose the fluid, or type your own density. You get the pressure in kilopascals, bar, psi and megapascals, both as gauge pressure and as absolute pressure. If you enter the area of the tank floor or wall, it also gives the force acting on it. It is useful for tanks, pipelines, dams, wells, diving and any design where a column of liquid loads a surface.</p>
+
+            <h2>What is hydrostatic pressure?</h2>
+            <p>Hydrostatic pressure is the pressure that a fluid at rest exerts because of its weight. The deeper you go, the more fluid is above you, so the pressure grows in direct proportion to the depth. It also grows with the density of the fluid, so a column of brine presses harder than a column of water of the same height.</p>
+
             <div class="pro-blueprint-box">
-                <svg width="380" height="230" viewBox="0 0 380 230">
+                <svg width="380" height="230" viewBox="0 0 380 230" role="img" aria-label="Tank of liquid with depth h and pressure diagram">
                     <defs>
                         <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
                             <path d="M0,2 L8,4 L0,6 Z" fill="#1d4ed8"/>
@@ -114,17 +118,13 @@
                             <path d="M0,2 L8,4 L0,6 Z" fill="#dc2626"/>
                         </marker>
                     </defs>
-
                     <rect x="110" y="30" width="180" height="150" fill="rgba(37, 99, 235, 0.08)" stroke="#2563eb" stroke-width="3" rx="3"/>
-                    
                     <line x1="110" y1="55" x2="290" y2="55" stroke="#2563eb" stroke-dasharray="6,4" stroke-width="2"/>
                     <text x="200" y="47" font-size="11" fill="#1d4ed8" font-weight="bold" text-anchor="middle">Surface (h = 0 m)</text>
-
                     <line x1="80" y1="55" x2="80" y2="180" stroke="#1d4ed8" stroke-width="2.5" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)"/>
                     <line x1="75" y1="55" x2="85" y2="55" stroke="#1d4ed8" stroke-width="2"/>
                     <line x1="75" y1="180" x2="85" y2="180" stroke="#1d4ed8" stroke-width="2"/>
                     <text x="60" y="122" font-size="14" fill="#1d4ed8" font-weight="bold" text-anchor="middle">h</text>
-
                     <polygon points="290,55 340,180 290,180" fill="rgba(220, 38, 38, 0.15)" stroke="#dc2626" stroke-width="2"/>
                     <line x1="315" y1="117" x2="340" y2="117" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow-red)"/>
                     <text x="330" y="200" font-size="12" fill="#dc2626" font-weight="bold" text-anchor="middle">Pressure (P = ρgh)</text>
@@ -132,210 +132,258 @@
             </div>
 
             <div class="formula-box">
-                P = ρ · g · h
+                P = ρ × g × h<br>
+                Absolute pressure = P + atmospheric pressure (101.325 kPa)<br>
+                Force on a surface F = P × A
             </div>
-            
-            <p id="secP2">Where:</p>
+            <p>Here P is the gauge pressure in pascals, ρ the fluid density in kg/m³, g the gravitational acceleration (9.81 m/s²) and h the depth below the free surface in meters. The pressure depends only on the depth and the density, not on the shape or the volume of the container.</p>
+
+            <h2>Gauge and absolute pressure</h2>
+            <p>The formula P = ρgh gives the <strong>gauge pressure</strong>, which is the pressure above the atmosphere. Gauges on tanks and pipes usually show this value. The <strong>absolute pressure</strong> adds the pressure of the air above the liquid, about 101.325 kPa at sea level. Use absolute pressure for gas laws and for cases where the atmosphere is not acting on the other side of the surface.</p>
+
+            <h2>How to use the calculator</h2>
+            <ol>
+                <li>Enter the depth of the point below the liquid surface in meters.</li>
+                <li>Select the fluid, or choose <em>Custom</em> and enter the density in kg/m³.</li>
+                <li>Optionally enter the area of the surface (floor or wall section) in m² to get the force.</li>
+                <li>Read the pressure in kPa, bar, psi and MPa.</li>
+            </ol>
+
+            <h2>Worked example 1: water tank</h2>
+            <p>The bottom of a tank filled with fresh water to a depth of 10 m.</p>
             <ul>
-                <li id="li1"><strong>P</strong> = Hydrostatic pressure</li>
-                <li id="li2"><strong>ρ (rho)</strong> = Fluid density (e.g., 1000 kg/m³ for fresh water)</li>
-                <li id="li3"><strong>g</strong> = Acceleration due to gravity (~9.81 m/s²)</li>
-                <li id="li4"><strong>h</strong> = Height or depth of the liquid column</li>
+                <li>P = 1000 × 9.81 × 10 = 98,100 Pa = <strong>98.1 kPa</strong></li>
+                <li>In bar: <strong>0.981 bar</strong></li>
+                <li>In psi: 98.1 × 0.145038 = <strong>14.23 psi</strong></li>
+                <li>Absolute: 98.1 + 101.325 = <strong>199.4 kPa</strong></li>
+                <li>If the floor area is 20 m², the force is 98.1 × 20 = <strong>1962 kN</strong></li>
             </ul>
-            <p id="secP3">Engineers use this calculation extensively when designing pipelines, water storage tanks, dams, and deep excavation shoring systems to ensure structural integrity under maximum fluid loads.</p>
+
+            <h2>Worked example 2: seawater at 30 m</h2>
+            <p>A diver or a pipe at 30 m depth in seawater with a density of 1025 kg/m³.</p>
+            <ul>
+                <li>P = 1025 × 9.81 × 30 = 301,657 Pa = <strong>301.7 kPa</strong></li>
+                <li>In bar: <strong>3.02 bar</strong></li>
+                <li>In psi: <strong>43.75 psi</strong></li>
+            </ul>
+            <p>The total pressure on the diver is this plus the atmosphere, roughly 4 bar absolute.</p>
+
+            <h2>Worked example 3: diesel tank</h2>
+            <p>A diesel storage tank with a liquid level of 6 m and a density of 830 kg/m³.</p>
+            <ul>
+                <li>P = 830 × 9.81 × 6 = 48,854 Pa = <strong>48.85 kPa</strong></li>
+                <li>In bar: <strong>0.489 bar</strong></li>
+                <li>In psi: <strong>7.09 psi</strong></li>
+            </ul>
+
+            <h2>Worked example 4: finding the depth</h2>
+            <p>At what depth in fresh water does the gauge pressure reach 3 bar?</p>
+            <ul>
+                <li>Rearrange: h = P ÷ (ρ × g) = 300,000 ÷ (1000 × 9.81)</li>
+                <li>h = <strong>30.58 m</strong></li>
+            </ul>
+            <p>A handy rule: about every 10.2 m of fresh water adds 1 bar.</p>
+
+            <h2>Pressure of fresh water by depth</h2>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Depth</th><th>Gauge pressure (kPa)</th><th>Bar</th><th>psi</th></tr>
+                    <tr><td>1 m</td><td>9.81</td><td>0.098</td><td>1.42</td></tr>
+                    <tr><td>5 m</td><td>49.05</td><td>0.491</td><td>7.11</td></tr>
+                    <tr><td>10 m</td><td>98.10</td><td>0.981</td><td>14.23</td></tr>
+                    <tr><td>20 m</td><td>196.20</td><td>1.962</td><td>28.46</td></tr>
+                    <tr><td>50 m</td><td>490.50</td><td>4.905</td><td>71.14</td></tr>
+                    <tr><td>100 m</td><td>981.00</td><td>9.810</td><td>142.28</td></tr>
+                </table>
+            </div>
+
+            <h2>Pressure of a 10 m column for different fluids</h2>
+            <p>The densities are typical values. Real densities vary with temperature and composition.</p>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Fluid</th><th>Density (kg/m³)</th><th>Pressure at 10 m (kPa)</th></tr>
+                    <tr><td>Gasoline</td><td>750</td><td>73.58</td></tr>
+                    <tr><td>Diesel</td><td>830</td><td>81.42</td></tr>
+                    <tr><td>Crude oil</td><td>850</td><td>83.39</td></tr>
+                    <tr><td>Fresh water</td><td>1000</td><td>98.10</td></tr>
+                    <tr><td>Seawater</td><td>1025</td><td>100.55</td></tr>
+                    <tr><td>Brine</td><td>1200</td><td>117.72</td></tr>
+                    <tr><td>Mercury</td><td>13,546</td><td>1328.86</td></tr>
+                </table>
+            </div>
+
+            <h2>Force on a wall or gate</h2>
+            <p>On a vertical wall, the pressure is zero at the surface and increases linearly with depth, so the load is triangular. For a rectangular wall of width b and liquid height h, the total horizontal force is:</p>
+            <div class="formula-box">F = ½ × ρ × g × h² × b</div>
+            <p>and it acts at one third of the height above the bottom. For example, a 3 m high, 5 m wide water wall carries ½ × 1000 × 9.81 × 9 × 5 = 220.7 kN. The calculator's force output uses the pressure at the depth you enter multiplied by the area, which is exact for a horizontal surface such as a tank floor. For a vertical or inclined wall, use the formula above or the average pressure at mid-depth.</p>
+
+            <h2>Common mistakes</h2>
+            <ul>
+                <li><strong>Measuring depth from the wrong point.</strong> Depth is the vertical distance below the free surface, not the length along a sloped pipe.</li>
+                <li><strong>Mixing gauge and absolute pressure.</strong> Check which one your gauge or your formula expects.</li>
+                <li><strong>Wrong density units.</strong> Use kg/m³. Water is 1000 kg/m³, not 1 or 1.0 g/cm³ in this field.</li>
+                <li><strong>Using the container volume.</strong> A narrow tank and a wide tank with the same depth have the same bottom pressure.</li>
+                <li><strong>Forgetting extra pressure on the surface.</strong> A closed pressurized tank adds the gas pressure above the liquid.</li>
+            </ul>
+
+            <h2>Frequently asked questions</h2>
+            <h3>How much pressure does 10 meters of water create?</h3>
+            <p>About 98 kPa, close to 1 bar or 14.2 psi, as gauge pressure.</p>
+            <h3>Does pressure depend on the shape of the container?</h3>
+            <p>No. At the same depth in the same fluid, the pressure is the same whether the vessel is wide, narrow or oddly shaped. This is sometimes called the hydrostatic paradox.</p>
+            <h3>How do I convert bar to psi?</h3>
+            <p>Multiply by 14.5038. So 3 bar is 43.5 psi. One atmosphere is 101.325 kPa, or 1.01325 bar.</p>
+            <h3>Is this pressure the same as the pump or line pressure?</h3>
+            <p>No. It is only the static pressure from the column of liquid. Pumps, friction and elevation changes in a pipeline add or remove pressure. See our <a href="disclaimer.html">disclaimer</a> about using results for final design.</p>
+
+            <h2>Related calculators</h2>
+            <p><a href="calculator6.html">Hydraulic Flow Rate</a> · <a href="calculator5.html">Pipeline Volume and Hydrotest</a> · <a href="calculator4.html">Trench Volume Calculator</a> · <a href="calculator3.html">Pipeline Bend Calculator</a></p>
         </div>
 
         <div class="calculator-sidebar">
             <div class="calculator">
                 <div class="top-bar">
-                    <a href="index.html" class="back-btn" id="backText2"><span id="backArrow">←</span> <span id="backLabel">Back to Directory</span></a>
-                    <select class="lang-select" id="langSelect2" onchange="changeLanguage()" style="display:none;"></select>
+                    <a href="index.html" class="back-btn">← Back to Directory</a>
                 </div>
 
-                <h3 id="calcTitle" style="margin-top:0; color:var(--text-main); font-size:17px;">💧 Hydrostatic Pressure Calculator</h3>
-                
+                <h2 style="text-align: left; font-size: 17px; margin-top: 0; color: var(--text-main);">💧 Hydrostatic Pressure Calculator</h2>
+
                 <div class="input-group">
-                    <label id="labelHeight">Liquid Height / Depth (meters):</label>
-                    <input type="number" id="pHeight" placeholder="e.g. 10" oninput="calculatePressure()">
+                    <label for="pHeight">Liquid Height / Depth (meters):</label>
+                    <input type="number" id="pHeight" min="0" step="any" placeholder="e.g. 10" oninput="calculatePressure()">
                 </div>
                 <div class="input-group">
-                    <label id="labelDensity">Fluid Density (kg/m³, Water = 1000):</label>
-                    <input type="number" id="pDensity" value="1000" placeholder="1000" oninput="calculatePressure()">
+                    <label for="fluidSelect">Fluid:</label>
+                    <select id="fluidSelect" class="form-control" onchange="onFluidChange()">
+                        <option value="1000" selected>Fresh water (1000 kg/m³)</option>
+                        <option value="1025">Seawater (1025 kg/m³)</option>
+                        <option value="850">Crude oil (~850 kg/m³)</option>
+                        <option value="830">Diesel (~830 kg/m³)</option>
+                        <option value="750">Gasoline (~750 kg/m³)</option>
+                        <option value="1200">Brine (~1200 kg/m³)</option>
+                        <option value="13546">Mercury (13,546 kg/m³)</option>
+                        <option value="custom">Custom density</option>
+                    </select>
                 </div>
-                
+                <div class="input-group" id="customGroup" style="display:none;">
+                    <label for="pDensity">Fluid Density (kg/m³):</label>
+                    <input type="number" id="pDensity" min="0" step="any" value="1000" placeholder="1000" oninput="calculatePressure()">
+                </div>
+                <div class="input-group">
+                    <label for="pArea">Surface area (m², optional, for force):</label>
+                    <input type="number" id="pArea" min="0" step="any" placeholder="e.g. 20" oninput="calculatePressure()">
+                </div>
+
                 <div class="result-box">
-                    <p class="result-text"><span id="textPressureKpa">Pressure (kPa):</span> <span id="resKpa" class="highlight">0.00</span></p>
-                    <p class="result-text"><span id="textPressureBar">Pressure (Bar):</span> <span id="resBar" class="highlight">0.00</span></p>
+                    <p class="result-text">Gauge pressure: <span id="resKpa" class="highlight">0.00</span> kPa</p>
+                    <p class="result-text">In bar: <span id="resBar" class="highlight">0.000</span> bar</p>
+                    <p class="result-text">In psi: <span id="resPsi" class="highlight">0.00</span> psi</p>
+                    <p class="result-text">In MPa: <span id="resMpa" class="highlight">0.0000</span> MPa</p>
+                    <p class="result-text">Absolute pressure: <span id="resAbs" class="highlight">101.33</span> kPa</p>
+                    <p class="result-text">Force on the area: <span id="resForce" class="highlight">0.00</span> kN</p>
+                    <p class="note-text">Uses g = 9.81 m/s² and atmospheric pressure 101.325 kPa.</p>
                 </div>
-            </div>
 
-            <div class="ai-assistant-box">
-                <div class="ai-header">🤖 OmniEngineer AI Expert</div>
-                <div class="ai-chat-output" id="aiOutput">Hello! I'm your engineering AI assistant. Ask me anything about this calculation, safety factors, or fluid mechanics principles!</div>
-                <div class="ai-input-group">
-                    <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI a question...">
-                    <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
-                </div>
+                <button class="btn-action" id="copyBtn" onclick="copyResult()">📋 Copy Result</button>
             </div>
         </div>
     </div>
 
+    <footer style="text-align:center; padding:20px; font-size:14px; color:var(--text-muted); margin-top: 40px; border-top: 1px solid var(--border);">
+        <a href="index.html" style="color:var(--primary); text-decoration:underline;">Home</a>
+        &nbsp;|&nbsp;
+        <a href="about.html" style="color:var(--primary); text-decoration:underline;">About Us</a>
+        &nbsp;|&nbsp;
+        <a href="contact.html" style="color:var(--primary); text-decoration:underline;">Contact Us</a>
+        &nbsp;|&nbsp;
+        <a href="terms.html" style="color:var(--primary); text-decoration:underline;">Terms of Service</a>
+        &nbsp;|&nbsp;
+        <a href="disclaimer.html" style="color:var(--primary); text-decoration:underline;">Disclaimer</a>
+        &nbsp;|&nbsp;
+        <a href="https://www.freeprivacypolicy.com/live/1ca3e19a-906b-4b42-8c57-2bde2d789f30" target="_blank" rel="noopener" style="color:var(--primary); text-decoration:underline;">Privacy Policy</a>
+    </footer>
+
     <script>
+        var G = 9.81;
+        var ATM_KPA = 101.325;
+
         function toggleTheme() {
-            let html = document.getElementById('htmlTag');
-            let btn = document.getElementById('themeToggleBtn');
-            if (html.getAttribute('data-theme') === 'light') {
-                html.setAttribute('data-theme', 'dark');
-                btn.innerText = '☀️';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                html.setAttribute('data-theme', 'light');
-                btn.innerText = '🌙';
-                localStorage.setItem('theme', 'light');
-            }
+            var html = document.getElementById('htmlTag');
+            var btn = document.getElementById('themeToggleBtn');
+            var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', next);
+            btn.innerText = next === 'dark' ? '☀️' : '🌙';
+            try { localStorage.setItem('theme', next); } catch (e) {}
         }
 
-        window.onload = function() {
-            let savedTheme = localStorage.getItem('theme') || 'light';
-            document.getElementById('htmlTag').setAttribute('data-theme', savedTheme);
-            document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
+        window.onload = function () {
+            var saved = 'light';
+            try { saved = localStorage.getItem('theme') || 'light'; } catch (e) {}
+            document.getElementById('htmlTag').setAttribute('data-theme', saved);
+            document.getElementById('themeToggleBtn').innerText = saved === 'dark' ? '☀️' : '🌙';
+            calculatePressure();
+        };
+
+        function onFluidChange() {
+            var isCustom = document.getElementById('fluidSelect').value === 'custom';
+            document.getElementById('customGroup').style.display = isCustom ? 'block' : 'none';
+            calculatePressure();
         }
 
-        function askAiAssistant() {
-            let q = document.getElementById('aiQuestionInput').value.toLowerCase();
-            let h = document.getElementById('pHeight').value;
-            let output = document.getElementById('aiOutput');
-            
-            if (!q) {
-                output.innerText = "Please type a question for the AI assistant!";
-                return;
+        function getDensity() {
+            var sel = document.getElementById('fluidSelect').value;
+            if (sel === 'custom') {
+                return parseFloat(document.getElementById('pDensity').value) || 0;
             }
-
-            if (q.includes('safety') || q.includes('factor') || q.includes('أمان')) {
-                output.innerText = "💡 Engineering Tip: When designing tanks or pipelines subjected to hydrostatic pressure, always apply a safety factor of at least 1.5 to 2.0 depending on the fluid hazard level.";
-            } else if (q.includes('max') || q.includes('high') || q.includes('ارتفاع')) {
-                output.innerText = `📊 Based on your current height input (${h || '0'}m), every 10 meters of water depth adds approximately 1 Bar (100 kPa) of pressure!`;
-            } else {
-                output.innerText = `🤖 AI Analysis: The hydrostatic calculation is linear. Doubling the height 'h' doubles the pressure on container walls.`;
-            }
+            return parseFloat(sel) || 0;
         }
 
         function calculatePressure() {
-            let h = parseFloat(document.getElementById('pHeight').value) || 0;
-            let rho = parseFloat(document.getElementById('pDensity').value) || 1000;
-            let g = 9.81;
-            let pressurePa = rho * g * h;
-            let pressureKpa = pressurePa / 1000;
-            let pressureBar = pressurePa / 100000;
+            var h = parseFloat(document.getElementById('pHeight').value) || 0;
+            var rho = getDensity();
+            var area = parseFloat(document.getElementById('pArea').value) || 0;
 
-            document.getElementById('resKpa').innerText = pressureKpa.toFixed(2);
-            document.getElementById('resBar').innerText = pressureBar.toFixed(3);
+            if (h < 0 || rho < 0 || area < 0) { h = 0; rho = 0; area = 0; }
+
+            var pPa = rho * G * h;
+            var pKpa = pPa / 1000;
+
+            document.getElementById('resKpa').innerText = pKpa.toFixed(2);
+            document.getElementById('resBar').innerText = (pPa / 100000).toFixed(3);
+            document.getElementById('resPsi').innerText = (pKpa * 0.145038).toFixed(2);
+            document.getElementById('resMpa').innerText = (pPa / 1000000).toFixed(4);
+            document.getElementById('resAbs').innerText = (pKpa + ATM_KPA).toFixed(2);
+            document.getElementById('resForce').innerText = (pKpa * area).toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 });
         }
 
-        const translations = {
-            en: {
-                backText: "Back to Hub",
-                backLabel: "Back to Directory",
-                backArrow: "←",
-                headerArrow: "←",
-                calcTitle: "💧 Hydrostatic Pressure Calculator",
-                labelHeight: "Liquid Height / Depth (meters):",
-                labelDensity: "Fluid Density (kg/m³, Water = 1000):",
-                textPressureKpa: "Pressure (kPa):",
-                textPressureBar: "Pressure (Bar):",
-                secTitle: "About Hydrostatic Pressure & Engineering Principles",
-                secP1: "Hydrostatic pressure is the pressure exerted by a fluid at rest due to the force of gravity. It increases in direct proportion to the depth measured from the surface.",
-                secP2: "Where:",
-                secP3: "Engineers use this calculation extensively when designing pipelines, water storage tanks, and dams.",
-                dir: "ltr",
-                li1: "P = Hydrostatic pressure",
-                li2: "ρ (rho) = Fluid density (e.g., 1000 kg/m³ for fresh water)",
-                li3: "g = Acceleration due to gravity (~9.81 m/s²)",
-                li4: "h = Height or depth of the liquid column"
-            },
-            fr: {
-                backText: "Retour au Hub",
-                backLabel: "Retour au répertoire",
-                backArrow: "←",
-                headerArrow: "←",
-                calcTitle: "💧 Calculateur de Pression Hydrostatique",
-                labelHeight: "Hauteur / Profondeur du Liquide (mètres) :",
-                labelDensity: "Densité du Fluide (kg/m³, Eau = 1000) :",
-                textPressureKpa: "Pression (kPa) :",
-                textPressureBar: "Pression (Bar) :",
-                secTitle: "À propos de la Pression Hydrostatique",
-                secP1: "La pression hydrostatique est la pression exercée par un fluide au repos en raison de la gravité. Elle augmente proportionnellement à la profondeur.",
-                secP2: "Où :",
-                secP3: "Les ingénieurs utilisent ce calcul pour concevoir des pipelines, des réservoirs d'eau et des barrages.",
-                dir: "ltr",
-                li1: "P = Pression hydrostatique",
-                li2: "ρ (rho) = Densité du fluide (ex: 1000 kg/m³ pour l'eau)",
-                li3: "g = Accélération due à la gravité (~9.81 m/s²)",
-                li4: "h = Hauteur ou profondeur de la colonne de liquide"
-            },
-            ar: {
-                backText: "العودة للرئيسية",
-                backLabel: "العودة إلى الدليل",
-                backArrow: "→",
-                headerArrow: "→",
-                calcTitle: "💧 حاسبة الضغط الهيدروستاتيكي",
-                labelHeight: "ارتفاع أو عمق السائل (متر):",
-                labelDensity: "كثافة السائل (كجم/م³، الماء = 1000):",
-                textPressureKpa: "الضغط (كيلوباسكال):",
-                textPressureBar: "الضغط (بار):",
-                secTitle: "نبذة عن الضغط الهيدروستاتيكي والمبادئ الهندسية",
-                secP1: "الضغط الهيدروستاتيكي هو الضغط الذي يمارسه سائل في حالة سكون بسبب قوة الجاذبية. يزداد هذا الضغط طردياً مع زيادة العمق المقاس من السطح.",
-                secP2: "حيث أن:",
-                secP3: "يستخدم المهندسون هذه الحسابات بشكل مكثف عند تصميم خطوط الأنابيب، خزانات المياه، السدود، وأنظمة الحفر العميقة لضمان السلامة الإنشائية.",
-                dir: "rtl",
-                li1: "P = الضغط الهيدروستاتيكي",
-                li2: "ρ (rho) = كثافة السائل (مثال: 1000 كجم/م³ للماء العذب)",
-                li3: "g = تسارع الجاذبية الأرضية (~9.81 م/ث²)",
-                li4: "h = ارتفاع أو عمق عمود السائل"
-            }
-        };
+        function copyResult() {
+            var sel = document.getElementById('fluidSelect');
+            var text =
+                'Depth: ' + (document.getElementById('pHeight').value || 0) + ' m, fluid: ' +
+                sel.options[sel.selectedIndex].text + '\n' +
+                'Gauge pressure: ' + document.getElementById('resKpa').innerText + ' kPa = ' +
+                document.getElementById('resBar').innerText + ' bar = ' +
+                document.getElementById('resPsi').innerText + ' psi\n' +
+                'Absolute pressure: ' + document.getElementById('resAbs').innerText + ' kPa\n' +
+                'Force on area: ' + document.getElementById('resForce').innerText + ' kN';
+            var btn = document.getElementById('copyBtn');
 
-        function changeLanguage() {
-            let lang = document.getElementById('langSelect').value;
-            let t = translations[lang];
-            let html = document.getElementById('htmlTag');
-            
-            html.setAttribute('lang', lang);
-            html.setAttribute('dir', t.dir);
-            
-            document.getElementById('backText').innerText = t.backText;
-            document.getElementById('backLabel').innerText = t.backLabel;
-            document.getElementById('backArrow').innerText = t.backArrow;
-            document.getElementById('headerArrow').innerText = t.headerArrow;
-            document.getElementById('calcTitle').innerText = t.calcTitle;
-            document.getElementById('labelHeight').innerText = t.labelHeight;
-            document.getElementById('labelDensity').innerText = t.labelDensity;
-            document.getElementById('textPressureKpa').innerText = t.textPressureKpa;
-            document.getElementById('textPressureBar').innerText = t.textPressureBar;
-            document.getElementById('secTitle').innerText = t.secTitle;
-            document.getElementById('secP1').innerText = t.secP1;
-            document.getElementById('secP2').innerText = t.secP2;
-            document.getElementById('secP3').innerText = t.secP3;
-            
-            for(let i = 1; i <= 4; i++) {
-                if(document.getElementById(`li${i}`)) {
-                    document.getElementById(`li${i}`).innerHTML = t[`li${i}`];
-                }
+            function done() {
+                btn.innerText = '✅ Copied';
+                setTimeout(function () { btn.innerText = '📋 Copy Result'; }, 1500);
+            }
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(done);
+            } else {
+                var ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand('copy'); done(); } catch (e) {}
+                document.body.removeChild(ta);
             }
         }
     </script>
-    <footer style="text-align:center; padding:20px; font-size:14px; color:var(--text-muted); margin-top: 40px; border-top: 1px solid var(--border);">
-    <a href="index.html" style="color:var(--primary); text-decoration:underline;">Home</a>
-    &nbsp;|&nbsp;
-    <a href="about.html" style="color:var(--primary); text-decoration:underline;">About Us</a>
-    &nbsp;|&nbsp;
-    <a href="contact.html" style="color:var(--primary); text-decoration:underline;">Contact Us</a>
-    &nbsp;|&nbsp;
-    <a href="terms.html" style="color:var(--primary); text-decoration:underline;">Terms of Service</a>
-    &nbsp;|&nbsp;
-    <a href="disclaimer.html" style="color:var(--primary); text-decoration:underline;">Disclaimer</a>
-    &nbsp;|&nbsp;
-    <a href="https://www.freeprivacypolicy.com/live/1ca3e19a-906b-4b42-8c57-2bde2d789f30" target="_blank" style="color:var(--primary); text-decoration:underline;">Privacy Policy</a>
-</footer>
 </body>
 </html>
