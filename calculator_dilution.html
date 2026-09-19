@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2474106204487574" crossorigin="anonymous"></script>
-    <title>Dilution Calculator | OmniEngineer Pro</title>
+    <meta name="google-adsense-account" content="ca-pub-2474106204487574">
+
+    <title>Dilution Calculator: C1V1 = C2V2 for Stock Solutions | ChemiCalc Pro</title>
+    <meta name="description" content="Free dilution calculator. Solve C1V1 = C2V2 for any missing value, get the dilution factor and the volume of solvent to add, with worked examples, a dilution table and serial dilution steps.">
+    <link rel="canonical" href="https://medtopp84-arch.github.io/smart-calculator/calculator_dilution.html">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧪</text></svg>">
+
     <style>
         :root {
             --primary: #059669;
@@ -15,7 +21,6 @@
             --text-muted: #64748b;
             --border: #e2e8f0;
             --result-bg: #f0fdf4;
-            --tag-bg: #ecfdf5;
         }
 
         [data-theme="dark"] {
@@ -27,416 +32,444 @@
             --text-muted: #94a3b8;
             --border: #334155;
             --result-bg: #065f46;
-            --tag-bg: #064e3b;
         }
 
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
-        
+
         header { background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; }
         .logo { font-size: 18px; font-weight: bold; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 8px; }
         .header-controls { display: flex; align-items: center; gap: 12px; }
-        
-        .page-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
-        @media (max-width: 900px) { .page-container { grid-template-columns: 1fr; } }
-        
+
+        .page-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 420px; gap: 30px; align-items: start; }
+        @media (max-width: 992px) { .page-container { grid-template-columns: 1fr; } .calculator-sidebar { order: -1; } }
+
         .content-section { background: var(--card-bg); padding: 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border); line-height: 1.7; }
-        .content-section h2 { color: var(--primary); margin-top: 0; font-size: 22px; }
-        .content-section p { color: var(--text-muted); font-size: 15px; }
-        
-        [dir="rtl"] .content-section { text-align: right; }
-        [dir="rtl"] .content-section ul { padding-right: 20px; padding-left: 0; }
-        
+        .content-section h1 { color: var(--primary); margin-top: 0; font-size: 26px; line-height: 1.3; }
+        .content-section h2 { color: var(--primary); margin-top: 30px; margin-bottom: 8px; font-size: 20px; }
+        .content-section h3 { color: var(--text-main); margin-top: 20px; margin-bottom: 4px; font-size: 16px; }
+        .content-section p, .content-section li { color: var(--text-muted); font-size: 15px; }
+        .content-section a { color: var(--primary); }
+
+        .table-wrap { overflow-x: auto; }
+        .content-section table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 10px 0; }
+        .content-section th { text-align: left; padding: 8px; border-bottom: 2px solid var(--border); color: var(--text-main); }
+        .content-section td { padding: 8px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+
         .pro-blueprint-box { background: #f1f5f9; border: 2px solid var(--primary); border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; overflow: hidden; }
         [data-theme="dark"] .pro-blueprint-box { background: #1e293b; border-color: var(--primary); }
         .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
-        [dir="rtl"] .pro-blueprint-box svg { transform: scaleX(-1); }
 
-        .formula-box { background: #ecfdf5; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: var(--primary-dark); border-radius: 4px; text-align: center; }
-        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid var(--primary); }
+        .formula-box { background: #ecfdf5; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 15px; color: var(--primary-dark); border-radius: 4px; text-align: center; }
         [data-theme="dark"] .formula-box { background: #064e3b; color: #34d399; }
 
-        .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .note-box { background: #fffbeb; border-left: 4px solid #d97706; padding: 12px 18px; margin: 20px 0; border-radius: 4px; }
+        .note-box p { margin: 0; color: #92400e; font-size: 14px; }
+        [data-theme="dark"] .note-box { background: #451a03; }
+        [data-theme="dark"] .note-box p { color: #fcd34d; }
+
+        .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 90px; }
+        @media (max-width: 992px) { .calculator-sidebar { position: static; } }
         .calculator { background: var(--card-bg); padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--border); }
-        
+
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
         a.back-btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 13px; transition: color 0.2s; display: inline-flex; align-items: center; gap: 4px; }
         a.back-btn:hover { color: var(--primary-dark); }
-        [dir="rtl"] a.back-btn { flex-direction: row-reverse; }
-        
-        select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
-        
-        .input-group { margin-bottom: 16px; }
+
+        .input-group { margin-bottom: 14px; }
+        .row-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
         label { display: block; margin-bottom: 6px; color: var(--text-muted); font-weight: bold; font-size: 13px; }
         input, select.form-control { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
         input:focus, select.form-control:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(5,150,105,0.1); }
-        
+        .hint { font-size: 12px; color: var(--text-muted); margin: 0 0 14px 0; }
+
         .result-box { background: var(--result-bg); padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid var(--primary); }
         .result-text { font-size: 14px; color: var(--text-main); font-weight: bold; margin: 6px 0; }
-        .highlight { font-size: 22px; color: var(--primary); }
+        .highlight { font-size: 18px; color: var(--primary); }
+        .explain { font-size: 13px; font-weight: normal; color: var(--text-muted); margin: 6px 0; }
+        .warn { font-size: 13px; font-weight: bold; color: #dc2626; margin: 6px 0; min-height: 18px; }
 
-        .btn-calculate { width: 100%; background: var(--primary); color: white; border: none; padding: 12px; font-size: 15px; font-weight: bold; border-radius: 8px; cursor: pointer; margin-top: 10px; transition: background 0.2s; }
-        .btn-calculate:hover { background: var(--primary-dark); }
-
-        .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .ai-header { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; color: #34d399; }
-        .ai-chat-output { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 13px; color: #cbd5e1; min-height: 60px; margin-bottom: 12px; line-height: 1.5; }
-        .ai-input-group { display: flex; gap: 8px; }
-        .ai-input { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
-        .ai-btn { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
-        .ai-btn:hover { background: var(--primary-dark); }
+        .btn-row { display: flex; gap: 10px; margin-top: 12px; }
+        .btn-action { flex: 1; background: var(--primary); color: white; border: none; padding: 11px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; transition: background 0.2s; }
+        .btn-action:hover { background: var(--primary-dark); }
+        .btn-secondary { flex: 1; background: transparent; color: var(--text-main); border: 1px solid var(--border); padding: 11px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; }
+        .btn-secondary:hover { border-color: var(--primary); }
 
         .theme-btn { width: 36px; height: 36px; padding: 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; }
-        .lang-select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
-
-        .badge { display: inline-block; background: var(--tag-bg); color: var(--primary); font-size: 11px; padding: 3px 10px; border-radius: 6px; font-weight: bold; margin-bottom: 12px; }
-        .constants-info { font-size: 12px; color: var(--text-muted); margin-top: 10px; padding: 10px; background: var(--bg-color); border-radius: 6px; }
-        [dir="rtl"] .constants-info { text-align: right; }
     </style>
 </head>
 <body>
 
     <header>
-        <a href="index.html" class="logo" id="homeLink"><span id="headerArrow">←</span> <span id="backText">Back to Hub</span></a>
+        <a href="index.html" class="logo">← Back to Hub</a>
         <div class="header-controls">
-            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙</button>
-            <select class="lang-select" id="langSelect" onchange="changeLanguage()">
-                <option value="en">English 🇬🇧</option>
-                <option value="fr">Français 🇫🇷</option>
-                <option value="ar">العربية 🇸🇦</option>
-            </select>
+            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
         </div>
     </header>
 
     <div class="page-container">
         <div class="content-section">
-            <span class="badge" id="badgeText">💧 Solutions Chemistry</span>
-            <h2 id="secTitle">Solution Dilution: C₁V₁ = C₂V₂</h2>
-            <p id="secP1">Dilution is the process of reducing the concentration of a solute in a solution by adding more solvent. The key principle is that the amount of solute remains constant during dilution.</p>
-            
+            <h1>Dilution Calculator: C₁V₁ = C₂V₂ for Stock Solutions</h1>
+            <p>This calculator solves the dilution equation C₁V₁ = C₂V₂. Enter any three of the four values and it finds the missing one. It also gives the dilution factor and the volume of solvent you need to add. It is useful for preparing working solutions from stock solutions in chemistry, biology and clinical labs, for making reagents from concentrated acids, and for planning serial dilutions.</p>
+
+            <h2>What is dilution?</h2>
+            <p>Dilution lowers the concentration of a solute by adding more solvent. The amount of solute does not change, only the volume that contains it. Because the amount of solute is concentration times volume, the amount before dilution (C₁ × V₁) equals the amount after dilution (C₂ × V₂).</p>
+
             <div class="pro-blueprint-box">
-                <svg width="380" height="180" viewBox="0 0 380 180">
+                <svg width="380" height="220" viewBox="0 0 380 220" role="img" aria-label="Stock solution C1 V1 diluted to C2 V2">
                     <defs>
                         <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
-                            <path d="M0,2 L8,4 L0,6 Z" fill="#059669"/>
+                            <path d="M0,2 L8,4 L0,6 Z" fill="#2563eb"/>
                         </marker>
                     </defs>
-                    
-                    <!-- دورق مركزي -->
-                    <path d="M 160 30 L 220 30 L 235 150 L 145 150 Z" fill="rgba(5,150,105,0.08)" stroke="#059669" stroke-width="2"/>
-                    <ellipse cx="190" cy="30" rx="30" ry="10" fill="rgba(5,150,105,0.15)" stroke="#059669" stroke-width="1.5"/>
-                    <path d="M 165 60 L 215 60 L 230 135 L 150 135 Z" fill="rgba(5,150,105,0.2)" stroke="none"/>
-                    <text x="190" y="75" font-size="11" fill="#059669" font-weight="bold" text-anchor="middle">C₁ · V₁</text>
-                    <text x="190" y="95" font-size="9" fill="#64748b" text-anchor="middle">Concentrated</text>
-                    
-                    <!-- سهم تخفيف -->
-                    <line x1="120" y1="90" x2="80" y2="90" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow-blue)"/>
-                    <text x="100" y="85" font-size="10" fill="#dc2626" font-weight="bold" text-anchor="middle">Dilute</text>
-                    
-                    <!-- دورق مخفف -->
-                    <path d="M 40 50 L 80 50 L 90 150 L 30 150 Z" fill="rgba(5,150,105,0.05)" stroke="#059669" stroke-width="1.5" stroke-dasharray="4,3"/>
-                    <ellipse cx="60" cy="50" rx="20" ry="8" fill="rgba(5,150,105,0.08)" stroke="#059669" stroke-width="1.5" stroke-dasharray="4,3"/>
-                    <path d="M 44 70 L 76 70 L 86 135 L 34 135 Z" fill="rgba(5,150,105,0.1)" stroke="none"/>
-                    <text x="60" y="85" font-size="11" fill="#059669" font-weight="bold" text-anchor="middle">C₂ · V₂</text>
-                    <text x="60" y="105" font-size="9" fill="#64748b" text-anchor="middle">Diluted</text>
+                    <path d="M 160 40 L 220 40 L 235 170 L 145 170 Z" fill="rgba(5, 150, 105, 0.1)" stroke="#059669" stroke-width="2.5"/>
+                    <ellipse cx="190" cy="40" rx="30" ry="10" fill="rgba(5, 150, 105, 0.2)" stroke="#059669" stroke-width="2"/>
+                    <path d="M 165 80 L 215 80 L 230 155 L 150 155 Z" fill="rgba(37, 99, 235, 0.25)" stroke="none"/>
+                    <text x="190" y="95" font-size="10" fill="#1d4ed8" font-weight="bold" text-anchor="middle">C₁ · V₁</text>
+                    <line x1="120" y1="110" x2="80" y2="110" stroke="#dc2626" stroke-width="2" marker-end="url(#arrow-blue)"/>
+                    <text x="100" y="100" font-size="11" fill="#dc2626" font-weight="bold" text-anchor="middle">Dilute</text>
+                    <path d="M 40 70 L 90 70 L 100 170 L 30 170 Z" fill="rgba(5, 150, 105, 0.05)" stroke="#059669" stroke-width="2" stroke-dasharray="4,3"/>
+                    <ellipse cx="65" cy="70" rx="25" ry="8" fill="rgba(5, 150, 105, 0.1)" stroke="#059669" stroke-width="1.5" stroke-dasharray="4,3"/>
+                    <path d="M 44 90 L 86 90 L 96 155 L 34 155 Z" fill="rgba(37, 99, 235, 0.1)" stroke="none"/>
+                    <text x="65" y="105" font-size="10" fill="#059669" font-weight="bold" text-anchor="middle">C₂ · V₂</text>
                 </svg>
             </div>
 
             <div class="formula-box">
-                C₁ × V₁ = C₂ × V₂
+                C₁ × V₁ = C₂ × V₂<br>
+                V₁ = C₂ × V₂ ÷ C₁ &nbsp;|&nbsp; C₂ = C₁ × V₁ ÷ V₂<br>
+                Dilution factor DF = C₁ ÷ C₂ = V₂ ÷ V₁<br>
+                Solvent to add = V₂ − V₁
             </div>
-            
-            <p id="secP2">Where:</p>
+            <p>C₁ is the stock concentration, V₁ the volume of stock you take, C₂ the final concentration and V₂ the final total volume.</p>
+
+            <h2>How to use the calculator</h2>
+            <ol>
+                <li>Pick the units for concentration and volume. They are used for labels only and the math is the same for any unit.</li>
+                <li>Fill in <strong>three</strong> of the four boxes and leave one empty.</li>
+                <li>The empty value is calculated automatically, together with the dilution factor and the solvent volume.</li>
+                <li>To solve for a different unknown, clear that box and fill the one you no longer need.</li>
+            </ol>
+            <div class="note-box"><p><strong>Important:</strong> C₁ and C₂ must use the same concentration unit, and V₁ and V₂ must use the same volume unit.</p></div>
+
+            <h2>Worked example 1: volume of stock needed</h2>
+            <p>You have a 10 M stock and need 500 mL of a 1 M solution.</p>
             <ul>
-                <li id="li1"><strong>C₁</strong> = Initial concentration</li>
-                <li id="li2"><strong>V₁</strong> = Volume of stock solution</li>
-                <li id="li3"><strong>C₂</strong> = Final concentration</li>
-                <li id="li4"><strong>V₂</strong> = Final volume</li>
+                <li>V₁ = C₂ × V₂ ÷ C₁ = 1 × 500 ÷ 10 = <strong>50 mL</strong> of stock</li>
+                <li>Solvent to add: 500 − 50 = <strong>450 mL</strong></li>
+                <li>Dilution factor: 10 ÷ 1 = <strong>10</strong></li>
             </ul>
-            <p id="secP3">The dilution equation is essential for preparing working solutions from stock solutions in chemistry labs, biochemistry, and medical applications.</p>
+            <p>In practice, put the stock in a volumetric flask and add solvent up to the 500 mL mark, instead of adding exactly 450 mL.</p>
+
+            <h2>Worked example 2: mass concentration</h2>
+            <p>A 5 mg/mL stock is used to make 20 mL of a 0.5 mg/mL solution.</p>
+            <ul>
+                <li>V₁ = 0.5 × 20 ÷ 5 = <strong>2 mL</strong> of stock</li>
+                <li>Solvent to add: 20 − 2 = <strong>18 mL</strong></li>
+            </ul>
+
+            <h2>Worked example 3: final concentration</h2>
+            <p>25 mL of a 2 M solution is diluted to a final volume of 100 mL.</p>
+            <ul>
+                <li>C₂ = C₁ × V₁ ÷ V₂ = 2 × 25 ÷ 100 = <strong>0.5 M</strong></li>
+                <li>Dilution factor: 100 ÷ 25 = 4</li>
+            </ul>
+
+            <h2>Worked example 4: final volume</h2>
+            <p>10 mL of a 6 M solution should be diluted to 0.5 M. What final volume is needed?</p>
+            <ul>
+                <li>V₂ = C₁ × V₁ ÷ C₂ = 6 × 10 ÷ 0.5 = <strong>120 mL</strong></li>
+                <li>Solvent to add: 120 − 10 = 110 mL</li>
+            </ul>
+
+            <h2>Quick table for 100 mL of final solution</h2>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Dilution factor</th><th>Stock (mL)</th><th>Solvent (mL)</th><th>Concentration left</th></tr>
+                    <tr><td>2</td><td>50</td><td>50</td><td>50 %</td></tr>
+                    <tr><td>5</td><td>20</td><td>80</td><td>20 %</td></tr>
+                    <tr><td>10</td><td>10</td><td>90</td><td>10 %</td></tr>
+                    <tr><td>20</td><td>5</td><td>95</td><td>5 %</td></tr>
+                    <tr><td>50</td><td>2</td><td>98</td><td>2 %</td></tr>
+                    <tr><td>100</td><td>1</td><td>99</td><td>1 %</td></tr>
+                </table>
+            </div>
+
+            <h2>Serial dilutions</h2>
+            <p>When you need a very large dilution, it is more accurate to do it in steps. In a serial dilution, each tube is diluted from the previous one by the same factor. The total dilution is the factor raised to the number of steps.</p>
+            <ul>
+                <li>1:10 steps, taking 1 mL into 9 mL of solvent each time, give a factor of 10 per step.</li>
+                <li>After 3 steps the total factor is 10 × 10 × 10 = 1000.</li>
+                <li>A 1 M stock becomes 0.1 M, then 0.01 M, then 0.001 M (1 mM).</li>
+            </ul>
+            <p>Be careful with wording. A "1:10 dilution" usually means 1 part stock in 10 parts total (factor 10), but some people mean 1 part stock plus 10 parts solvent (factor 11). State the factor and the volumes to avoid mistakes.</p>
+
+            <h2>Assumptions and limits</h2>
+            <ul>
+                <li><strong>The solute amount stays the same.</strong> The equation does not hold if solute is added, lost, or consumed by a reaction, or if the solvent evaporates.</li>
+                <li><strong>Volumes are treated as additive.</strong> This is a good approximation for dilute aqueous solutions. For concentrated acids, alcohol and water mixtures and some other systems, the mixed volume is slightly different from the sum, so dilute in a volumetric flask up to the mark.</li>
+                <li><strong>Concentration changes with temperature.</strong> Molarity depends on volume, and volume depends on temperature. Prepare and use standards at the specified temperature.</li>
+                <li><strong>Only a decrease in concentration.</strong> C₂ must be smaller than C₁, and V₂ larger than V₁. Otherwise you would be concentrating the solution, not diluting it.</li>
+            </ul>
+
+            <h2>Safety when diluting concentrated solutions</h2>
+            <p>Diluting strong acids and bases releases heat. The standard practice is to add the acid or base slowly to the water, never the water to the acid, and to work with proper protective equipment and ventilation. Follow your laboratory procedures and the safety data sheet of each chemical.</p>
+
+            <h2>Common mistakes</h2>
+            <ul>
+                <li><strong>Mixing units.</strong> Using mM for C₁ and M for C₂, or mL and L for the volumes, gives wrong answers.</li>
+                <li><strong>Treating V₂ as the solvent volume.</strong> V₂ is the <em>total</em> final volume. The solvent is V₂ − V₁.</li>
+                <li><strong>Adding V₂ of solvent to V₁ of stock.</strong> That gives a total volume of V₁ + V₂, not V₂.</li>
+                <li><strong>Forgetting purity or density.</strong> When the stock is given as a percentage by mass, convert it to a concentration first, for example with the <a href="calculator_mass_percent.html">Mass Percent Calculator</a> and the <a href="calculator_molarity.html">Molarity Calculator</a>.</li>
+            </ul>
+
+            <h2>Frequently asked questions</h2>
+            <h3>What is the dilution factor?</h3>
+            <p>It is the ratio of the stock concentration to the final concentration, C₁ ÷ C₂, which equals V₂ ÷ V₁. A factor of 10 means the solution is ten times weaker.</p>
+            <h3>Can I use it with percent or ppm?</h3>
+            <p>Yes. Any concentration unit works as long as C₁ and C₂ use the same one.</p>
+            <h3>How do I make 1 L of 0.1 M HCl from 12 M HCl?</h3>
+            <p>V₁ = 0.1 × 1000 ÷ 12 = 8.33 mL of the 12 M stock, added to water in a 1 L volumetric flask and made up to the mark. Follow the safety practice above.</p>
+            <h3>Does C₁V₁ = C₂V₂ work for mixing two solutions?</h3>
+            <p>Not directly. To mix two solutions of different concentrations, add the amounts of solute in each and divide by the total volume.</p>
+
+            <h2>Related calculators</h2>
+            <p><a href="calculator_molarity.html">Molarity Calculator</a> · <a href="calculator_mass_percent.html">Mass Percent Calculator</a> · <a href="calculator_molar_mass.html">Molar Mass Calculator</a> · <a href="calculator_ph.html">pH Calculator</a></p>
         </div>
 
         <div class="calculator-sidebar">
             <div class="calculator">
                 <div class="top-bar">
-                    <a href="index.html" class="back-btn" id="backText2"><span id="backArrow">←</span> <span id="backLabel">Back to Directory</span></a>
-                    <select class="lang-select" id="langSelect2" onchange="changeLanguage()" style="display:none;"></select>
+                    <a href="index.html" class="back-btn">← Back to Directory</a>
                 </div>
 
-                <h3 id="calcTitle" style="margin-top:0; color:var(--text-main); font-size:17px;">💧 Dilution Calculator</h3>
-                
-                <div class="input-group">
-                    <label id="labelMode">Solve For:</label>
-                    <select id="calcMode" class="form-control" onchange="updatePlaceholders()">
-                        <option value="v1">Stock Volume (V₁)</option>
-                        <option value="v2">Final Volume (V₂)</option>
-                        <option value="c1">Stock Concentration (C₁)</option>
-                        <option value="c2">Final Concentration (C₂)</option>
-                    </select>
-                </div>
+                <h2 style="text-align: left; font-size: 17px; margin-top: 0; color: var(--text-main);">💧 Dilution Calculator (C₁V₁ = C₂V₂)</h2>
 
-                <div class="input-group">
-                    <label id="labelC1">Stock Concentration (C₁):</label>
-                    <input type="number" id="c1" value="10" step="any" oninput="calculateDilution()">
-                </div>
-
-                <div class="input-group">
-                    <label id="labelV1">Stock Volume (V₁):</label>
-                    <input type="number" id="v1" value="5" step="any" oninput="calculateDilution()">
-                </div>
-
-                <div class="input-group">
-                    <label id="labelC2">Final Concentration (C₂):</label>
-                    <input type="number" id="c2" value="2" step="any" oninput="calculateDilution()">
-                </div>
-
-                <div class="input-group">
-                    <label id="labelV2">Final Volume (V₂):</label>
-                    <input type="number" id="v2" value="25" step="any" oninput="calculateDilution()">
-                </div>
-
-                <button class="btn-calculate" id="calcBtn" onclick="calculateDilution()">💧 Calculate Dilution</button>
-                
-                <div class="result-box" id="resultBox">
-                    <p class="result-text"><span id="textResult">Result:</span></p>
-                    <p class="result-text"><span id="resultValue" class="highlight">—</span></p>
-                    <div class="constants-info" id="constantsInfo">
-                        <span id="textFormula">C₁V₁ = C₂V₂</span>
+                <div class="row-2">
+                    <div class="input-group">
+                        <label for="cUnit">Concentration unit:</label>
+                        <select id="cUnit" class="form-control" onchange="calculateDilution()">
+                            <option value="M" selected>M (mol/L)</option>
+                            <option value="mM">mM</option>
+                            <option value="µM">µM</option>
+                            <option value="%">%</option>
+                            <option value="mg/mL">mg/mL</option>
+                            <option value="g/L">g/L</option>
+                            <option value="ppm">ppm</option>
+                            <option value="">no unit</option>
+                        </select>
+                    </div>
+                    <div class="input-group">
+                        <label for="vUnit">Volume unit:</label>
+                        <select id="vUnit" class="form-control" onchange="calculateDilution()">
+                            <option value="mL" selected>mL</option>
+                            <option value="L">L</option>
+                            <option value="µL">µL</option>
+                            <option value="">no unit</option>
+                        </select>
                     </div>
                 </div>
-            </div>
 
-            <div class="ai-assistant-box">
-                <div class="ai-header">🤖 OmniEngineer AI Expert</div>
-                <div class="ai-chat-output" id="aiOutput">Hello! I'm your chemistry assistant. Ask me about dilutions, serial dilutions, or concentration units!</div>
-                <div class="ai-input-group">
-                    <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI a question...">
-                    <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
+                <div class="input-group">
+                    <label for="c1">Stock Concentration (C₁):</label>
+                    <input type="number" id="c1" min="0" step="any" placeholder="e.g. 10" oninput="calculateDilution()">
+                </div>
+                <div class="input-group">
+                    <label for="v1">Volume of Stock Needed (V₁):</label>
+                    <input type="number" id="v1" min="0" step="any" placeholder="leave empty to calculate" oninput="calculateDilution()">
+                </div>
+                <div class="input-group">
+                    <label for="c2">Desired Final Concentration (C₂):</label>
+                    <input type="number" id="c2" min="0" step="any" placeholder="e.g. 1" oninput="calculateDilution()">
+                </div>
+                <div class="input-group">
+                    <label for="v2">Final Volume (V₂):</label>
+                    <input type="number" id="v2" min="0" step="any" placeholder="e.g. 500" oninput="calculateDilution()">
+                </div>
+                <p class="hint">Fill in any three values and leave one empty.</p>
+
+                <div class="warn" id="warnMsg"></div>
+
+                <div class="result-box">
+                    <p class="result-text"><span id="resultLabel">Result:</span> <span id="resultValue" class="highlight">—</span></p>
+                    <p class="explain" id="resultExplanation">Enter three values to calculate the missing one.</p>
+                    <p class="result-text">Dilution factor: <span id="dfValue" class="highlight">—</span></p>
+                    <p class="result-text">Solvent to add: <span id="solventValue" class="highlight">—</span></p>
+                </div>
+
+                <div class="btn-row">
+                    <button class="btn-action" id="copyBtn" onclick="copyResult()">📋 Copy</button>
+                    <button class="btn-secondary" onclick="clearAll()">Clear</button>
                 </div>
             </div>
         </div>
     </div>
 
+    <footer style="text-align:center; padding:20px; font-size:14px; color:var(--text-muted); margin-top: 40px; border-top: 1px solid var(--border);">
+        <a href="index.html" style="color:var(--primary); text-decoration:underline;">Home</a>
+        &nbsp;|&nbsp;
+        <a href="about.html" style="color:var(--primary); text-decoration:underline;">About Us</a>
+        &nbsp;|&nbsp;
+        <a href="contact.html" style="color:var(--primary); text-decoration:underline;">Contact Us</a>
+        &nbsp;|&nbsp;
+        <a href="terms.html" style="color:var(--primary); text-decoration:underline;">Terms of Service</a>
+        &nbsp;|&nbsp;
+        <a href="disclaimer.html" style="color:var(--primary); text-decoration:underline;">Disclaimer</a>
+        &nbsp;|&nbsp;
+        <a href="https://www.freeprivacypolicy.com/live/1ca3e19a-906b-4b42-8c57-2bde2d789f30" target="_blank" rel="noopener" style="color:var(--primary); text-decoration:underline;">Privacy Policy</a>
+    </footer>
+
     <script>
         function toggleTheme() {
-            let html = document.getElementById('htmlTag');
-            let btn = document.getElementById('themeToggleBtn');
-            if (html.getAttribute('data-theme') === 'light') {
-                html.setAttribute('data-theme', 'dark');
-                btn.innerText = '☀️';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                html.setAttribute('data-theme', 'light');
-                btn.innerText = '🌙';
-                localStorage.setItem('theme', 'light');
-            }
+            var html = document.getElementById('htmlTag');
+            var btn = document.getElementById('themeToggleBtn');
+            var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', next);
+            btn.innerText = next === 'dark' ? '☀️' : '🌙';
+            try { localStorage.setItem('theme', next); } catch (e) {}
         }
 
-        window.onload = function() {
-            let savedTheme = localStorage.getItem('theme') || 'light';
-            document.getElementById('htmlTag').setAttribute('data-theme', savedTheme);
-            document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
-            calculateDilution();
-        }
-
-        function updatePlaceholders() {
-            calculateDilution();
-        }
-
-        function calculateDilution() {
-            let mode = document.getElementById('calcMode').value;
-            let c1 = parseFloat(document.getElementById('c1').value);
-            let v1 = parseFloat(document.getElementById('v1').value);
-            let c2 = parseFloat(document.getElementById('c2').value);
-            let v2 = parseFloat(document.getElementById('v2').value);
-
-            let result = 0;
-            let unit = '';
-            let explanation = '';
-            let isValid = true;
-
-            if (isNaN(c1) || c1 <= 0) isValid = false;
-            if (isNaN(v1) || v1 <= 0) isValid = false;
-            if (isNaN(c2) || c2 <= 0) isValid = false;
-            if (isNaN(v2) || v2 <= 0) isValid = false;
-
-            if (!isValid) {
-                document.getElementById('resultValue').innerText = '⚠️ Please enter valid positive values';
-                return;
-            }
-
-            switch(mode) {
-                case 'v1':
-                    result = (c2 * v2) / c1;
-                    unit = ' (volume units)';
-                    explanation = `V₁ = (${c2} × ${v2}) / ${c1} = ${result.toFixed(4)}`;
-                    break;
-                case 'v2':
-                    result = (c1 * v1) / c2;
-                    unit = ' (volume units)';
-                    explanation = `V₂ = (${c1} × ${v1}) / ${c2} = ${result.toFixed(4)}`;
-                    break;
-                case 'c1':
-                    result = (c2 * v2) / v1;
-                    unit = ' (concentration units)';
-                    explanation = `C₁ = (${c2} × ${v2}) / ${v1} = ${result.toFixed(4)}`;
-                    break;
-                case 'c2':
-                    result = (c1 * v1) / v2;
-                    unit = ' (concentration units)';
-                    explanation = `C₂ = (${c1} × ${v1}) / ${v2} = ${result.toFixed(4)}`;
-                    break;
-            }
-
-            document.getElementById('resultValue').innerText = result.toFixed(4) + unit;
-            document.getElementById('constantsInfo').innerHTML = `
-                <span id="textFormula">C₁V₁ = C₂V₂</span><br>
-                <span style="font-size: 11px;">${explanation}</span>
-            `;
-        }
-
-        function askAiAssistant() {
-            let q = document.getElementById('aiQuestionInput').value.toLowerCase();
-            let output = document.getElementById('aiOutput');
-            
-            if (!q) {
-                output.innerText = "Please type a question for the AI assistant!";
-                return;
-            }
-
-            if (q.includes('serial') || q.includes('serial dilution')) {
-                output.innerText = "🧪 Serial Dilution: A stepwise dilution where each step dilutes the previous sample. The dilution factor is constant. Used in microbiology and biochemistry.";
-            } else {
-                output.innerText = "💧 Dilution Equation: C₁V₁ = C₂V₂. The amount of solute (moles) remains constant. Volume can be in mL, L, or any unit as long as both sides match.";
-            }
-        }
-
-        const translations = {
-            en: {
-                backText: "Back to Hub",
-                backLabel: "Back to Directory",
-                backArrow: "←",
-                headerArrow: "←",
-                badgeText: "💧 Solutions Chemistry",
-                calcTitle: "💧 Dilution Calculator",
-                labelMode: "Solve For:",
-                labelC1: "Stock Concentration (C₁):",
-                labelV1: "Stock Volume (V₁):",
-                labelC2: "Final Concentration (C₂):",
-                labelV2: "Final Volume (V₂):",
-                calcBtn: "💧 Calculate Dilution",
-                textResult: "Result:",
-                textFormula: "C₁V₁ = C₂V₂",
-                secTitle: "Solution Dilution: C₁V₁ = C₂V₂",
-                secP1: "Dilution is the process of reducing the concentration of a solute in a solution by adding more solvent.",
-                secP2: "Where:",
-                secP3: "The dilution equation is essential for preparing working solutions from stock solutions.",
-                dir: "ltr",
-                li1: "C₁ = Initial concentration",
-                li2: "V₁ = Volume of stock solution",
-                li3: "C₂ = Final concentration",
-                li4: "V₂ = Final volume"
-            },
-            fr: {
-                backText: "Retour au Hub",
-                backLabel: "Retour au répertoire",
-                backArrow: "←",
-                headerArrow: "←",
-                badgeText: "💧 Chimie des Solutions",
-                calcTitle: "💧 Calculateur de Dilution",
-                labelMode: "Résoudre pour :",
-                labelC1: "Concentration Mère (C₁) :",
-                labelV1: "Volume Mère (V₁) :",
-                labelC2: "Concentration Finale (C₂) :",
-                labelV2: "Volume Final (V₂) :",
-                calcBtn: "💧 Calculer la Dilution",
-                textResult: "Résultat :",
-                textFormula: "C₁V₁ = C₂V₂",
-                secTitle: "Dilution des Solutions",
-                secP1: "La dilution est le processus de réduction de la concentration d'un soluté en ajoutant du solvant.",
-                secP2: "Où :",
-                secP3: "L'équation de dilution est essentielle pour préparer des solutions de travail.",
-                dir: "ltr",
-                li1: "C₁ = Concentration initiale",
-                li2: "V₁ = Volume de la solution mère",
-                li3: "C₂ = Concentration finale",
-                li4: "V₂ = Volume final"
-            },
-            ar: {
-                backText: "العودة للرئيسية",
-                backLabel: "العودة إلى الدليل",
-                backArrow: "→",
-                headerArrow: "→",
-                badgeText: "💧 كيمياء المحاليل",
-                calcTitle: "💧 حاسبة تخفيف المحاليل",
-                labelMode: "احسب:",
-                labelC1: "التركيز الابتدائي (C₁):",
-                labelV1: "حجم المحلول المركز (V₁):",
-                labelC2: "التركيز النهائي (C₂):",
-                labelV2: "الحجم النهائي (V₂):",
-                calcBtn: "💧 احسب التخفيف",
-                textResult: "النتيجة:",
-                textFormula: "C₁V₁ = C₂V₂",
-                secTitle: "تخفيف المحاليل: C₁V₁ = C₂V₂",
-                secP1: "التخفيف هو عملية تقليل تركيز المذاب في المحلول بإضافة المزيد من المذيب.",
-                secP2: "حيث أن:",
-                secP3: "معادلة التخفيف ضرورية لتحضير محاليل العمل من المحاليل المركزة.",
-                dir: "rtl",
-                li1: "C₁ = التركيز الابتدائي",
-                li2: "V₁ = حجم المحلول المركز",
-                li3: "C₂ = التركيز النهائي",
-                li4: "V₂ = الحجم النهائي"
-            }
+        window.onload = function () {
+            var saved = 'light';
+            try { saved = localStorage.getItem('theme') || 'light'; } catch (e) {}
+            document.getElementById('htmlTag').setAttribute('data-theme', saved);
+            document.getElementById('themeToggleBtn').innerText = saved === 'dark' ? '☀️' : '🌙';
         };
 
-        function changeLanguage() {
-            let lang = document.getElementById('langSelect').value;
-            let t = translations[lang];
-            let html = document.getElementById('htmlTag');
-            
-            html.setAttribute('lang', lang);
-            html.setAttribute('dir', t.dir);
-            
-            document.getElementById('backText').innerText = t.backText;
-            document.getElementById('backLabel').innerText = t.backLabel;
-            document.getElementById('backArrow').innerText = t.backArrow;
-            document.getElementById('headerArrow').innerText = t.headerArrow;
-            document.getElementById('badgeText').innerText = t.badgeText;
-            document.getElementById('calcTitle').innerText = t.calcTitle;
-            document.getElementById('labelMode').innerHTML = t.labelMode;
-            document.getElementById('labelC1').innerHTML = t.labelC1;
-            document.getElementById('labelV1').innerHTML = t.labelV1;
-            document.getElementById('labelC2').innerHTML = t.labelC2;
-            document.getElementById('labelV2').innerHTML = t.labelV2;
-            document.getElementById('calcBtn').innerHTML = t.calcBtn;
-            document.getElementById('textResult').innerHTML = t.textResult;
-            document.getElementById('textFormula').innerHTML = t.textFormula;
-            document.getElementById('secTitle').innerHTML = t.secTitle;
-            document.getElementById('secP1').innerHTML = t.secP1;
-            document.getElementById('secP2').innerHTML = t.secP2;
-            document.getElementById('secP3').innerHTML = t.secP3;
-            
-            for(let i = 1; i <= 4; i++) {
-                if(document.getElementById(`li${i}`)) {
-                    document.getElementById(`li${i}`).innerHTML = t[`li${i}`];
-                }
+        function readVal(id) {
+            var raw = document.getElementById(id).value;
+            if (raw === '' || raw === null) return NaN;
+            return parseFloat(raw);
+        }
+
+        function fmt(x) {
+            if (!isFinite(x)) return '—';
+            if (Math.abs(x) >= 1000) return x.toLocaleString(undefined, { maximumFractionDigits: 2 });
+            return Number(x.toPrecision(5)).toString();
+        }
+
+        var lastSummary = '';
+
+        function calculateDilution() {
+            var c1 = readVal('c1');
+            var v1 = readVal('v1');
+            var c2 = readVal('c2');
+            var v2 = readVal('v2');
+            var cu = document.getElementById('cUnit').value;
+            var vu = document.getElementById('vUnit').value;
+
+            var warn = document.getElementById('warnMsg');
+            var resVal = document.getElementById('resultValue');
+            var resLabel = document.getElementById('resultLabel');
+            var resExp = document.getElementById('resultExplanation');
+            var dfEl = document.getElementById('dfValue');
+            var solEl = document.getElementById('solventValue');
+
+            warn.innerText = '';
+            dfEl.innerText = '—';
+            solEl.innerText = '—';
+            lastSummary = '';
+
+            var vals = [c1, v1, c2, v2];
+            var filled = vals.filter(function (v) { return !isNaN(v); }).length;
+
+            if (vals.some(function (v) { return !isNaN(v) && v < 0; })) {
+                resVal.innerText = '—';
+                resLabel.innerText = 'Result:';
+                resExp.innerText = 'Values cannot be negative.';
+                warn.innerText = 'Enter positive numbers only.';
+                return;
             }
-            
+
+            if (filled < 3) {
+                resVal.innerText = '—';
+                resLabel.innerText = 'Result:';
+                resExp.innerText = 'Enter three values to calculate the missing one.';
+                return;
+            }
+
+            if (filled === 4) {
+                // All four given: check the equation
+                resLabel.innerText = 'Check:';
+                var left = c1 * v1;
+                var right = c2 * v2;
+                var ok = Math.abs(left - right) <= 1e-9 * Math.max(Math.abs(left), Math.abs(right), 1);
+                resVal.innerText = ok ? 'Consistent' : 'Not equal';
+                resExp.innerText = 'C₁V₁ = ' + fmt(left) + ' and C₂V₂ = ' + fmt(right) + '. Clear one box to calculate it.';
+                return;
+            }
+
+            var result = NaN, name = '', unit = '', formula = '';
+
+            if (isNaN(c1)) {
+                if (v1 === 0) { resVal.innerText = '—'; resExp.innerText = 'V₁ cannot be zero.'; return; }
+                result = c2 * v2 / v1; c1 = result; name = 'C₁ (stock concentration)'; unit = cu;
+                formula = 'C₁ = C₂ × V₂ ÷ V₁ = ' + fmt(c2) + ' × ' + fmt(v2) + ' ÷ ' + fmt(v1);
+            } else if (isNaN(v1)) {
+                if (c1 === 0) { resVal.innerText = '—'; resExp.innerText = 'C₁ cannot be zero.'; return; }
+                result = c2 * v2 / c1; v1 = result; name = 'V₁ (stock volume)'; unit = vu;
+                formula = 'V₁ = C₂ × V₂ ÷ C₁ = ' + fmt(c2) + ' × ' + fmt(v2) + ' ÷ ' + fmt(c1);
+            } else if (isNaN(c2)) {
+                if (v2 === 0) { resVal.innerText = '—'; resExp.innerText = 'V₂ cannot be zero.'; return; }
+                result = c1 * v1 / v2; c2 = result; name = 'C₂ (final concentration)'; unit = cu;
+                formula = 'C₂ = C₁ × V₁ ÷ V₂ = ' + fmt(c1) + ' × ' + fmt(v1) + ' ÷ ' + fmt(v2);
+            } else {
+                if (c2 === 0) { resVal.innerText = '—'; resExp.innerText = 'C₂ cannot be zero.'; return; }
+                result = c1 * v1 / c2; v2 = result; name = 'V₂ (final volume)'; unit = vu;
+                formula = 'V₂ = C₁ × V₁ ÷ C₂ = ' + fmt(c1) + ' × ' + fmt(v1) + ' ÷ ' + fmt(c2);
+            }
+
+            resLabel.innerText = name + ':';
+            resVal.innerText = fmt(result) + (unit ? ' ' + unit : '');
+            resExp.innerText = formula + ' = ' + fmt(result);
+
+            if (c2 > 0 && c1 > 0) {
+                dfEl.innerText = fmt(c1 / c2);
+            }
+            var solvent = v2 - v1;
+            if (isFinite(solvent)) {
+                solEl.innerText = solvent >= 0 ? fmt(solvent) + (vu ? ' ' + vu : '') : '—';
+            }
+
+            if (c2 > c1) {
+                warn.innerText = 'C₂ is larger than C₁: this would concentrate the solution, not dilute it.';
+            } else if (v1 > v2) {
+                warn.innerText = 'V₁ is larger than V₂: the stock volume cannot exceed the final volume.';
+            }
+
+            lastSummary =
+                'Dilution C1V1 = C2V2\n' +
+                'C1 = ' + fmt(c1) + ' ' + cu + ', V1 = ' + fmt(v1) + ' ' + vu + '\n' +
+                'C2 = ' + fmt(c2) + ' ' + cu + ', V2 = ' + fmt(v2) + ' ' + vu + '\n' +
+                'Dilution factor: ' + fmt(c1 / c2) + '\n' +
+                'Solvent to add: ' + fmt(v2 - v1) + ' ' + vu;
+        }
+
+        function clearAll() {
+            ['c1', 'v1', 'c2', 'v2'].forEach(function (id) { document.getElementById(id).value = ''; });
             calculateDilution();
         }
+
+        function copyResult() {
+            var btn = document.getElementById('copyBtn');
+            var text = lastSummary || 'No result to copy yet.';
+
+            function done() {
+                btn.innerText = '✅ Copied';
+                setTimeout(function () { btn.innerText = '📋 Copy'; }, 1500);
+            }
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(done);
+            } else {
+                var ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand('copy'); done(); } catch (e) {}
+                document.body.removeChild(ta);
+            }
+        }
     </script>
-    <footer style="text-align:center; padding:20px; font-size:14px; color:var(--text-muted); margin-top: 40px; border-top: 1px solid var(--border);">
-    <a href="index.html" style="color:var(--primary); text-decoration:underline;">Home</a>
-    &nbsp;|&nbsp;
-    <a href="about.html" style="color:var(--primary); text-decoration:underline;">About Us</a>
-    &nbsp;|&nbsp;
-    <a href="contact.html" style="color:var(--primary); text-decoration:underline;">Contact Us</a>
-    &nbsp;|&nbsp;
-    <a href="terms.html" style="color:var(--primary); text-decoration:underline;">Terms of Service</a>
-    &nbsp;|&nbsp;
-    <a href="disclaimer.html" style="color:var(--primary); text-decoration:underline;">Disclaimer</a>
-    &nbsp;|&nbsp;
-    <a href="https://www.freeprivacypolicy.com/live/1ca3e19a-906b-4b42-8c57-2bde2d789f30" target="_blank" style="color:var(--primary); text-decoration:underline;">Privacy Policy</a>
-</footer>
 </body>
 </html>
