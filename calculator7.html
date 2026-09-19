@@ -4,7 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-2474106204487574" crossorigin="anonymous"></script>
-    <title>Concrete Volume & Weight Calculator | OmniEngineer Pro</title>
+    <meta name="google-adsense-account" content="ca-pub-2474106204487574">
+
+    <title>Concrete Volume Calculator: Slab, Footing Volume and Weight | ChemiCalc Pro</title>
+    <meta name="description" content="Free concrete calculator. Enter length, width, thickness, quantity and wastage to get concrete volume in m³ and weight in tonnes for slabs, footings and foundations, with formulas and worked examples.">
+    <link rel="canonical" href="https://medtopp84-arch.github.io/smart-calculator/calculator7.html">
+    <link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🧪</text></svg>">
+
     <style>
         :root {
             --primary: #2563eb;
@@ -15,6 +21,8 @@
             --text-muted: #64748b;
             --border: #e2e8f0;
             --result-bg: #f0fdf4;
+            --btn-success: #10b981;
+            --btn-success-hover: #059669;
         }
 
         [data-theme="dark"] {
@@ -26,335 +34,329 @@
             --text-muted: #94a3b8;
             --border: #334155;
             --result-bg: #065f46;
+            --btn-success: #059669;
+            --btn-success-hover: #047857;
         }
 
         * { box-sizing: border-box; }
         body { font-family: 'Segoe UI', Tahoma, sans-serif; background-color: var(--bg-color); color: var(--text-main); margin: 0; padding: 0; transition: background 0.3s, color 0.3s; }
-        
+
         header { background: var(--card-bg); border-bottom: 1px solid var(--border); padding: 15px 30px; display: flex; justify-content: space-between; align-items: center; position: sticky; top: 0; z-index: 100; flex-wrap: wrap; gap: 10px; }
         .logo { font-size: 18px; font-weight: bold; color: var(--primary); text-decoration: none; display: flex; align-items: center; gap: 8px; }
         .header-controls { display: flex; align-items: center; gap: 12px; }
-        
-        .page-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 420px; gap: 30px; }
-        @media (max-width: 900px) { .page-container { grid-template-columns: 1fr; } }
-        
+
+        .page-container { max-width: 1200px; margin: 30px auto; padding: 0 20px; display: grid; grid-template-columns: 1fr 420px; gap: 30px; align-items: start; }
+        @media (max-width: 992px) { .page-container { grid-template-columns: 1fr; } .calculator-sidebar { order: -1; } }
+
         .content-section { background: var(--card-bg); padding: 30px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.03); border: 1px solid var(--border); line-height: 1.7; }
-        .content-section h2 { color: var(--primary); margin-top: 0; font-size: 22px; }
-        .content-section p { color: var(--text-muted); font-size: 15px; }
-        
-        [dir="rtl"] .content-section { text-align: right; }
-        [dir="rtl"] .content-section ul { padding-right: 20px; padding-left: 0; }
-        
+        .content-section h1 { color: var(--primary); margin-top: 0; font-size: 26px; line-height: 1.3; }
+        .content-section h2 { color: var(--primary); margin-top: 30px; margin-bottom: 8px; font-size: 20px; }
+        .content-section h3 { color: var(--text-main); margin-top: 20px; margin-bottom: 4px; font-size: 16px; }
+        .content-section p, .content-section li { color: var(--text-muted); font-size: 15px; }
+        .content-section a { color: var(--primary); }
+
+        .table-wrap { overflow-x: auto; }
+        .content-section table { width: 100%; border-collapse: collapse; font-size: 14px; margin: 10px 0; }
+        .content-section th { text-align: left; padding: 8px; border-bottom: 2px solid var(--border); color: var(--text-main); }
+        .content-section td { padding: 8px; border-bottom: 1px solid var(--border); color: var(--text-muted); }
+
         .pro-blueprint-box { background: #f1f5f9; border: 2px solid var(--primary); border-radius: 12px; padding: 15px; text-align: center; margin: 25px 0; overflow: hidden; }
         [data-theme="dark"] .pro-blueprint-box { background: #1e293b; border-color: var(--primary); }
         .pro-blueprint-box svg { max-width: 100%; height: auto; display: block; margin: 0 auto; }
-        [dir="rtl"] .pro-blueprint-box svg { transform: scaleX(-1); }
 
-        .formula-box { background: #eff6ff; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 16px; color: var(--primary-dark); border-radius: 4px; text-align: center; }
-        [dir="rtl"] .formula-box { border-left: none; border-right: 4px solid var(--primary); }
+        .formula-box { background: #eff6ff; border-left: 4px solid var(--primary); padding: 12px 18px; margin: 20px 0; font-family: monospace; font-size: 15px; color: var(--primary-dark); border-radius: 4px; text-align: center; }
         [data-theme="dark"] .formula-box { background: #1e3a8a; color: #60a5fa; }
 
-        .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; }
+        .calculator-sidebar { display: flex; flex-direction: column; gap: 20px; position: sticky; top: 90px; }
+        @media (max-width: 992px) { .calculator-sidebar { position: static; } }
         .calculator { background: var(--card-bg); padding: 25px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.05); border: 1px solid var(--border); }
-        
+
         .top-bar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px; flex-wrap: wrap; gap: 10px; }
         a.back-btn { text-decoration: none; color: var(--primary); font-weight: bold; font-size: 13px; transition: color 0.2s; display: inline-flex; align-items: center; gap: 4px; }
         a.back-btn:hover { color: var(--primary-dark); }
-        [dir="rtl"] a.back-btn { flex-direction: row-reverse; }
-        
-        select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
-        
+
         .input-group { margin-bottom: 16px; }
         label { display: block; margin-bottom: 6px; color: var(--text-muted); font-weight: bold; font-size: 13px; }
-        input { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
-        input:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
-        
+        input, select.form-control { width: 100%; padding: 10px; border: 1px solid var(--border); border-radius: 8px; font-size: 15px; box-sizing: border-box; background: var(--card-bg); color: var(--text-main); }
+        input:focus, select.form-control:focus { border-color: var(--primary); outline: none; box-shadow: 0 0 0 3px rgba(37,99,235,0.1); }
+
         .result-box { background: var(--result-bg); padding: 15px; border-radius: 8px; margin-top: 20px; text-align: center; border: 1px solid var(--primary); }
         .result-text { font-size: 14px; color: var(--text-main); font-weight: bold; margin: 6px 0; }
         .highlight { font-size: 18px; color: var(--primary); }
         .note-text { font-size: 11px; color: var(--text-muted); margin-top: 10px; }
 
-        .ai-assistant-box { background: #0f172a; color: #f8fafc; padding: 20px; border-radius: 14px; box-shadow: 0 4px 15px rgba(0,0,0,0.1); }
-        .ai-header { display: flex; align-items: center; gap: 8px; font-weight: bold; font-size: 15px; margin-bottom: 12px; color: #60a5fa; }
-        .ai-chat-output { background: #1e293b; padding: 12px; border-radius: 8px; font-size: 13px; color: #cbd5e1; min-height: 60px; margin-bottom: 12px; line-height: 1.5; }
-        .ai-input-group { display: flex; gap: 8px; }
-        .ai-input { flex: 1; padding: 8px 12px; border-radius: 6px; border: 1px solid #334155; background: #0f172a; color: white; font-size: 13px; }
-        .ai-btn { background: var(--primary); color: white; border: none; padding: 8px 14px; border-radius: 6px; cursor: pointer; font-weight: bold; font-size: 13px; transition: background 0.2s; }
-        .ai-btn:hover { background: var(--primary-dark); }
+        .btn-action { width: 100%; background: var(--btn-success); color: white; border: none; padding: 12px; border-radius: 8px; font-weight: bold; font-size: 14px; cursor: pointer; margin-top: 15px; transition: background 0.2s; }
+        .btn-action:hover { background: var(--btn-success-hover); }
 
         .theme-btn { width: 36px; height: 36px; padding: 0; border-radius: 8px; border: 1px solid var(--border); background: var(--card-bg); color: var(--text-main); cursor: pointer; font-size: 14px; display: inline-flex; align-items: center; justify-content: center; }
-        .lang-select { padding: 6px 12px; border-radius: 8px; border: 1px solid var(--border); font-size: 13px; background: var(--card-bg); color: var(--text-main); cursor: pointer; outline: none; }
     </style>
 </head>
 <body>
 
     <header>
-        <a href="index.html" class="logo" id="homeLink"><span id="headerArrow">←</span> <span id="backText">Back to Hub</span></a>
+        <a href="index.html" class="logo">← Back to Hub</a>
         <div class="header-controls">
-            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()">🌙</button>
-            <select class="lang-select" id="langSelect" onchange="changeLanguage()">
-                <option value="en">English 🇬🇧</option>
-                <option value="fr">Français 🇫🇷</option>
-                <option value="ar">العربية 🇸🇦</option>
-            </select>
+            <button class="theme-btn" id="themeToggleBtn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
         </div>
     </header>
 
     <div class="page-container">
         <div class="content-section">
-            <h2 id="secTitle">About Concrete Volume & Weight Calculations</h2>
-            <p id="secP1">Accurate estimation of concrete volume is vital in structural engineering for ordering ready-mix trucks, managing budgets, and calculating total dead loads of foundations, slabs, and footings.</p>
-            
+            <h1>Concrete Volume Calculator: Slab, Footing Volume and Weight</h1>
+            <p>This calculator finds how much concrete a rectangular element needs and how much it weighs. Enter the length, width and thickness, the number of identical elements and an allowance for waste. It returns the net volume, the volume to order, and the weight in tonnes. It suits slabs, floors, strip and pad footings, foundation beds, paths and other rectangular pours.</p>
+
+            <h2>How the calculation works</h2>
+            <p>A rectangular element is a prism, so its volume is length times width times thickness. The weight is the volume multiplied by the density of the concrete. Because some concrete is always lost or overused, the amount ordered is usually a little larger than the theoretical volume.</p>
+
             <div class="pro-blueprint-box">
-                <svg width="380" height="210" viewBox="0 0 380 210">
+                <svg width="380" height="210" viewBox="0 0 380 210" role="img" aria-label="Concrete block with length, width and depth">
                     <defs>
                         <marker id="arrow-blue" markerWidth="8" markerHeight="8" refX="4" refY="4" orient="auto">
                             <path d="M0,2 L8,4 L0,6 Z" fill="#1d4ed8"/>
                         </marker>
                     </defs>
-
                     <polygon points="90,70 270,70 330,110 150,110" fill="rgba(37, 99, 235, 0.12)" stroke="#2563eb" stroke-width="2"/>
                     <polygon points="150,110 330,110 330,140 150,140" fill="rgba(37, 99, 235, 0.2)" stroke="#2563eb" stroke-width="2"/>
                     <polygon points="90,70 150,110 150,140 90,100" fill="rgba(37, 99, 235, 0.05)" stroke="#2563eb" stroke-width="2"/>
-
                     <line x1="95" y1="62" x2="265" y2="62" stroke="#1d4ed8" stroke-width="1.5" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)"/>
                     <text x="180" y="52" font-size="12" fill="#1d4ed8" font-weight="bold" text-anchor="middle">Length (L)</text>
-
                     <line x1="278" y1="75" x2="338" y2="115" stroke="#1d4ed8" stroke-width="1.5" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)"/>
                     <text x="320" y="88" font-size="11" fill="#1d4ed8" font-weight="bold" text-anchor="middle">Width (W)</text>
-
                     <line x1="80" y1="70" x2="80" y2="100" stroke="#dc2626" stroke-width="1.5" marker-start="url(#arrow-blue)" marker-end="url(#arrow-blue)"/>
                     <text x="55" y="90" font-size="11" fill="#dc2626" font-weight="bold" text-anchor="middle">Depth (D)</text>
                 </svg>
             </div>
 
             <div class="formula-box">
-                Volume (V) = Length × Width × Thickness <br>
-                Weight (Tons) = (Volume × 2400 kg/m³) / 1000
+                Net volume V = L × W × D × Quantity<br>
+                Volume to order = V × (1 + Waste % ÷ 100)<br>
+                Weight (tonnes) = V × Density (kg/m³) ÷ 1000
             </div>
-            
-            <p id="secP2">Where:</p>
+
+            <h2>How to use the calculator</h2>
+            <ol>
+                <li>Enter the length, width and thickness in meters.</li>
+                <li>Enter how many identical elements you are casting (for example 4 footings).</li>
+                <li>Choose an allowance for waste, usually between 5 % and 10 %.</li>
+                <li>Select the concrete density.</li>
+                <li>Read the net volume, the volume to order and the weight.</li>
+            </ol>
+            <p>The weight is calculated from the <strong>net</strong> volume, because the extra ordered concrete is not part of the finished element.</p>
+
+            <h2>Worked example 1: floor slab</h2>
+            <p>A slab is 10 m long, 5 m wide and 0.2 m thick. One slab, 5 % waste, reinforced concrete at 2400 kg/m³.</p>
             <ul>
-                <li id="li1"><strong>Length (L)</strong> = Clear span length of the concrete element in meters</li>
-                <li id="li2"><strong>Width (W)</strong> = Clear span width of the concrete element in meters</li>
-                <li id="li3"><strong>Depth (D)</strong> = Thickness or depth of the slab/footing in meters</li>
-                <li id="li4"><strong>Density</strong> = Standard normal-weight reinforced concrete unit weight (~2400 kg/m³)</li>
+                <li>Net volume: 10 × 5 × 0.2 = <strong>10 m³</strong></li>
+                <li>Volume to order: 10 × 1.05 = <strong>10.5 m³</strong></li>
+                <li>Weight: 10 × 2400 ÷ 1000 = <strong>24 tonnes</strong></li>
             </ul>
-            <p id="secP3">Always add a 5% to 10% wastage and spillage safety margin when ordering concrete truckloads to account for formwork deflection and uneven sub-grades.</p>
+
+            <h2>Worked example 2: four pad footings</h2>
+            <p>Four identical footings, each 1.5 m × 1.5 m × 0.4 m, with 10 % waste and 2400 kg/m³.</p>
+            <ul>
+                <li>Volume of one footing: 1.5 × 1.5 × 0.4 = 0.9 m³</li>
+                <li>Net volume for four: 0.9 × 4 = <strong>3.6 m³</strong></li>
+                <li>Volume to order: 3.6 × 1.10 = <strong>3.96 m³</strong></li>
+                <li>Weight: 3.6 × 2400 ÷ 1000 = <strong>8.64 tonnes</strong></li>
+            </ul>
+
+            <h2>Worked example 3: garage floor</h2>
+            <p>A floor 6 m by 4 m and 0.1 m thick, with 5 % waste and 2400 kg/m³.</p>
+            <ul>
+                <li>Net volume: 6 × 4 × 0.1 = <strong>2.4 m³</strong></li>
+                <li>Volume to order: 2.4 × 1.05 = <strong>2.52 m³</strong></li>
+                <li>Weight: 2.4 × 2400 ÷ 1000 = <strong>5.76 tonnes</strong></li>
+            </ul>
+
+            <h2>Quick reference by slab thickness</h2>
+            <p>Volume per square meter of slab equals its thickness in meters. Weight per square meter uses 2400 kg/m³.</p>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Thickness</th><th>Concrete per m²</th><th>Weight per m²</th></tr>
+                    <tr><td>100 mm</td><td>0.10 m³</td><td>240 kg</td></tr>
+                    <tr><td>150 mm</td><td>0.15 m³</td><td>360 kg</td></tr>
+                    <tr><td>200 mm</td><td>0.20 m³</td><td>480 kg</td></tr>
+                    <tr><td>250 mm</td><td>0.25 m³</td><td>600 kg</td></tr>
+                    <tr><td>300 mm</td><td>0.30 m³</td><td>720 kg</td></tr>
+                </table>
+            </div>
+
+            <h2>Concrete density</h2>
+            <p>The unit weight depends on the aggregate, the mix and the amount of reinforcement. The options in the calculator are commonly used planning values. If you have a mix design or a supplier data sheet, use the density given there.</p>
+            <div class="table-wrap">
+                <table>
+                    <tr><th>Type</th><th>Density used</th></tr>
+                    <tr><td>Plain normal-weight concrete</td><td>2300 kg/m³</td></tr>
+                    <tr><td>Reinforced normal-weight concrete</td><td>2400 kg/m³</td></tr>
+                    <tr><td>Heavily reinforced concrete</td><td>2500 kg/m³</td></tr>
+                    <tr><td>Lightweight concrete</td><td>1800 kg/m³</td></tr>
+                </table>
+            </div>
+
+            <h2>Allowing for waste</h2>
+            <p>Ordering exactly the calculated volume often leaves you short. Reasons include uneven sub-base or excavation, formwork that bulges under load, spillage, concrete left in the pump or the truck, and measuring tolerances. An allowance of about 5 % to 10 % is common practice, but the right figure depends on the site, the type of element and the supplier, so treat it as a starting point.</p>
+
+            <h2>What this calculator does not cover</h2>
+            <ul>
+                <li><strong>Non-rectangular shapes.</strong> For circular columns, sloped elements or stepped footings, calculate each part separately and add them. A round column has volume π × (D ÷ 2)² × height.</li>
+                <li><strong>Openings and voids.</strong> Subtract the volume of openings, pipes or embedded voids if they are significant.</li>
+                <li><strong>Mix quantities.</strong> Cement, sand, aggregate and water depend on the mix design and are not calculated here.</li>
+                <li><strong>Structural design.</strong> The result is a quantity and a dead-load estimate, not a design of the element.</li>
+            </ul>
+
+            <h2>Common mistakes</h2>
+            <ul>
+                <li><strong>Entering the thickness in centimeters.</strong> A 20 cm slab must be entered as 0.2 m.</li>
+                <li><strong>Forgetting to multiply by the number of elements.</strong> Use the quantity field.</li>
+                <li><strong>Using the ordered volume for the weight.</strong> The weight of the structure follows the net volume.</li>
+                <li><strong>Ignoring the sub-base level.</strong> If the ground is lower than planned, the real thickness will be larger than the design thickness.</li>
+            </ul>
+
+            <h2>Frequently asked questions</h2>
+            <h3>How many cubic meters of concrete do I need for a slab?</h3>
+            <p>Multiply length by width by thickness, all in meters, then add your waste allowance. A 4 m × 3 m slab that is 0.15 m thick needs 1.8 m³ net.</p>
+            <h3>How much does a cubic meter of concrete weigh?</h3>
+            <p>About 2300 to 2500 kg for normal-weight concrete, so roughly 2.3 to 2.5 tonnes. The calculator uses 2400 kg/m³ by default.</p>
+            <h3>How do I convert cubic meters to cubic yards?</h3>
+            <p>Multiply by 1.308. For example, 10 m³ is about 13.08 cubic yards.</p>
+            <h3>Is the weight the same as the load on the ground?</h3>
+            <p>Not exactly. It is the self-weight of the concrete. Design loads also include the live load, finishes and other elements. See our <a href="disclaimer.html">disclaimer</a> about using results for final design.</p>
+
+            <h2>Related calculators</h2>
+            <p><a href="calculator4.html">Trench Volume Calculator</a> · <a href="calculator8.html">Steel Pipe Weight</a> · <a href="calculator5.html">Pipeline Volume and Hydrotest</a> · <a href="calculator1.html">Slope Calculator</a></p>
         </div>
 
         <div class="calculator-sidebar">
             <div class="calculator">
                 <div class="top-bar">
-                    <a href="index.html" class="back-btn" id="backText2"><span id="backArrow">←</span> <span id="backLabel">Back to Directory</span></a>
-                    <select class="lang-select" id="langSelect2" onchange="changeLanguage()" style="display:none;"></select>
+                    <a href="index.html" class="back-btn">← Back to Directory</a>
                 </div>
 
-                <h2 id="calcTitle" style="text-align: left; font-size: 16px; margin-top: 0; color: var(--text-main);">🏗️ Concrete Volume & Weight Calculator</h2>
-                
+                <h2 style="text-align: left; font-size: 16px; margin-top: 0; color: var(--text-main);">🏗️ Concrete Volume & Weight Calculator</h2>
+
                 <div class="input-group">
-                    <label id="labelLength">Length (meters):</label>
-                    <input type="number" id="cLength" placeholder="e.g. 10" oninput="calculateConcrete()">
+                    <label for="cLength">Length (meters):</label>
+                    <input type="number" id="cLength" min="0" step="any" placeholder="e.g. 10" oninput="calculateConcrete()">
                 </div>
                 <div class="input-group">
-                    <label id="labelWidth">Width (meters):</label>
-                    <input type="number" id="cWidth" placeholder="e.g. 5" oninput="calculateConcrete()">
+                    <label for="cWidth">Width (meters):</label>
+                    <input type="number" id="cWidth" min="0" step="any" placeholder="e.g. 5" oninput="calculateConcrete()">
                 </div>
                 <div class="input-group">
-                    <label id="labelDepth">Thickness / Depth (meters):</label>
-                    <input type="number" id="cDepth" placeholder="e.g. 0.2" oninput="calculateConcrete()">
+                    <label for="cDepth">Thickness / Depth (meters):</label>
+                    <input type="number" id="cDepth" min="0" step="any" placeholder="e.g. 0.2" oninput="calculateConcrete()">
                 </div>
-                
+                <div class="input-group">
+                    <label for="cQty">Number of identical elements:</label>
+                    <input type="number" id="cQty" value="1" min="1" step="1" oninput="calculateConcrete()">
+                </div>
+                <div class="input-group">
+                    <label for="cWaste">Waste allowance (%):</label>
+                    <input type="number" id="cWaste" value="5" min="0" step="any" oninput="calculateConcrete()">
+                </div>
+                <div class="input-group">
+                    <label for="cDensity">Concrete density:</label>
+                    <select id="cDensity" class="form-control" onchange="calculateConcrete()">
+                        <option value="2300">Plain normal-weight (2300 kg/m³)</option>
+                        <option value="2400" selected>Reinforced normal-weight (2400 kg/m³)</option>
+                        <option value="2500">Heavily reinforced (2500 kg/m³)</option>
+                        <option value="1800">Lightweight (1800 kg/m³)</option>
+                    </select>
+                </div>
+
                 <div class="result-box">
-                    <p class="result-text"><span id="textVolume">Total Volume:</span> <span id="volResult" class="highlight">0.00</span> <span id="unitVol">m³</span></p>
-                    <p class="result-text"><span id="textWeight">Estimated Weight:</span> <span id="weightResult" class="highlight">0.00</span> <span id="unitWeight">Tons</span></p>
-                    <p class="note-text" id="noteText">*Based on normal weight concrete (2400 kg/m³)</p>
+                    <p class="result-text">Net Volume: <span id="volResult" class="highlight">0.00</span> m³</p>
+                    <p class="result-text">Volume to Order: <span id="orderResult" class="highlight">0.00</span> m³</p>
+                    <p class="result-text">Estimated Weight: <span id="weightResult" class="highlight">0.00</span> tonnes</p>
+                    <p class="note-text">Weight is based on the net volume and the selected density.</p>
                 </div>
-            </div>
 
-            <div class="ai-assistant-box">
-                <div class="ai-header">🤖 OmniEngineer AI Expert</div>
-                <div class="ai-chat-output" id="aiOutput">Hello! I'm your engineering AI assistant. Ask me about concrete mix ratios, wastage factors, or curing requirements!</div>
-                <div class="ai-input-group">
-                    <input type="text" class="ai-input" id="aiQuestionInput" placeholder="Ask AI a question...">
-                    <button class="ai-btn" onclick="askAiAssistant()">Ask</button>
-                </div>
+                <button class="btn-action" id="copyBtn" onclick="copyResult()">📋 Copy Result</button>
             </div>
         </div>
     </div>
 
+    <footer style="text-align:center; padding:20px; font-size:14px; color:var(--text-muted); margin-top: 40px; border-top: 1px solid var(--border);">
+        <a href="index.html" style="color:var(--primary); text-decoration:underline;">Home</a>
+        &nbsp;|&nbsp;
+        <a href="about.html" style="color:var(--primary); text-decoration:underline;">About Us</a>
+        &nbsp;|&nbsp;
+        <a href="contact.html" style="color:var(--primary); text-decoration:underline;">Contact Us</a>
+        &nbsp;|&nbsp;
+        <a href="terms.html" style="color:var(--primary); text-decoration:underline;">Terms of Service</a>
+        &nbsp;|&nbsp;
+        <a href="disclaimer.html" style="color:var(--primary); text-decoration:underline;">Disclaimer</a>
+        &nbsp;|&nbsp;
+        <a href="https://www.freeprivacypolicy.com/live/1ca3e19a-906b-4b42-8c57-2bde2d789f30" target="_blank" rel="noopener" style="color:var(--primary); text-decoration:underline;">Privacy Policy</a>
+    </footer>
+
     <script>
         function toggleTheme() {
-            let html = document.getElementById('htmlTag');
-            let btn = document.getElementById('themeToggleBtn');
-            if (html.getAttribute('data-theme') === 'light') {
-                html.setAttribute('data-theme', 'dark');
-                btn.innerText = '☀️';
-                localStorage.setItem('theme', 'dark');
-            } else {
-                html.setAttribute('data-theme', 'light');
-                btn.innerText = '🌙';
-                localStorage.setItem('theme', 'light');
-            }
+            var html = document.getElementById('htmlTag');
+            var btn = document.getElementById('themeToggleBtn');
+            var next = html.getAttribute('data-theme') === 'light' ? 'dark' : 'light';
+            html.setAttribute('data-theme', next);
+            btn.innerText = next === 'dark' ? '☀️' : '🌙';
+            try { localStorage.setItem('theme', next); } catch (e) {}
         }
 
-        window.onload = function() {
-            let savedTheme = localStorage.getItem('theme') || 'light';
-            document.getElementById('htmlTag').setAttribute('data-theme', savedTheme);
-            document.getElementById('themeToggleBtn').innerText = savedTheme === 'dark' ? '☀️' : '🌙';
-        }
-
-        function askAiAssistant() {
-            let q = document.getElementById('aiQuestionInput').value.toLowerCase();
-            let vol = document.getElementById('volResult').innerText;
-            let output = document.getElementById('aiOutput');
-            
-            if (!q) {
-                output.innerText = "Please type a question for the AI assistant!";
-                return;
-            }
-
-            if (q.includes('wastage') || q.includes('loss') || q.includes('هدر') || q.includes('ضائع')) {
-                output.innerText = "💡 Engineering Tip: Always order 5% to 10% extra concrete volume above your theoretical calculation to cover foundation unevenness, spillage, and formwork bulging.";
-            } else if (q.includes('weight') || q.includes('load') || q.includes('وزن') || q.includes('حمل')) {
-                output.innerText = `📊 Current calculated volume is ${vol} m³, weighing approx ${(parseFloat(vol) * 2.4).toFixed(2)} tons. For reinforced concrete, remember steel reinforcement adds roughly 1% to 2% extra weight.`;
-            } else {
-                output.innerText = `🤖 AI Analysis: The computed volume corresponds to the gross rectangular prismatic concrete geometry before accounting for rebar volume displacement.`;
-            }
-        }
-
-        function calculateConcrete() {
-            let L = parseFloat(document.getElementById('cLength').value) || 0;
-            let W = parseFloat(document.getElementById('cWidth').value) || 0;
-            let D = parseFloat(document.getElementById('cDepth').value) || 0;
-            
-            let volume = L * W * D;
-            let weightTons = (volume * 2400) / 1000;
-
-            document.getElementById('volResult').innerText = volume.toFixed(2);
-            document.getElementById('weightResult').innerText = weightTons.toFixed(2);
-        }
-
-        const translations = {
-            en: {
-                backText: "Back to Hub",
-                backLabel: "Back to Directory",
-                backArrow: "←",
-                headerArrow: "←",
-                calcTitle: "🏗️ Concrete Volume & Weight Calculator",
-                labelLength: "Length (meters):",
-                labelWidth: "Width (meters):",
-                labelDepth: "Thickness / Depth (meters):",
-                textVolume: "Total Volume:",
-                textWeight: "Estimated Weight:",
-                unitVol: "m³",
-                unitWeight: "Tons",
-                noteText: "*Based on normal weight concrete (2400 kg/m³)",
-                secTitle: "About Concrete Volume & Weight Calculations",
-                secP1: "Accurate estimation of concrete volume is vital in structural engineering for ordering ready-mix trucks, managing budgets, and calculating total dead loads of foundations, slabs, and footings.",
-                secP2: "Where:",
-                secP3: "Always add a 5% to 10% wastage and spillage safety margin when ordering concrete truckloads to account for formwork deflection and uneven sub-grades.",
-                dir: "ltr",
-                li1: "Length (L) = Clear span length of the concrete element in meters",
-                li2: "Width (W) = Clear span width of the concrete element in meters",
-                li3: "Depth (D) = Thickness or depth of the slab/footing in meters",
-                li4: "Density = Standard normal-weight reinforced concrete unit weight (~2400 kg/m³)"
-            },
-            fr: {
-                backText: "Retour au Hub",
-                backLabel: "Retour au répertoire",
-                backArrow: "←",
-                headerArrow: "←",
-                calcTitle: "🏗️ Calculateur de Volume de Béton",
-                labelLength: "Longueur (mètres) :",
-                labelWidth: "Largeur (mètres) :",
-                labelDepth: "Épaisseur / Profondeur (mètres) :",
-                textVolume: "Volume Total :",
-                textWeight: "Poids Estimé :",
-                unitVol: "m³",
-                unitWeight: "Tonnes",
-                noteText: "*Basé sur un béton de poids normal (2400 kg/m³)",
-                secTitle: "À propos du Calcul de Volume et de Poids du Béton",
-                secP1: "L'estimation précise du volume de béton est essentielle en génie civil pour commander les camions malaxeurs et gérer les budgets.",
-                secP2: "Où :",
-                secP3: "Ajoutez toujours une marge de sécurité de 5% à 10% pour les pertes lors de la commande.",
-                dir: "ltr",
-                li1: "Longueur (L) = Portée libre de l'élément en béton en mètres",
-                li2: "Largeur (W) = Largeur de l'élément en béton en mètres",
-                li3: "Profondeur (D) = Épaisseur de la dalle/fondation en mètres",
-                li4: "Densité = Poids unitaire du béton armé (~2400 kg/m³)"
-            },
-            ar: {
-                backText: "العودة للرئيسية",
-                backLabel: "العودة إلى الدليل",
-                backArrow: "→",
-                headerArrow: "→",
-                calcTitle: "🏗️ حاسبة حجم ووزن الخرسانة",
-                labelLength: "الطول (متر):",
-                labelWidth: "العرض (متر):",
-                labelDepth: "السماكة / العمق (متر):",
-                textVolume: "الحجم الإجمالي:",
-                textWeight: "الوزن التقديري:",
-                unitVol: "م³",
-                unitWeight: "طن",
-                noteText: "*بناءً على كثافة الخرسانة العادية (2400 كجم/م³)",
-                secTitle: "نبذة عن حسابات حجم ووزن الخرسانة",
-                secP1: "يعد التقدير الدقيق لحجم الخرسانة أمراً بالغ الأهمية في الهندسة الإنشائية لطلب شاحنات الخرسانة الجاهزة، إدارة الميزانيات، وحساب الأحمال الميتة للقواعد والأساسات.",
-                secP2: "حيث أن:",
-                secP3: "قم دائماً بإضافة نسبة أمان تتراوح بين 5% إلى 10% لمواجهة الهدر وفقدان الخرسانة أثناء الصب وتسوية الشدات الخشبية.",
-                dir: "rtl",
-                li1: "الطول (L) = طول العنصر الخرساني بالمتر",
-                li2: "العرض (W) = عرض العنصر الخرساني بالمتر",
-                li3: "العمق (D) = سماكة البلاطة أو الأساس بالمتر",
-                li4: "الكثافة = الوزن النوعي للخرسانة المسلحة (~2400 كجم/م³)"
-            }
+        window.onload = function () {
+            var saved = 'light';
+            try { saved = localStorage.getItem('theme') || 'light'; } catch (e) {}
+            document.getElementById('htmlTag').setAttribute('data-theme', saved);
+            document.getElementById('themeToggleBtn').innerText = saved === 'dark' ? '☀️' : '🌙';
+            calculateConcrete();
         };
 
-        function changeLanguage() {
-            let lang = document.getElementById('langSelect').value;
-            let t = translations[lang];
-            let html = document.getElementById('htmlTag');
-            
-            html.setAttribute('lang', lang);
-            html.setAttribute('dir', t.dir);
-            
-            document.getElementById('backText').innerText = t.backText;
-            document.getElementById('backLabel').innerText = t.backLabel;
-            document.getElementById('backArrow').innerText = t.backArrow;
-            document.getElementById('headerArrow').innerText = t.headerArrow;
-            document.getElementById('calcTitle').innerText = t.calcTitle;
-            document.getElementById('labelLength').innerText = t.labelLength;
-            document.getElementById('labelWidth').innerText = t.labelWidth;
-            document.getElementById('labelDepth').innerText = t.labelDepth;
-            document.getElementById('textVolume').innerText = t.textVolume;
-            document.getElementById('textWeight').innerText = t.textWeight;
-            document.getElementById('unitVol').innerText = t.unitVol;
-            document.getElementById('unitWeight').innerText = t.unitWeight;
-            document.getElementById('noteText').innerText = t.noteText;
-            document.getElementById('secTitle').innerText = t.secTitle;
-            document.getElementById('secP1').innerText = t.secP1;
-            document.getElementById('secP2').innerText = t.secP2;
-            document.getElementById('secP3').innerText = t.secP3;
-            
-            for(let i = 1; i <= 4; i++) {
-                if(document.getElementById(`li${i}`)) {
-                    document.getElementById(`li${i}`).innerHTML = t[`li${i}`];
-                }
+        function calculateConcrete() {
+            var L = parseFloat(document.getElementById('cLength').value) || 0;
+            var W = parseFloat(document.getElementById('cWidth').value) || 0;
+            var D = parseFloat(document.getElementById('cDepth').value) || 0;
+            var qty = parseFloat(document.getElementById('cQty').value);
+            var waste = parseFloat(document.getElementById('cWaste').value) || 0;
+            var density = parseFloat(document.getElementById('cDensity').value) || 2400;
+
+            if (isNaN(qty) || qty < 0) qty = 0;
+            if (waste < 0) waste = 0;
+            if (L < 0 || W < 0 || D < 0) { L = 0; W = 0; D = 0; }
+
+            var net = L * W * D * qty;
+            var order = net * (1 + waste / 100);
+            var tonnes = net * density / 1000;
+
+            document.getElementById('volResult').innerText = net.toFixed(2);
+            document.getElementById('orderResult').innerText = order.toFixed(2);
+            document.getElementById('weightResult').innerText = tonnes.toFixed(2);
+        }
+
+        function copyResult() {
+            var text =
+                'Element: ' + (document.getElementById('cLength').value || 0) + ' m x ' +
+                (document.getElementById('cWidth').value || 0) + ' m x ' +
+                (document.getElementById('cDepth').value || 0) + ' m, quantity ' +
+                (document.getElementById('cQty').value || 0) + '\n' +
+                'Net volume: ' + document.getElementById('volResult').innerText + ' m3\n' +
+                'Volume to order (' + (document.getElementById('cWaste').value || 0) + '% waste): ' +
+                document.getElementById('orderResult').innerText + ' m3\n' +
+                'Weight: ' + document.getElementById('weightResult').innerText + ' tonnes';
+            var btn = document.getElementById('copyBtn');
+
+            function done() {
+                btn.innerText = '✅ Copied';
+                setTimeout(function () { btn.innerText = '📋 Copy Result'; }, 1500);
+            }
+
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(text).then(done);
+            } else {
+                var ta = document.createElement('textarea');
+                ta.value = text;
+                document.body.appendChild(ta);
+                ta.select();
+                try { document.execCommand('copy'); done(); } catch (e) {}
+                document.body.removeChild(ta);
             }
         }
     </script>
-    <footer style="text-align:center; padding:20px; font-size:14px; color:var(--text-muted); margin-top: 40px; border-top: 1px solid var(--border);">
-    <a href="index.html" style="color:var(--primary); text-decoration:underline;">Home</a>
-    &nbsp;|&nbsp;
-    <a href="about.html" style="color:var(--primary); text-decoration:underline;">About Us</a>
-    &nbsp;|&nbsp;
-    <a href="contact.html" style="color:var(--primary); text-decoration:underline;">Contact Us</a>
-    &nbsp;|&nbsp;
-    <a href="terms.html" style="color:var(--primary); text-decoration:underline;">Terms of Service</a>
-    &nbsp;|&nbsp;
-    <a href="disclaimer.html" style="color:var(--primary); text-decoration:underline;">Disclaimer</a>
-    &nbsp;|&nbsp;
-    <a href="https://www.freeprivacypolicy.com/live/1ca3e19a-906b-4b42-8c57-2bde2d789f30" target="_blank" style="color:var(--primary); text-decoration:underline;">Privacy Policy</a>
-</footer>
 </body>
 </html>
